@@ -2,7 +2,6 @@ package com.example.pokecenter.customer.lam;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -15,10 +14,9 @@ import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.Tab.HomeFragment;
 import com.example.pokecenter.customer.lam.Tab.NotificationsFragment;
 import com.example.pokecenter.customer.lam.Tab.PaymentFragment;
-import com.example.pokecenter.customer.lam.Tab.ProfileFragment;
+import com.example.pokecenter.customer.quan.ProfileFragment;
 import com.example.pokecenter.customer.lam.Tab.SupportFragment;
 import com.example.pokecenter.databinding.FragmentCustomerBinding;
-import com.example.pokecenter.databinding.FragmentLoginBinding;
 
 /**
  * A simple {@link Fragment} subclass.

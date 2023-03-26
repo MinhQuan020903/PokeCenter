@@ -1,4 +1,4 @@
-package com.example.pokecenter.customer.lam.Tab;
+package com.example.pokecenter.customer.quan;
 
 import android.os.Bundle;
 
