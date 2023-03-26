@@ -7,11 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    //<!-------Quan & Lam ----->
-    <color name="light_theme_canvas">#FFD4EDFA</color>
-    <color name="light_theme_primary">#FF00B9EF</color>
-    <color name="light_theme_secondary">#FF027B96</color>
-    <color name="dark_theme_canvas">#FF475056</color>
-    <color name="dark_theme_primary">#FFFFE200</color>
-    <color name="dark_theme_secondary">#FFEA554E</color>
+    <!---Quan & Lam -->
+    <color name="light_canvas">#FFD4EDFA</color>
+    <color name="light_primary">#FF00B9EF</color>
+    <color name="light_secondary">#FF027B96</color>
+    <color name="dark_canvas">#FF475056</color>
+    <color name="dark_primary">#FFFFE200</color>
+    <color name="dark_secondary">#FFEA554E</color>
+<!--    Lam-->
+    <color name="border_shape">#C7C7C7</color>
 </resources>
