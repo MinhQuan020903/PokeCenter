@@ -1,13 +1,19 @@
 package com.example.pokecenter.customer.lam;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.example.pokecenter.Account;
@@ -76,7 +82,46 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentLoginBinding.inflate(inflater, container, false);
 
+        // Mỗi lần password được nhập thì sẽ xuất hiện Button ở cuối để clear
+        binding.editTextPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() > 0) {
+                    binding.clearButton.setVisibility(View.VISIBLE);
+                } else {
+                    binding.clearButton.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        // clearButton onClick
+        binding.clearButton.setOnClickListener(view -> {
+            binding.editTextPassword.setText("");
+        });
+
+        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        // loginButton onClick
         binding.loginButton.setOnClickListener(view -> {
+
+            // Ẩn Keyboard
+            inputMethodManager.hideSoftInputFromWindow(binding.loginButton.getWindowToken(), 0);
+
+            // Gỡ bỏ Focus trên 2 editText
+            binding.editTextUsername.clearFocus();
+            binding.editTextPassword.clearFocus();
+
+            // Xử lí logic của login
             String inputUsername = String.valueOf(binding.editTextUsername.getText());
             String inputPassword = String.valueOf(binding.editTextPassword.getText());
 
@@ -94,9 +139,22 @@ public class LoginFragment extends Fragment {
                             .navigate(R.id.action_loginFragment_to_adminFragment);
                     break;
                 default:
-                    Toast.makeText(getContext(), "Đăng nhập thất ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
                     break;
             }
+        });
+
+        /*
+        Ẩn Keyboard + Gỡ bỏ Focus trên 2 editText
+        khi người dùng click ra ngoài
+         */
+        binding.loginFragment.setOnClickListener(view -> {
+            // Ẩn Keyboard
+            inputMethodManager.hideSoftInputFromWindow(binding.loginButton.getWindowToken(), 0);
+
+            // Gỡ bỏ Focus trên 2 editText
+            binding.editTextUsername.clearFocus();
+            binding.editTextPassword.clearFocus();
         });
 
         return binding.getRoot();
