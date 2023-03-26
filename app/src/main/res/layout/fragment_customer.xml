@@ -6,16 +6,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".customer.lam.CustomerFragment">
 
+    <LinearLayout android:id="@+id/fragmentCustomer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavView">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Customer"
-        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:menu="@menu/customer_bottom_nav"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
