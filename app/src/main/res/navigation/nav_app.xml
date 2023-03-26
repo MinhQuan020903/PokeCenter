@@ -12,7 +12,9 @@
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_customerFragment"
-            app:destination="@id/customerFragment" />
+            app:destination="@id/customerFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
         <action
             android:id="@+id/action_loginFragment_to_venderFragment"
             app:destination="@id/venderFragment" />

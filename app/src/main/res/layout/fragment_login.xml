@@ -14,7 +14,7 @@
         android:id="@+id/imageView"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:src="@drawable/pikachu"/>
+        android:src="@drawable/lam_glaceon"/>
 
     <View
         android:layout_width="match_parent"
