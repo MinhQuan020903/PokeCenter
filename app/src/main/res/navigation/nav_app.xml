@@ -22,17 +22,17 @@
     </fragment>
     <fragment
         android:id="@+id/customerFragment"
-        android:name="com.example.pokecenter.CustomerFragment"
+        android:name="com.example.pokecenter.customer.lam.CustomerFragment"
         android:label="fragment_customer"
         tools:layout="@layout/fragment_customer" />
     <fragment
         android:id="@+id/venderFragment"
-        android:name="com.example.pokecenter.VenderFragment"
+        android:name="com.example.pokecenter.vender.VenderFragment"
         android:label="fragment_vender"
         tools:layout="@layout/fragment_vender" />
     <fragment
         android:id="@+id/adminFragment"
-        android:name="com.example.pokecenter.AdminFragment"
+        android:name="com.example.pokecenter.admin.AdminFragment"
         android:label="fragment_admin"
         tools:layout="@layout/fragment_admin" />
 </navigation>
