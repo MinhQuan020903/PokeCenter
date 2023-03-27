@@ -1,8 +1,8 @@
 
 <p align="center">
-    <img src="./PokemonImage/glaceon.png" width = 10% vspace=10 />
+    <img src="./PokemonImage/totodile.png" width = 8.5% vspace=10 />
     <img src="./PokemonImage/pikachu.png" width = 10% vspace=10 hspace=20 />
-    <img src="./PokemonImage/umbreon.png" width = 9.2% vspace=10 />
+    <img src="./PokemonImage/cyndaquil.png" width = 10.2% vspace=10 />
     </br>
     <img src="./PokemonImage/pokeball.png" width = 4.5% vspace=10 />
     <img src="./PokemonImage/PokeCenterText.png" />
@@ -75,9 +75,3 @@ Cảm ơn những người tuyệt vời này ([emoji key](https://allcontributo
 
   </tr>
 </table>
-
-.flip-horizontal {
-  transform: scaleX(-1);
-  filter: FlipH;
-  -ms-filter: "FlipH";
-}
