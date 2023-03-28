@@ -1,14 +1,18 @@
 package com.example.pokecenter.customer.lam.Tab;
 
+import static androidx.core.content.ContextCompat.getColor;
+
+import android.os.Build;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.databinding.FragmentCustomerHomeBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +20,8 @@ import com.example.pokecenter.R;
  * create an instance of this fragment.
  */
 public class CustomerHomeFragment extends Fragment {
+
+    private FragmentCustomerHomeBinding binding;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +67,28 @@ public class CustomerHomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_customer_home, container, false);
+        binding = FragmentCustomerHomeBinding.inflate(inflater, container, false);
+
+        // if statement checks if the device is running Android Marshmallow (API level 23) or higher,
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Window window = getActivity().getWindow();
+
+            // change StatusBarColor
+            window.setStatusBarColor(getColor(requireContext(), R.color.light_canvas));
+
+            // change color of icons in status bar
+            // C1:
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
+            /*
+            C2:
+            add: <item name="android:windowLightStatusBar">true</item>
+            in the <style name="Theme.PokeCenter" in themes.xml
+             */
+        }
+
+        // actionBar.setBackgroundDrawable(new ColorDrawable(getColor(requireContext(), R.color.light_canvas)));
+
+        return binding.getRoot();
     }
 }

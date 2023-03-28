@@ -12,10 +12,10 @@ import android.view.ViewGroup;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.Tab.CustomerHomeFragment;
-import com.example.pokecenter.customer.lam.Tab.NotificationsCustomerFragment;
-import com.example.pokecenter.customer.lam.Tab.PaymentCustomerFragment;
+import com.example.pokecenter.customer.lam.Tab.CustomerNotificationsFragment;
+import com.example.pokecenter.customer.lam.Tab.CustomerPaymentFragment;
 import com.example.pokecenter.customer.quan.ProfileCustomerFragment;
-import com.example.pokecenter.customer.lam.Tab.SupportCustomerFragment;
+import com.example.pokecenter.customer.lam.Tab.CustomerSupportFragment;
 import com.example.pokecenter.databinding.FragmentCustomerBinding;
 
 /**
@@ -96,13 +96,13 @@ public class CustomerFragment extends Fragment {
                     replaceFragment(new CustomerHomeFragment());
                     break;
                 case R.id.payment:
-                    replaceFragment(new PaymentCustomerFragment());
+                    replaceFragment(new CustomerPaymentFragment());
                     break;
                 case R.id.notifications:
-                    replaceFragment(new NotificationsCustomerFragment());
+                    replaceFragment(new CustomerNotificationsFragment());
                     break;
                 case R.id.support:
-                    replaceFragment(new SupportCustomerFragment());
+                    replaceFragment(new CustomerSupportFragment());
                     break;
                 case R.id.profile:
                     replaceFragment(new ProfileCustomerFragment());

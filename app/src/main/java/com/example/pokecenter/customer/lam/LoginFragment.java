@@ -1,30 +1,24 @@
 package com.example.pokecenter.customer.lam;
 
 import static androidx.core.content.ContextCompat.getDrawable;
-import static androidx.core.content.ContextCompat.getSystemService;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+
 import com.example.pokecenter.Account;
-import com.example.pokecenter.MainActivity;
 import com.example.pokecenter.R;
 import com.example.pokecenter.databinding.FragmentLoginBinding;
 

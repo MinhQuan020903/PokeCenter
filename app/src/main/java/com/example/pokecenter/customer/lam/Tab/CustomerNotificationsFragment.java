@@ -12,10 +12,10 @@ import com.example.pokecenter.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link NotificationsCustomerFragment#newInstance} factory method to
+ * Use the {@link CustomerNotificationsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NotificationsCustomerFragment extends Fragment {
+public class CustomerNotificationsFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class NotificationsCustomerFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public NotificationsCustomerFragment() {
+    public CustomerNotificationsFragment() {
         // Required empty public constructor
     }
 
@@ -39,8 +39,8 @@ public class NotificationsCustomerFragment extends Fragment {
      * @return A new instance of fragment NotificationsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static NotificationsCustomerFragment newInstance(String param1, String param2) {
-        NotificationsCustomerFragment fragment = new NotificationsCustomerFragment();
+    public static CustomerNotificationsFragment newInstance(String param1, String param2) {
+        CustomerNotificationsFragment fragment = new CustomerNotificationsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
