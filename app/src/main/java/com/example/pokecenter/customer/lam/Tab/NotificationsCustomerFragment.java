@@ -12,10 +12,10 @@ import com.example.pokecenter.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link NotificationsFragment#newInstance} factory method to
+ * Use the {@link NotificationsCustomerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NotificationsFragment extends Fragment {
+public class NotificationsCustomerFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class NotificationsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public NotificationsFragment() {
+    public NotificationsCustomerFragment() {
         // Required empty public constructor
     }
 
@@ -39,8 +39,8 @@ public class NotificationsFragment extends Fragment {
      * @return A new instance of fragment NotificationsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static NotificationsFragment newInstance(String param1, String param2) {
-        NotificationsFragment fragment = new NotificationsFragment();
+    public static NotificationsCustomerFragment newInstance(String param1, String param2) {
+        NotificationsCustomerFragment fragment = new NotificationsCustomerFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class NotificationsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notifications, container, false);
+        return inflater.inflate(R.layout.fragment_customer_notifications, container, false);
     }
 }

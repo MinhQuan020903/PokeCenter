@@ -11,11 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pokecenter.R;
-import com.example.pokecenter.customer.lam.Tab.HomeFragment;
-import com.example.pokecenter.customer.lam.Tab.NotificationsFragment;
-import com.example.pokecenter.customer.lam.Tab.PaymentFragment;
-import com.example.pokecenter.customer.quan.ProfileFragment;
-import com.example.pokecenter.customer.lam.Tab.SupportFragment;
+import com.example.pokecenter.customer.lam.Tab.CustomerHomeFragment;
+import com.example.pokecenter.customer.lam.Tab.NotificationsCustomerFragment;
+import com.example.pokecenter.customer.lam.Tab.PaymentCustomerFragment;
+import com.example.pokecenter.customer.quan.ProfileCustomerFragment;
+import com.example.pokecenter.customer.lam.Tab.SupportCustomerFragment;
 import com.example.pokecenter.databinding.FragmentCustomerBinding;
 
 /**
@@ -87,25 +87,25 @@ public class CustomerFragment extends Fragment {
 
         // Set HomeFragment is default
         binding.bottomNavView.setSelectedItemId(R.id.home); // Set selectedItem in Bottom Nav Bar
-        replaceFragment(new HomeFragment());    // Set Content
+        replaceFragment(new CustomerHomeFragment());    // Set Content
 
         // Move between fragments
         binding.bottomNavView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.home:
-                    replaceFragment(new HomeFragment());
+                    replaceFragment(new CustomerHomeFragment());
                     break;
                 case R.id.payment:
-                    replaceFragment(new PaymentFragment());
+                    replaceFragment(new PaymentCustomerFragment());
                     break;
                 case R.id.notifications:
-                    replaceFragment(new NotificationsFragment());
+                    replaceFragment(new NotificationsCustomerFragment());
                     break;
                 case R.id.support:
-                    replaceFragment(new SupportFragment());
+                    replaceFragment(new SupportCustomerFragment());
                     break;
                 case R.id.profile:
-                    replaceFragment(new ProfileFragment());
+                    replaceFragment(new ProfileCustomerFragment());
                     break;
             }
             return true;
