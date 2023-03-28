@@ -1,8 +1,10 @@
 package com.example.pokecenter.customer.lam;
 
+import static androidx.core.content.ContextCompat.getDrawable;
 import static androidx.core.content.ContextCompat.getSystemService;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,7 +14,9 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,7 +89,13 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentLoginBinding.inflate(inflater, container, false);
 
-        // Mỗi lần password được nhập thì sẽ xuất hiện Button ở cuối để clear
+        // Move to Sign Up Fragment
+        binding.signUpTextView.setOnClickListener(view -> {
+            NavHostFragment.findNavController(LoginFragment.this)
+                    .navigate(R.id.action_loginFragment_to_registerFragment);
+        });
+
+        // Mỗi lần password được nhập thì sẽ xuất hiện Button ở cuối để hide or show password
         binding.editTextPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -95,9 +105,9 @@ public class LoginFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.length() > 0) {
-                    binding.clearButton.setVisibility(View.VISIBLE);
+                    binding.eyeButton.setVisibility(View.VISIBLE);
                 } else {
-                    binding.clearButton.setVisibility(View.INVISIBLE);
+                    binding.eyeButton.setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -107,9 +117,18 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        // clearButton onClick
-        binding.clearButton.setOnClickListener(view -> {
-            binding.editTextPassword.setText("");
+        // eyeButton onClick
+        binding.eyeButton.setOnClickListener(view -> {
+            if (binding.editTextPassword.getInputType() == 129) {
+                binding.editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                binding.eyeButton.setImageDrawable(getDrawable(getContext(), R.drawable.lam_blind));
+            }
+            else
+            {
+                // binding.editTextPassword.getInputType() = InputType.TYPE_CLASS_TEXT = 1
+                binding.editTextPassword.setInputType(129);
+                binding.eyeButton.setImageDrawable(getDrawable(getContext(), R.drawable.lam_eye));
+            }
         });
 
         InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -145,6 +164,12 @@ public class LoginFragment extends Fragment {
                     Toast.makeText(getContext(), "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
                     break;
             }
+        });
+
+        // Move to Forgot Password Fragment
+        binding.forgotPasswordTextView.setOnClickListener(view -> {
+            NavHostFragment.findNavController(LoginFragment.this)
+                    .navigate(R.id.action_loginFragment_to_forgotPasswordFragment);
         });
 
         /*

@@ -5,89 +5,144 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_vertical"
     android:orientation="vertical"
-    android:gravity="center_vertical|center_horizontal"
-    android:padding="20dp"
+
+    android:padding="13dp"
     tools:context=".customer.lam.LoginFragment">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/lam_glaceon"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        />
-
-    <EditText
-        android:id="@+id/editText_username"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/username"
-        android:textColor="@android:color/black"
-        android:background="@drawable/lam_rounded_rect_border"
-        android:padding="12dp"
-        android:singleLine="true"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:imeOptions="actionDone"
-        android:inputType="text"
-        tools:ignore="VisualLintTextFieldSize" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="16dp"
-        />
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_marginHorizontal="7dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="14dp"
+            android:text="Sign in"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
+            android:text="Welcome! Don't have an account?"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/signUpTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="12dp"
+            android:text="Sign Up"
+            android:textColor="@color/light_primary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/lam_glaceon" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
 
         <EditText
-            android:id="@+id/editText_password"
+            android:id="@+id/editText_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/lam_rounded_rect_border"
             android:ellipsize="end"
-            android:hint="@string/password"
+            android:hint="@string/username"
             android:imeOptions="actionDone"
-            android:inputType="textPassword"
+            android:inputType="text"
             android:maxLines="1"
             android:padding="12dp"
             android:singleLine="true"
             android:textColor="@android:color/black"
-            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="VisualLintTextFieldSize" />
 
-        <ImageButton
-            android:id="@+id/clearButton"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/editText_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/lam_rounded_rect_border"
+                android:ellipsize="end"
+                android:hint="@string/password"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:padding="12dp"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="VisualLintTextFieldSize" />
+
+            <ImageButton
+                android:id="@+id/eyeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:contentDescription="@string/clearButton"
+                android:src="@drawable/lam_eye"
+                android:visibility="invisible"
+                android:background="@android:color/transparent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="TouchTargetSizeCheck" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/lam_rounded_button"
+            android:gravity="center"
+            android:padding="0dp"
+            android:text="@string/login"
+            tools:ignore="TouchTargetSizeCheck,VisualLintButtonSize" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <CheckBox
+            android:id="@+id/checkBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:background="@drawable/lam_circle_background"
-            android:padding="0dp"
-            android:src="@drawable/lam_baseline_clear_24"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/clearButton"
-            tools:ignore="TouchTargetSizeCheck" />
+            android:text="Remember Me"
+            android:layout_weight="1"
+            android:buttonTint="@color/light_primary"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="16dp" />
+        <TextView
+            android:id="@+id/forgotPasswordTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forgot password?"
+            android:textColor="@color/light_primary"/>
 
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@drawable/lam_rounded_button"
-        android:gravity="center"
-        android:padding="0dp"
-        android:text="@string/login"
-        tools:ignore="TouchTargetSizeCheck,VisualLintButtonSize" />
+    </LinearLayout>
 
 
 
