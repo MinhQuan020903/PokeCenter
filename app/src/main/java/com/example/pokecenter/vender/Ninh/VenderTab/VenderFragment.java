@@ -3,12 +3,23 @@ package com.example.pokecenter.vender.Ninh.VenderTab;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.CustomerTab.CustomerNotificationsFragment;
+import com.example.pokecenter.customer.lam.CustomerTab.CustomerPaymentFragment;
+import com.example.pokecenter.customer.lam.CustomerTab.CustomerSupportFragment;
+import com.example.pokecenter.customer.lam.CustomerTab.Home.CustomerHomePlaceholderFragment;
+import com.example.pokecenter.customer.quan.ProfileCustomerFragment;
+import com.example.pokecenter.databinding.FragmentCustomerBinding;
+import com.example.pokecenter.databinding.FragmentVenderBinding;
+import com.example.pokecenter.vender.Ninh.VenderTab.Home.VenderHomeFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,6 +28,9 @@ import com.example.pokecenter.R;
  */
 public class VenderFragment extends Fragment {
 
+    private FragmentVenderBinding binding;
+
+    public static BottomNavigationView customerBottomNavigationView;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -61,6 +75,55 @@ public class VenderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_vender, container, false);
+        binding = FragmentVenderBinding.inflate(inflater, container, false);
+
+        customerBottomNavigationView = binding.bottomNavView1;
+
+        // Move between fragments
+        customerBottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.home:
+                    replaceFragment(new VenderHomeFragment());
+                    break;
+                case R.id.payment:
+                    replaceFragment(new VenderPaymentFragment());
+                    break;
+                case R.id.notifications:
+                    replaceFragment(new VenderNotificationsFragment());
+                    break;
+                case R.id.support:
+                    replaceFragment(new VenderSupportFragment());
+                    break;
+                case R.id.profile:
+                    replaceFragment(new VenderProfileFragment());
+                    break;
+            }
+            return true;
+        });
+
+
+        customerBottomNavigationView.setSelectedItemId(R.id.home);
+
+        return binding.getRoot();
+    }
+    private void replaceFragment(Fragment selectedFragment) {
+
+        /*
+        Notes:
+            getFragmentManager() was deprecated in API level 28.
+
+            we will use getChildFragmentManager() Return a private FragmentManager for placing and managing Fragments inside of this Fragment.
+
+            we will use getParentFragmentManager() Return the FragmentManager for interacting with fragments associated with this fragment's activity.
+
+            so, if you deal with fragments inside a fragment you will use the first one and if you deal with fragments inside an activity you will use the second one.
+
+            you can find them here package androidx.fragment.app;
+         */
+
+        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentVender, selectedFragment);
+        fragmentTransaction.commit();
     }
 }

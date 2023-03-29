@@ -6,14 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".vender.Ninh.VenderTab.VenderFragment" >
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".customer.lam.CustomerTab.CustomerFragment">
+
+        <LinearLayout
+            android:id="@+id/fragmentVender"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavView"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </LinearLayout>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/customer_bottom_nav" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavView1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Vender"
-        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:menu="@menu/customer_bottom_nav" />
+
+    <LinearLayout
+        android:id="@+id/fragmentCustomer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavView1"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
