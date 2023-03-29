@@ -10,9 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.pokecenter.CustomerShoppingCartFragment;
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.CustomerHomeFragment;
-import com.example.pokecenter.customer.lam.CustomerTab.Home.CustomerHomePlaceholderFragment;
 import com.example.pokecenter.customer.quan.ProfileCustomerFragment;
 import com.example.pokecenter.databinding.FragmentCustomerBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -78,19 +78,19 @@ public class CustomerFragment extends Fragment {
         // Move between fragments
         customerBottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
-                case R.id.home:
-                    replaceFragment(new CustomerHomePlaceholderFragment());
+                case R.id.customerHomeFragment:
+                    replaceFragment(new CustomerHomeFragment());
                     break;
-                case R.id.payment:
+                case R.id.customerPaymentFragment:
                     replaceFragment(new CustomerPaymentFragment());
                     break;
-                case R.id.notifications:
+                case R.id.customerNotificationsFragment:
                     replaceFragment(new CustomerNotificationsFragment());
                     break;
-                case R.id.support:
-                    replaceFragment(new CustomerSupportFragment());
+                case R.id.customerSupportFragment:
+                    replaceFragment(new CustomerShoppingCartFragment());
                     break;
-                case R.id.profile:
+                case R.id.profileCustomerFragment:
                     replaceFragment(new ProfileCustomerFragment());
                     break;
             }
@@ -104,7 +104,7 @@ public class CustomerFragment extends Fragment {
         => Thực thi lệnh "replaceFragment(new CustomerHomePlaceholderFragment());"
         => Nội dung page cũng sẽ thay đổi theo
          */
-        customerBottomNavigationView.setSelectedItemId(R.id.home);
+        customerBottomNavigationView.setSelectedItemId(R.id.customerHomeFragment);
 
         return binding.getRoot();
     }

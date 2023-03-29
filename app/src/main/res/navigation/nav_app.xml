@@ -34,7 +34,11 @@
         android:id="@+id/customerFragment"
         android:name="com.example.pokecenter.customer.lam.CustomerTab.CustomerFragment"
         android:label="fragment_customer"
-        tools:layout="@layout/fragment_customer" />
+        tools:layout="@layout/fragment_customer" >
+        <action
+            android:id="@+id/action_customerFragment_to_customerPokedexFragment"
+            app:destination="@id/customerPokedexFragment" />
+    </fragment>
     <fragment
         android:id="@+id/venderFragment"
         android:name="com.example.pokecenter.vender.VenderFragment"
@@ -55,4 +59,9 @@
         android:name="com.example.pokecenter.customer.lam.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
         tools:layout="@layout/fragment_forgot_password" />
+    <fragment
+        android:id="@+id/customerPokedexFragment"
+        android:name="com.example.pokecenter.CustomerPokedexFragment"
+        android:label="fragment_customer_pokedex"
+        tools:layout="@layout/fragment_customer_pokedex" />
 </navigation>
