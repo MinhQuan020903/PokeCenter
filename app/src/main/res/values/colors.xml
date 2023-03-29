@@ -17,4 +17,5 @@
     <color name="dark_secondary">#FFEA554E</color>
     <!--Lam-->
     <color name="border_shape">#C7C7C7</color>
+    <color name="transparent">#00000000</color>
 </resources>

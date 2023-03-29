@@ -72,28 +72,15 @@ public class CustomerFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentCustomerBinding.inflate(inflater, container, false);
 
-        /*
-        Notes:
-            getFragmentManager() was deprecated in API level 28.
-
-            we will use getChildFragmentManager() Return a private FragmentManager for placing and managing Fragments inside of this Fragment.
-
-            we will use getParentFragmentManager() Return the FragmentManager for interacting with fragments associated with this fragment's activity.
-
-            so, if you deal with fragments inside a fragment you will use the first one and if you deal with fragments inside an activity you will use the second one.
-
-            you can find them here package androidx.fragment.app;
-         */
-
         // Set HomeFragment is default
         binding.bottomNavView.setSelectedItemId(R.id.home); // Set selectedItem in Bottom Nav Bar
-        replaceFragment(new CustomerHomeFragment());    // Set Content
+        replaceFragment(new CustomerHomeFragment(binding.bottomNavView));    // Set Content
 
         // Move between fragments
         binding.bottomNavView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.home:
-                    replaceFragment(new CustomerHomeFragment());
+                    replaceFragment(new CustomerHomeFragment(binding.bottomNavView));
                     break;
                 case R.id.payment:
                     replaceFragment(new CustomerPaymentFragment());
@@ -115,6 +102,20 @@ public class CustomerFragment extends Fragment {
     }
 
     private void replaceFragment(Fragment selectedFragment) {
+
+        /*
+        Notes:
+            getFragmentManager() was deprecated in API level 28.
+
+            we will use getChildFragmentManager() Return a private FragmentManager for placing and managing Fragments inside of this Fragment.
+
+            we will use getParentFragmentManager() Return the FragmentManager for interacting with fragments associated with this fragment's activity.
+
+            so, if you deal with fragments inside a fragment you will use the first one and if you deal with fragments inside an activity you will use the second one.
+
+            you can find them here package androidx.fragment.app;
+         */
+
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentCustomer, selectedFragment);

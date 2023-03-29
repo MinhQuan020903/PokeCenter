@@ -10,9 +10,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.quan.ProfileCustomerFragment;
 import com.example.pokecenter.databinding.FragmentCustomerHomeBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,6 +26,8 @@ import com.example.pokecenter.databinding.FragmentCustomerHomeBinding;
 public class CustomerHomeFragment extends Fragment {
 
     private FragmentCustomerHomeBinding binding;
+
+    private BottomNavigationView bottomNavView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,6 +40,10 @@ public class CustomerHomeFragment extends Fragment {
 
     public CustomerHomeFragment() {
         // Required empty public constructor
+    }
+
+    public CustomerHomeFragment(BottomNavigationView bottomNavView) {
+        this.bottomNavView = bottomNavView;
     }
 
     /**
@@ -86,6 +96,18 @@ public class CustomerHomeFragment extends Fragment {
             in the <style name="Theme.PokeCenter" in themes.xml
              */
         }
+
+        binding.avatarImage.setOnClickListener(view -> {
+
+            // Move to Profile Customer Fragment
+            FragmentManager fragmentManager = getParentFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragmentCustomer, new ProfileCustomerFragment());
+            fragmentTransaction.commit();
+
+            // Set selectedItem in Bottom Nav Bar
+            bottomNavView.setSelectedItemId(R.id.profile);
+        });
 
         // actionBar.setBackgroundDrawable(new ColorDrawable(getColor(requireContext(), R.color.light_canvas)));
 
