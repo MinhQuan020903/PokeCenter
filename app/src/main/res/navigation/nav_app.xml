@@ -37,7 +37,7 @@
         tools:layout="@layout/fragment_customer" />
     <fragment
         android:id="@+id/venderFragment"
-        android:name="com.example.pokecenter.vender.VenderFragment"
+        android:name="com.example.pokecenter.vender.Ninh.VenderTab.VenderFragment"
         android:label="fragment_vender"
         tools:layout="@layout/fragment_vender" />
     <fragment
