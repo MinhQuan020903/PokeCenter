@@ -5,12 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".customer.lam.RegisterFragment" >
+    tools:context=".customer.lam.CustomerTab.Home.ShoppingCartFragment" >
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register Fragment"
+        android:text="Shopping Cart"
         android:textSize="24sp"/>
 </LinearLayout>

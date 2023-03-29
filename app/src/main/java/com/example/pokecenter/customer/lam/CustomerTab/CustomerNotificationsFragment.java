@@ -1,4 +1,4 @@
-package com.example.pokecenter.customer.lam.Tab;
+package com.example.pokecenter.customer.lam.CustomerTab;
 
 import android.os.Bundle;
 
@@ -12,10 +12,10 @@ import com.example.pokecenter.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link CustomerPaymentFragment#newInstance} factory method to
+ * Use the {@link CustomerNotificationsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CustomerPaymentFragment extends Fragment {
+public class CustomerNotificationsFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class CustomerPaymentFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public CustomerPaymentFragment() {
+    public CustomerNotificationsFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class CustomerPaymentFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment PaymentFragment.
+     * @return A new instance of fragment NotificationsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CustomerPaymentFragment newInstance(String param1, String param2) {
-        CustomerPaymentFragment fragment = new CustomerPaymentFragment();
+    public static CustomerNotificationsFragment newInstance(String param1, String param2) {
+        CustomerNotificationsFragment fragment = new CustomerNotificationsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class CustomerPaymentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_customer_payment, container, false);
+        return inflater.inflate(R.layout.fragment_customer_notifications, container, false);
     }
 }

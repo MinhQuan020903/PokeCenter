@@ -1,4 +1,4 @@
-package com.example.pokecenter;
+package com.example.pokecenter.customer.lam.CustomerTab;
 
 import android.os.Bundle;
 
@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.pokecenter.R;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ForgotPasswordFragment#newInstance} factory method to
+ * Use the {@link CustomerPaymentFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ForgotPasswordFragment extends Fragment {
+public class CustomerPaymentFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +26,7 @@ public class ForgotPasswordFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ForgotPasswordFragment() {
+    public CustomerPaymentFragment() {
         // Required empty public constructor
     }
 
@@ -34,11 +36,11 @@ public class ForgotPasswordFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ForgotPasswordFragment.
+     * @return A new instance of fragment PaymentFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ForgotPasswordFragment newInstance(String param1, String param2) {
-        ForgotPasswordFragment fragment = new ForgotPasswordFragment();
+    public static CustomerPaymentFragment newInstance(String param1, String param2) {
+        CustomerPaymentFragment fragment = new CustomerPaymentFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,6 +61,6 @@ public class ForgotPasswordFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_forgot_password, container, false);
+        return inflater.inflate(R.layout.fragment_customer_payment, container, false);
     }
 }

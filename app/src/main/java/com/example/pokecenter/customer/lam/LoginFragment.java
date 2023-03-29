@@ -116,6 +116,7 @@ public class LoginFragment extends Fragment {
             if (binding.editTextPassword.getInputType() == 129) {
                 binding.editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT);
                 binding.eyeButton.setImageDrawable(getDrawable(getContext(), R.drawable.lam_blind));
+                // Notes: Thay getContext() bằng requireContext() vẫn chạy oke
             }
             else
             {

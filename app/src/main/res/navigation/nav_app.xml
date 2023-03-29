@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/customerFragment"
-        android:name="com.example.pokecenter.customer.lam.CustomerFragment"
+        android:name="com.example.pokecenter.customer.lam.CustomerTab.CustomerFragment"
         android:label="fragment_customer"
         tools:layout="@layout/fragment_customer" />
     <fragment
@@ -47,12 +47,12 @@
         tools:layout="@layout/fragment_admin" />
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.pokecenter.RegisterFragment"
+        android:name="com.example.pokecenter.customer.lam.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" />
     <fragment
         android:id="@+id/forgotPasswordFragment"
-        android:name="com.example.pokecenter.ForgotPasswordFragment"
+        android:name="com.example.pokecenter.customer.lam.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
         tools:layout="@layout/fragment_forgot_password" />
 </navigation>

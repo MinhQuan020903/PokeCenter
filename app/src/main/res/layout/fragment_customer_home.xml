@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/light_canvas"
-    tools:context=".customer.lam.Tab.CustomerHomeFragment" >
+    tools:context=".customer.lam.CustomerTab.Home.CustomerHomeFragment" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -83,7 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="Search Button"
-                    android:layout_marginVertical="8dp"
+                    android:layout_marginVertical="4dp"
                     android:layout_marginEnd="8dp"
                     android:padding="8dp"
                     android:src="@drawable/lam_baseline_search_32"

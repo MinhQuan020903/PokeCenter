@@ -1,4 +1,4 @@
-package com.example.pokecenter.customer.lam.Tab;
+package com.example.pokecenter.customer.lam.CustomerTab.Home;
 
 import static androidx.core.content.ContextCompat.getColor;
 
@@ -12,8 +12,10 @@ import android.view.Window;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.CustomerTab.CustomerFragment;
 import com.example.pokecenter.customer.quan.ProfileCustomerFragment;
 import com.example.pokecenter.databinding.FragmentCustomerHomeBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -27,8 +29,6 @@ public class CustomerHomeFragment extends Fragment {
 
     private FragmentCustomerHomeBinding binding;
 
-    private BottomNavigationView bottomNavView;
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -40,10 +40,6 @@ public class CustomerHomeFragment extends Fragment {
 
     public CustomerHomeFragment() {
         // Required empty public constructor
-    }
-
-    public CustomerHomeFragment(BottomNavigationView bottomNavView) {
-        this.bottomNavView = bottomNavView;
     }
 
     /**
@@ -97,19 +93,17 @@ public class CustomerHomeFragment extends Fragment {
              */
         }
 
+        // Move to Profile Fragment when User click on avatarImage
         binding.avatarImage.setOnClickListener(view -> {
-
-            // Move to Profile Customer Fragment
-            FragmentManager fragmentManager = getParentFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragmentCustomer, new ProfileCustomerFragment());
-            fragmentTransaction.commit();
-
             // Set selectedItem in Bottom Nav Bar
-            bottomNavView.setSelectedItemId(R.id.profile);
+            CustomerFragment.customerBottomNavigationView.setSelectedItemId(R.id.profile);
         });
 
-        // actionBar.setBackgroundDrawable(new ColorDrawable(getColor(requireContext(), R.color.light_canvas)));
+        // Move to ShoppingCart Fragment when User click on shoppingCartButton
+        binding.shoppingCartButton.setOnClickListener(view -> {
+            NavHostFragment.findNavController(CustomerHomeFragment.this)
+                    .navigate(R.id.action_customerHomeFragment_to_shoppingCartFragment);
+        });
 
         return binding.getRoot();
     }
