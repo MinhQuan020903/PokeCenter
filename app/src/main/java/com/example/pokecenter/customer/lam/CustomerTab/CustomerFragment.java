@@ -1,4 +1,4 @@
-package com.example.pokecenter.customer.lam;
+package com.example.pokecenter.customer.lam.CustomerTab;
 
 import android.os.Bundle;
 
@@ -11,12 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pokecenter.R;
-import com.example.pokecenter.customer.lam.Tab.CustomerHomeFragment;
-import com.example.pokecenter.customer.lam.Tab.CustomerNotificationsFragment;
-import com.example.pokecenter.customer.lam.Tab.CustomerPaymentFragment;
+import com.example.pokecenter.customer.lam.CustomerTab.Home.CustomerHomeFragment;
+import com.example.pokecenter.customer.lam.CustomerTab.Home.CustomerHomePlaceholderFragment;
 import com.example.pokecenter.customer.quan.ProfileCustomerFragment;
-import com.example.pokecenter.customer.lam.Tab.CustomerSupportFragment;
 import com.example.pokecenter.databinding.FragmentCustomerBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +24,8 @@ import com.example.pokecenter.databinding.FragmentCustomerBinding;
  */
 public class CustomerFragment extends Fragment {
     private FragmentCustomerBinding binding;
+
+    public static BottomNavigationView customerBottomNavigationView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -72,28 +73,13 @@ public class CustomerFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentCustomerBinding.inflate(inflater, container, false);
 
-        /*
-        Notes:
-            getFragmentManager() was deprecated in API level 28.
-
-            we will use getChildFragmentManager() Return a private FragmentManager for placing and managing Fragments inside of this Fragment.
-
-            we will use getParentFragmentManager() Return the FragmentManager for interacting with fragments associated with this fragment's activity.
-
-            so, if you deal with fragments inside a fragment you will use the first one and if you deal with fragments inside an activity you will use the second one.
-
-            you can find them here package androidx.fragment.app;
-         */
-
-        // Set HomeFragment is default
-        binding.bottomNavView.setSelectedItemId(R.id.home); // Set selectedItem in Bottom Nav Bar
-        replaceFragment(new CustomerHomeFragment());    // Set Content
+        customerBottomNavigationView = binding.bottomNavView;
 
         // Move between fragments
-        binding.bottomNavView.setOnItemSelectedListener(item -> {
+        customerBottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.home:
-                    replaceFragment(new CustomerHomeFragment());
+                    replaceFragment(new CustomerHomePlaceholderFragment());
                     break;
                 case R.id.payment:
                     replaceFragment(new CustomerPaymentFragment());
@@ -111,10 +97,33 @@ public class CustomerFragment extends Fragment {
             return true;
         });
 
+        /*
+        Set HomeFragment is default
+        Đồng thời lúc này customerBottomNavigationView.setOnItemSelectedListener() ở dòng 80
+        cũng sẽ được trigger
+        => Thực thi lệnh "replaceFragment(new CustomerHomePlaceholderFragment());"
+        => Nội dung page cũng sẽ thay đổi theo
+         */
+        customerBottomNavigationView.setSelectedItemId(R.id.home);
+
         return binding.getRoot();
     }
 
     private void replaceFragment(Fragment selectedFragment) {
+
+        /*
+        Notes:
+            getFragmentManager() was deprecated in API level 28.
+
+            we will use getChildFragmentManager() Return a private FragmentManager for placing and managing Fragments inside of this Fragment.
+
+            we will use getParentFragmentManager() Return the FragmentManager for interacting with fragments associated with this fragment's activity.
+
+            so, if you deal with fragments inside a fragment you will use the first one and if you deal with fragments inside an activity you will use the second one.
+
+            you can find them here package androidx.fragment.app;
+         */
+
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentCustomer, selectedFragment);

@@ -32,7 +32,7 @@ public class LoginFragment extends Fragment {
     private FragmentLoginBinding binding;
 
     private Account[] mockAccounts = {
-            new Account("customer1", "123", 0),
+            new Account("a", "a", 0),
             new Account("vender1", "123", 1),
             new Account("admin1", "123", 2)
     };
@@ -116,6 +116,7 @@ public class LoginFragment extends Fragment {
             if (binding.editTextPassword.getInputType() == 129) {
                 binding.editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT);
                 binding.eyeButton.setImageDrawable(getDrawable(getContext(), R.drawable.lam_blind));
+                // Notes: Thay getContext() bằng requireContext() vẫn chạy oke
             }
             else
             {
