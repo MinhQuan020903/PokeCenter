@@ -1,4 +1,4 @@
-package com.example.pokecenter.vender;
+package com.example.pokecenter.vender.Ninh.VenderTab;
 
 import android.os.Bundle;
 
