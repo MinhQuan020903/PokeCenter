@@ -96,13 +96,12 @@ public class CustomerHomeFragment extends Fragment {
         // Move to Profile Fragment when User click on avatarImage
         binding.avatarImage.setOnClickListener(view -> {
             // Set selectedItem in Bottom Nav Bar
-            CustomerFragment.customerBottomNavigationView.setSelectedItemId(R.id.profile);
+            CustomerFragment.customerBottomNavigationView.setSelectedItemId(R.id.profileCustomerFragment);
         });
 
-        // Move to ShoppingCart Fragment when User click on shoppingCartButton
-        binding.shoppingCartButton.setOnClickListener(view -> {
-            NavHostFragment.findNavController(CustomerHomeFragment.this)
-                    .navigate(R.id.action_customerHomeFragment_to_shoppingCartFragment);
+        binding.viewAllPokedex.setOnClickListener(view -> {
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_customerFragment_to_customerPokedexFragment);
         });
 
         return binding.getRoot();

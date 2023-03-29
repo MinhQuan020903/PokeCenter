@@ -11,12 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pokecenter.R;
-import com.example.pokecenter.customer.lam.CustomerTab.CustomerNotificationsFragment;
-import com.example.pokecenter.customer.lam.CustomerTab.CustomerPaymentFragment;
-import com.example.pokecenter.customer.lam.CustomerTab.CustomerSupportFragment;
-import com.example.pokecenter.customer.lam.CustomerTab.Home.CustomerHomePlaceholderFragment;
-import com.example.pokecenter.customer.quan.ProfileCustomerFragment;
-import com.example.pokecenter.databinding.FragmentCustomerBinding;
 import com.example.pokecenter.databinding.FragmentVenderBinding;
 import com.example.pokecenter.vender.Ninh.VenderTab.Home.VenderHomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -77,24 +71,24 @@ public class VenderFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentVenderBinding.inflate(inflater, container, false);
 
-        customerBottomNavigationView = binding.bottomNavView1;
+        customerBottomNavigationView = binding.bottomNavView;
 
         // Move between fragments
         customerBottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
-                case R.id.home:
+                case R.id.customerHomeFragment:
                     replaceFragment(new VenderHomeFragment());
                     break;
-                case R.id.payment:
+                case R.id.customerPaymentFragment:
                     replaceFragment(new VenderPaymentFragment());
                     break;
-                case R.id.notifications:
+                case R.id.customerNotificationsFragment:
                     replaceFragment(new VenderNotificationsFragment());
                     break;
-                case R.id.support:
+                case R.id.customerSupportFragment:
                     replaceFragment(new VenderSupportFragment());
                     break;
-                case R.id.profile:
+                case R.id.profileCustomerFragment:
                     replaceFragment(new VenderProfileFragment());
                     break;
             }
@@ -102,7 +96,7 @@ public class VenderFragment extends Fragment {
         });
 
 
-        customerBottomNavigationView.setSelectedItemId(R.id.home);
+        customerBottomNavigationView.setSelectedItemId(R.id.customerHomeFragment);
 
         return binding.getRoot();
     }
