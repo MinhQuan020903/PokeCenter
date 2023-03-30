@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.pokecenter.CustomerShoppingCartFragment;
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.CustomerHomeFragment;
 import com.example.pokecenter.customer.quan.ProfileCustomerFragment;

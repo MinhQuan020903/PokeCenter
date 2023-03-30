@@ -2,23 +2,29 @@ package com.example.pokecenter.customer.lam.CustomerTab.Home;
 
 import static androidx.core.content.ContextCompat.getColor;
 
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.LinearLayout;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.API.PokeAPIFetcher;
 import com.example.pokecenter.customer.lam.CustomerTab.CustomerFragment;
-import com.example.pokecenter.customer.quan.ProfileCustomerFragment;
+import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
+import com.example.pokecenter.customer.lam.Model.pokemon.PokemonAdapter;
 import com.example.pokecenter.databinding.FragmentCustomerHomeBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +34,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class CustomerHomeFragment extends Fragment {
 
     private FragmentCustomerHomeBinding binding;
+    private ArrayList<Pokemon> pokemon = new ArrayList<>();
+
+    private RecyclerView rcvPokemon;
+    private PokemonAdapter pokemonAdapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -72,6 +82,7 @@ public class CustomerHomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         binding = FragmentCustomerHomeBinding.inflate(inflater, container, false);
 
@@ -104,6 +115,33 @@ public class CustomerHomeFragment extends Fragment {
                     .navigate(R.id.action_customerFragment_to_customerPokedexFragment);
         });
 
+        // _______________________
+
+        rcvPokemon = binding.rcvPokemon;
+        pokemonAdapter = new PokemonAdapter(getContext());
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
+        rcvPokemon.setLayoutManager(linearLayoutManager);
+        rcvPokemon.setAdapter(pokemonAdapter);
+
+        PokeAPIFetcher.fetchRandomTenPokemon(6, new PokeAPIFetcher.OnFetchCompleteListener() {
+            @Override
+            public void onFetchComplete(ArrayList<Pokemon> pokemons) {
+                pokemonAdapter.setData(pokemons);
+                for (int i = 0; i<=5; ++i) {
+                    System.out.println(pokemons.get(i).getName() + "  " + pokemons.get(i).getType());
+                }
+            }
+        });
+
         return binding.getRoot();
+    }
+
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

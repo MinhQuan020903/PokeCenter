@@ -32,7 +32,7 @@ public class LoginFragment extends Fragment {
     private FragmentLoginBinding binding;
 
     private Account[] mockAccounts = {
-            new Account("a", "a", 0),
+            new Account("", "", 0),
             new Account("vender1", "123", 1),
             new Account("admin1", "123", 2)
     };
