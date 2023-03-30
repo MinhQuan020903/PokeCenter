@@ -61,7 +61,7 @@
         tools:layout="@layout/fragment_forgot_password" />
     <fragment
         android:id="@+id/customerPokedexFragment"
-        android:name="com.example.pokecenter.CustomerPokedexFragment"
+        android:name="com.example.pokecenter.customer.lam.CustomerPokedexFragment"
         android:label="fragment_customer_pokedex"
         tools:layout="@layout/fragment_customer_pokedex" />
 </navigation>

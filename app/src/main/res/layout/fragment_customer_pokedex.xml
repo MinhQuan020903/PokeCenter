@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".CustomerPokedexFragment">
+    tools:context=".customer.lam.CustomerPokedexFragment">
 
     <TextView
         android:id="@+id/textView10"

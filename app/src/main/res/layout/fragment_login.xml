@@ -41,8 +41,7 @@
             android:paddingBottom="12dp"
             android:text="Sign Up"
             android:textColor="@color/light_primary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="18sp"/>
 
         <ImageView
             android:layout_width="120dp"

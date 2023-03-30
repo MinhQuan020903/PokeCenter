@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".CustomerShoppingCartFragment">
+    tools:context=".customer.lam.CustomerTab.CustomerShoppingCartFragment">
 
 
     <TextView
