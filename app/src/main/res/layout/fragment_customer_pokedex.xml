@@ -13,4 +13,8 @@
         android:layout_height="wrap_content"
         android:text="Pokedex"
         android:textSize="24sp"/>
+
+
+
+
 </LinearLayout>

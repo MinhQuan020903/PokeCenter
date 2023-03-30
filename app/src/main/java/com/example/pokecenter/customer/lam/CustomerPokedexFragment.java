@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.pokecenter.R;
+import com.example.pokecenter.databinding.FragmentCustomerPokedexBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +16,10 @@ import com.example.pokecenter.R;
  * create an instance of this fragment.
  */
 public class CustomerPokedexFragment extends Fragment {
+
+    private FragmentCustomerPokedexBinding binding;
+
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +65,18 @@ public class CustomerPokedexFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_customer_pokedex, container, false);
+        binding = FragmentCustomerPokedexBinding.inflate(inflater, container, false);
+
+
+
+
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }
