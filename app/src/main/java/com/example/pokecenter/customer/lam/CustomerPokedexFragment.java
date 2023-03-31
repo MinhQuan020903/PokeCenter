@@ -1,14 +1,33 @@
 package com.example.pokecenter.customer.lam;
 
+import static com.example.pokecenter.customer.lam.API.PokeApiFetcher.allPokeName;
+
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.API.PokeApiFetcher;
+import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
+import com.example.pokecenter.customer.lam.Model.pokemon.PokemonAdapter;
 import com.example.pokecenter.databinding.FragmentCustomerPokedexBinding;
+
+import org.w3c.dom.Text;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,7 +38,8 @@ public class CustomerPokedexFragment extends Fragment {
 
     private FragmentCustomerPokedexBinding binding;
 
-
+    private RecyclerView rcvGridPokemon;
+    private PokemonAdapter pokemonAdapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -67,9 +87,45 @@ public class CustomerPokedexFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentCustomerPokedexBinding.inflate(inflater, container, false);
 
+        rcvGridPokemon = binding.rcvGridPokemon;
+        pokemonAdapter = new PokemonAdapter(getContext());
 
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
+        rcvGridPokemon.setLayoutManager(gridLayoutManager);
 
+        rcvGridPokemon.setAdapter(pokemonAdapter);
 
+        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        binding.searchNameButton.setOnClickListener(view -> {
+            // Ẩn Keyboard
+            inputMethodManager.hideSoftInputFromWindow(binding.searchNameButton.getWindowToken(), 0);
+
+            pokemonAdapter.clear();
+
+            String inputText = String.valueOf(binding.searchNamePokemonBar.getText());
+            ProgressBar progressBar = binding.fetchPokemonByNameProgressBar;
+
+            progressBar.setVisibility(View.VISIBLE);
+
+            for (int i=0; i<=900; ++i) {
+                final String pokeName = allPokeName[i];
+
+                if (pokeName.contains(inputText)) {
+                    executor.execute(() -> {
+                        Pokemon fetchedPokemon = PokeApiFetcher.fetchPokemonByName(pokeName);
+                        handler.post(() -> {
+                            //Update UI with response data
+                            progressBar.setVisibility(View.GONE);
+                            pokemonAdapter.add(fetchedPokemon);
+                        });
+                    });
+                }
+            }
+        });
 
         return binding.getRoot();
     }

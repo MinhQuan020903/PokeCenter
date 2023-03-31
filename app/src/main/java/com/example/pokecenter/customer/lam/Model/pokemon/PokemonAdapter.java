@@ -26,14 +26,25 @@ import java.util.Map;
 public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>{
 
     private Context mContext;
-    private ArrayList<Pokemon> mPokemons;
+    private ArrayList<Pokemon> mPokemons = new ArrayList<>();
 
     public PokemonAdapter(Context context) {
         this.mContext  = context;
     }
 
+    public void add(Pokemon pokemon) {
+
+        this.mPokemons.add(pokemon);
+        notifyDataSetChanged();
+    }
+
     public void setData(ArrayList<Pokemon> list) {
         this.mPokemons = list;
+        notifyDataSetChanged();
+    }
+
+    public void clear() {
+        this.mPokemons.clear();
         notifyDataSetChanged();
     }
 
@@ -60,11 +71,9 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
 
     @Override
     public int getItemCount() {
-        if (mPokemons != null) {
-            return mPokemons.size();
-         }
-        return 0;
+        return mPokemons.size();
     }
+
 
     public class PokemonViewHolder  extends RecyclerView.ViewHolder {
 

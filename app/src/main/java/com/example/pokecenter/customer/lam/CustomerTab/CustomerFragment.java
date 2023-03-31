@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pokecenter.R;
-import com.example.pokecenter.customer.lam.CustomerTab.Home.CustomerHomeFragment;
 import com.example.pokecenter.customer.quan.ProfileCustomerFragment;
 import com.example.pokecenter.databinding.FragmentCustomerBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -74,23 +73,29 @@ public class CustomerFragment extends Fragment {
 
         customerBottomNavigationView = binding.bottomNavView;
 
+        Fragment home = new CustomerHomeFragment();
+        Fragment payment = new CustomerPaymentFragment();
+        Fragment notifications = new CustomerNotificationsFragment();
+        Fragment shoppingCart = new CustomerShoppingCartFragment();
+        Fragment profile = new ProfileCustomerFragment();
+
         // Move between fragments
         customerBottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.customerHomeFragment:
-                    replaceFragment(new CustomerHomeFragment());
+                    replaceFragment(home);
                     break;
                 case R.id.customerPaymentFragment:
-                    replaceFragment(new CustomerPaymentFragment());
+                    replaceFragment(payment);
                     break;
                 case R.id.customerNotificationsFragment:
-                    replaceFragment(new CustomerNotificationsFragment());
+                    replaceFragment(notifications);
                     break;
                 case R.id.customerShoppingCardFragment:
-                    replaceFragment(new CustomerShoppingCartFragment());
+                    replaceFragment(shoppingCart);
                     break;
                 case R.id.profileCustomerFragment:
-                    replaceFragment(new ProfileCustomerFragment());
+                    replaceFragment(profile);
                     break;
             }
             return true;

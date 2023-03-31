@@ -1,30 +1,30 @@
-package com.example.pokecenter.customer.lam.CustomerTab.Home;
+package com.example.pokecenter.customer.lam.CustomerTab;
 
 import static androidx.core.content.ContextCompat.getColor;
 
-import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.LinearLayout;
 
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
-import com.example.pokecenter.customer.lam.API.PokeAPIFetcher;
-import com.example.pokecenter.customer.lam.CustomerTab.CustomerFragment;
+import com.example.pokecenter.customer.lam.API.PokeApiFetcher;
 import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
 import com.example.pokecenter.customer.lam.Model.pokemon.PokemonAdapter;
 import com.example.pokecenter.databinding.FragmentCustomerHomeBinding;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,8 +34,6 @@ import java.util.ArrayList;
 public class CustomerHomeFragment extends Fragment {
 
     private FragmentCustomerHomeBinding binding;
-    private ArrayList<Pokemon> pokemon = new ArrayList<>();
-
     private RecyclerView rcvPokemon;
     private PokemonAdapter pokemonAdapter;
 
@@ -111,32 +109,39 @@ public class CustomerHomeFragment extends Fragment {
         });
 
         binding.viewAllPokedex.setOnClickListener(view -> {
+
             NavHostFragment.findNavController(this)
                     .navigate(R.id.action_customerFragment_to_customerPokedexFragment);
         });
 
-        // _______________________
-
-        rcvPokemon = binding.rcvPokemon;
+        // _______Pokedex________
+        rcvPokemon = binding.rcvHorizontalPokemon;
         pokemonAdapter = new PokemonAdapter(getContext());
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
         rcvPokemon.setLayoutManager(linearLayoutManager);
-        // Chỗ này là để set Data cho Adapter là những cái loading Card
-        pokemonAdapter.setData(loadingPokeCard());
+
         rcvPokemon.setAdapter(pokemonAdapter);
 
-        PokeAPIFetcher.fetchRandomTenPokemon(6, new PokeAPIFetcher.OnFetchCompleteListener() {
-            @Override
-            public void onFetchComplete(ArrayList<Pokemon> pokemons) {
-                // Fetch API xong thì set lại Data bằng những thông tin của Pokemon
-                pokemonAdapter.setData(pokemons);
-            }
-        });
+        if (PokeApiFetcher.pokemonData.isEmpty()) {
+            // Chỗ này là để set Data cho Adapter là những cái loading Card
+            pokemonAdapter.setData(loadingPokeCard());
 
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+
+            executor.execute(() -> {
+                PokeApiFetcher.fetchRandomSixPokemon(6);
+                    handler.post(() -> {
+                        //Update UI with response data
+                        pokemonAdapter.setData(PokeApiFetcher.pokemonData);
+                    });
+            });
+        } else {
+            pokemonAdapter.setData(PokeApiFetcher.pokemonData);
+        }
         return binding.getRoot();
     }
-
     private ArrayList<Pokemon> loadingPokeCard() {
         ArrayList<Pokemon> loadingPokemons = new ArrayList<>();
         for (int i = 1; i <= 6; ++i) {
