@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/venderPaymentNav"
+        android:title="Payment"
+        android:icon="@drawable/lam_baseline_payment_24"/>
+
+    <item android:id="@+id/venderNotificationNav"
+        android:title="Notifications"
+        android:icon="@drawable/lam_baseline_notifications_active_24" />
+
+    <item android:id="@+id/venderHomeNav"
+        android:title="Home"
+        android:icon="@drawable/lam_baseline_home_24"/>
+
+    <item android:id="@+id/venderSupportNav"
+        android:title="Cart"
+        android:icon="@drawable/lam_baseline_shopping_cart_24" />
+
+    <item android:id="@+id/venderProfileNav"
+        android:title="Profile"
+        android:icon="@drawable/lam_baseline_person_24"/>
+</menu>

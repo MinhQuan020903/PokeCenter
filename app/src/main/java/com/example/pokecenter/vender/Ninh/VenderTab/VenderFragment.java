@@ -76,19 +76,19 @@ public class VenderFragment extends Fragment {
         // Move between fragments
         customerBottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
-                case R.id.customerHomeFragment:
-                    replaceFragment(new VenderHomeFragment());
-                    break;
-                case R.id.customerPaymentFragment:
+                case R.id.venderPaymentNav:
                     replaceFragment(new VenderPaymentFragment());
                     break;
-                case R.id.customerNotificationsFragment:
+                case R.id.venderNotificationNav:
                     replaceFragment(new VenderNotificationsFragment());
                     break;
-                case R.id.customerSupportFragment:
+                case R.id.venderHomeNav:
+                    replaceFragment(new VenderHomeFragment());
+                    break;
+                case R.id.venderSupportNav:
                     replaceFragment(new VenderSupportFragment());
                     break;
-                case R.id.profileCustomerFragment:
+                case R.id.venderProfileNav:
                     replaceFragment(new VenderProfileFragment());
                     break;
             }
