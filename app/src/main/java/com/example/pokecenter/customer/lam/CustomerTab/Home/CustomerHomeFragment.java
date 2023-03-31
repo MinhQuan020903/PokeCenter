@@ -122,21 +122,28 @@ public class CustomerHomeFragment extends Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
         rcvPokemon.setLayoutManager(linearLayoutManager);
+        // Chỗ này là để set Data cho Adapter là những cái loading Card
+        pokemonAdapter.setData(loadingPokeCard());
         rcvPokemon.setAdapter(pokemonAdapter);
 
         PokeAPIFetcher.fetchRandomTenPokemon(6, new PokeAPIFetcher.OnFetchCompleteListener() {
             @Override
             public void onFetchComplete(ArrayList<Pokemon> pokemons) {
+                // Fetch API xong thì set lại Data bằng những thông tin của Pokemon
                 pokemonAdapter.setData(pokemons);
-                for (int i = 0; i<=5; ++i) {
-                    System.out.println(pokemons.get(i).getName() + "  " + pokemons.get(i).getType());
-                }
             }
         });
 
         return binding.getRoot();
     }
 
+    private ArrayList<Pokemon> loadingPokeCard() {
+        ArrayList<Pokemon> loadingPokemons = new ArrayList<>();
+        for (int i = 1; i <= 6; ++i) {
+            loadingPokemons.add(new Pokemon("loading", "", ""));
+        }
+        return loadingPokemons;
+    }
 
 
     @Override

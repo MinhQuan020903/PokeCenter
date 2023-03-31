@@ -85,9 +85,9 @@ public class VenderFragment extends Fragment {
                 case R.id.customerNotificationsFragment:
                     replaceFragment(new VenderNotificationsFragment());
                     break;
-                case R.id.customerSupportFragment:
-                    replaceFragment(new VenderSupportFragment());
-                    break;
+//                case R.id.customerSupportFragment:
+//                    replaceFragment(new VenderSupportFragment());
+//                    break;
                 case R.id.profileCustomerFragment:
                     replaceFragment(new VenderProfileFragment());
                     break;

@@ -47,6 +47,9 @@ public class PokeAPIFetcher {
 
                         JSONObject data = new JSONObject(inline);
                         String name = data.getString("name");
+
+                        String normalizeName = name.substring(0, 1).toUpperCase() + name.substring(1);
+
                         String imageUrl = data.getJSONObject("sprites")
                                 .getJSONObject("other")
                                 .getJSONObject("official-artwork")
@@ -55,7 +58,7 @@ public class PokeAPIFetcher {
                         JSONArray types = data.getJSONArray("types");
                         String type = types.getJSONObject(0).getJSONObject("type").getString("name");
 
-                        pokemons.add(new Pokemon(name, imageUrl, type));
+                        pokemons.add(new Pokemon(normalizeName, imageUrl, type));
 
                     }
                 } catch (Exception e) {

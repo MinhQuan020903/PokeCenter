@@ -86,7 +86,7 @@ public class CustomerFragment extends Fragment {
                 case R.id.customerNotificationsFragment:
                     replaceFragment(new CustomerNotificationsFragment());
                     break;
-                case R.id.customerSupportFragment:
+                case R.id.customerShoppingCardFragment:
                     replaceFragment(new CustomerShoppingCartFragment());
                     break;
                 case R.id.profileCustomerFragment:
