@@ -26,6 +26,7 @@ import com.example.pokecenter.databinding.FragmentCustomerPokedexBinding;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -79,6 +80,8 @@ public class CustomerPokedexFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        System.out.println("recreate");
     }
 
     @Override
@@ -97,33 +100,42 @@ public class CustomerPokedexFragment extends Fragment {
 
         InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
+
 
         binding.searchNameButton.setOnClickListener(view -> {
             // Ẩn Keyboard
             inputMethodManager.hideSoftInputFromWindow(binding.searchNameButton.getWindowToken(), 0);
 
-            pokemonAdapter.clear();
-
             String inputText = String.valueOf(binding.searchNamePokemonBar.getText());
             ProgressBar progressBar = binding.fetchPokemonByNameProgressBar;
 
-            progressBar.setVisibility(View.VISIBLE);
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+
+
+            ArrayList<Pokemon> pokemonLoading = new ArrayList<>();
 
             for (int i=0; i<=900; ++i) {
-                final String pokeName = allPokeName[i];
-
-                if (pokeName.contains(inputText)) {
-                    executor.execute(() -> {
-                        Pokemon fetchedPokemon = PokeApiFetcher.fetchPokemonByName(pokeName);
-                        handler.post(() -> {
-                            //Update UI with response data
-                            progressBar.setVisibility(View.GONE);
-                            pokemonAdapter.add(fetchedPokemon);
-                        });
-                    });
+                if (allPokeName[i].contains(inputText)) {
+                    pokemonLoading.add(new Pokemon(allPokeName[i], "", ""));
                 }
+            }
+            pokemonAdapter.setData(pokemonLoading);
+
+
+            for (int i = 0; i < pokemonLoading.size(); ++i) {
+                Pokemon poke = pokemonLoading.get(i);
+
+                int finalI = i;
+                executor.execute(() -> {
+                    Pokemon fetchedPokemon = PokeApiFetcher.fetchPokemonByName(poke.getName());
+                    handler.post(() -> {
+                        poke.setName(fetchedPokemon.getName());
+                        poke.setImageUrl(fetchedPokemon.getImageUrl());
+                        poke.setType(fetchedPokemon.getType());
+                        pokemonAdapter.updateItem(finalI);
+                    });
+                });
             }
         });
 

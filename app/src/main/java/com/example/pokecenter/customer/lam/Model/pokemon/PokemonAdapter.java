@@ -32,20 +32,13 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
         this.mContext  = context;
     }
 
-    public void add(Pokemon pokemon) {
-
-        this.mPokemons.add(pokemon);
-        notifyDataSetChanged();
-    }
-
     public void setData(ArrayList<Pokemon> list) {
         this.mPokemons = list;
         notifyDataSetChanged();
     }
 
-    public void clear() {
-        this.mPokemons.clear();
-        notifyDataSetChanged();
+    public void updateItem(int position) {
+        notifyItemChanged(position);
     }
 
     @NonNull
@@ -61,7 +54,8 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
         if (pokemon == null) {
             return;
         }
-        if (pokemon.getName() != "loading") {
+        if (pokemon.getImageUrl() != "") {
+
             holder.progress_bar.setVisibility(View.INVISIBLE);
             Picasso.get().load(pokemon.getImageUrl()).into(holder.pokeImage);
             holder.pokeName.setText(pokemon.getName());

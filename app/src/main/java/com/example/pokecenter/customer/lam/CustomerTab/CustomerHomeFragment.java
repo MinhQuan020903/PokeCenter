@@ -121,35 +121,35 @@ public class CustomerHomeFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
         rcvPokemon.setLayoutManager(linearLayoutManager);
 
-        rcvPokemon.setAdapter(pokemonAdapter);
-
-        if (PokeApiFetcher.pokemonData.isEmpty()) {
-            // Chỗ này là để set Data cho Adapter là những cái loading Card
-            pokemonAdapter.setData(loadingPokeCard());
-
-            ExecutorService executor = Executors.newSingleThreadExecutor();
-            Handler handler = new Handler(Looper.getMainLooper());
-
-            executor.execute(() -> {
-                PokeApiFetcher.fetchRandomSixPokemon(6);
-                    handler.post(() -> {
-                        //Update UI with response data
-                        pokemonAdapter.setData(PokeApiFetcher.pokemonData);
-                    });
-            });
-        } else {
-            pokemonAdapter.setData(PokeApiFetcher.pokemonData);
-        }
-        return binding.getRoot();
-    }
-    private ArrayList<Pokemon> loadingPokeCard() {
+        // Chỗ này là để set Data cho Adapter là những cái loading Card
         ArrayList<Pokemon> loadingPokemons = new ArrayList<>();
-        for (int i = 1; i <= 6; ++i) {
+        for (int i = 1; i <= 10; ++i) {
             loadingPokemons.add(new Pokemon("loading", "", ""));
         }
-        return loadingPokemons;
-    }
 
+        pokemonAdapter.setData(loadingPokemons);
+        rcvPokemon.setAdapter(pokemonAdapter);
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        for (int i = 0; i < loadingPokemons.size(); ++i) {
+            Pokemon poke = loadingPokemons.get(i);
+
+            int finalI = i;
+            executor.execute(() -> {
+                Pokemon fetchedPokemon = PokeApiFetcher.fetchPokemonRandom();
+                handler.post(() -> {
+                    poke.setName(fetchedPokemon.getName());
+                    poke.setImageUrl(fetchedPokemon.getImageUrl());
+                    poke.setType(fetchedPokemon.getType());
+                    pokemonAdapter.updateItem(finalI);
+                });
+            });
+        }
+
+        return binding.getRoot();
+    }
 
     @Override
     public void onDestroyView() {

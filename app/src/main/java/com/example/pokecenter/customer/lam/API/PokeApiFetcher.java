@@ -18,43 +18,46 @@ import java.util.Scanner;
 public class PokeApiFetcher {
     public static ArrayList<Pokemon> pokemonData = new ArrayList<>();
 
-    public static void fetchRandomSixPokemon(int count) {
+    public static Pokemon fetchPokemonRandom() {
         try {
-            for (int i = 1; i <= 6; ++i) {
+            int randomPokemonId = (int) (Math.random() * 900) + 1;
+            URL url = new URL("https://pokeapi.co/api/v2/pokemon/" + randomPokemonId);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.connect();
 
-                int randomPokemonId = (int) (Math.random() * 900) + 1;
-                URL url = new URL("https://pokeapi.co/api/v2/pokemon/" + randomPokemonId);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("GET");
-                conn.connect();
-
-                int responseCode = conn.getResponseCode();
-                if (responseCode != 200) {
-                    throw new RuntimeException("HTTP response code: " + responseCode);
-                }
-
-                String inline = "";
-                Scanner scanner = new Scanner(url.openStream());
-                while (scanner.hasNext()) {
-                    inline += scanner.nextLine();
-                }
-                scanner.close();
-
-                JSONObject data = new JSONObject(inline);
-                String name = data.getString("name");
-
-                String normalizeName = name.substring(0, 1).toUpperCase() + name.substring(1);
-
-                String imageUrl = String.format("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/%d.png", randomPokemonId);
-
-                JSONArray types = data.getJSONArray("types");
-                String type = types.getJSONObject(0).getJSONObject("type").getString("name");
-
-                pokemonData.add(new Pokemon(normalizeName, imageUrl, type));
-
+            int responseCode = conn.getResponseCode();
+            if (responseCode != 200) {
+                throw new RuntimeException("HTTP response code: " + responseCode);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+
+            String inline = "";
+            Scanner scanner = new Scanner(url.openStream());
+            while (scanner.hasNext()) {
+                inline += scanner.nextLine();
+            }
+            scanner.close();
+
+            JSONObject data = new JSONObject(inline);
+            String name = data.getString("name");
+
+            String normalizeName = name.substring(0, 1).toUpperCase() + name.substring(1);
+
+            String imageUrl = String.format("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/%d.png", randomPokemonId);
+
+            JSONArray types = data.getJSONArray("types");
+            String type = types.getJSONObject(0).getJSONObject("type").getString("name");
+
+            return new Pokemon(normalizeName, imageUrl, type);
+
+        } catch (ProtocolException ex) {
+            throw new RuntimeException(ex);
+        } catch (MalformedURLException ex) {
+            throw new RuntimeException(ex);
+        } catch (JSONException ex) {
+            throw new RuntimeException(ex);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
@@ -88,7 +91,6 @@ public class PokeApiFetcher {
             String type = types.getJSONObject(0).getJSONObject("type").getString("name");
 
             String normalizeName = name.substring(0, 1).toUpperCase() + name.substring(1);
-
             return new Pokemon(normalizeName, imageUrl, type);
 
         } catch (ProtocolException ex) {
