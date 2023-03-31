@@ -16,8 +16,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PokeApiFetcher {
-    public static ArrayList<Pokemon> pokemonData = new ArrayList<>();
+    public static ArrayList<Pokemon> pokemonDemoData = new ArrayList<>();
 
+    public static ArrayList<Pokemon> pokemonSearchData = new ArrayList<>();
     public static Pokemon fetchPokemonRandom() {
         try {
             int randomPokemonId = (int) (Math.random() * 900) + 1;
@@ -48,7 +49,11 @@ public class PokeApiFetcher {
             JSONArray types = data.getJSONArray("types");
             String type = types.getJSONObject(0).getJSONObject("type").getString("name");
 
-            return new Pokemon(normalizeName, imageUrl, type);
+            Pokemon fetchedPokemon = new Pokemon(normalizeName, imageUrl, type);
+
+            pokemonDemoData.add(fetchedPokemon);
+
+            return fetchedPokemon;
 
         } catch (ProtocolException ex) {
             throw new RuntimeException(ex);
@@ -91,7 +96,12 @@ public class PokeApiFetcher {
             String type = types.getJSONObject(0).getJSONObject("type").getString("name");
 
             String normalizeName = name.substring(0, 1).toUpperCase() + name.substring(1);
-            return new Pokemon(normalizeName, imageUrl, type);
+
+            Pokemon fetchedPokemon = new Pokemon(normalizeName, imageUrl, type);
+
+            pokemonSearchData.add(fetchedPokemon);
+
+            return fetchedPokemon;
 
         } catch (ProtocolException ex) {
             throw new RuntimeException(ex);

@@ -100,7 +100,9 @@ public class CustomerPokedexFragment extends Fragment {
 
         InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 
-
+        if (!PokeApiFetcher.pokemonSearchData.isEmpty()) {
+            pokemonAdapter.setData(PokeApiFetcher.pokemonSearchData);
+        }
 
         binding.searchNameButton.setOnClickListener(view -> {
             // Ẩn Keyboard

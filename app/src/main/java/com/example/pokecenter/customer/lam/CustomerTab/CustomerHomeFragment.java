@@ -120,33 +120,40 @@ public class CustomerHomeFragment extends Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
         rcvPokemon.setLayoutManager(linearLayoutManager);
-
-        // Chỗ này là để set Data cho Adapter là những cái loading Card
-        ArrayList<Pokemon> loadingPokemons = new ArrayList<>();
-        for (int i = 1; i <= 10; ++i) {
-            loadingPokemons.add(new Pokemon("loading", "", ""));
-        }
-
-        pokemonAdapter.setData(loadingPokemons);
         rcvPokemon.setAdapter(pokemonAdapter);
 
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
+        if (PokeApiFetcher.pokemonDemoData.isEmpty()) {
+            // Chỗ này là để set Data cho Adapter là những cái loading Card
+            ArrayList<Pokemon> loadingPokemons = new ArrayList<>();
+            for (int i = 1; i <= 10; ++i) {
+                loadingPokemons.add(new Pokemon("loading", "", ""));
+            }
 
-        for (int i = 0; i < loadingPokemons.size(); ++i) {
-            Pokemon poke = loadingPokemons.get(i);
+            pokemonAdapter.setData(loadingPokemons);
 
-            int finalI = i;
-            executor.execute(() -> {
-                Pokemon fetchedPokemon = PokeApiFetcher.fetchPokemonRandom();
-                handler.post(() -> {
-                    poke.setName(fetchedPokemon.getName());
-                    poke.setImageUrl(fetchedPokemon.getImageUrl());
-                    poke.setType(fetchedPokemon.getType());
-                    pokemonAdapter.updateItem(finalI);
+
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+
+            for (int i = 0; i < loadingPokemons.size(); ++i) {
+                Pokemon poke = loadingPokemons.get(i);
+
+                int finalI = i;
+                executor.execute(() -> {
+                    Pokemon fetchedPokemon = PokeApiFetcher.fetchPokemonRandom();
+                    handler.post(() -> {
+                        poke.setName(fetchedPokemon.getName());
+                        poke.setImageUrl(fetchedPokemon.getImageUrl());
+                        poke.setType(fetchedPokemon.getType());
+                        pokemonAdapter.updateItem(finalI);
+                    });
                 });
-            });
+            }
         }
+        else {
+            pokemonAdapter.setData(PokeApiFetcher.pokemonDemoData);
+        }
+
 
         return binding.getRoot();
     }
