@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/light_canvas"
-    tools:context=".customer.lam.CustomerTab.Home.CustomerHomeFragment" >
+    tools:context=".customer.lam.CustomerTab.CustomerHomeFragment" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -132,9 +132,12 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_pokemon"
+        android:id="@+id/rcv_horizontal_pokemon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp"/>
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"/>
+
+
 
 </LinearLayout>

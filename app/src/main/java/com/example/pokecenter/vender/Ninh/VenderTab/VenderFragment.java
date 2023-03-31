@@ -82,13 +82,14 @@ public class VenderFragment extends Fragment {
                 case R.id.venderNotificationNav:
                     replaceFragment(new VenderNotificationsFragment());
                     break;
+
                 case R.id.venderHomeNav:
                     replaceFragment(new VenderHomeFragment());
                     break;
                 case R.id.venderSupportNav:
                     replaceFragment(new VenderSupportFragment());
                     break;
-                case R.id.venderProfileNav:
+
                     replaceFragment(new VenderProfileFragment());
                     break;
             }

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,7 +26,7 @@ import java.util.Map;
 public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>{
 
     private Context mContext;
-    private ArrayList<Pokemon> mPokemons;
+    private ArrayList<Pokemon> mPokemons = new ArrayList<>();
 
     public PokemonAdapter(Context context) {
         this.mContext  = context;
@@ -34,6 +35,10 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
     public void setData(ArrayList<Pokemon> list) {
         this.mPokemons = list;
         notifyDataSetChanged();
+    }
+
+    public void updateItem(int position) {
+        notifyItemChanged(position);
     }
 
     @NonNull
@@ -49,24 +54,27 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
         if (pokemon == null) {
             return;
         }
-        Picasso.get().load(pokemon.getImageUrl()).into(holder.pokeImage);
-        holder.pokeName.setText(pokemon.getName());
-        holder.pokeLayoutCard.setBackgroundColor(Color.parseColor(BackgroundColor.of(pokemon.getType())));
+        if (pokemon.getImageUrl() != "") {
+
+            holder.progress_bar.setVisibility(View.INVISIBLE);
+            Picasso.get().load(pokemon.getImageUrl()).into(holder.pokeImage);
+            holder.pokeName.setText(pokemon.getName());
+            holder.pokeLayoutCard.setBackgroundColor(Color.parseColor(BackgroundColor.of(pokemon.getType())));
+        }
     }
 
     @Override
     public int getItemCount() {
-        if (mPokemons != null) {
-            return mPokemons.size();
-         }
-        return 0;
+        return mPokemons.size();
     }
+
 
     public class PokemonViewHolder  extends RecyclerView.ViewHolder {
 
         private ImageView pokeImage;
         private TextView pokeName;
         private LinearLayout pokeLayoutCard;
+        private ProgressBar progress_bar;
 
         public PokemonViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,6 +82,7 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
             pokeImage = itemView.findViewById(R.id.poke_image);
             pokeName = itemView.findViewById(R.id.poke_name );
             pokeLayoutCard = itemView.findViewById(R.id.poke_layout_card);
+            progress_bar = itemView.findViewById(R.id.progress_bar);
         }
     }
 
