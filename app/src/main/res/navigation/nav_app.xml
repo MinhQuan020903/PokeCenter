@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_customerFragment_to_customerPokedexFragment"
             app:destination="@id/customerPokedexFragment" />
+        <action
+            android:id="@+id/action_customerFragment_to_productByPokemonFragment"
+            app:destination="@id/productByPokemonFragment" />
     </fragment>
     <fragment
         android:id="@+id/venderFragment"
@@ -63,5 +66,21 @@
         android:id="@+id/customerPokedexFragment"
         android:name="com.example.pokecenter.customer.lam.CustomerPokedexFragment"
         android:label="fragment_customer_pokedex"
-        tools:layout="@layout/fragment_customer_pokedex" />
+        tools:layout="@layout/fragment_customer_pokedex" >
+        <action
+            android:id="@+id/action_customerPokedexFragment_to_productByPokemonFragment"
+            app:destination="@id/productByPokemonFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productByPokemonFragment"
+        android:name="com.example.pokecenter.customer.lam.ProductByPokemonFragment"
+        android:label="fragment_product_by_pokemon"
+        tools:layout="@layout/fragment_product_by_pokemon" >
+        <argument
+            android:name="pokemon"
+            app:argType="com.example.pokecenter.customer.lam.Model.pokemon.Pokemon" />
+        <argument
+            android:name="sender"
+            app:argType="string" />
+    </fragment>
 </navigation>

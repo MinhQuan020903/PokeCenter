@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.Interface.RecyclerViewInterface;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -28,13 +29,20 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
     private Context mContext;
     private ArrayList<Pokemon> mPokemons = new ArrayList<>();
 
-    public PokemonAdapter(Context context) {
+    private final RecyclerViewInterface recyclerViewInterface;
+
+    public PokemonAdapter(Context context, RecyclerViewInterface recyclerViewInterface) {
         this.mContext  = context;
+        this.recyclerViewInterface = recyclerViewInterface;
     }
 
     public void setData(ArrayList<Pokemon> list) {
         this.mPokemons = list;
         notifyDataSetChanged();
+    }
+
+    public Pokemon getItem(int position) {
+        return mPokemons.get(position);
     }
 
     public void updateItem(int position) {
@@ -45,7 +53,7 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
     @Override
     public PokemonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lam_poke_card_view, parent, false);
-        return new PokemonViewHolder(view);
+        return new PokemonViewHolder(view, recyclerViewInterface);
     }
 
     @Override
@@ -59,7 +67,7 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
             holder.progress_bar.setVisibility(View.INVISIBLE);
             Picasso.get().load(pokemon.getImageUrl()).into(holder.pokeImage);
             holder.pokeName.setText(pokemon.getName());
-            holder.pokeLayoutCard.setBackgroundColor(Color.parseColor(BackgroundColor.of(pokemon.getType())));
+            holder.pokeLayoutCard.setBackgroundColor(Color.parseColor(PokemonBackgroundColor.of(pokemon.getType())));
         }
     }
 
@@ -69,47 +77,33 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
     }
 
 
-    public class PokemonViewHolder  extends RecyclerView.ViewHolder {
+    public static class PokemonViewHolder  extends RecyclerView.ViewHolder {
 
         private ImageView pokeImage;
         private TextView pokeName;
         private LinearLayout pokeLayoutCard;
         private ProgressBar progress_bar;
 
-        public PokemonViewHolder(@NonNull View itemView) {
+        public PokemonViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface ) {
             super(itemView);
 
             pokeImage = itemView.findViewById(R.id.poke_image);
             pokeName = itemView.findViewById(R.id.poke_name );
             pokeLayoutCard = itemView.findViewById(R.id.poke_layout_card);
             progress_bar = itemView.findViewById(R.id.progress_bar);
+
+            itemView.setOnClickListener(view -> {
+                if (recyclerViewInterface != null) {
+                    int pos = getAbsoluteAdapterPosition();
+
+                    if (pos != RecyclerView.NO_POSITION) {
+                         recyclerViewInterface.onItemClick(pos);
+                    }
+                }
+            });
         }
     }
 
-    public static class BackgroundColor {
-        public static String of(String type) {
-            Map<String, String> colors = new HashMap<>();
 
-            colors.put("fire", "#FDDFDF");
-            colors.put("grass", "#DEFDE0");
-            colors.put("electric", "#FCF7DE");
-            colors.put("water", "#DEF3FD");
-            colors.put("ground", "#F4E7DA");
-            colors.put("rock", "#D5D5D4");
-            colors.put("fairy", "#FCEAFF");
-            colors.put("poison", "#BF80B2");
-            colors.put("bug", "#F8D5A3");
-            colors.put("dragon", "#97B3E6");
-            colors.put("psychic", "#EAEDA1");
-            colors.put("flying", "#F5F5F5");
-            colors.put("fighting", "#E6E0D4");
-            colors.put("steel", "#DCDCE3");
-            colors.put("ice", "#BFEAFF");
-            colors.put("normal", "#F5F5F5");
-            colors.put("dark", "#966A54");
-            colors.put("ghost", "#9898D1");
-            return colors.get(type);
-        }
-    }
 }
 

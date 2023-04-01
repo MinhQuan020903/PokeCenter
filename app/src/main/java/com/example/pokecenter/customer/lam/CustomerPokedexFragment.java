@@ -6,6 +6,8 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +22,10 @@ import android.widget.TextView;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.PokeApiFetcher;
+import com.example.pokecenter.customer.lam.CustomerTab.CustomerFragment;
+import com.example.pokecenter.customer.lam.CustomerTab.CustomerFragmentDirections;
+import com.example.pokecenter.customer.lam.CustomerTab.CustomerHomeFragment;
+import com.example.pokecenter.customer.lam.Interface.RecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
 import com.example.pokecenter.customer.lam.Model.pokemon.PokemonAdapter;
 import com.example.pokecenter.databinding.FragmentCustomerPokedexBinding;
@@ -35,7 +41,7 @@ import java.util.concurrent.Executors;
  * Use the {@link CustomerPokedexFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CustomerPokedexFragment extends Fragment {
+public class CustomerPokedexFragment extends Fragment implements RecyclerViewInterface {
 
     private FragmentCustomerPokedexBinding binding;
 
@@ -91,7 +97,7 @@ public class CustomerPokedexFragment extends Fragment {
         binding = FragmentCustomerPokedexBinding.inflate(inflater, container, false);
 
         rcvGridPokemon = binding.rcvGridPokemon;
-        pokemonAdapter = new PokemonAdapter(getContext());
+        pokemonAdapter = new PokemonAdapter(getContext(),  this);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         rcvGridPokemon.setLayoutManager(gridLayoutManager);
@@ -109,7 +115,6 @@ public class CustomerPokedexFragment extends Fragment {
             inputMethodManager.hideSoftInputFromWindow(binding.searchNameButton.getWindowToken(), 0);
 
             String inputText = String.valueOf(binding.searchNamePokemonBar.getText());
-            ProgressBar progressBar = binding.fetchPokemonByNameProgressBar;
 
             ExecutorService executor = Executors.newSingleThreadExecutor();
             Handler handler = new Handler(Looper.getMainLooper());
@@ -122,6 +127,13 @@ public class CustomerPokedexFragment extends Fragment {
                     pokemonLoading.add(new Pokemon(allPokeName[i], "", ""));
                 }
             }
+
+            if (pokemonLoading.isEmpty()) {
+                return;
+            }
+
+            binding.shatoshiImage.setVisibility(View.INVISIBLE);
+
             pokemonAdapter.setData(pokemonLoading);
 
 
@@ -148,5 +160,17 @@ public class CustomerPokedexFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Pokemon pokemon = pokemonAdapter.getItem(position);
+        if (!pokemon.getImageUrl().isEmpty()) {
+            NavDirections action = CustomerPokedexFragmentDirections.actionCustomerPokedexFragmentToProductByPokemonFragment(pokemon, "PokedexFragment");
+
+            NavHostFragment.findNavController(CustomerPokedexFragment.this)
+                    .navigate(action);
+
+        }
     }
 }
