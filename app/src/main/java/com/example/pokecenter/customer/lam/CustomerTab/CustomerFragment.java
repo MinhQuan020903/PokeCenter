@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pokecenter.R;
-import com.example.pokecenter.customer.quan.ProfileCustomerFragment;
+import com.example.pokecenter.customer.quan.CustomerProfileFragment;
 import com.example.pokecenter.databinding.FragmentCustomerBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -77,7 +77,7 @@ public class CustomerFragment extends Fragment {
         Fragment payment = new CustomerPaymentFragment();
         Fragment notifications = new CustomerNotificationsFragment();
         Fragment shoppingCart = new CustomerShoppingCartFragment();
-        Fragment profile = new ProfileCustomerFragment();
+        Fragment profile = new CustomerProfileFragment();
 
         // Move between fragments
         customerBottomNavigationView.setOnItemSelectedListener(item -> {
@@ -94,7 +94,7 @@ public class CustomerFragment extends Fragment {
                 case R.id.customerShoppingCardFragment:
                     replaceFragment(shoppingCart);
                     break;
-                case R.id.profileCustomerFragment:
+                case R.id.customerProfileFragment:
                     replaceFragment(profile);
                     break;
             }

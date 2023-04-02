@@ -110,7 +110,7 @@ public class CustomerHomeFragment extends Fragment implements RecyclerViewInterf
         // Move to Profile Fragment when User click on avatarImage
         binding.avatarImage.setOnClickListener(view -> {
             // Set selectedItem in Bottom Nav Bar
-            CustomerFragment.customerBottomNavigationView.setSelectedItemId(R.id.profileCustomerFragment);
+            CustomerFragment.customerBottomNavigationView.setSelectedItemId(R.id.customerProfileFragment);
         });
 
         binding.viewAllPokedex.setOnClickListener(view -> {
