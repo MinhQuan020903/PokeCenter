@@ -91,10 +91,6 @@ public class ProductByPokemonFragment extends Fragment {
             }
         });
 
-        binding.shoppingCartButton.setOnClickListener(view -> {
-
-        });
-
         return binding.getRoot();
     }
 

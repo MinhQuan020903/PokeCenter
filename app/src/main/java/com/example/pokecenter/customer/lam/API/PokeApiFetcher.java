@@ -114,6 +114,55 @@ public class PokeApiFetcher {
         }
 
     }
+
+    public static Pokemon fetchPokemonById(int Id) {
+        try {
+            URL url = new URL("https://pokeapi.co/api/v2/pokemon/" + Id);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.connect();
+
+            int responseCode = -1;
+            while (responseCode != 200){
+                responseCode = conn.getResponseCode();
+                if (responseCode != 200) {
+                    System.out.println("HTTP response code: " + responseCode);
+                }
+            }
+            String inline = "";
+            Scanner scanner = new Scanner(url.openStream());
+            while (scanner.hasNext()) {
+                inline += scanner.nextLine();
+            }
+            scanner.close();
+
+            JSONObject data = new JSONObject(inline);
+            String pokemonName = data.getString("name");
+
+            String imageUrl = String.format("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/%d.png", Id);
+
+            JSONArray types = data.getJSONArray("types");
+            String type = types.getJSONObject(0).getJSONObject("type").getString("name");
+
+            String normalizeName = pokemonName.substring(0, 1).toUpperCase() + pokemonName.substring(1);
+
+            Pokemon fetchedPokemon = new Pokemon(normalizeName, imageUrl, type);
+
+            pokemonSearchData.add(fetchedPokemon);
+
+            return fetchedPokemon;
+
+        } catch (ProtocolException ex) {
+            throw new RuntimeException(ex);
+        } catch (MalformedURLException ex) {
+            throw new RuntimeException(ex);
+        } catch (JSONException ex) {
+            throw new RuntimeException(ex);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
     public static String[] allPokeName = {
             "bulbasaur",
             "ivysaur",

@@ -41,6 +41,16 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
         notifyDataSetChanged();
     }
 
+    public void addData(ArrayList<Pokemon> list) {
+        this.mPokemons.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void clearData() {
+        this.mPokemons.clear();
+        notifyDataSetChanged();
+    }
+
     public Pokemon getItem(int position) {
         return mPokemons.get(position);
     }
@@ -75,6 +85,7 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
     public int getItemCount() {
         return mPokemons.size();
     }
+
 
 
     public static class PokemonViewHolder  extends RecyclerView.ViewHolder {

@@ -73,6 +73,7 @@
                 android:paddingHorizontal="10dp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
+                android:textAlignment="center"
                 tools:text="Glaceon" />
         </LinearLayout>
 

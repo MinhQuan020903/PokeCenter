@@ -5,6 +5,7 @@ import static com.example.pokecenter.customer.lam.API.PokeApiFetcher.allPokeName
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
@@ -13,10 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -44,9 +50,16 @@ import java.util.concurrent.Executors;
 public class CustomerPokedexFragment extends Fragment implements RecyclerViewInterface {
 
     private FragmentCustomerPokedexBinding binding;
-
     private RecyclerView rcvGridPokemon;
     private PokemonAdapter pokemonAdapter;
+    int index = (int) (Math.random() * 900) + 1;
+
+    ExecutorService executor = Executors.newSingleThreadExecutor();
+    Handler handler = new Handler(Looper.getMainLooper());
+
+    Button viewMoreButton;
+
+    String inputText = "";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -86,8 +99,6 @@ public class CustomerPokedexFragment extends Fragment implements RecyclerViewInt
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-        System.out.println("recreate");
     }
 
     @Override
@@ -106,19 +117,43 @@ public class CustomerPokedexFragment extends Fragment implements RecyclerViewInt
 
         InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 
+        viewMoreButton = binding.viewMoreButton;
+
+        if (!inputText.isEmpty()) {
+            binding.viewMoreButton.setVisibility(View.INVISIBLE);
+        }
+
         if (!PokeApiFetcher.pokemonSearchData.isEmpty()) {
             pokemonAdapter.setData(PokeApiFetcher.pokemonSearchData);
         }
+        else {
+            // Lần đầu truy cập fragment
+            AddPokemonToRecyclerView();
+        }
 
+        binding.viewMoreButton.setOnClickListener(view -> {
+            AddPokemonToRecyclerView();
+        });
+
+        // Tìm kiếm pokemon
         binding.searchNameButton.setOnClickListener(view -> {
+
+            inputText = binding.searchNamePokemonBar.getText().toString();
+
+            if (inputText.isEmpty()) {
+                return;
+            }
+
+            binding.viewMoreButton.setVisibility(View.INVISIBLE);
+
             // Ẩn Keyboard
             inputMethodManager.hideSoftInputFromWindow(binding.searchNameButton.getWindowToken(), 0);
 
-            String inputText = String.valueOf(binding.searchNamePokemonBar.getText());
+            // Clear pokemonApapter's Data;
+            pokemonAdapter.clearData();
 
-            ExecutorService executor = Executors.newSingleThreadExecutor();
-            Handler handler = new Handler(Looper.getMainLooper());
-
+            // Clear pokemonSearchData;
+            PokeApiFetcher.pokemonSearchData.clear();
 
             ArrayList<Pokemon> pokemonLoading = new ArrayList<>();
 
@@ -132,10 +167,7 @@ public class CustomerPokedexFragment extends Fragment implements RecyclerViewInt
                 return;
             }
 
-            binding.shatoshiImage.setVisibility(View.INVISIBLE);
-
             pokemonAdapter.setData(pokemonLoading);
-
 
             for (int i = 0; i < pokemonLoading.size(); ++i) {
                 Pokemon poke = pokemonLoading.get(i);
@@ -153,6 +185,7 @@ public class CustomerPokedexFragment extends Fragment implements RecyclerViewInt
             }
         });
 
+
         return binding.getRoot();
     }
 
@@ -160,6 +193,38 @@ public class CustomerPokedexFragment extends Fragment implements RecyclerViewInt
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void AddPokemonToRecyclerView() {
+        ArrayList<Pokemon> pokemonLoading = new ArrayList<>();
+
+        for (int i=1; i<=20; ++i) {
+            pokemonLoading.add(new Pokemon("loading", "", ""));
+        }
+
+        pokemonAdapter.addData(pokemonLoading);
+
+        viewMoreButton.setEnabled(false);
+
+        for (int i = 0; i < pokemonLoading.size(); ++i) {
+            Pokemon poke = pokemonLoading.get(i);
+
+            int position = pokemonAdapter.getItemCount() - 20 + i;
+
+            executor.execute(() -> {
+                index = (index + 1) % 902;
+                Pokemon fetchedPokemon = PokeApiFetcher.fetchPokemonById(index);
+                handler.post(() -> {
+                    poke.setName(fetchedPokemon.getName());
+                    poke.setImageUrl(fetchedPokemon.getImageUrl());
+                    poke.setType(fetchedPokemon.getType());
+                    pokemonAdapter.updateItem(position);
+                    if (position + 1 == pokemonAdapter.getItemCount()) {
+                        viewMoreButton.setEnabled(true);
+                    }
+                });
+            });
+        }
     }
 
     @Override
@@ -170,7 +235,6 @@ public class CustomerPokedexFragment extends Fragment implements RecyclerViewInt
 
             NavHostFragment.findNavController(CustomerPokedexFragment.this)
                     .navigate(action);
-
         }
     }
 }
