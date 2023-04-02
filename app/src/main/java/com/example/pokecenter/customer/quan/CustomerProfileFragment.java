@@ -3,6 +3,8 @@ package com.example.pokecenter.customer.quan;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +15,10 @@ import com.example.pokecenter.databinding.FragmentCustomerProfileBinding;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ProfileCustomerFragment#newInstance} factory method to
+ * Use the {@link CustomerProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfileCustomerFragment extends Fragment {
+public class CustomerProfileFragment extends Fragment {
 
     private FragmentCustomerProfileBinding binding;
 
@@ -29,7 +31,7 @@ public class ProfileCustomerFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ProfileCustomerFragment() {
+    public CustomerProfileFragment() {
         // Required empty public constructor
     }
 
@@ -39,11 +41,11 @@ public class ProfileCustomerFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileFragment.
+     * @return A new instance of fragment CustomerProfile.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProfileCustomerFragment newInstance(String param1, String param2) {
-        ProfileCustomerFragment fragment = new ProfileCustomerFragment();
+    public static CustomerProfileFragment newInstance(String param1, String param2) {
+        CustomerProfileFragment fragment = new CustomerProfileFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -67,9 +69,20 @@ public class ProfileCustomerFragment extends Fragment {
         binding = FragmentCustomerProfileBinding.inflate(inflater, container, false);
 
 
-
-
+        binding.AccountInformationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                customerProfileAccountInfoFragment customerProfileAccountInfoFragment = new customerProfileAccountInfoFragment();
+                replaceFragment(customerProfileAccountInfoFragment);
+            }
+        });
         return binding.getRoot();
+    }
 
+    private void replaceFragment(Fragment selectedFragment) {
+        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.ProfileCustomerFragment, selectedFragment);
+        fragmentTransaction.commit();
     }
 }
