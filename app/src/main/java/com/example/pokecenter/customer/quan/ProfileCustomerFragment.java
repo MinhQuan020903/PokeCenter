@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.databinding.FragmentCustomerProfileBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +17,8 @@ import com.example.pokecenter.R;
  * create an instance of this fragment.
  */
 public class ProfileCustomerFragment extends Fragment {
+
+    private FragmentCustomerProfileBinding binding;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +64,12 @@ public class ProfileCustomerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_customer_profile, container, false);
+        binding = FragmentCustomerProfileBinding.inflate(inflater, container, false);
+
+
+
+
+        return binding.getRoot();
+
     }
 }
