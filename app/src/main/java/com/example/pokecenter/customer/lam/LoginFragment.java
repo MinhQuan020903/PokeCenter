@@ -4,6 +4,8 @@ import static androidx.core.content.ContextCompat.getDrawable;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -20,7 +22,12 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.pokecenter.Account;
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.API.PokeApiFetcher;
+import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
 import com.example.pokecenter.databinding.FragmentLoginBinding;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,11 +82,16 @@ public class LoginFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         // Inflate the layout for this fragment
         binding = FragmentLoginBinding.inflate(inflater, container, false);
 

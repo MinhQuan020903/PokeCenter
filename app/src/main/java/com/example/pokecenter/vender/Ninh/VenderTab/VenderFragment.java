@@ -90,6 +90,7 @@ public class VenderFragment extends Fragment {
                     replaceFragment(new VenderSupportFragment());
                     break;
                 default:
+                case R.id.venderProfileNav:
                     replaceFragment(new VenderProfileFragment());
                     break;
             }
