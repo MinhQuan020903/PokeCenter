@@ -126,6 +126,9 @@ public class CustomerPokedexFragment extends Fragment implements RecyclerViewInt
         if (!PokeApiFetcher.pokemonSearchData.isEmpty()) {
             pokemonAdapter.setData(PokeApiFetcher.pokemonSearchData);
         }
+        else if (!PokeApiFetcher.pokeDexDemoData.isEmpty()) {
+            pokemonAdapter.setData(PokeApiFetcher.pokeDexDemoData);
+        }
         else {
             // Lần đầu truy cập fragment
             AddPokemonToRecyclerView();
@@ -157,9 +160,15 @@ public class CustomerPokedexFragment extends Fragment implements RecyclerViewInt
 
             ArrayList<Pokemon> pokemonLoading = new ArrayList<>();
 
+            int limit = 50;
+
             for (int i=0; i<=900; ++i) {
                 if (allPokeName[i].contains(inputText)) {
                     pokemonLoading.add(new Pokemon(allPokeName[i], "", ""));
+                    limit--;
+                    if (limit == 0) {
+                        break;
+                    }
                 }
             }
 
