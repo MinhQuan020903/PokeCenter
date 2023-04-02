@@ -2,6 +2,7 @@ package com.example.pokecenter.customer.lam.CustomerTab;
 
 import static androidx.core.content.ContextCompat.getColor;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,14 +13,18 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.PokeApiFetcher;
+import com.example.pokecenter.customer.lam.Interface.RecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
 import com.example.pokecenter.customer.lam.Model.pokemon.PokemonAdapter;
+import com.example.pokecenter.customer.lam.ProductByPokemonFragment;
 import com.example.pokecenter.databinding.FragmentCustomerHomeBinding;
 
 import java.util.ArrayList;
@@ -31,7 +36,7 @@ import java.util.concurrent.Executors;
  * Use the {@link CustomerHomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CustomerHomeFragment extends Fragment {
+public class CustomerHomeFragment extends Fragment implements RecyclerViewInterface {
 
     private FragmentCustomerHomeBinding binding;
     private RecyclerView rcvPokemon;
@@ -116,37 +121,44 @@ public class CustomerHomeFragment extends Fragment {
 
         // _______Pokedex________
         rcvPokemon = binding.rcvHorizontalPokemon;
-        pokemonAdapter = new PokemonAdapter(getContext());
+        pokemonAdapter = new PokemonAdapter(getContext(), this);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
         rcvPokemon.setLayoutManager(linearLayoutManager);
-
-        // Chỗ này là để set Data cho Adapter là những cái loading Card
-        ArrayList<Pokemon> loadingPokemons = new ArrayList<>();
-        for (int i = 1; i <= 10; ++i) {
-            loadingPokemons.add(new Pokemon("loading", "", ""));
-        }
-
-        pokemonAdapter.setData(loadingPokemons);
         rcvPokemon.setAdapter(pokemonAdapter);
 
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
+        if (PokeApiFetcher.pokemonDemoData.isEmpty()) {
+            // Chỗ này là để set Data cho Adapter là những cái loading Card
+            ArrayList<Pokemon> loadingPokemons = new ArrayList<>();
+            for (int i = 1; i <= 10; ++i) {
+                loadingPokemons.add(new Pokemon("loading", "", ""));
+            }
 
-        for (int i = 0; i < loadingPokemons.size(); ++i) {
-            Pokemon poke = loadingPokemons.get(i);
+            pokemonAdapter.setData(loadingPokemons);
 
-            int finalI = i;
-            executor.execute(() -> {
-                Pokemon fetchedPokemon = PokeApiFetcher.fetchPokemonRandom();
-                handler.post(() -> {
-                    poke.setName(fetchedPokemon.getName());
-                    poke.setImageUrl(fetchedPokemon.getImageUrl());
-                    poke.setType(fetchedPokemon.getType());
-                    pokemonAdapter.updateItem(finalI);
+
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+
+            for (int i = 0; i < loadingPokemons.size(); ++i) {
+                Pokemon poke = loadingPokemons.get(i);
+
+                int finalI = i;
+                executor.execute(() -> {
+                    Pokemon fetchedPokemon = PokeApiFetcher.fetchPokemonRandom();
+                    handler.post(() -> {
+                        poke.setName(fetchedPokemon.getName());
+                        poke.setImageUrl(fetchedPokemon.getImageUrl());
+                        poke.setType(fetchedPokemon.getType());
+                        pokemonAdapter.updateItem(finalI);
+                    });
                 });
-            });
+            }
         }
+        else {
+            pokemonAdapter.setData(PokeApiFetcher.pokemonDemoData);
+        }
+
 
         return binding.getRoot();
     }
@@ -155,5 +167,17 @@ public class CustomerHomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Pokemon pokemon = pokemonAdapter.getItem(position);
+        if (!pokemon.getImageUrl().isEmpty()) {
+            NavDirections action = CustomerFragmentDirections.actionCustomerFragmentToProductByPokemonFragment(pokemon, "CustomerHomeFragment");
+
+            NavHostFragment.findNavController(CustomerHomeFragment.this)
+                    .navigate(action);
+
+        }
     }
 }

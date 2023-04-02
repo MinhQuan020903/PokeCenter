@@ -7,7 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_vertical"
     android:orientation="vertical"
-
+    android:background="@color/light_canvas"
     android:padding="13dp"
     tools:context=".customer.lam.LoginFragment">
 
