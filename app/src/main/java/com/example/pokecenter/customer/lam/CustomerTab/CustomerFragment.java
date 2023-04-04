@@ -23,6 +23,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class CustomerFragment extends Fragment {
     private FragmentCustomerBinding binding;
 
+    private int selectedFragment = R.id.customerHomeFragment;
     public static BottomNavigationView customerBottomNavigationView;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -83,18 +84,23 @@ public class CustomerFragment extends Fragment {
         customerBottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.customerHomeFragment:
+                    selectedFragment = R.id.customerHomeFragment;
                     replaceFragment(home);
                     break;
                 case R.id.customerPaymentFragment:
+                    selectedFragment = R.id.customerPaymentFragment;
                     replaceFragment(payment);
                     break;
                 case R.id.customerNotificationsFragment:
+                    selectedFragment = R.id.customerNotificationsFragment;
                     replaceFragment(notifications);
                     break;
                 case R.id.customerShoppingCardFragment:
+                    selectedFragment = R.id.customerShoppingCardFragment;
                     replaceFragment(shoppingCart);
                     break;
                 case R.id.customerProfileFragment:
+                    selectedFragment = R.id.customerProfileFragment;
                     replaceFragment(profile);
                     break;
             }
@@ -108,7 +114,8 @@ public class CustomerFragment extends Fragment {
         => Thực thi lệnh "replaceFragment(new CustomerHomePlaceholderFragment());"
         => Nội dung page cũng sẽ thay đổi theo
          */
-        customerBottomNavigationView.setSelectedItemId(R.id.customerHomeFragment);
+
+        customerBottomNavigationView.setSelectedItemId(selectedFragment);
 
         return binding.getRoot();
     }

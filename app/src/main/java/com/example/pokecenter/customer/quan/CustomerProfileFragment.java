@@ -3,8 +3,9 @@ package com.example.pokecenter.customer.quan;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,21 +69,14 @@ public class CustomerProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentCustomerProfileBinding.inflate(inflater, container, false);
 
-
-        binding.AccountInformationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                customerProfileAccountInfoFragment customerProfileAccountInfoFragment = new customerProfileAccountInfoFragment();
-                replaceFragment(customerProfileAccountInfoFragment);
-            }
+        binding.AccountInformationButton.setOnClickListener(view -> {
+            NavHostFragment.findNavController(CustomerProfileFragment.this)
+                    .navigate(R.id.action_customerFragment_to_customerProfileAccountInfoFragment);
         });
+
         return binding.getRoot();
     }
 
     private void replaceFragment(Fragment selectedFragment) {
-        FragmentManager fragmentManager = getChildFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.ProfileCustomerFragment, selectedFragment);
-        fragmentTransaction.commit();
     }
 }

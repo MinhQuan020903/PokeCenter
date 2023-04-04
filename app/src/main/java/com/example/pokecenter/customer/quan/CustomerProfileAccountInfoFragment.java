@@ -3,20 +3,28 @@ package com.example.pokecenter.customer.quan;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.NavHostController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.databinding.FragmentCustomerProfileAccountInfoBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link customerProfileAccountInfoFragment#newInstance} factory method to
+ * Use the {@link CustomerProfileAccountInfoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class customerProfileAccountInfoFragment extends Fragment {
+public class CustomerProfileAccountInfoFragment extends Fragment {
 
+    private FragmentCustomerProfileAccountInfoBinding binding;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -26,7 +34,7 @@ public class customerProfileAccountInfoFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public customerProfileAccountInfoFragment() {
+    public CustomerProfileAccountInfoFragment() {
         // Required empty public constructor
     }
 
@@ -39,8 +47,8 @@ public class customerProfileAccountInfoFragment extends Fragment {
      * @return A new instance of fragment customerProfileAccountInfoFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static customerProfileAccountInfoFragment newInstance(String param1, String param2) {
-        customerProfileAccountInfoFragment fragment = new customerProfileAccountInfoFragment();
+    public static CustomerProfileAccountInfoFragment newInstance(String param1, String param2) {
+        CustomerProfileAccountInfoFragment fragment = new CustomerProfileAccountInfoFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +69,12 @@ public class customerProfileAccountInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_customer_profile_account_info, container, false);
+        binding = FragmentCustomerProfileAccountInfoBinding.inflate(inflater, container, false);
+
+        binding.backButton.setOnClickListener(view -> {
+            NavHostFragment.findNavController(this).navigateUp();
+        });
+
+        return binding.getRoot();
     }
 }
