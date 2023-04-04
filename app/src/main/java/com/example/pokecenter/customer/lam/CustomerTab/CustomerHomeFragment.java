@@ -173,7 +173,7 @@ public class CustomerHomeFragment extends Fragment implements RecyclerViewInterf
     public void onItemClick(int position) {
         Pokemon pokemon = pokemonAdapter.getItem(position);
         if (!pokemon.getImageUrl().isEmpty()) {
-            NavDirections action = CustomerFragmentDirections.actionCustomerFragmentToProductByPokemonFragment(pokemon, "CustomerHomeFragment");
+            NavDirections action = CustomerFragmentDirections.actionCustomerFragmentToProductByPokemonFragment(pokemon);
 
             NavHostFragment.findNavController(CustomerHomeFragment.this)
                     .navigate(action);

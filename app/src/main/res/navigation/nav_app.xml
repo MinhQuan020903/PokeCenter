@@ -79,9 +79,6 @@
         <argument
             android:name="pokemon"
             app:argType="com.example.pokecenter.customer.lam.Model.pokemon.Pokemon" />
-        <argument
-            android:name="sender"
-            app:argType="string" />
         <action
             android:id="@+id/action_productByPokemonFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />

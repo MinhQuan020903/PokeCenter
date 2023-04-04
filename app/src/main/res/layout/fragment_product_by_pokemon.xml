@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             tools:text="Glaceon"
             android:textStyle="bold"
-            android:textSize="26sp"
+            android:textSize="30sp"
             android:layout_weight="1"
             android:textColor="@color/black"
             android:gravity="center_horizontal"/>

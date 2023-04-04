@@ -119,6 +119,11 @@ public class CustomerPokedexFragment extends Fragment implements RecyclerViewInt
 
         viewMoreButton = binding.viewMoreButton;
 
+        binding.backButton.setOnClickListener(view -> {
+            NavHostFragment.findNavController(this)
+                    .navigateUp();
+        });
+
         if (!inputText.isEmpty()) {
             binding.viewMoreButton.setVisibility(View.INVISIBLE);
         }
@@ -240,7 +245,7 @@ public class CustomerPokedexFragment extends Fragment implements RecyclerViewInt
     public void onItemClick(int position) {
         Pokemon pokemon = pokemonAdapter.getItem(position);
         if (!pokemon.getImageUrl().isEmpty()) {
-            NavDirections action = CustomerPokedexFragmentDirections.actionCustomerPokedexFragmentToProductByPokemonFragment(pokemon, "PokedexFragment");
+            NavDirections action = CustomerPokedexFragmentDirections.actionCustomerPokedexFragmentToProductByPokemonFragment(pokemon);
 
             NavHostFragment.findNavController(CustomerPokedexFragment.this)
                     .navigate(action);
