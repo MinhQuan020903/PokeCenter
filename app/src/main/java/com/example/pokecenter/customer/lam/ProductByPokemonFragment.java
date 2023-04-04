@@ -74,21 +74,12 @@ public class ProductByPokemonFragment extends Fragment {
         binding = FragmentProductByPokemonBinding.inflate(inflater, container, false);
 
         Pokemon receivedPokemon = ProductByPokemonFragmentArgs.fromBundle(getArguments()).getPokemon();
-        String sender = ProductByPokemonFragmentArgs.fromBundle(getArguments()).getSender();
 
         binding.pokeName.setText(receivedPokemon.getName());
 
         binding.backButton.setOnClickListener(view -> {
-            switch (sender) {
-                case "CustomerHomeFragment":
-                    NavHostFragment.findNavController(this)
-                            .navigateUp();
-                    break;
-                case "PokedexFragment":
-                    NavHostFragment.findNavController(this)
-                            .navigateUp();
-                    break;
-            }
+            NavHostFragment.findNavController(this)
+                    .navigateUp();
         });
 
         return binding.getRoot();

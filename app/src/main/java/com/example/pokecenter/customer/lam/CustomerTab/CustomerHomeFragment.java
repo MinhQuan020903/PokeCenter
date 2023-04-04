@@ -127,7 +127,7 @@ public class CustomerHomeFragment extends Fragment implements RecyclerViewInterf
         rcvPokemon.setLayoutManager(linearLayoutManager);
         rcvPokemon.setAdapter(pokemonAdapter);
 
-        if (PokeApiFetcher.pokemonDemoData.isEmpty()) {
+        if (PokeApiFetcher.pokemonHomeDemoData.isEmpty()) {
             // Chỗ này là để set Data cho Adapter là những cái loading Card
             ArrayList<Pokemon> loadingPokemons = new ArrayList<>();
             for (int i = 1; i <= 10; ++i) {
@@ -156,7 +156,7 @@ public class CustomerHomeFragment extends Fragment implements RecyclerViewInterf
             }
         }
         else {
-            pokemonAdapter.setData(PokeApiFetcher.pokemonDemoData);
+            pokemonAdapter.setData(PokeApiFetcher.pokemonHomeDemoData);
         }
 
 
@@ -173,7 +173,7 @@ public class CustomerHomeFragment extends Fragment implements RecyclerViewInterf
     public void onItemClick(int position) {
         Pokemon pokemon = pokemonAdapter.getItem(position);
         if (!pokemon.getImageUrl().isEmpty()) {
-            NavDirections action = CustomerFragmentDirections.actionCustomerFragmentToProductByPokemonFragment(pokemon, "CustomerHomeFragment");
+            NavDirections action = CustomerFragmentDirections.actionCustomerFragmentToProductByPokemonFragment(pokemon);
 
             NavHostFragment.findNavController(CustomerHomeFragment.this)
                     .navigate(action);

@@ -119,12 +119,20 @@ public class CustomerPokedexFragment extends Fragment implements RecyclerViewInt
 
         viewMoreButton = binding.viewMoreButton;
 
+        binding.backButton.setOnClickListener(view -> {
+            NavHostFragment.findNavController(this)
+                    .navigateUp();
+        });
+
         if (!inputText.isEmpty()) {
             binding.viewMoreButton.setVisibility(View.INVISIBLE);
         }
 
         if (!PokeApiFetcher.pokemonSearchData.isEmpty()) {
             pokemonAdapter.setData(PokeApiFetcher.pokemonSearchData);
+        }
+        else if (!PokeApiFetcher.pokeDexDemoData.isEmpty()) {
+            pokemonAdapter.setData(PokeApiFetcher.pokeDexDemoData);
         }
         else {
             // Lần đầu truy cập fragment
@@ -157,9 +165,15 @@ public class CustomerPokedexFragment extends Fragment implements RecyclerViewInt
 
             ArrayList<Pokemon> pokemonLoading = new ArrayList<>();
 
+            int limit = 50;
+
             for (int i=0; i<=900; ++i) {
                 if (allPokeName[i].contains(inputText)) {
                     pokemonLoading.add(new Pokemon(allPokeName[i], "", ""));
+                    limit--;
+                    if (limit == 0) {
+                        break;
+                    }
                 }
             }
 
@@ -231,7 +245,7 @@ public class CustomerPokedexFragment extends Fragment implements RecyclerViewInt
     public void onItemClick(int position) {
         Pokemon pokemon = pokemonAdapter.getItem(position);
         if (!pokemon.getImageUrl().isEmpty()) {
-            NavDirections action = CustomerPokedexFragmentDirections.actionCustomerPokedexFragmentToProductByPokemonFragment(pokemon, "PokedexFragment");
+            NavDirections action = CustomerPokedexFragmentDirections.actionCustomerPokedexFragmentToProductByPokemonFragment(pokemon);
 
             NavHostFragment.findNavController(CustomerPokedexFragment.this)
                     .navigate(action);

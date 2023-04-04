@@ -16,7 +16,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PokeApiFetcher {
-    public static ArrayList<Pokemon> pokemonDemoData = new ArrayList<>();
+    public static ArrayList<Pokemon> pokemonHomeDemoData = new ArrayList<>();
+
+    public static ArrayList<Pokemon> pokeDexDemoData =  new ArrayList<>();
 
     public static ArrayList<Pokemon> pokemonSearchData = new ArrayList<>();
     public static Pokemon fetchPokemonRandom() {
@@ -51,7 +53,7 @@ public class PokeApiFetcher {
 
             Pokemon fetchedPokemon = new Pokemon(normalizeName, imageUrl, type);
 
-            pokemonDemoData.add(fetchedPokemon);
+            pokemonHomeDemoData.add(fetchedPokemon);
 
             return fetchedPokemon;
 
@@ -148,7 +150,7 @@ public class PokeApiFetcher {
 
             Pokemon fetchedPokemon = new Pokemon(normalizeName, imageUrl, type);
 
-            pokemonSearchData.add(fetchedPokemon);
+            pokeDexDemoData.add(fetchedPokemon);
 
             return fetchedPokemon;
 

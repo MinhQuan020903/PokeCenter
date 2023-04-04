@@ -56,7 +56,9 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
     }
 
     public void updateItem(int position) {
-        notifyItemChanged(position);
+        if (position <= mPokemons.size() - 1) {
+            notifyItemChanged(position);
+        }
     }
 
     @NonNull
