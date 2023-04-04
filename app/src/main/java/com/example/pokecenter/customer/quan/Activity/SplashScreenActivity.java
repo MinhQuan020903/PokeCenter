@@ -36,7 +36,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                 if(binding.progressBar.getProgress() >= 100) {
                     timer.cancel();
                 }
-                Log.d("TAG", progressInt.toString() + " ");
 
             }
         }, 0, 10);
