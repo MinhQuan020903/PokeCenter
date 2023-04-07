@@ -17,14 +17,9 @@
             android:id="@+id/poke_layout_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:background="#F2F2F2"
             android:gravity="center_horizontal|center_vertical"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
@@ -36,7 +31,7 @@
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:layout_marginBottom="12dp"
-                    android:background="@drawable/lam_circle_background"
+                    android:background="@drawable/lam_background_99_white_circle"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +71,5 @@
                 android:textAlignment="center"
                 tools:text="Glaceon" />
         </LinearLayout>
-
-
 
 </androidx.cardview.widget.CardView>
