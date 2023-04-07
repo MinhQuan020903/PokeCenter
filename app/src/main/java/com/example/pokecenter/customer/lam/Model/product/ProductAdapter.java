@@ -1,6 +1,7 @@
 package com.example.pokecenter.customer.lam.Model.product;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
@@ -65,6 +67,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
             NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
 
+            // holder.productPrice.setTypeface(Typeface.MONOSPACE);
             holder.productPrice.setText(currencyFormatter.format(product.getPrice()));
         }
     }
@@ -77,6 +80,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public class ProductViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView productImage;
+        private ImageView favoriteButton;
         private TextView productName;
         private TextView productPrice;
         private ProgressBar progress_bar;
@@ -85,9 +89,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             super(itemView);
 
             productImage = itemView.findViewById(R.id.product_image);
+            favoriteButton = itemView.findViewById(R.id.favoriteButton);
             productName = itemView.findViewById(R.id.product_name);
             productPrice = itemView.findViewById(R.id.product_price);
             progress_bar = itemView.findViewById(R.id.progress_bar);
+
+            favoriteButton.setOnClickListener(view -> {
+                favoriteButton.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.lam_heart_red_fill));
+            });
 
             itemView.setOnClickListener(view -> {
                 if (recyclerViewInterface != null) {
