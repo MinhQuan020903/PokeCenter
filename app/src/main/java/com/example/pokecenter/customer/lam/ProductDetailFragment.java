@@ -1,12 +1,16 @@
-package com.example.pokecenter;
+package com.example.pokecenter.customer.lam;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.pokecenter.R;
+import com.example.pokecenter.databinding.FragmentProductDetailBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +18,8 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class ProductDetailFragment extends Fragment {
+
+    private FragmentProductDetailBinding binding;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,6 +65,19 @@ public class ProductDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_product_detail, container, false);
+        binding = FragmentProductDetailBinding.inflate(inflater, container, false);
+
+        binding.backButton.setOnClickListener(view -> {
+            NavHostFragment.findNavController(this)
+                    .navigateUp();
+        });
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

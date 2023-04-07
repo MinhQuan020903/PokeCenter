@@ -34,6 +34,7 @@ import com.example.pokecenter.customer.lam.CustomerTab.CustomerHomeFragment;
 import com.example.pokecenter.customer.lam.Interface.RecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
 import com.example.pokecenter.customer.lam.Model.pokemon.PokemonAdapter;
+import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.databinding.FragmentCustomerPokedexBinding;
 
 import org.w3c.dom.Text;
@@ -242,13 +243,17 @@ public class CustomerPokedexFragment extends Fragment implements RecyclerViewInt
     }
 
     @Override
-    public void onItemClick(int position) {
-        Pokemon pokemon = pokemonAdapter.getItem(position);
+    public void onPokemonCardClick(Pokemon pokemon) {
         if (!pokemon.getImageUrl().isEmpty()) {
             NavDirections action = CustomerPokedexFragmentDirections.actionCustomerPokedexFragmentToProductByPokemonFragment(pokemon);
 
             NavHostFragment.findNavController(CustomerPokedexFragment.this)
                     .navigate(action);
         }
+    }
+
+    @Override
+    public void onProductCardClick(Product product) {
+
     }
 }

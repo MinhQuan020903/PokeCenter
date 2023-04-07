@@ -22,8 +22,6 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.pokecenter.Account;
 import com.example.pokecenter.R;
-import com.example.pokecenter.customer.lam.API.PokeApiFetcher;
-import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
 import com.example.pokecenter.databinding.FragmentLoginBinding;
 
 import java.util.concurrent.ExecutorService;
@@ -127,7 +125,7 @@ public class LoginFragment extends Fragment {
         binding.eyeButton.setOnClickListener(view -> {
             if (binding.editTextPassword.getInputType() == 129) {
                 binding.editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT);
-                binding.eyeButton.setImageDrawable(getDrawable(getContext(), R.drawable.lam_blind));
+                binding.eyeButton.setImageDrawable(getDrawable(getContext(), R.drawable.lam_eye_blind));
                 // Notes: Thay getContext() bằng requireContext() vẫn chạy oke
             }
             else

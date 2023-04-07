@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +25,8 @@ import com.example.pokecenter.customer.lam.API.PokeApiFetcher;
 import com.example.pokecenter.customer.lam.Interface.RecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
 import com.example.pokecenter.customer.lam.Model.pokemon.PokemonAdapter;
+import com.example.pokecenter.customer.lam.Model.product.Product;
+import com.example.pokecenter.customer.lam.Model.product.ProductAdapter;
 import com.example.pokecenter.customer.lam.ProductByPokemonFragment;
 import com.example.pokecenter.databinding.FragmentCustomerHomeBinding;
 
@@ -41,6 +44,9 @@ public class CustomerHomeFragment extends Fragment implements RecyclerViewInterf
     private FragmentCustomerHomeBinding binding;
     private RecyclerView rcvPokemon;
     private PokemonAdapter pokemonAdapter;
+
+    private RecyclerView rcvProduct;
+    private ProductAdapter productAdapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -159,8 +165,36 @@ public class CustomerHomeFragment extends Fragment implements RecyclerViewInterf
             pokemonAdapter.setData(PokeApiFetcher.pokemonHomeDemoData);
         }
 
+        // _______Trending________
+        rcvProduct = binding.rcvGridProduct;
+        productAdapter = new ProductAdapter(getContext(), this);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        rcvProduct.setLayoutManager(gridLayoutManager);
+
+        // Fake Trending Product
+        productAdapter.setData(mockTrendingData());
+        rcvProduct.setAdapter(productAdapter);
 
         return binding.getRoot();
+    }
+
+    private ArrayList<Product> mockTrendingData() {
+        ArrayList<Product> products = new ArrayList<>();
+        for (int i = 1;i <= 4; ++i) {
+            ArrayList<String> additionalImageUrl = new ArrayList<>();
+            additionalImageUrl.add("https://cdn0.fahasa.com/media/catalog/product/8/9/8935312500578-4.jpg");
+            additionalImageUrl.add("https://cdn0.fahasa.com/media/catalog/product/8/9/8935312500578-3.jpg");
+            additionalImageUrl.add("https://cdn0.fahasa.com/media/catalog/product/8/9/8935312500578-_2_.jpg");
+            products.add(new Product(
+                    "Keeppley B0104 - Mini Bulbasaur (74 Mảnh Ghép)",
+                    "https://cdn0.fahasa.com/media/catalog/product/8/9/8935312500578.jpg",
+                    229000,
+                    4.9f,
+                    20,
+                    additionalImageUrl
+            ));
+        }
+        return products;
     }
 
     @Override
@@ -170,14 +204,23 @@ public class CustomerHomeFragment extends Fragment implements RecyclerViewInterf
     }
 
     @Override
-    public void onItemClick(int position) {
-        Pokemon pokemon = pokemonAdapter.getItem(position);
+    public void onPokemonCardClick(Pokemon pokemon) {
         if (!pokemon.getImageUrl().isEmpty()) {
             NavDirections action = CustomerFragmentDirections.actionCustomerFragmentToProductByPokemonFragment(pokemon);
 
             NavHostFragment.findNavController(CustomerHomeFragment.this)
                     .navigate(action);
 
+        }
+    }
+
+    @Override
+    public void onProductCardClick(Product product) {
+        if (!product.getDefaultImageUrl().isEmpty()) {
+            NavDirections action = CustomerFragmentDirections.actionCustomerFragmentToProductDetailFragment(product);
+
+            NavHostFragment.findNavController(CustomerHomeFragment.this)
+                    .navigate(action);
         }
     }
 }

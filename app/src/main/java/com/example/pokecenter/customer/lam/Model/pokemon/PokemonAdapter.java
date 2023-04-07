@@ -2,7 +2,6 @@ package com.example.pokecenter.customer.lam.Model.pokemon;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
@@ -20,9 +18,6 @@ import com.example.pokecenter.customer.lam.Interface.RecyclerViewInterface;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>{
 
@@ -51,10 +46,6 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
         notifyDataSetChanged();
     }
 
-    public Pokemon getItem(int position) {
-        return mPokemons.get(position);
-    }
-
     public void updateItem(int position) {
         if (position <= mPokemons.size() - 1) {
             notifyItemChanged(position);
@@ -64,7 +55,7 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
     @NonNull
     @Override
     public PokemonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lam_poke_card_view, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lam_card_view_pokemon_api, parent, false);
         return new PokemonViewHolder(view, recyclerViewInterface);
     }
 
@@ -88,16 +79,14 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
         return mPokemons.size();
     }
 
-
-
-    public static class PokemonViewHolder  extends RecyclerView.ViewHolder {
+    public class PokemonViewHolder  extends RecyclerView.ViewHolder {
 
         private ImageView pokeImage;
         private TextView pokeName;
         private LinearLayout pokeLayoutCard;
         private ProgressBar progress_bar;
 
-        public PokemonViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface ) {
+        public PokemonViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
 
             pokeImage = itemView.findViewById(R.id.poke_image);
@@ -110,7 +99,7 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
                     int pos = getAbsoluteAdapterPosition();
 
                     if (pos != RecyclerView.NO_POSITION) {
-                         recyclerViewInterface.onItemClick(pos);
+                         recyclerViewInterface.onPokemonCardClick(mPokemons.get(pos));
                     }
                 }
             });

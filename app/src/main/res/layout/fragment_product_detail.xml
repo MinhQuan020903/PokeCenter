@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/light_canvas"
-    tools:context=".ProductDetailFragment">
+    tools:context=".customer.lam.ProductDetailFragment">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,10 +18,10 @@
             android:id="@+id/backButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/lam_baseline_keyboard_backward_32"
-            android:background="@drawable/lam_ripple_effect_primary_background"
+            android:background="@drawable/lam_background_ripple_effect_gray"
             android:padding="8dp"
-            app:tint="@color/light_canvas" />
+            android:src="@drawable/lam_baseline_keyboard_backward_32"
+            app:tint="@color/black" />
 
         <View
             android:layout_width="wrap_content"
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/lam_baseline_shopping_cart_32"
-            android:background="@drawable/lam_ripple_effect_primary_background"
+            android:background="@drawable/lam_background_ripple_effect_primary"
             android:padding="8dp"
             app:tint="@color/light_canvas" />
     </LinearLayout>
