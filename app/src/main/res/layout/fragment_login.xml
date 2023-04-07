@@ -115,7 +115,7 @@
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@drawable/lam_ripple_effect_background"
+            android:background="@drawable/lam_ripple_effect_primary_background"
             android:gravity="center"
             android:padding="0dp"
             android:text="@string/login"
