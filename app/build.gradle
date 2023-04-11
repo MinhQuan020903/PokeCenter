@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'androidx.navigation.safeargs'
 }
 
 android {
@@ -28,6 +29,9 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+    dataBinding {
+        enabled = true
     }
 }
 

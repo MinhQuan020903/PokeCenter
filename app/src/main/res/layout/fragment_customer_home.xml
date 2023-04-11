@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/light_canvas"
-    tools:context=".customer.lam.CustomerTab.Home.CustomerHomeFragment" >
+    tools:context=".customer.lam.CustomerTab.CustomerHomeFragment" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -103,38 +103,351 @@
             android:src="@drawable/lam_baseline_image_search_32"
             android:layout_marginEnd="20dp"
             android:contentDescription="Shopping Cart"
-            android:background="@drawable/lam_ripple_effect_background"
+            android:background="@drawable/lam_background_ripple_effect_primary"
             app:tint="@color/white" />
 
 
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginHorizontal="20dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pokedex"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:layout_weight="1"/>
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
-        <TextView
-            android:id="@+id/viewAllPokedex"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="View all"
-            android:textColor="@color/light_primary"/>
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_pokemon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp"/>
+            <!-- Pokedex -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pokedex"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/viewAllPokedex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View all"
+                    android:textColor="@color/light_primary"/>
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_horizontal_pokemon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"/>
+
+            <!-- Trending -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trending"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/viewAllTrending"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View all"
+                    android:textColor="@color/light_primary"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_grid_product"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Category"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/black"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="8dp">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/darker_gray"/>
+                    <androidx.cardview.widget.CardView
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        app:cardCornerRadius="0dp"
+                        app:cardElevation="0dp"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        android:layout_weight="1"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:clickable="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:background="@color/light_canvas">
+                            <ImageView
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:src="@drawable/lam_category_tie_dye"
+                                android:layout_marginBottom="8dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Áo"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"/>
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/darker_gray"/>
+
+                    <androidx.cardview.widget.CardView
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        app:cardCornerRadius="0dp"
+                        app:cardElevation="0dp"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        android:layout_weight="1"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:clickable="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:background="@color/light_canvas">
+                            <ImageView
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:src="@drawable/lam_category_squirtle_logo"
+                                android:layout_marginBottom="8dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Mô hình"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"/>
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/darker_gray"/>
+                    <androidx.cardview.widget.CardView
+                        app:cardCornerRadius="0dp"
+                        app:cardElevation="0dp"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        android:layout_weight="1"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:clickable="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:background="@color/light_canvas">
+
+                            <ImageView
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:layout_marginBottom="8dp"
+                                android:src="@drawable/lam_category_card" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Thẻ"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"/>
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/darker_gray"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/darker_gray"/>
+                    <androidx.cardview.widget.CardView
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        app:cardCornerRadius="0dp"
+                        app:cardElevation="0dp"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        android:layout_weight="1"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:clickable="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:background="@color/light_canvas">
+                            <ImageView
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:src="@drawable/lam_category_snorlax_logo"
+                                android:layout_marginBottom="8dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Gấu bông"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"/>
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/darker_gray"/>
+
+                    <androidx.cardview.widget.CardView
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        app:cardCornerRadius="0dp"
+                        app:cardElevation="0dp"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        android:layout_weight="1"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:clickable="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:background="@color/light_canvas">
+                            <ImageView
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:src="@drawable/lam_category_meowth_logo"
+                                android:layout_marginBottom="8dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Phụ kiện"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"/>
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/darker_gray"/>
+                    <androidx.cardview.widget.CardView
+                        app:cardCornerRadius="0dp"
+                        app:cardElevation="0dp"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        android:layout_weight="1"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:clickable="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:background="@color/light_canvas">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/lam_category_more_horiz_64"
+                                app:tint="@color/border_shape"
+                                android:layout_gravity="center"/>
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/darker_gray"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
 
 </LinearLayout>

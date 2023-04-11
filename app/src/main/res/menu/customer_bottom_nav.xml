@@ -14,11 +14,11 @@
         android:title="Home"
         android:icon="@drawable/lam_baseline_home_24"/>
 
-    <item android:id="@+id/customerSupportFragment"
+    <item android:id="@+id/customerShoppingCardFragment"
         android:title="Cart"
         android:icon="@drawable/lam_baseline_shopping_cart_24" />
 
-    <item android:id="@+id/profileCustomerFragment"
+    <item android:id="@+id/customerProfileFragment"
         android:title="Profile "
         android:icon="@drawable/lam_baseline_person_24"/>
 </menu>

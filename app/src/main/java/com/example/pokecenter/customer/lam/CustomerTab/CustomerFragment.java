@@ -11,8 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pokecenter.R;
-import com.example.pokecenter.customer.lam.CustomerTab.Home.CustomerHomeFragment;
-import com.example.pokecenter.customer.quan.ProfileCustomerFragment;
+import com.example.pokecenter.customer.quan.CustomerProfileFragment;
 import com.example.pokecenter.databinding.FragmentCustomerBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -24,6 +23,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class CustomerFragment extends Fragment {
     private FragmentCustomerBinding binding;
 
+    private int selectedFragment = R.id.customerHomeFragment;
     public static BottomNavigationView customerBottomNavigationView;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -74,23 +74,34 @@ public class CustomerFragment extends Fragment {
 
         customerBottomNavigationView = binding.bottomNavView;
 
+        Fragment home = new CustomerHomeFragment();
+        Fragment payment = new CustomerPaymentFragment();
+        Fragment notifications = new CustomerNotificationsFragment();
+        Fragment shoppingCart = new CustomerShoppingCartFragment();
+        Fragment profile = new CustomerProfileFragment();
+
         // Move between fragments
         customerBottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.customerHomeFragment:
-                    replaceFragment(new CustomerHomeFragment());
+                    selectedFragment = R.id.customerHomeFragment;
+                    replaceFragment(home);
                     break;
                 case R.id.customerPaymentFragment:
-                    replaceFragment(new CustomerPaymentFragment());
+                    selectedFragment = R.id.customerPaymentFragment;
+                    replaceFragment(payment);
                     break;
                 case R.id.customerNotificationsFragment:
-                    replaceFragment(new CustomerNotificationsFragment());
+                    selectedFragment = R.id.customerNotificationsFragment;
+                    replaceFragment(notifications);
                     break;
-                case R.id.customerSupportFragment:
-                    replaceFragment(new CustomerShoppingCartFragment());
+                case R.id.customerShoppingCardFragment:
+                    selectedFragment = R.id.customerShoppingCardFragment;
+                    replaceFragment(shoppingCart);
                     break;
-                case R.id.profileCustomerFragment:
-                    replaceFragment(new ProfileCustomerFragment());
+                case R.id.customerProfileFragment:
+                    selectedFragment = R.id.customerProfileFragment;
+                    replaceFragment(profile);
                     break;
             }
             return true;
@@ -103,7 +114,8 @@ public class CustomerFragment extends Fragment {
         => Thực thi lệnh "replaceFragment(new CustomerHomePlaceholderFragment());"
         => Nội dung page cũng sẽ thay đổi theo
          */
-        customerBottomNavigationView.setSelectedItemId(R.id.customerHomeFragment);
+
+        customerBottomNavigationView.setSelectedItemId(selectedFragment);
 
         return binding.getRoot();
     }

@@ -38,6 +38,15 @@
         <action
             android:id="@+id/action_customerFragment_to_customerPokedexFragment"
             app:destination="@id/customerPokedexFragment" />
+        <action
+            android:id="@+id/action_customerFragment_to_productByPokemonFragment"
+            app:destination="@id/productByPokemonFragment" />
+        <action
+            android:id="@+id/action_customerFragment_to_customerProfileAccountInfoFragment"
+            app:destination="@id/customerProfileAccountInfoFragment" />
+        <action
+            android:id="@+id/action_customerFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/venderFragment"
@@ -63,5 +72,35 @@
         android:id="@+id/customerPokedexFragment"
         android:name="com.example.pokecenter.customer.lam.CustomerPokedexFragment"
         android:label="fragment_customer_pokedex"
-        tools:layout="@layout/fragment_customer_pokedex" />
+        tools:layout="@layout/fragment_customer_pokedex" >
+        <action
+            android:id="@+id/action_customerPokedexFragment_to_productByPokemonFragment"
+            app:destination="@id/productByPokemonFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productByPokemonFragment"
+        android:name="com.example.pokecenter.customer.lam.ProductByPokemonFragment"
+        android:label="fragment_product_by_pokemon"
+        tools:layout="@layout/fragment_product_by_pokemon" >
+        <argument
+            android:name="pokemon"
+            app:argType="com.example.pokecenter.customer.lam.Model.pokemon.Pokemon" />
+        <action
+            android:id="@+id/action_productByPokemonFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailFragment"
+        android:name="com.example.pokecenter.customer.lam.ProductDetailFragment"
+        android:label="fragment_product_detail"
+        tools:layout="@layout/fragment_product_detail" >
+        <argument
+            android:name="product"
+            app:argType="com.example.pokecenter.customer.lam.Model.product.Product" />
+    </fragment>
+    <fragment
+        android:id="@+id/customerProfileAccountInfoFragment"
+        android:name="com.example.pokecenter.customer.quan.CustomerProfileAccountInfoFragment"
+        android:label="fragment_customer_profile_account_info"
+        tools:layout="@layout/fragment_customer_profile_account_info" />
 </navigation>
