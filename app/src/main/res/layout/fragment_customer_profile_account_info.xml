@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".customer.quan.CustomerProfileAccountInfoFragment">
+    tools:context=".customer.quan.CustomerProfileTab.CustomerProfileAccountInfoFragment">
 
     <ImageButton
         android:id="@+id/backButton"
@@ -54,6 +54,7 @@
                     android:layout_height="150dp"
                     android:padding="2dp"
                     android:src="@drawable/lam_totoro"
+                    android:background="@null"
                     app:shapeAppearanceOverlay="@style/circleImageView" />
 
                 <ImageButton
@@ -229,7 +230,7 @@
                 android:id="@+id/UserAddressConstraintLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/UserEmailConstraintLayout">
