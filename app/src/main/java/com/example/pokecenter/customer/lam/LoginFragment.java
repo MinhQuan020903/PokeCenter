@@ -5,6 +5,7 @@ import static androidx.core.content.ContextCompat.getDrawable;
 import static androidx.core.content.ContextCompat.startActivities;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,72 +28,27 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.pokecenter.Account;
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.API.PokeApiFetcher;
+import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
 import com.example.pokecenter.databinding.FragmentLoginBinding;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LoginFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class LoginFragment extends Fragment {
 
     private FragmentLoginBinding binding;
 
     private Account[] mockAccounts = {
-            new Account("", "", 0),
+            new Account("cus1", "1", 0),
             new Account("vender1", "123", 1),
             new Account("admin1", "123", 2)
     };
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public LoginFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LoginFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static LoginFragment newInstance(String param1, String param2) {
-        LoginFragment fragment = new LoginFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
-    }
+    SharedPreferences sharedPreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
 
         // Inflate the layout for this fragment
         binding = FragmentLoginBinding.inflate(inflater, container, false);
@@ -108,6 +64,15 @@ public class LoginFragment extends Fragment {
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
         }
+
+        sharedPreferences = getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String loggedUsername = sharedPreferences.getString("username", "");
+        String loggedPassword = sharedPreferences.getString("password", "");
+
+        if (!loggedUsername.isEmpty()) {
+            loginProcress(loggedUsername, loggedPassword);
+        }
+
 
         // Move to Sign Up Fragment
         binding.signUpTextView.setOnClickListener(view -> {
@@ -168,23 +133,7 @@ public class LoginFragment extends Fragment {
             String inputUsername = String.valueOf(binding.editTextUsername.getText());
             String inputPassword = String.valueOf(binding.editTextPassword.getText());
 
-            switch (CheckAccont(inputUsername, inputPassword)) {
-                case 0:
-                    NavHostFragment.findNavController(LoginFragment.this)
-                            .navigate(R.id.action_loginFragment_to_customerFragment);
-                    break;
-                case 1:
-                    NavHostFragment.findNavController(LoginFragment.this)
-                            .navigate(R.id.action_loginFragment_to_venderFragment);
-                    break;
-                case 2:
-                    NavHostFragment.findNavController(LoginFragment.this)
-                            .navigate(R.id.action_loginFragment_to_adminFragment);
-                    break;
-                default:
-                    Toast.makeText(getContext(), "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
-                    break;
-            }
+            loginProcress(inputUsername, inputPassword);
         });
 
         // Move to Forgot Password Fragment
@@ -209,13 +158,50 @@ public class LoginFragment extends Fragment {
         return binding.getRoot();
     }
 
-    public int CheckAccont(String username, String password) {
+    void loginProcress(String username, String password) {
+        int role = getRole(username, password);
+
+        switch (role) {
+            case 0:
+                NavHostFragment.findNavController(LoginFragment.this)
+                        .navigate(R.id.action_loginFragment_to_customerFragment);
+                break;
+            case 1:
+                NavHostFragment.findNavController(LoginFragment.this)
+                        .navigate(R.id.action_loginFragment_to_venderFragment);
+                break;
+            case 2:
+                NavHostFragment.findNavController(LoginFragment.this)
+                        .navigate(R.id.action_loginFragment_to_adminFragment);
+                break;
+            default:
+                Toast.makeText(getContext(), "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            if (role != -1 && binding.rememberMeCheckBox.isChecked()) {
+                rememberMeFunc(username, password);
+            }
+        });
+    }
+
+    int getRole(String username, String password) {
         for (Account acc: mockAccounts) {
             if (acc.username.equals(username) && acc.password.equals(password)) {
                 return acc.role;
             }
         }
         return -1;
+    }
+
+    void rememberMeFunc(String username, String password) {
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+
+        edit.putString("username", username);
+        edit.putString("password", password);
+        edit.apply();
     }
 
     @Override
