@@ -200,14 +200,7 @@ public class CustomerPokedexFragment extends Fragment implements RecyclerViewInt
             }
         });
 
-
         return binding.getRoot();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 
     private void AddPokemonToRecyclerView() {
@@ -255,5 +248,11 @@ public class CustomerPokedexFragment extends Fragment implements RecyclerViewInt
     @Override
     public void onProductCardClick(Product product) {
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

@@ -1,14 +1,20 @@
 package com.example.pokecenter.customer.lam;
 
+import static androidx.core.content.ContextCompat.getColor;
+
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.databinding.FragmentRegisterBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +22,8 @@ import com.example.pokecenter.R;
  * create an instance of this fragment.
  */
 public class RegisterFragment extends Fragment {
+
+    private FragmentRegisterBinding binding;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,7 +68,38 @@ public class RegisterFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register, container, false);
+
+        binding = FragmentRegisterBinding.inflate(inflater, container, false);
+
+        // if statement checks if the device is running Android Marshmallow (API level 23) or higher,
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Window window = getActivity().getWindow();
+
+            // change StatusBarColor
+            window.setStatusBarColor(getColor(requireContext(), R.color.white));
+
+            // change color of icons in status bar
+            // C1:
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
+            /*
+            C2:
+            add: <item name="android:windowLightStatusBar">true</item>
+            in the <style name="Theme.PokeCenter" in themes.xml
+             */
+        }
+
+        binding.backButton.setOnClickListener(view -> {
+            NavHostFragment.findNavController(this)
+                    .navigateUp();
+        });
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

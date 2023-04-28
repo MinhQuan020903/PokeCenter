@@ -7,7 +7,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    android:background="@color/light_canvas"
     android:padding="13dp"
     tools:context=".customer.lam.LoginFragment">
 
@@ -117,7 +116,7 @@
             android:layout_height="40dp"
             android:background="@drawable/lam_background_ripple_effect_primary"
             android:gravity="center"
-            android:padding="0dp"
+            android:layout_marginBottom="4dp"
             android:text="@string/login"
             tools:ignore="TouchTargetSizeCheck,VisualLintButtonSize" />
     </LinearLayout>
@@ -127,7 +126,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <CheckBox
-            android:id="@+id/checkBox"
+            android:id="@+id/remember_me_checkBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Remember Me"
