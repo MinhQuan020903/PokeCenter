@@ -8,8 +8,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -23,13 +21,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.pokecenter.Account;
 import com.example.pokecenter.R;
-import com.example.pokecenter.customer.lam.API.PokeApiFetcher;
-import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
 import com.example.pokecenter.databinding.FragmentLoginBinding;
 
 import java.util.concurrent.ExecutorService;
@@ -40,7 +35,7 @@ public class LoginFragment extends Fragment {
     private FragmentLoginBinding binding;
 
     private Account[] mockAccounts = {
-            new Account("cus1", "1", 0),
+            new Account("customer1", "123", 0),
             new Account("vender1", "123", 1),
             new Account("admin1", "123", 2)
     };
@@ -70,7 +65,7 @@ public class LoginFragment extends Fragment {
         String loggedPassword = sharedPreferences.getString("password", "");
 
         if (!loggedUsername.isEmpty()) {
-            loginProcress(loggedUsername, loggedPassword);
+            loginProcess(loggedUsername, loggedPassword);
         }
 
 
@@ -133,7 +128,7 @@ public class LoginFragment extends Fragment {
             String inputUsername = String.valueOf(binding.editTextUsername.getText());
             String inputPassword = String.valueOf(binding.editTextPassword.getText());
 
-            loginProcress(inputUsername, inputPassword);
+            loginProcess(inputUsername, inputPassword);
         });
 
         // Move to Forgot Password Fragment
@@ -158,7 +153,7 @@ public class LoginFragment extends Fragment {
         return binding.getRoot();
     }
 
-    void loginProcress(String username, String password) {
+    void loginProcess(String username, String password) {
         int role = getRole(username, password);
 
         switch (role) {
@@ -204,11 +199,7 @@ public class LoginFragment extends Fragment {
         edit.apply();
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
-    }
 
     @Override
     public void onDestroyView() {

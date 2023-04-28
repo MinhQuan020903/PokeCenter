@@ -1,9 +1,13 @@
 package com.example.pokecenter.customer.quan;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -74,9 +78,29 @@ public class CustomerProfileFragment extends Fragment {
                     .navigate(R.id.action_customerFragment_to_customerProfileAccountInfoFragment);
         });
 
+        /* Logout Logic: Hoàng Lâm created on 28/04/2023 */
+        binding.LogoutButton.setOnClickListener(view -> {
+            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            sharedPreferences.edit().clear().apply();
+
+            NavHostFragment.findNavController(CustomerProfileFragment.this)
+                    .navigate(R.id.action_customerFragment_to_loginFragment);
+            /*
+            action_customerFragment_to_loginFragment:
+            app:popUpTo="@id/nav_app"
+            app:popUpToInclusive="true"
+             */
+        });
+
         return binding.getRoot();
     }
 
     private void replaceFragment(Fragment selectedFragment) {
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }
