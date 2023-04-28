@@ -40,7 +40,7 @@ public class LoginFragment extends Fragment {
     private FragmentLoginBinding binding;
 
     private Account[] mockAccounts = {
-            new Account("cus1", "1", 0),
+            new Account("customer1", "123", 0),
             new Account("vender1", "123", 1),
             new Account("admin1", "123", 2)
     };
@@ -77,7 +77,7 @@ public class LoginFragment extends Fragment {
         // Move to Sign Up Fragment
         binding.signUpTextView.setOnClickListener(view -> {
             NavHostFragment.findNavController(LoginFragment.this)
-                    .navigate(R.id.action_loginFragment_to_registerFragment);
+                    .navigate(R.id.registerFragment);
         });
 
         // Mỗi lần password được nhập thì sẽ xuất hiện Button ở cuối để hide or show password
@@ -139,7 +139,7 @@ public class LoginFragment extends Fragment {
         // Move to Forgot Password Fragment
         binding.forgotPasswordTextView.setOnClickListener(view -> {
             NavHostFragment.findNavController(LoginFragment.this)
-                    .navigate(R.id.action_loginFragment_to_forgotPasswordFragment);
+                    .navigate(R.id.forgotPasswordFragment);
         });
 
         /*
@@ -179,11 +179,27 @@ public class LoginFragment extends Fragment {
                 break;
         }
 
+        /*
+         Note:
+         Cả 3 R.id.action trong đã được thêm 2 thuộc tính trong nav_app.xml:
+            app:popUpTo="@id/nav_app"
+            app:popUpToInclusive="true"
+            => Công dụng: Clear sạch BackStack, khi user nhấn back button trên điện thoại sẽ thoát app chứ không quay lại LoginFragment
+
+         Có cách 2 tác dụng tương tự, được áp dụng ở CustomerProfileFragment
+         */
+
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
-            if (role != -1 && binding.rememberMeCheckBox.isChecked()) {
-                rememberMeFunc(username, password);
+
+            try {
+                if (role != -1 && binding.rememberMeCheckBox.isChecked()) {
+                    rememberMeFunc(username, password);
+                }
+            } catch (Exception e){
+                e.printStackTrace();
             }
+
         });
     }
 
@@ -202,12 +218,6 @@ public class LoginFragment extends Fragment {
         edit.putString("username", username);
         edit.putString("password", password);
         edit.apply();
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
     }
 
     @Override
