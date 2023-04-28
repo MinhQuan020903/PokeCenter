@@ -13,13 +13,19 @@
         <action
             android:id="@+id/action_loginFragment_to_customerFragment"
             app:destination="@id/customerFragment"
+            app:popUpTo="@id/nav_app"
+            app:popUpToInclusive="true"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
         <action
             android:id="@+id/action_loginFragment_to_venderFragment"
+            app:popUpTo="@id/nav_app"
+            app:popUpToInclusive="true"
             app:destination="@id/venderFragment" />
         <action
             android:id="@+id/action_loginFragment_to_adminFragment"
+            app:popUpTo="@id/nav_app"
+            app:popUpToInclusive="true"
             app:destination="@id/adminFragment" />
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"

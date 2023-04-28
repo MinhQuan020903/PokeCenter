@@ -1,8 +1,11 @@
 package com.example.pokecenter.customer.lam;
 
+import static androidx.core.content.ContextCompat.getColor;
 import static androidx.core.content.ContextCompat.getDrawable;
+import static androidx.core.content.ContextCompat.startActivities;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -12,12 +15,14 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.pokecenter.Account;
@@ -86,12 +91,23 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
         // Inflate the layout for this fragment
         binding = FragmentLoginBinding.inflate(inflater, container, false);
+
+        // if statement checks if the device is running Android Marshmallow (API level 23) or higher,
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Window window = getActivity().getWindow();
+
+            // change StatusBarColor
+            window.setStatusBarColor(getColor(requireContext(), R.color.white));
+
+            // change color of icons in status bar
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
+        }
 
         // Move to Sign Up Fragment
         binding.signUpTextView.setOnClickListener(view -> {
