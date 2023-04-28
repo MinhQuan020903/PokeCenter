@@ -174,11 +174,28 @@ public class LoginFragment extends Fragment {
                 break;
         }
 
+        /*
+         Note:
+         Cả 3 R.id.action trong đã được thêm 2 thuộc tính trong nav_app.xml:
+            app:popUpTo="@id/nav_app"
+            app:popUpToInclusive="true"
+            => Công dụng: Clear sạch BackStack, khi user nhấn back button trên điện thoại sẽ thoát app chứ không quay lại LoginFragment
+
+         Có cách 2 tác dụng tương tự, được áp dụng ở CustomerProfileFragment
+         */
+
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
-            if (role != -1 && binding.rememberMeCheckBox.isChecked()) {
-                rememberMeFunc(username, password);
+
+            try {
+                if (role != -1 && binding.rememberMeCheckBox.isChecked()) {
+                    rememberMeFunc(username, password);
+                }
+            } catch (Exception e){
+                e.printStackTrace();
             }
+
+
         });
     }
 
