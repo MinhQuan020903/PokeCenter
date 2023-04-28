@@ -72,7 +72,7 @@ public class LoginFragment extends Fragment {
         // Move to Sign Up Fragment
         binding.signUpTextView.setOnClickListener(view -> {
             NavHostFragment.findNavController(LoginFragment.this)
-                    .navigate(R.id.action_loginFragment_to_registerFragment);
+                    .navigate(R.id.registerFragment);
         });
 
         // Mỗi lần password được nhập thì sẽ xuất hiện Button ở cuối để hide or show password
@@ -134,7 +134,7 @@ public class LoginFragment extends Fragment {
         // Move to Forgot Password Fragment
         binding.forgotPasswordTextView.setOnClickListener(view -> {
             NavHostFragment.findNavController(LoginFragment.this)
-                    .navigate(R.id.action_loginFragment_to_forgotPasswordFragment);
+                    .navigate(R.id.forgotPasswordFragment);
         });
 
         /*
@@ -194,7 +194,6 @@ public class LoginFragment extends Fragment {
             } catch (Exception e){
                 e.printStackTrace();
             }
-
 
         });
     }

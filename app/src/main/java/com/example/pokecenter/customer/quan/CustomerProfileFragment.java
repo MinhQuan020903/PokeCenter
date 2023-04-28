@@ -92,7 +92,7 @@ public class CustomerProfileFragment extends Fragment {
             thêm 2 thuộc tính:
             app:popUpTo="@id/nav_app"
             app:popUpToInclusive="true"
-được
+
             Sau đó add code trong logic của Logout Button
             NavHostFragment.findNavController(CustomerProfileFragment.this)
                     .navigate(R.id.action_customerFragment_to_loginFragment);
