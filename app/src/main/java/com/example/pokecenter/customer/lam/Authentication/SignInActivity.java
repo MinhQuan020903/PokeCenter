@@ -2,6 +2,7 @@ package com.example.pokecenter.customer.lam.Authentication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -121,7 +122,7 @@ public class SignInActivity extends AppCompatActivity {
 
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
-                    changeInProgress(false);
+
                     if (task.isSuccessful()) {
 
                         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -146,6 +147,10 @@ public class SignInActivity extends AppCompatActivity {
                                     gotToNextActivityWith(finalFetchedRole);
                                     Toast.makeText(this, "Successful Login.", Toast.LENGTH_SHORT)
                                             .show();
+
+                                    SharedPreferences sharedPreferences = getSharedPreferences("myPref", MODE_PRIVATE);
+                                    sharedPreferences.edit().putInt("role", finalFetchedRole).apply();
+
                                 }
                             });
                         });
@@ -154,6 +159,8 @@ public class SignInActivity extends AppCompatActivity {
                         Toast.makeText(this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT)
                                 .show();
                     }
+
+                    changeInProgress(false);
                 });
     }
 

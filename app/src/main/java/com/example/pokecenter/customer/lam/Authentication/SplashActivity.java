@@ -3,6 +3,7 @@ package com.example.pokecenter.customer.lam.Authentication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -51,9 +52,6 @@ public class SplashActivity extends AppCompatActivity {
 
         Handler handler = new Handler();
 
-        // Define the delay time in milliseconds
-        int delayMillis = 2000; // 2 seconds
-
         // Create a new Runnable object that will run after the delay
         Runnable runnable = new Runnable() {
             @Override
@@ -65,44 +63,21 @@ public class SplashActivity extends AppCompatActivity {
                     startActivity(new Intent(SplashActivity.this, SignInActivity.class));
                 } else {
 
-                    ExecutorService executor = Executors.newSingleThreadExecutor();
-                    Handler handler = new Handler(Looper.getMainLooper());
-                    executor.execute(() -> {
-                        int fetchedRole = -1;
-
-                        try {
-                            fetchedRole = new FirebaseSupport().getRoleWithEmail(currentUser.getEmail());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        int finalFetchedRole = fetchedRole;
-                        handler.post(() -> {
-                            if (finalFetchedRole == -1) {
-                                Toast.makeText(SplashActivity.this, "Connect sever fail", Toast.LENGTH_SHORT)
-                                        .show();
-                                return;
-                            }
-                            else {
-                                gotToNextActivityWith(finalFetchedRole);
-                            }
-                        });
-                    });
+                    SharedPreferences sharedPreferences = getSharedPreferences("myPref", MODE_PRIVATE);
+                    goToNextActivityWith(sharedPreferences.getInt("role", -1));
 
                 }
 
                 // Add animation in activity transition
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
-                finish(); // Optional: finish the current activity to prevent the user from returning to it with the back button
             }
         };
 
         // Use the Handler object to post the Runnable object with the specified delay
-        handler.postDelayed(runnable, delayMillis);
+        handler.postDelayed(runnable, 1300);
     }
 
-    void gotToNextActivityWith(int role) {
+    void goToNextActivityWith(int role) {
         switch (role) {
             case 0:
                 startActivity(new Intent(this, CustomerActivity.class));

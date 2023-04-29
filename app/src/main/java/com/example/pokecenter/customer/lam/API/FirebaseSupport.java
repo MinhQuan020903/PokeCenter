@@ -78,10 +78,23 @@ public class FirebaseSupport {
 
         Response response = client.newCall(request).execute();
 
+        /*
+        execute() and enqueue() are both methods in the OkHttpClient class that can be used to send HTTP requests,
+        but they differ in how they handle the response.
+
+        execute() sends the request synchronously and blocks the current thread until a response is received or an exception is thrown.
+        This means that the program will not continue executing until the response is received
+
+        On the other hand, enqueue() sends the request asynchronously and returns immediately without blocking the current thread.
+        Instead, it uses a callback mechanism to handle the response when it is received.
+        This allows the program to continue executing while the request is being sent and the response is being processed.
+         */
+
         if (response.isSuccessful()) {
             String responseBody = response.body().string();
             role = Integer.parseInt(responseBody);
         }
+
 
         return role;
     }

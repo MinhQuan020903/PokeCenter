@@ -2,6 +2,7 @@ package com.example.pokecenter.customer.lam.Authentication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -104,6 +105,9 @@ public class SignUpActivity extends AppCompatActivity {
                         goToNextActivityWith(role);
 
                         new FirebaseSupport().saveUser(email, username, role);
+
+                        SharedPreferences sharedPreferences = getSharedPreferences("myPref", MODE_PRIVATE);
+                        sharedPreferences.edit().putInt("role", role).apply();
 
 //                        ExecutorService executor = Executors.newSingleThreadExecutor();
 //                        executor.execute(() -> {
