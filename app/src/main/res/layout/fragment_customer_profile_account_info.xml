@@ -4,20 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="6dp"
-    tools:context=".customer.quan.CustomerProfileAccountInfoFragment">
+    android:padding="16dp"
+    tools:context=".customer.quan.CustomerProfileTab.CustomerProfileAccountInfoFragment">
 
     <ImageButton
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:background="@drawable/lam_background_ripple_effect_primary"
         android:padding="8dp"
         android:src="@drawable/lam_baseline_keyboard_backward_32"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3"
         app:tint="@color/light_canvas" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,7 +25,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/quan_rounded_layout_background"
         android:backgroundTint="@color/light_primary"
-        android:padding="15dp"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,6 +52,7 @@
                     android:layout_height="150dp"
                     android:padding="2dp"
                     android:src="@drawable/lam_totoro"
+                    android:background="@null"
                     app:shapeAppearanceOverlay="@style/circleImageView" />
 
                 <ImageButton
@@ -121,31 +121,35 @@
                 android:id="@+id/UserNameConstraintLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ChangeInformationConstraintLayout">
 
                 <TextView
+                    android:id="@+id/UserNameTextViewLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Full name: "
-                    android:textColor="@color/white"
+                    android:layout_marginTop="32dp"
+                    android:text="Full name"
+                    android:textColor="@color/grey"
                     android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/UserNameTextView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/quan_rounded_layout_background"
+                    android:padding="8dp"
                     android:text="Username1"
                     android:textColor="@color/white"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/UserNameTextViewLabel" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -159,25 +163,28 @@
                 app:layout_constraintTop_toBottomOf="@id/UserNameConstraintLayout">
 
                 <TextView
+                    android:id="@+id/UserPhoneTextViewLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Phone number: "
-                    android:textColor="@color/white"
+                    android:layout_marginTop="16dp"
+                    android:text="Phone number"
+                    android:textColor="@color/grey"
                     android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/UserPhoneTextView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="12345678"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/quan_rounded_layout_background"
+                    android:padding="8dp"
+                    android:text="012345678"
                     android:textColor="@color/white"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/UserPhoneTextViewLabel" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -191,25 +198,29 @@
                 app:layout_constraintTop_toBottomOf="@id/UserPhoneConstraintLayout">
 
                 <TextView
+                    android:id="@+id/UserEmailTextViewLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Email: "
-                    android:textColor="@color/white"
+                    android:layout_marginTop="16dp"
+                    android:text="Email"
+                    android:textColor="@color/grey"
                     android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/UserEmailTextView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="abc@gmail.com"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/quan_rounded_layout_background"
+                    android:padding="8dp"
+                    android:text="user@gmail.com"
                     android:textColor="@color/white"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/UserEmailTextViewLabel" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -217,35 +228,38 @@
                 android:id="@+id/UserAddressConstraintLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/UserEmailConstraintLayout">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/UserAddressTextViewLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Address: "
-                    android:textColor="@color/white"
+                    android:layout_marginTop="4dp"
+                    android:text="Address"
+                    android:textColor="@color/grey"
                     android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/UserAddressTextView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/quan_rounded_layout_background"
                     android:ellipsize="end"
                     android:maxEms="12"
                     android:maxLines="3"
+                    android:padding="8dp"
                     android:text="Ho Chi Minh City"
                     android:textColor="@color/white"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/UserAddressTextViewLabel" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

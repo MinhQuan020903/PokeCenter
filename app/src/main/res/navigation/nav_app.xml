@@ -106,7 +106,7 @@
     </fragment>
     <fragment
         android:id="@+id/customerProfileAccountInfoFragment"
-        android:name="com.example.pokecenter.customer.quan.CustomerProfileAccountInfoFragment"
+        android:name="com.example.pokecenter.customer.quan.CustomerProfileTab.CustomerProfileAccountInfoFragment"
         android:label="fragment_customer_profile_account_info"
         tools:layout="@layout/fragment_customer_profile_account_info" />
     <fragment

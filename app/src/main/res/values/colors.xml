@@ -19,5 +19,6 @@
     <color name="border_shape">#C7C7C7</color>
     <color name="transparent">#00000000</color>
     <color name="light_border_shape">#E6E6E6</color>
+    <color name="grey">#D3D1D1</color>
 
 </resources>
