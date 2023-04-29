@@ -65,7 +65,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/editText_fullName"
+            android:id="@+id/fullName_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -120,7 +120,7 @@
             android:id="@+id/password_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/lam_background_rounded_rect_border"
             android:ellipsize="end"
             android:imeOptions="actionDone"
@@ -131,9 +131,56 @@
             android:textColor="@android:color/black"
             tools:ignore="VisualLintTextFieldSize" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:gravity="center_horizontal"
+            android:text="Choose role"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+            <TextView
+                android:id="@+id/customer_role"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:text="Customer"
+                android:padding="12dp"
+                android:background="@drawable/lam_background_raised_secondary"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/vender_role"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:text="Vender"
+                android:padding="12dp"
+                android:background="@drawable/lam_background_outline_secondary"
+                android:textColor="@color/light_secondary"
+                android:textSize="18sp"
+                android:gravity="center_horizontal"
+                />
+
+        </LinearLayout>
+
+
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="180dp"
             android:src="@drawable/lam_spheal"/>
 
     </LinearLayout>

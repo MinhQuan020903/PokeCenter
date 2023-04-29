@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "622579383757",
-    "project_id": "pokecenter-8ee78",
-    "storage_bucket": "pokecenter-8ee78.appspot.com"
+    "project_number": "489952582713",
+    "project_id": "pokecenter-ae954",
+    "storage_bucket": "pokecenter-ae954.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:622579383757:android:c3bd18e2f64006d4b25884",
+        "mobilesdk_app_id": "1:489952582713:android:a595f232e4aa2925ac81e8",
         "android_client_info": {
           "package_name": "com.example.pokecenter"
         }
       },
       "oauth_client": [
         {
-          "client_id": "622579383757-r2j9ut812a99p3l46ultc6pbmgap0q2p.apps.googleusercontent.com",
+          "client_id": "489952582713-o74rphrlm66r3nvkbbpdpsur6fd16ilp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAUkOPQZ9Ma00JII5UK3flFR_AmQPHx3X4"
+          "current_key": "AIzaSyAImWVaAnMmmCplxboYuYgKbw5U1oqcyvM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "622579383757-r2j9ut812a99p3l46ultc6pbmgap0q2p.apps.googleusercontent.com",
+              "client_id": "489952582713-o74rphrlm66r3nvkbbpdpsur6fd16ilp.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

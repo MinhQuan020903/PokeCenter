@@ -1,4 +1,4 @@
-package com.example.pokecenter;
+package com.example.pokecenter.vender;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,10 +25,5 @@ public class VenderActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         binding = null;
-
-        boolean rememberMe = getIntent().getBooleanExtra("rememberMe", false);
-        if (!rememberMe) {
-            FirebaseAuth.getInstance().signOut();
-        }
     }
 }

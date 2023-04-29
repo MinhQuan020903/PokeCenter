@@ -1,4 +1,4 @@
-package com.example.pokecenter;
+package com.example.pokecenter.customer;
 
 import android.os.Bundle;
 
@@ -21,15 +21,9 @@ public class CustomerActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         binding = null;
-
-        boolean rememberMe = getIntent().getBooleanExtra("rememberMe", false);
-        if (!rememberMe) {
-            FirebaseAuth.getInstance().signOut();
-        }
     }
 }

@@ -1,12 +1,11 @@
 package com.example.pokecenter.customer.lam.Authentication;
 
-import static androidx.core.content.ContextCompat.getColor;
-import static androidx.core.content.ContextCompat.getDrawable;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -16,17 +15,19 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.pokecenter.CustomerActivity;
+import com.example.pokecenter.admin.AdminActivity;
+import com.example.pokecenter.customer.CustomerActivity;
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.API.FirebaseSupport;
 import com.example.pokecenter.databinding.ActivitySignInBinding;
-import com.example.pokecenter.databinding.ActivitySignUpBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.example.pokecenter.vender.VenderActivity;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -115,21 +116,60 @@ public class SignInActivity extends AppCompatActivity {
         changeInProgress(true);
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.setLanguageCode("fr");
+
+
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     changeInProgress(false);
                     if (task.isSuccessful()) {
-                        Toast.makeText(this, "Successful Login.", Toast.LENGTH_SHORT)
-                                .show();
-                        Intent intent = new Intent(this, CustomerActivity.class);
-                        intent.putExtra("rememberMe", binding.rememberMeCheckBox.isChecked());
-                        startActivity(intent);
-                        finishAffinity();
+
+                        ExecutorService executor = Executors.newSingleThreadExecutor();
+                        Handler handler = new Handler(Looper.getMainLooper());
+                        executor.execute(() -> {
+                            int fetchedRole = -1;
+
+                            try {
+                                fetchedRole = new FirebaseSupport().getRoleWithEmail(email);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            int finalFetchedRole = fetchedRole;
+                            handler.post(() -> {
+                                if (finalFetchedRole == -1) {
+                                    Toast.makeText(this, "Connect sever fail", Toast.LENGTH_SHORT)
+                                            .show();
+                                    return;
+                                }
+                                else {
+                                    gotToNextActivityWith(finalFetchedRole);
+                                    Toast.makeText(this, "Successful Login.", Toast.LENGTH_SHORT)
+                                            .show();
+                                }
+                            });
+                        });
+
                     } else {
                         Toast.makeText(this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT)
                                 .show();
                     }
                 });
+    }
+
+    void gotToNextActivityWith(int role) {
+        switch (role) {
+            case 0:
+                startActivity(new Intent(this, CustomerActivity.class));
+                break;
+            case 1:
+                startActivity(new Intent(this, VenderActivity.class));
+                break;
+            case 2:
+                startActivity(new Intent(this, AdminActivity.class));
+                break;
+        }
+        finishAffinity();
     }
 
     boolean validateData(String email, String password) {
