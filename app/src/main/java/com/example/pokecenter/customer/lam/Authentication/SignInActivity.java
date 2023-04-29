@@ -10,15 +10,23 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.pokecenter.CustomerActivity;
 import com.example.pokecenter.R;
 import com.example.pokecenter.databinding.ActivitySignInBinding;
 import com.example.pokecenter.databinding.ActivitySignUpBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -49,7 +57,7 @@ public class SignInActivity extends AppCompatActivity {
         });
 
         // Mỗi lần password được nhập thì sẽ xuất hiện Button ở cuối để hide or show password
-        binding.editTextPassword.addTextChangedListener(new TextWatcher() {
+        binding.passwordEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -72,20 +80,20 @@ public class SignInActivity extends AppCompatActivity {
 
         /* eyeButton */
         binding.eyeButton.setOnClickListener(view -> {
-            if (binding.editTextPassword.getInputType() == 129) {
-                binding.editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+            if (binding.passwordEditText.getInputType() == 129) {
+                binding.passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT);
                 binding.eyeButton.setImageDrawable(getDrawable(R.drawable.lam_eye_blind));
             }
             else
             {
                 // binding.editTextPassword.getInputType() = InputType.TYPE_CLASS_TEXT = 1
-                binding.editTextPassword.setInputType(129);
+                binding.passwordEditText.setInputType(129);
                 binding.eyeButton.setImageDrawable(getDrawable(R.drawable.lam_eye));
             }
         });
 
         binding.loginButton.setOnClickListener(view -> {
-
+            onClickSignIn();
         });
 
         binding.forgotPasswordTextView.setOnClickListener(view -> {
@@ -93,6 +101,67 @@ public class SignInActivity extends AppCompatActivity {
         });
 
         setContentView(binding.getRoot());
+    }
+
+    private void onClickSignIn() {
+
+        String email = binding.emailEditText.getText().toString();
+        String password = binding.passwordEditText.getText().toString();
+
+        if (!validateData(email, password)) {
+            return;
+        }
+
+        changeInProgress(true);
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    changeInProgress(false);
+                    if (task.isSuccessful()) {
+                        Toast.makeText(this, "Successful Login.", Toast.LENGTH_SHORT)
+                                .show();
+                        Intent intent = new Intent(this, CustomerActivity.class);
+                        intent.putExtra("rememberMe", binding.rememberMeCheckBox.isChecked());
+                        startActivity(intent);
+                        finishAffinity();
+                    } else {
+                        Toast.makeText(this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                });
+    }
+
+    boolean validateData(String email, String password) {
+
+        /* Check empty */
+        if (email.isEmpty()) {
+            binding.emailEditText.setError("You have not entered email");
+            return false;
+        }
+        if (password.isEmpty()) {
+            binding.passwordEditText.setError("You have not entered password");
+            return false;
+        }
+
+        /* Check valid */
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.emailEditText.setError("Email is invalid");
+            return false;
+        }
+        if (password.length() < 6) {
+            binding.passwordEditText.setError("Password length should not be less than 6");
+            return false;
+        }
+        return true;
+    }
+
+    private void changeInProgress(boolean inProgress) {
+        if (inProgress) {
+            binding.loginButton.setVisibility(View.INVISIBLE);
+        } else {
+            binding.loginButton.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

@@ -69,7 +69,7 @@ public class SignUpActivity extends AppCompatActivity {
                         startActivity(new Intent(this, CustomerActivity.class));
                         finishAffinity();
                     } else {
-                        Toast.makeText(this, task.getException().getLocalizedMessage(), Toast.LENGTH_LONG)
+                        Toast.makeText(this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT)
                                 .show();
                     }
 

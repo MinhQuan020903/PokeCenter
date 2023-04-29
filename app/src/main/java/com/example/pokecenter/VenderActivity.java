@@ -1,26 +1,25 @@
 package com.example.pokecenter;
 
-import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.pokecenter.databinding.ActivityCustomerBinding;
+import android.app.Activity;
+import android.os.Bundle;
+
+import com.example.pokecenter.databinding.ActivityVenderBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class CustomerActivity extends AppCompatActivity {
+public class VenderActivity extends AppCompatActivity {
 
-    private ActivityCustomerBinding binding;
+    private ActivityVenderBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityCustomerBinding.inflate(getLayoutInflater());
+        binding = ActivityVenderBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
     }
-
-
 
     @Override
     protected void onDestroy() {
