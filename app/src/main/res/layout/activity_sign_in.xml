@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/lam_background_rounded_rect_border"
             android:ellipsize="end"
-            android:hint="@string/username"
+            android:hint="Email"
             android:imeOptions="actionDone"
             android:inputType="text"
             android:maxLines="1"
@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/lam_background_rounded_rect_border"
                 android:ellipsize="end"
-                android:hint="@string/password"
+                android:hint="Password"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
                 android:maxLines="1"
@@ -118,7 +118,7 @@
             android:background="@drawable/lam_background_ripple_effect_primary"
             android:gravity="center"
             android:layout_marginBottom="4dp"
-            android:text="@string/login"
+            android:text="LOGIN"
             tools:ignore="TouchTargetSizeCheck,VisualLintButtonSize" />
     </LinearLayout>
 

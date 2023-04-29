@@ -144,7 +144,7 @@ public class CustomerPokedexFragment extends Fragment implements RecyclerViewInt
             AddPokemonToRecyclerView();
         });
 
-        // Tìm kiếm pokemon
+        // Tìm kiếm pokemon bằng tên
         binding.searchNameButton.setOnClickListener(view -> {
 
             inputText = binding.searchNamePokemonBar.getText().toString();
@@ -206,7 +206,7 @@ public class CustomerPokedexFragment extends Fragment implements RecyclerViewInt
     private void AddPokemonToRecyclerView() {
         ArrayList<Pokemon> pokemonLoading = new ArrayList<>();
 
-        for (int i=1; i<=20; ++i) {
+        for (int i=1; i<=9; ++i) {
             pokemonLoading.add(new Pokemon("loading", "", ""));
         }
 
@@ -217,7 +217,7 @@ public class CustomerPokedexFragment extends Fragment implements RecyclerViewInt
         for (int i = 0; i < pokemonLoading.size(); ++i) {
             Pokemon poke = pokemonLoading.get(i);
 
-            int position = pokemonAdapter.getItemCount() - 20 + i;
+            int position = pokemonAdapter.getItemCount() - 9 + i;
 
             executor.execute(() -> {
                 index = (index + 1) % 902;

@@ -75,86 +75,86 @@ public class LoginFragment extends Fragment {
 
 
         // Move to Sign Up Fragment
-        binding.signUpTextView.setOnClickListener(view -> {
-
-        });
+//        binding.signUpTextView.setOnClickListener(view -> {
+//
+//        });
 
         // Mỗi lần password được nhập thì sẽ xuất hiện Button ở cuối để hide or show password
-        binding.editTextPassword.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length() > 0) {
-                    binding.eyeButton.setVisibility(View.VISIBLE);
-                } else {
-                    binding.eyeButton.setVisibility(View.INVISIBLE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        // eyeButton onClick
-        binding.eyeButton.setOnClickListener(view -> {
-            if (binding.editTextPassword.getInputType() == 129) {
-                binding.editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT);
-                binding.eyeButton.setImageDrawable(getDrawable(getContext(), R.drawable.lam_eye_blind));
-                // Notes: Thay getContext() bằng requireContext() vẫn chạy oke
-            }
-            else
-            {
-                // binding.editTextPassword.getInputType() = InputType.TYPE_CLASS_TEXT = 1
-                binding.editTextPassword.setInputType(129);
-                binding.eyeButton.setImageDrawable(getDrawable(getContext(), R.drawable.lam_eye));
-            }
-        });
-
-        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        // loginButton onClick
-        binding.loginButton.setOnClickListener(view -> {
-
-            // Ẩn Keyboard
-            inputMethodManager.hideSoftInputFromWindow(binding.loginButton.getWindowToken(), 0);
-
-            // Gỡ bỏ Focus trên 2 editText
-            binding.editTextUsername.clearFocus();
-            binding.editTextPassword.clearFocus();
-
-            // Xử lí logic của login
-            String inputUsername = String.valueOf(binding.editTextUsername.getText());
-            String inputPassword = String.valueOf(binding.editTextPassword.getText());
-
-            // loginProcress(inputUsername, inputPassword);
-        });
-
-        // Move to Forgot Password Fragment
-        binding.forgotPasswordTextView.setOnClickListener(view -> {
-
-        });
-
-        /*
-        Ẩn Keyboard + Gỡ bỏ Focus trên 2 editText
-        khi người dùng click ra ngoài
-         */
-        binding.loginFragment.setOnClickListener(view -> {
-            // Ẩn Keyboard
-            inputMethodManager.hideSoftInputFromWindow(binding.loginButton.getWindowToken(), 0);
-
-            // Gỡ bỏ Focus trên 2 editText
-            binding.editTextUsername.clearFocus();
-            binding.editTextPassword.clearFocus();
-        });
-
-        return binding.getRoot();
-    }
+//        binding.editTextPassword.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                if (charSequence.length() > 0) {
+//                    binding.eyeButton.setVisibility(View.VISIBLE);
+//                } else {
+//                    binding.eyeButton.setVisibility(View.INVISIBLE);
+//                }
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//
+//            }
+//        });
+//
+//        // eyeButton onClick
+//        binding.eyeButton.setOnClickListener(view -> {
+//            if (binding.editTextPassword.getInputType() == 129) {
+//                binding.editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+//                binding.eyeButton.setImageDrawable(getDrawable(getContext(), R.drawable.lam_eye_blind));
+//                // Notes: Thay getContext() bằng requireContext() vẫn chạy oke
+//            }
+//            else
+//            {
+//                // binding.editTextPassword.getInputType() = InputType.TYPE_CLASS_TEXT = 1
+//                binding.editTextPassword.setInputType(129);
+//                binding.eyeButton.setImageDrawable(getDrawable(getContext(), R.drawable.lam_eye));
+//            }
+//        });
+//
+//        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//
+//        // loginButton onClick
+//        binding.loginButton.setOnClickListener(view -> {
+//
+//            // Ẩn Keyboard
+//            inputMethodManager.hideSoftInputFromWindow(binding.loginButton.getWindowToken(), 0);
+//
+//            // Gỡ bỏ Focus trên 2 editText
+//            binding.editTextUsername.clearFocus();
+//            binding.editTextPassword.clearFocus();
+//
+//            // Xử lí logic của login
+//            String inputUsername = String.valueOf(binding.editTextUsername.getText());
+//            String inputPassword = String.valueOf(binding.editTextPassword.getText());
+//
+//            // loginProcress(inputUsername, inputPassword);
+//        });
+//
+//        // Move to Forgot Password Fragment
+//        binding.forgotPasswordTextView.setOnClickListener(view -> {
+//
+//        });
+//
+//        /*
+//        Ẩn Keyboard + Gỡ bỏ Focus trên 2 editText
+//        khi người dùng click ra ngoài
+//         */
+//        binding.loginFragment.setOnClickListener(view -> {
+//            // Ẩn Keyboard
+//            inputMethodManager.hideSoftInputFromWindow(binding.loginButton.getWindowToken(), 0);
+//
+//            // Gỡ bỏ Focus trên 2 editText
+//            binding.editTextUsername.clearFocus();
+//            binding.editTextPassword.clearFocus();
+//        });
+//
+//        return binding.getRoot();
+//    }
 
 //    void loginProcress(String username, String password) {
 //        int role = getRole(username, password);
@@ -199,7 +199,8 @@ public class LoginFragment extends Fragment {
 //            }
 //
 //        });
-//    }
+        return binding.getRoot();
+    }
 
     int getRole(String username, String password) {
         for (Account acc: mockAccounts) {

@@ -89,10 +89,10 @@ public class RegisterFragment extends Fragment {
              */
         }
 
-        binding.backButton.setOnClickListener(view -> {
-            NavHostFragment.findNavController(this)
-                    .navigateUp();
-        });
+//        binding.backButton.setOnClickListener(view -> {
+//            NavHostFragment.findNavController(this)
+//                    .navigateUp();
+//        });
 
         return binding.getRoot();
     }

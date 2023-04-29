@@ -8,174 +8,174 @@
 
     tools:context=".customer.lam.RegisterFragment">
 
-    <ImageButton
-        android:id="@+id/backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/lam_background_ripple_effect_gray"
-        android:padding="8dp"
-        android:src="@drawable/lam_baseline_keyboard_backward_32"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/black" />
+<!--    <ImageButton-->
+<!--        android:id="@+id/backButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@drawable/lam_background_ripple_effect_gray"-->
+<!--        android:padding="8dp"-->
+<!--        android:src="@drawable/lam_baseline_keyboard_backward_32"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:tint="@color/black" />-->
 
-    <TextView
-        android:id="@+id/signUpTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="90dp"
-        android:gravity="center_horizontal"
-        android:text="Sign Up"
-        android:textColor="@color/black"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <TextView-->
+<!--        android:id="@+id/signUpTextView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="90dp"-->
+<!--        android:gravity="center_horizontal"-->
+<!--        android:text="Sign Up"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textSize="28sp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <TextView
-        android:id="@+id/subtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:gravity="center_horizontal"
-        android:text="Enter your data to continue!"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/signUpTextView" />
+<!--    <TextView-->
+<!--        android:id="@+id/subtitle"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="2dp"-->
+<!--        android:gravity="center_horizontal"-->
+<!--        android:text="Enter your data to continue!"-->
+<!--        android:textSize="15sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/signUpTextView" />-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/subtitle"
-        android:layout_marginTop="50dp">
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/subtitle"-->
+<!--        android:layout_marginTop="50dp">-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:gravity="center_horizontal"
-            android:text="Your Name"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="4dp"-->
+<!--            android:gravity="center_horizontal"-->
+<!--            android:text="Your Name"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textStyle="bold" />-->
 
-        <EditText
-            android:id="@+id/editText_fullName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/lam_background_rounded_rect_border"
-            android:ellipsize="end"
-            android:imeOptions="actionNext"
-            android:hint="..."
-            android:inputType="text"
-            android:maxLines="1"
-            android:padding="14dp"
-            android:singleLine="true"
-            android:textColor="@android:color/black"
-            tools:ignore="VisualLintTextFieldSize" />
+<!--        <EditText-->
+<!--            android:id="@+id/editText_fullName"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="16dp"-->
+<!--            android:background="@drawable/lam_background_rounded_rect_border"-->
+<!--            android:ellipsize="end"-->
+<!--            android:imeOptions="actionNext"-->
+<!--            android:hint="..."-->
+<!--            android:inputType="text"-->
+<!--            android:maxLines="1"-->
+<!--            android:padding="14dp"-->
+<!--            android:singleLine="true"-->
+<!--            android:textColor="@android:color/black"-->
+<!--            tools:ignore="VisualLintTextFieldSize" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:gravity="center_horizontal"
-            android:text="@string/username"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="4dp"-->
+<!--            android:gravity="center_horizontal"-->
+<!--            android:text="@string/username"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textStyle="bold" />-->
 
-        <EditText
-            android:id="@+id/editText_username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/lam_background_rounded_rect_border"
-            android:ellipsize="end"
-            android:hint="Ex: customer1"
-            android:imeOptions="actionNext"
-            android:inputType="text"
-            android:maxLines="1"
-            android:padding="14dp"
-            android:singleLine="true"
-            android:textColor="@android:color/black"
-            tools:ignore="VisualLintTextFieldSize" />
+<!--        <EditText-->
+<!--            android:id="@+id/editText_username"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="16dp"-->
+<!--            android:background="@drawable/lam_background_rounded_rect_border"-->
+<!--            android:ellipsize="end"-->
+<!--            android:hint="Ex: customer1"-->
+<!--            android:imeOptions="actionNext"-->
+<!--            android:inputType="text"-->
+<!--            android:maxLines="1"-->
+<!--            android:padding="14dp"-->
+<!--            android:singleLine="true"-->
+<!--            android:textColor="@android:color/black"-->
+<!--            tools:ignore="VisualLintTextFieldSize" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:gravity="center_horizontal"
-            android:text="@string/password"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="4dp"-->
+<!--            android:gravity="center_horizontal"-->
+<!--            android:text="@string/password"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textStyle="bold" />-->
 
-        <EditText
-            android:id="@+id/editText_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/lam_background_rounded_rect_border"
-            android:ellipsize="end"
-            android:hint="Ex: pikachu2000V"
-            android:imeOptions="actionNext"
-            android:inputType="text"
-            android:maxLines="1"
-            android:padding="14dp"
-            android:singleLine="true"
-            android:textColor="@android:color/black"
-            tools:ignore="VisualLintTextFieldSize" />
+<!--        <EditText-->
+<!--            android:id="@+id/editText_password"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="16dp"-->
+<!--            android:background="@drawable/lam_background_rounded_rect_border"-->
+<!--            android:ellipsize="end"-->
+<!--            android:hint="Ex: pikachu2000V"-->
+<!--            android:imeOptions="actionNext"-->
+<!--            android:inputType="text"-->
+<!--            android:maxLines="1"-->
+<!--            android:padding="14dp"-->
+<!--            android:singleLine="true"-->
+<!--            android:textColor="@android:color/black"-->
+<!--            tools:ignore="VisualLintTextFieldSize" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:gravity="center_horizontal"
-            android:text="Email"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="4dp"-->
+<!--            android:gravity="center_horizontal"-->
+<!--            android:text="Email"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textStyle="bold" />-->
 
-        <EditText
-            android:id="@+id/editText_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/lam_background_rounded_rect_border"
-            android:ellipsize="end"
-            android:hint="..."
-            android:imeOptions="actionDone"
-            android:inputType="text"
-            android:maxLines="1"
-            android:padding="14dp"
-            android:singleLine="true"
-            android:textColor="@android:color/black"
-            tools:ignore="VisualLintTextFieldSize"
-            android:layout_marginBottom="30dp"/>
+<!--        <EditText-->
+<!--            android:id="@+id/editText_email"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@drawable/lam_background_rounded_rect_border"-->
+<!--            android:ellipsize="end"-->
+<!--            android:hint="..."-->
+<!--            android:imeOptions="actionDone"-->
+<!--            android:inputType="text"-->
+<!--            android:maxLines="1"-->
+<!--            android:padding="14dp"-->
+<!--            android:singleLine="true"-->
+<!--            android:textColor="@android:color/black"-->
+<!--            tools:ignore="VisualLintTextFieldSize"-->
+<!--            android:layout_marginBottom="30dp"/>-->
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:src="@drawable/lam_spheal"/>
+<!--        <ImageView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="120dp"-->
+<!--            android:src="@drawable/lam_spheal"/>-->
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
 
-    <Button
-        android:id="@+id/signUpButton"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@drawable/lam_background_ripple_effect_primary"
-        android:gravity="center"
-        android:layout_marginBottom="4dp"
-        android:text="Sign Up"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="TouchTargetSizeCheck,VisualLintButtonSize" />
+<!--    <Button-->
+<!--        android:id="@+id/signUpButton"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:background="@drawable/lam_background_ripple_effect_primary"-->
+<!--        android:gravity="center"-->
+<!--        android:layout_marginBottom="4dp"-->
+<!--        android:text="Sign Up"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        tools:ignore="TouchTargetSizeCheck,VisualLintButtonSize" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>
