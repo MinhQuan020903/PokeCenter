@@ -82,9 +82,9 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void onClickSignUp() {
 
-        String username = binding.fullNameEditText.getText().toString();
-        String email = binding.emailEditText.getText().toString();
-        String password = binding.passwordEditText.getText().toString();
+        String username = binding.fullNameEditText.getText().toString().trim();
+        String email = binding.emailEditText.getText().toString().trim();
+        String password = binding.passwordEditText.getText().toString().trim();
 
         if (!validateData(email, password)) {
             return;
@@ -141,6 +141,18 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     boolean validateData(String email, String password) {
+
+        /* Check empty */
+        if (email.isEmpty()) {
+            binding.emailEditText.setError("You have not entered email");
+            return false;
+        }
+        if (password.isEmpty()) {
+            binding.passwordEditText.setError("You have not entered password");
+            return false;
+        }
+
+        /* Check valid */
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             binding.emailEditText.setError("Email is invalid");
             return false;

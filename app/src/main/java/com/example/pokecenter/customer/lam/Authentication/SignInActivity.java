@@ -107,8 +107,8 @@ public class SignInActivity extends AppCompatActivity {
 
     private void onClickSignIn() {
 
-        String email = binding.emailEditText.getText().toString();
-        String password = binding.passwordEditText.getText().toString();
+        String email = binding.emailEditText.getText().toString().trim();
+        String password = binding.passwordEditText.getText().toString().trim();
 
         if (!validateData(email, password)) {
             return;

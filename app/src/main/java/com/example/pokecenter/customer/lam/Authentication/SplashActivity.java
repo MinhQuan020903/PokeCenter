@@ -74,7 +74,7 @@ public class SplashActivity extends AppCompatActivity {
         };
 
         // Use the Handler object to post the Runnable object with the specified delay
-        handler.postDelayed(runnable, 1300);
+        handler.postDelayed(runnable, 1100);
     }
 
     void goToNextActivityWith(int role) {
