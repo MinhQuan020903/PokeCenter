@@ -65,6 +65,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Toast.makeText(ForgotPasswordActivity.this, "Email sent.", Toast.LENGTH_SHORT)
                                     .show();
+                            finish();
+                        } else {
+                            Toast.makeText(ForgotPasswordActivity.this, "Send failed, try again!",Toast.LENGTH_SHORT)
+                                    .show();
                         }
                     });
         });

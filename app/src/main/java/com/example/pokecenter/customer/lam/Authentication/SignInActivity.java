@@ -117,7 +117,6 @@ public class SignInActivity extends AppCompatActivity {
         changeInProgress(true);
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        auth.setLanguageCode("fr");
 
 
         auth.signInWithEmailAndPassword(email, password)
@@ -125,35 +124,13 @@ public class SignInActivity extends AppCompatActivity {
 
                     if (task.isSuccessful()) {
 
-                        ExecutorService executor = Executors.newSingleThreadExecutor();
-                        Handler handler = new Handler(Looper.getMainLooper());
-                        executor.execute(() -> {
-                            int fetchedRole = -1;
-
-                            try {
-                                fetchedRole = new FirebaseSupport().getRoleWithEmail(email);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-                            int finalFetchedRole = fetchedRole;
-                            handler.post(() -> {
-                                if (finalFetchedRole == -1) {
-                                    Toast.makeText(this, "Connect sever fail", Toast.LENGTH_SHORT)
-                                            .show();
-                                    return;
-                                }
-                                else {
-                                    gotToNextActivityWith(finalFetchedRole);
-                                    Toast.makeText(this, "Successful Login.", Toast.LENGTH_SHORT)
-                                            .show();
-
-                                    SharedPreferences sharedPreferences = getSharedPreferences("myPref", MODE_PRIVATE);
-                                    sharedPreferences.edit().putInt("role", finalFetchedRole).apply();
-
-                                }
-                            });
-                        });
+                        if (auth.getCurrentUser().isEmailVerified()) {
+                            determineActivityToNavigateBasedOnRole(email);
+                        } else {
+                            Toast.makeText(this, "Please verify your email", Toast.LENGTH_SHORT)
+                                    .show();
+                            auth.signOut();
+                        }
 
                     } else {
                         Toast.makeText(this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT)
@@ -162,6 +139,37 @@ public class SignInActivity extends AppCompatActivity {
 
                     changeInProgress(false);
                 });
+    }
+
+    void determineActivityToNavigateBasedOnRole(String email) {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            int fetchedRole = -1;
+
+            try {
+                fetchedRole = new FirebaseSupport().getRoleWithEmail(email);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            int finalFetchedRole = fetchedRole;
+            handler.post(() -> {
+                if (finalFetchedRole == -1) {
+                    Toast.makeText(this, "Connect sever fail", Toast.LENGTH_SHORT)
+                            .show();
+                    return;
+                }
+                else {
+                    gotToNextActivityWith(finalFetchedRole);
+                    Toast.makeText(this, "Successful Login.", Toast.LENGTH_SHORT)
+                            .show();
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("myPref", MODE_PRIVATE);
+                    sharedPreferences.edit().putInt("role", finalFetchedRole).apply();
+                }
+            });
+        });
     }
 
     void gotToNextActivityWith(int role) {

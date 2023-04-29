@@ -1,13 +1,19 @@
 package com.example.pokecenter.customer.lam.Authentication;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -99,24 +105,26 @@ public class SignUpActivity extends AppCompatActivity {
 
                     changeInProgress(false);
                     if (task.isSuccessful()) {
-                        Toast.makeText(this, "Successful registration.", Toast.LENGTH_SHORT)
-                                .show();
 
-                        goToNextActivityWith(role);
+                        auth.getCurrentUser().sendEmailVerification();
+                        auth.signOut();
+                        popUpDialogToInform();
 
+                        /* Save User Info */
+                        /* Cách 1 */
                         new FirebaseSupport().saveUser(email, username, role);
 
-                        SharedPreferences sharedPreferences = getSharedPreferences("myPref", MODE_PRIVATE);
-                        sharedPreferences.edit().putInt("role", role).apply();
+                        /* Cách 2: Using API + new Thread
+                        ExecutorService executor = Executors.newSingleThreadExecutor();
+                        executor.execute(() -> {
+                            try {
+                                FirebaseSupport.saveUserUsingApi(email, username, role);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        });
+                         */
 
-//                        ExecutorService executor = Executors.newSingleThreadExecutor();
-//                        executor.execute(() -> {
-//                            try {
-//                                FirebaseSupport.saveUserUsingApi(email, username, role);
-//                            } catch (IOException e) {
-//                                e.printStackTrace();
-//                            }
-//                        });
 
                     } else {
                         Toast.makeText(this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT)
@@ -125,19 +133,31 @@ public class SignUpActivity extends AppCompatActivity {
                 });
     }
 
-    private void goToNextActivityWith(int role) {
-        switch (role) {
-            case 0:
-                startActivity(new Intent(this, CustomerActivity.class));
-                break;
-            case 1:
-                startActivity(new Intent(this, VenderActivity.class));
-                break;
-            case 2:
-                startActivity(new Intent(this, AdminActivity.class));
-                break;
+    void popUpDialogToInform() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.success_sign_up_dialog);
+
+        Window window = dialog.getWindow();
+
+        if (window == null) {
+            return;
         }
-        finishAffinity();
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        /*
+         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); khá quan trọng. THỬ BỎ ĐI SẼ HIỂU =)))
+         nếu bỏ dòng này đi thì các thuộc tính của LinearLayout mẹ trong todo_dialog.xml sẽ mất hết
+         thay vào đó sẽ là thuộc tính mặc định của dialog, còn nội dung vẫn giữ nguyên
+         */
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        Button close = dialog.findViewById(R.id.close_button);
+        close.setOnClickListener(view -> {
+            dialog.dismiss();
+            finish();
+        });
+
+        dialog.show();
     }
 
     boolean validateData(String email, String password) {
