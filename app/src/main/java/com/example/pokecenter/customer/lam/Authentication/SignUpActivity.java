@@ -1,8 +1,11 @@
 package com.example.pokecenter.customer.lam.Authentication;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,6 +18,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.regex.Pattern;
+
 public class SignUpActivity extends AppCompatActivity {
 
     private ActivitySignUpBinding binding;
@@ -24,6 +29,11 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
+
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        binding.signUpScreen.setOnClickListener(view -> {
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        });
 
         binding.backButton.setOnClickListener(view -> {
             finish();
@@ -38,10 +48,14 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void onClickSignUp() {
 
-        changeInProgress(true);
-
         String email = binding.emailEditText.getText().toString();
         String password = binding.passwordEditText.getText().toString();
+
+        if (!validateData(email, password)) {
+            return;
+        }
+
+        changeInProgress(true);
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
@@ -55,12 +69,24 @@ public class SignUpActivity extends AppCompatActivity {
                         startActivity(new Intent(this, CustomerActivity.class));
                         finishAffinity();
                     } else {
-                        Toast.makeText(this, "Sign Up failed.", Toast.LENGTH_SHORT)
+                        Toast.makeText(this, task.getException().getLocalizedMessage(), Toast.LENGTH_LONG)
                                 .show();
                     }
 
                 });
 
+    }
+
+    boolean validateData(String email, String password) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.emailEditText.setError("Email is invalid");
+            return false;
+        }
+        if (password.length() < 6) {
+            binding.passwordEditText.setError("Password length should not be less than 6");
+            return false;
+        }
+        return true;
     }
 
     private void changeInProgress(boolean inProgress) {

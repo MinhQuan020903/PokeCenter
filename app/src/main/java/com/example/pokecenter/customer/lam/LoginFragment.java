@@ -79,7 +79,7 @@ public class LoginFragment extends Fragment {
 //
 //        });
 
-        // Mỗi lần password được nhập thì sẽ xuất hiện Button ở cuối để hide or show password
+//        // Mỗi lần password được nhập thì sẽ xuất hiện Button ở cuối để hide or show password
 //        binding.editTextPassword.addTextChangedListener(new TextWatcher() {
 //            @Override
 //            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

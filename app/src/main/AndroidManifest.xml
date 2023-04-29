@@ -15,17 +15,21 @@
         android:theme="@style/Theme.PokeCenter"
         tools:targetApi="31">
         <activity
+            android:name=".customer.lam.Authentication.ForgotPasswordActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PokeCenter.NoActionBar"/>
+        <activity
             android:name=".customer.lam.Authentication.SignUpActivity"
-            android:theme="@style/Theme.PokeCenter.NoActionBar"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.PokeCenter.NoActionBar" />
         <activity
             android:name=".customer.lam.Authentication.SignInActivity"
-            android:theme="@style/Theme.PokeCenter.NoActionBar"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.PokeCenter.NoActionBar" />
         <activity
             android:name=".customer.lam.Authentication.SplashActivity"
-            android:theme="@style/Theme.PokeCenter.NoActionBar"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.PokeCenter.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,8 +38,8 @@
         </activity>
         <activity
             android:name=".CustomerActivity"
-            android:theme="@style/Theme.PokeCenter.NoActionBar"
-            android:exported="true"/>
+            android:exported="false"
+            android:theme="@style/Theme.PokeCenter.NoActionBar" />
     </application>
 
 </manifest>
