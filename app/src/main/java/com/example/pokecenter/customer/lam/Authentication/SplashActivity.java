@@ -1,20 +1,21 @@
-package com.example.pokecenter.customer.quan.Activity;
+package com.example.pokecenter.customer.lam.Authentication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 
-import com.example.pokecenter.MainActivity;
+import com.example.pokecenter.CustomerActivity;
 import com.example.pokecenter.R;
 import com.example.pokecenter.databinding.ActivitySplashScreenBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class SplashScreenActivity extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity {
 
     private ActivitySplashScreenBinding binding;
 
@@ -49,13 +50,19 @@ public class SplashScreenActivity extends AppCompatActivity {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                // Create a new Intent object to start the next activity
-                Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
-                startActivity(intent);
+
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+                if (currentUser == null) {
+                    startActivity(new Intent(SplashActivity.this, SignInActivity.class));
+                } else {
+                    startActivity(new Intent(SplashActivity.this, CustomerActivity.class));
+                }
+
                 // Add animation in activity transition
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                finish(); // Optional: finish the current activity to prevent the user from returning to it with the back button
 
+                finish(); // Optional: finish the current activity to prevent the user from returning to it with the back button
             }
         };
 

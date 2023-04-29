@@ -69,15 +69,14 @@ public class LoginFragment extends Fragment {
         String loggedUsername = sharedPreferences.getString("username", "");
         String loggedPassword = sharedPreferences.getString("password", "");
 
-        if (!loggedUsername.isEmpty()) {
-            loginProcress(loggedUsername, loggedPassword);
-        }
+//        if (!loggedUsername.isEmpty()) {
+//            loginProcress(loggedUsername, loggedPassword);
+//        }
 
 
         // Move to Sign Up Fragment
         binding.signUpTextView.setOnClickListener(view -> {
-            NavHostFragment.findNavController(LoginFragment.this)
-                    .navigate(R.id.registerFragment);
+
         });
 
         // Mỗi lần password được nhập thì sẽ xuất hiện Button ở cuối để hide or show password
@@ -133,13 +132,12 @@ public class LoginFragment extends Fragment {
             String inputUsername = String.valueOf(binding.editTextUsername.getText());
             String inputPassword = String.valueOf(binding.editTextPassword.getText());
 
-            loginProcress(inputUsername, inputPassword);
+            // loginProcress(inputUsername, inputPassword);
         });
 
         // Move to Forgot Password Fragment
         binding.forgotPasswordTextView.setOnClickListener(view -> {
-            NavHostFragment.findNavController(LoginFragment.this)
-                    .navigate(R.id.forgotPasswordFragment);
+
         });
 
         /*
@@ -158,50 +156,50 @@ public class LoginFragment extends Fragment {
         return binding.getRoot();
     }
 
-    void loginProcress(String username, String password) {
-        int role = getRole(username, password);
-
-        switch (role) {
-            case 0:
-                NavHostFragment.findNavController(LoginFragment.this)
-                        .navigate(R.id.action_loginFragment_to_customerFragment);
-                break;
-            case 1:
-                NavHostFragment.findNavController(LoginFragment.this)
-                        .navigate(R.id.action_loginFragment_to_venderFragment);
-                break;
-            case 2:
-                NavHostFragment.findNavController(LoginFragment.this)
-                        .navigate(R.id.action_loginFragment_to_adminFragment);
-                break;
-            default:
-                Toast.makeText(getContext(), "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
-                break;
-        }
-
-        /*
-         Note:
-         Cả 3 R.id.action trong đã được thêm 2 thuộc tính trong nav_app.xml:
-            app:popUpTo="@id/nav_app"
-            app:popUpToInclusive="true"
-            => Công dụng: Clear sạch BackStack, khi user nhấn back button trên điện thoại sẽ thoát app chứ không quay lại LoginFragment
-
-         Có cách 2 tác dụng tương tự, được áp dụng ở CustomerProfileFragment
-         */
-
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(() -> {
-
-            try {
-                if (role != -1 && binding.rememberMeCheckBox.isChecked()) {
-                    rememberMeFunc(username, password);
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-
-        });
-    }
+//    void loginProcress(String username, String password) {
+//        int role = getRole(username, password);
+//
+//        switch (role) {
+//            case 0:
+//                NavHostFragment.findNavController(LoginFragment.this)
+//                        .navigate(R.id.action_loginFragment_to_customerFragment);
+//                break;
+//            case 1:
+//                NavHostFragment.findNavController(LoginFragment.this)
+//                        .navigate(R.id.action_loginFragment_to_venderFragment);
+//                break;
+//            case 2:
+//                NavHostFragment.findNavController(LoginFragment.this)
+//                        .navigate(R.id.action_loginFragment_to_adminFragment);
+//                break;
+//            default:
+//                Toast.makeText(getContext(), "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
+//                break;
+//        }
+//
+//        /*
+//         Note:
+//         Cả 3 R.id.action trong đã được thêm 2 thuộc tính trong nav_app.xml:
+//            app:popUpTo="@id/nav_app"
+//            app:popUpToInclusive="true"
+//            => Công dụng: Clear sạch BackStack, khi user nhấn back button trên điện thoại sẽ thoát app chứ không quay lại LoginFragment
+//
+//         Có cách 2 tác dụng tương tự, được áp dụng ở CustomerProfileFragment
+//         */
+//
+//        ExecutorService executor = Executors.newSingleThreadExecutor();
+//        executor.execute(() -> {
+//
+//            try {
+//                if (role != -1 && binding.rememberMeCheckBox.isChecked()) {
+//                    rememberMeFunc(username, password);
+//                }
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//
+//        });
+//    }
 
     int getRole(String username, String password) {
         for (Account acc: mockAccounts) {

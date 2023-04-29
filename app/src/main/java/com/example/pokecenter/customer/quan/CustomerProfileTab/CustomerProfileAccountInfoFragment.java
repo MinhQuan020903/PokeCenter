@@ -8,9 +8,7 @@ import android.os.Bundle;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -19,11 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.pokecenter.MainActivity;
 import com.example.pokecenter.databinding.FragmentCustomerProfileAccountInfoBinding;
 import com.github.dhaval2404.imagepicker.ImagePicker;
-
-import java.util.Objects;
 
 import kotlin.Unit;
 
