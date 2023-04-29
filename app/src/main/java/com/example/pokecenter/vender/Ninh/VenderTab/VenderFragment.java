@@ -23,8 +23,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class VenderFragment extends Fragment {
 
     private FragmentVenderBinding binding;
-
-    public static BottomNavigationView customerBottomNavigationView;
+    private int selectedFragment = R.id.venderHomeNav;
+    public static BottomNavigationView venderBottomNavigationView;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -71,26 +71,31 @@ public class VenderFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentVenderBinding.inflate(inflater, container, false);
 
-        customerBottomNavigationView = binding.bottomNavView;
+        venderBottomNavigationView = binding.bottomNavView;
 
         // Move between fragments
-        customerBottomNavigationView.setOnItemSelectedListener(item -> {
+        venderBottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
+                case R.id.venderHomeNav:
+                    selectedFragment = R.id.venderHomeNav;
+                    replaceFragment(new VenderHomeFragment());
+                    break;
                 case R.id.venderPaymentNav:
+                    selectedFragment = R.id.venderPaymentNav;
                     replaceFragment(new VenderPaymentFragment());
                     break;
                 case R.id.venderNotificationNav:
+                    selectedFragment = R.id.venderNotificationNav;
                     replaceFragment(new VenderNotificationsFragment());
                     break;
 
-                case R.id.venderHomeNav:
-                    replaceFragment(new VenderHomeFragment());
-                    break;
+
                 case R.id.venderSupportNav:
+                    selectedFragment = R.id.venderSupportNav;
                     replaceFragment(new VenderSupportFragment());
                     break;
-                default:
                 case R.id.venderProfileNav:
+                    selectedFragment = R.id.venderProfileNav;
                     replaceFragment(new VenderProfileFragment());
                     break;
             }
@@ -98,7 +103,7 @@ public class VenderFragment extends Fragment {
         });
 
 
-        customerBottomNavigationView.setSelectedItemId(R.id.customerHomeFragment);
+        venderBottomNavigationView.setSelectedItemId(selectedFragment);
 
         return binding.getRoot();
     }

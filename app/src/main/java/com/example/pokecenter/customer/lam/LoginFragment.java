@@ -38,7 +38,7 @@ public class LoginFragment extends Fragment {
 
     private Account[] mockAccounts = {
             new Account("", "", 0),
-            new Account("vender1", "123", 1),
+            new Account("1", "", 1),
             new Account("admin1", "123", 2)
     };
 

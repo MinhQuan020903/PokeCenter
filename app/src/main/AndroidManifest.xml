@@ -14,11 +14,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PokeCenter"
         tools:targetApi="31">
+<!--        <activity-->
+<!--            android:name=".customer.quan.Activity.SplashScreenActivity"-->
+<!--            android:exported="true"-->
+<!--            android:screenOrientation="portrait"-->
+<!--            android:label="@string/pokecenter_splash_screen"-->
+<!--            android:theme="@style/Theme.PokeCenter.NoActionBar">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
         <activity
-            android:name=".customer.quan.Activity.SplashScreenActivity"
+            android:name=".MainActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
-            android:label="@string/pokecenter_splash_screen"
+            android:label="@string/app_name"
             android:theme="@style/Theme.PokeCenter.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,12 +37,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.PokeCenter.NoActionBar">
-        </activity>
+
     </application>
 
 </manifest>
