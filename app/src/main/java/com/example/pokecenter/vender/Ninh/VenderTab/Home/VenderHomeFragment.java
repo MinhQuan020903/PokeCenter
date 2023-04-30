@@ -65,11 +65,11 @@ private FragmentVenderHomeBinding binding;
         // Inflate the layout for this fragment
         binding=FragmentVenderHomeBinding.inflate(inflater, container, false);
 
-//        binding.StatisticsFunction.setOnClickListener(view -> {
-//
-//            NavHostFragment.findNavController(VenderHomeFragment.this)
-//                    .navigate(R.id.action_venderHomeFragment_to_venderStatisticsFragment);
-//        });
+        binding.StatisticsFunction.setOnClickListener(view -> {
+
+            NavHostFragment.findNavController(VenderHomeFragment.this)
+                    .navigate(R.id.action_venderHomeFragment_to_venderStatisticsFragment);
+        });
         return binding.getRoot();
     }
 }
