@@ -48,7 +48,7 @@ public class FirebaseSupport {
 
         // create POST request
         Request request = new Request.Builder()
-                .url(urlDb + "users/" + email + ".json")
+                .url(urlDb + "accounts/" + email + ".json")
                 .post(body)
                 .build();
 
@@ -59,7 +59,7 @@ public class FirebaseSupport {
     public void saveUser(String email, String username, int role) {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference usersRef = database.getReference("users");
+        DatabaseReference usersRef = database.getReference("accounts");
 
         User user = new User(username, role);
         usersRef.child(email.replace(".", ",")).setValue(user);
@@ -73,7 +73,7 @@ public class FirebaseSupport {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
-                .url(urlDb + "users/" + email.replace(".", ",") + "/role.json")
+                .url(urlDb + "accounts/" + email.replace(".", ",") + "/role.json")
                 .build();
 
         Response response = client.newCall(request).execute();

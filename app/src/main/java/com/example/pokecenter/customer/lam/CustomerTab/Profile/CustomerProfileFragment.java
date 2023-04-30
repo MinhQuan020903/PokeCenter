@@ -1,21 +1,17 @@
-package com.example.pokecenter.customer.quan.CustomerProfileTab;
+package com.example.pokecenter.customer.lam.CustomerTab.Profile;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavOptions;
-import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 
-import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.ProfileActivity.CustomerAccountInfoActivity;
 import com.example.pokecenter.customer.lam.Authentication.SignInActivity;
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.ProfileActivity.MyAddressesActivity;
 import com.example.pokecenter.databinding.FragmentCustomerProfileBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -30,13 +26,16 @@ public class CustomerProfileFragment extends Fragment {
         binding = FragmentCustomerProfileBinding.inflate(inflater, container, false);
 
 
-        binding.AccountInformationButton.setOnClickListener(view -> {
-            NavHostFragment.findNavController(CustomerProfileFragment.this)
-                    .navigate(R.id.action_customerFragment_to_customerProfileAccountInfoFragment);
+        binding.accountInformationItem.setOnClickListener(view -> {
+            startActivity(new Intent(getActivity(), CustomerAccountInfoActivity.class));
         });
 
-        /* Logout Logic: Hoàng Lâm created on 28/04/2023 */
-        binding.LogoutButton.setOnClickListener(view -> {
+        binding.myAddressesItem.setOnClickListener(view -> {
+            startActivity(new Intent(getActivity(), MyAddressesActivity.class));
+        });
+
+
+        binding.logoutButton.setOnClickListener(view -> {
             FirebaseAuth.getInstance().signOut();
 
             startActivity(new Intent(getActivity(), SignInActivity.class));

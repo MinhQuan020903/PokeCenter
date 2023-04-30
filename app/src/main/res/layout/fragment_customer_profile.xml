@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
-    tools:context=".customer.quan.CustomerProfileTab.CustomerProfileFragment">
+    android:orientation="vertical"
+    android:background="@color/light_canvas">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/UserProfileDescriptionConstraintLayout"
@@ -14,7 +15,9 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="20dp"
+        android:layout_marginBottom="50dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/UserProfileImage"
@@ -89,161 +92,233 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/DarkModeConstraintLayout"
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/DarkModeConstraintLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="36dp"-->
+<!--        android:paddingTop="8dp"-->
+<!--        android:paddingBottom="8dp"-->
+<!--        android:orientation="vertical"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/UserProfileDescriptionConstraintLayout">-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/DarkModeIcon"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:contentDescription="Show dark mode option"-->
+<!--            android:src="@drawable/quan_night_mode_icon"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/DarkModeText"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:text="Dark Mode"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="18sp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/DarkModeIcon"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        <com.google.android.material.switchmaterial.SwitchMaterial-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="@id/DarkModeConstraintLayout"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+    <LinearLayout
+        android:id="@+id/accountInformationItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/UserProfileDescriptionConstraintLayout">
+        android:paddingStart="20dp"
+        android:paddingVertical="14dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true">
 
         <ImageView
-            android:id="@+id/DarkModeIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="Show dark mode option"
-            android:src="@drawable/quan_night_mode_icon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/quan_information_icon"
+            android:layout_marginEnd="16dp"/>
 
         <TextView
-            android:id="@+id/DarkModeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Dark Mode"
+            android:text="Account Information"
             android:textColor="@color/black"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/DarkModeIcon"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="18sp"/>
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
+    </LinearLayout>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:id="@+id/myAddressesItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingVertical="14dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/lam_location_32"
+            android:layout_marginEnd="16dp"/>
+
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/DarkModeConstraintLayout"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="wrap_content"
+            android:text="My Addresses"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
 
-    <Button
-        android:id="@+id/AccountInformationButton"
-        style="@style/Widget.Material3.Button.TextButton.Dialog.Icon"
+    </LinearLayout>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:id="@+id/passwordItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="6dp"
-        android:gravity="start|center_vertical"
-        android:paddingStart="0dp"
-        android:paddingEnd="0dp"
-        android:text="Account Information"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:icon="@drawable/quan_information_icon"
-        app:iconGravity="textStart"
-        app:iconPadding="16dp"
-        app:iconTint="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/DarkModeConstraintLayout" />
+        android:paddingStart="20dp"
+        android:paddingVertical="14dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true">
 
-    <Button
-        android:id="@+id/PasswordButton"
-        style="@style/Widget.Material3.Button.TextButton.Dialog.Icon"
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/quan_password_icon"
+            android:layout_marginEnd="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:id="@+id/cardsItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="6dp"
-        android:gravity="start|center_vertical"
-        android:paddingStart="0dp"
-        android:paddingEnd="0dp"
-        android:text="Password"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:icon="@drawable/quan_password_icon"
-        app:iconGravity="textStart"
-        app:iconPadding="16dp"
-        app:iconTint="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/AccountInformationButton" />
+        android:paddingStart="20dp"
+        android:paddingVertical="14dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true">
 
-    <Button
-        android:id="@+id/BankCardsButton"
-        style="@style/Widget.Material3.Button.TextButton.Dialog.Icon"
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/quan_bank_cards_icon"
+            android:layout_marginEnd="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Cards"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:id="@+id/wishlistItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="6dp"
-        android:gravity="start|center_vertical"
-        android:paddingStart="0dp"
-        android:paddingEnd="0dp"
-        android:text="My Cards"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:icon="@drawable/quan_bank_cards_icon"
-        app:iconGravity="textStart"
-        app:iconPadding="16dp"
-        app:iconTint="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/PasswordButton" />
+        android:paddingStart="20dp"
+        android:paddingVertical="14dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true">
 
-    <Button
-        android:id="@+id/WishlistButton"
-        style="@style/Widget.Material3.Button.TextButton.Dialog.Icon"
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/quan_wishlist_icon"
+            android:layout_marginEnd="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wishlist"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:id="@+id/settingsItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="6dp"
-        android:gravity="start|center_vertical"
-        android:paddingStart="0dp"
-        android:paddingEnd="0dp"
-        android:text="Wishlist"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:icon="@drawable/quan_wishlist_icon"
-        app:iconGravity="textStart"
-        app:iconPadding="16dp"
-        app:iconTint="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/BankCardsButton" />
+        android:paddingStart="20dp"
+        android:paddingVertical="14dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/quan_settings_icon"
+            android:layout_marginEnd="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
 
     <Button
-        android:id="@+id/SettingsButton"
-        style="@style/Widget.Material3.Button.TextButton.Dialog.Icon"
+        android:id="@+id/logoutButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="6dp"
-        android:gravity="start|center_vertical"
-        android:paddingStart="0dp"
-        android:paddingEnd="0dp"
-        android:text="Settings"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:icon="@drawable/quan_settings_icon"
-        app:iconGravity="textStart"
-        app:iconPadding="16dp"
-        app:iconTint="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/WishlistButton" />
-
-    <Button
-        android:id="@+id/LogoutButton"
-        style="@style/Widget.Material3.Button.TextButton.Dialog.Icon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="6dp"
-        android:gravity="start|center_vertical"
-        android:paddingStart="0dp"
-        android:paddingEnd="0dp"
         android:text="Logout"
-        android:textColor="@color/dark_secondary"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:icon="@drawable/quan_logout_icon"
-        app:iconGravity="textStart"
-        app:iconPadding="16dp"
-        app:iconTint="@color/dark_secondary"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:backgroundTint="@android:color/holo_red_light"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="20dp"
+        android:textAllCaps="false"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

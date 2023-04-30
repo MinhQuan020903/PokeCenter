@@ -50,23 +50,7 @@ public class CustomerHomeFragment extends Fragment implements RecyclerViewInterf
         // Inflate the layout for this fragment
         binding = FragmentCustomerHomeBinding.inflate(inflater, container, false);
 
-        // if statement checks if the device is running Android Marshmallow (API level 23) or higher,
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Window window = getActivity().getWindow();
 
-            // change StatusBarColor
-            window.setStatusBarColor(getColor(requireContext(), R.color.light_canvas));
-
-            // change color of icons in status bar
-            // C1:
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-
-            /*
-            C2:
-            add: <item name="android:windowLightStatusBar">true</item>
-            in the <style name="Theme.PokeCenter" in themes.xml
-             */
-        }
 
         // Move to Profile Fragment when User click on avatarImage
         binding.avatarImage.setOnClickListener(view -> {
