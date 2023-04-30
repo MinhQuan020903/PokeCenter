@@ -1,11 +1,10 @@
-package com.example.pokecenter.customer.lam;
+package com.example.pokecenter.customer.lam.CustomerTab.Profile.ProfileActivity;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.fragment.NavHostFragment;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,7 +13,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.example.pokecenter.R;
 import com.example.pokecenter.databinding.ActivityCustomerAccountInfoBinding;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 

@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/light_canvas">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/UserProfileDescriptionConstraintLayout"
@@ -163,7 +164,7 @@
         android:layout_height="wrap_content"/>
 
     <LinearLayout
-        android:id="@+id/myAddresses"
+        android:id="@+id/myAddressesItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="20dp"

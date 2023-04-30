@@ -135,9 +135,10 @@ public class SignInActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT)
                                 .show();
+                        changeInProgress(false);
                     }
 
-                    changeInProgress(false);
+
                 });
     }
 
@@ -168,6 +169,7 @@ public class SignInActivity extends AppCompatActivity {
                     SharedPreferences sharedPreferences = getSharedPreferences("myPref", MODE_PRIVATE);
                     sharedPreferences.edit().putInt("role", finalFetchedRole).apply();
                 }
+                changeInProgress(false);
             });
         });
     }

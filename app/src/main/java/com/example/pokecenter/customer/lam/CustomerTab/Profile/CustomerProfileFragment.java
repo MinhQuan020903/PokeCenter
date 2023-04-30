@@ -1,4 +1,4 @@
-package com.example.pokecenter.customer.lam.CustomerTab;
+package com.example.pokecenter.customer.lam.CustomerTab.Profile;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,8 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.pokecenter.customer.lam.CustomerAccountInfoActivity;
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.ProfileActivity.CustomerAccountInfoActivity;
 import com.example.pokecenter.customer.lam.Authentication.SignInActivity;
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.ProfileActivity.MyAddressesActivity;
 import com.example.pokecenter.databinding.FragmentCustomerProfileBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -29,8 +30,11 @@ public class CustomerProfileFragment extends Fragment {
             startActivity(new Intent(getActivity(), CustomerAccountInfoActivity.class));
         });
 
+        binding.myAddressesItem.setOnClickListener(view -> {
+            startActivity(new Intent(getActivity(), MyAddressesActivity.class));
+        });
 
-        /* Logout Logic: Hoàng Lâm created on 28/04/2023 */
+
         binding.logoutButton.setOnClickListener(view -> {
             FirebaseAuth.getInstance().signOut();
 

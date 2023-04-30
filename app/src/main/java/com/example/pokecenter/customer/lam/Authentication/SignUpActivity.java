@@ -52,11 +52,11 @@ public class SignUpActivity extends AppCompatActivity {
 
         customerRole.setOnClickListener(view -> {
             customerRole.setTextColor(getColor(R.color.white));
-            customerRole.setBackground(getDrawable(R.drawable.lam_background_raised_secondary));
+            customerRole.setBackground(getDrawable(R.drawable.lam_background_raised_secondary_corner_8));
             customerRole.setTypeface(null, Typeface.BOLD);
 
             venderRole.setTextColor(getColor(R.color.light_secondary));
-            venderRole.setBackground(getDrawable(R.drawable.lam_background_outline));
+            venderRole.setBackground(getDrawable(R.drawable.lam_background_outline_secondary_corner_8));
             venderRole.setTypeface(null, Typeface.NORMAL);
 
             role = 0;
@@ -64,11 +64,11 @@ public class SignUpActivity extends AppCompatActivity {
 
         venderRole.setOnClickListener(view -> {
             venderRole.setTextColor(getColor(R.color.white));
-            venderRole.setBackground(getDrawable(R.drawable.lam_background_raised_secondary));
+            venderRole.setBackground(getDrawable(R.drawable.lam_background_raised_secondary_corner_8));
             venderRole.setTypeface(null, Typeface.BOLD);
 
             customerRole.setTextColor(getColor(R.color.light_secondary));
-            customerRole.setBackground(getDrawable(R.drawable.lam_background_outline));
+            customerRole.setBackground(getDrawable(R.drawable.lam_background_outline_secondary_corner_8));
             customerRole.setTypeface(null, Typeface.NORMAL);
 
             role = 1;
