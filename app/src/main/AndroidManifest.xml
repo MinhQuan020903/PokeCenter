@@ -14,22 +14,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PokeCenter"
         tools:targetApi="31">
-<!--        <activity-->
-<!--            android:name=".customer.quan.Activity.SplashScreenActivity"-->
-<!--            android:exported="true"-->
-<!--            android:screenOrientation="portrait"-->
-<!--            android:label="@string/pokecenter_splash_screen"-->
-<!--            android:theme="@style/Theme.PokeCenter.NoActionBar">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
         <activity
-            android:name=".MainActivity"
+            android:name=".customer.lam.Authentication.ForgotPasswordActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PokeCenter.NoActionBar" />
+        <activity
+            android:name=".customer.lam.Authentication.SignUpActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PokeCenter.NoActionBar" />
+        <activity
+            android:name=".customer.lam.Authentication.SignInActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PokeCenter.NoActionBar" />
+        <activity
+            android:name=".customer.lam.Authentication.SplashActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.PokeCenter.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,7 +37,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".customer.CustomerActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PokeCenter.NoActionBar" />
+        <activity
+            android:name=".vender.VenderActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PokeCenter.NoActionBar" />
+        <activity
+            android:name=".admin.AdminActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PokeCenter.NoActionBar"/>
     </application>
 
 </manifest>

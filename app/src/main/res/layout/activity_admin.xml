@@ -4,5 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_canvas"
-    tools:context=".customer.lam.CustomerTab.CustomerNotificationsFragment"/>
+    tools:context=".admin.AdminActivity">
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -75,7 +75,7 @@ public class CustomerFragment extends Fragment {
         customerBottomNavigationView = binding.bottomNavView;
 
         Fragment home = new CustomerHomeFragment();
-        Fragment payment = new CustomerPaymentFragment();
+        Fragment orders = new CustomerOrdersFragment();
         Fragment notifications = new CustomerNotificationsFragment();
         Fragment shoppingCart = new CustomerShoppingCartFragment();
         Fragment profile = new CustomerProfileFragment();
@@ -87,9 +87,9 @@ public class CustomerFragment extends Fragment {
                     selectedFragment = R.id.customerHomeFragment;
                     replaceFragment(home);
                     break;
-                case R.id.customerPaymentFragment:
-                    selectedFragment = R.id.customerPaymentFragment;
-                    replaceFragment(payment);
+                case R.id.customerOrdersFragment:
+                    selectedFragment = R.id.customerOrdersFragment;
+                    replaceFragment(orders);
                     break;
                 case R.id.customerNotificationsFragment:
                     selectedFragment = R.id.customerNotificationsFragment;

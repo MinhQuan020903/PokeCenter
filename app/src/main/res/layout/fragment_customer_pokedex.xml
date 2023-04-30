@@ -24,7 +24,7 @@
             android:src="@drawable/lam_baseline_keyboard_backward_32"
             android:background="@drawable/lam_background_ripple_effect_gray"
             android:padding="8dp"
-            app:tint="@color/light_canvas" />
+            app:tint="@color/black" />
 
         <TextView
             android:id="@+id/poke_name"
