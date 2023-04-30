@@ -169,11 +169,10 @@
                 android:layout_height="wrap_content"
                 android:text="Vender"
                 android:padding="12dp"
-                android:background="@drawable/lam_background_outline_secondary"
+                android:background="@drawable/lam_background_outline"
                 android:textColor="@color/light_secondary"
                 android:textSize="18sp"
-                android:gravity="center_horizontal"
-                />
+                android:gravity="center_horizontal"/>
 
         </LinearLayout>
 

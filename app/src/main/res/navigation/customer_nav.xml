@@ -17,9 +17,6 @@
             android:id="@+id/action_customerFragment_to_productByPokemonFragment"
             app:destination="@id/productByPokemonFragment" />
         <action
-            android:id="@+id/action_customerFragment_to_customerProfileAccountInfoFragment"
-            app:destination="@id/customerProfileAccountInfoFragment" />
-        <action
             android:id="@+id/action_customerFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
     </fragment>
@@ -53,9 +50,4 @@
             android:name="product"
             app:argType="com.example.pokecenter.customer.lam.Model.product.Product" />
     </fragment>
-    <fragment
-        android:id="@+id/customerProfileAccountInfoFragment"
-        android:name="com.example.pokecenter.customer.quan.CustomerProfileTab.CustomerProfileAccountInfoFragment"
-        android:label="fragment_customer_profile_account_info"
-        tools:layout="@layout/fragment_customer_profile_account_info" />
 </navigation>

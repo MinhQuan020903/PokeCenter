@@ -48,6 +48,10 @@
         <activity
             android:name=".admin.AdminActivity"
             android:exported="false"
+            android:theme="@style/Theme.PokeCenter.NoActionBar" />
+        <activity
+            android:name=".customer.lam.CustomerAccountInfoActivity"
+            android:exported="false"
             android:theme="@style/Theme.PokeCenter.NoActionBar"/>
     </application>
 

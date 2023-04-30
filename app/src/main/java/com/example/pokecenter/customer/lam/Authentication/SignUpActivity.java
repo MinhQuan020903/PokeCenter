@@ -2,8 +2,6 @@ package com.example.pokecenter.customer.lam.Authentication;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -19,17 +17,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.pokecenter.admin.AdminActivity;
-import com.example.pokecenter.customer.CustomerActivity;
 import com.example.pokecenter.R;
 import com.example.pokecenter.databinding.ActivitySignUpBinding;
-import com.example.pokecenter.vender.VenderActivity;
 import com.example.pokecenter.customer.lam.API.FirebaseSupport;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -65,7 +56,7 @@ public class SignUpActivity extends AppCompatActivity {
             customerRole.setTypeface(null, Typeface.BOLD);
 
             venderRole.setTextColor(getColor(R.color.light_secondary));
-            venderRole.setBackground(getDrawable(R.drawable.lam_background_outline_secondary));
+            venderRole.setBackground(getDrawable(R.drawable.lam_background_outline));
             venderRole.setTypeface(null, Typeface.NORMAL);
 
             role = 0;
@@ -77,7 +68,7 @@ public class SignUpActivity extends AppCompatActivity {
             venderRole.setTypeface(null, Typeface.BOLD);
 
             customerRole.setTextColor(getColor(R.color.light_secondary));
-            customerRole.setBackground(getDrawable(R.drawable.lam_background_outline_secondary));
+            customerRole.setBackground(getDrawable(R.drawable.lam_background_outline));
             customerRole.setTypeface(null, Typeface.NORMAL);
 
             role = 1;
