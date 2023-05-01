@@ -6,23 +6,16 @@ public class Address {
     private String receiverPhoneNumber;
     private String numberStreetAddress;
     private String address2;
+    private String type;
     private Boolean isDeliveryAddress;
 
-    public Address(String id, String receiverName, String receiverPhoneNumber, String numberStreetAddress, String address2) {
+    public Address(String id, String receiverName, String receiverPhoneNumber, String numberStreetAddress, String address2, String type, Boolean isDeliveryAddress) {
         this.id = id;
         this.receiverName = receiverName;
         this.receiverPhoneNumber = receiverPhoneNumber;
         this.numberStreetAddress = numberStreetAddress;
         this.address2 = address2;
-        this.isDeliveryAddress = false; // Default value
-    }
-
-    public Address(String id, String receiverName, String receiverPhoneNumber, String numberStreetAddress, String address2, Boolean isDeliveryAddress) {
-        this.id = id;
-        this.receiverName = receiverName;
-        this.receiverPhoneNumber = receiverPhoneNumber;
-        this.numberStreetAddress = numberStreetAddress;
-        this.address2 = address2;
+        this.type = type;
         this.isDeliveryAddress = isDeliveryAddress;
     }
 
@@ -64,6 +57,14 @@ public class Address {
 
     public void setAddress2(String address2) {
         this.address2 = address2;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Boolean getDeliveryAddress() {

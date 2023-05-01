@@ -21,7 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.pokecenter.admin.AdminActivity;
 import com.example.pokecenter.customer.CustomerActivity;
 import com.example.pokecenter.R;
-import com.example.pokecenter.customer.lam.API.FirebaseSupport;
+import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
 import com.example.pokecenter.databinding.ActivitySignInBinding;
 import com.example.pokecenter.vender.VenderActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -149,7 +149,7 @@ public class SignInActivity extends AppCompatActivity {
             int fetchedRole = -1;
 
             try {
-                fetchedRole = new FirebaseSupport().getRoleWithEmail(email);
+                fetchedRole = new FirebaseSupportAccount().getRoleWithEmail(email);
             } catch (IOException e) {
                 e.printStackTrace();
             }

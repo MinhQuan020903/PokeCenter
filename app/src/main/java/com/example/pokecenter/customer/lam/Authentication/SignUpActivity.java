@@ -19,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.databinding.ActivitySignUpBinding;
-import com.example.pokecenter.customer.lam.API.FirebaseSupport;
+import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -103,13 +103,13 @@ public class SignUpActivity extends AppCompatActivity {
 
                         /* Save User Info */
                         /* Cách 1 */
-                        new FirebaseSupport().saveUser(email, username, role);
+                        new FirebaseSupportAccount().addNewAccount(email, username, role);
 
                         /* Cách 2: Using API + new Thread
                         ExecutorService executor = Executors.newSingleThreadExecutor();
                         executor.execute(() -> {
                             try {
-                                FirebaseSupport.saveUserUsingApi(email, username, role);
+                                new FirebaseSupportAccount().saveUserUsingApi(email, username, role);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

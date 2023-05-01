@@ -1,41 +1,25 @@
 package com.example.pokecenter.customer.lam.API;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Handler;
-import android.os.Looper;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.example.pokecenter.customer.lam.Model.address.Address;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class FirebaseSupport {
+public class FirebaseSupportAccount {
 
     private String urlDb = "https://pokecenter-ae954-default-rtdb.firebaseio.com/";
 
-    public final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-    public void saveUserUsingApi(String email, String username, int role) throws IOException {
+    public void addNewAccountUsingApi(String email, String username, int role) throws IOException {
 
         User user = new User(username, role);
         String userJson = new Gson().toJson(user);
@@ -56,7 +40,7 @@ public class FirebaseSupport {
         Response response = client.newCall(request).execute();
     }
 
-    public void saveUser(String email, String username, int role) {
+    public void addNewAccount(String email, String username, int role) {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference usersRef = database.getReference("accounts");
@@ -98,6 +82,8 @@ public class FirebaseSupport {
 
         return role;
     }
+
+
 
     class User {
         private String username;

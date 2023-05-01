@@ -4,51 +4,76 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
-public class AddressAdapter extends ArrayAdapter<Address> {
+public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressViewHolder> {
 
     private Context mContext;
 
     private List<Address> mAddresses;
 
     public AddressAdapter(Context context, List<Address> addresses) {
-        super(context, R.layout.lam_customer_address_item, addresses);
         mContext = context;
         mAddresses = addresses;
     }
 
+    public void setData(List<Address> addresses) {
+        mAddresses = addresses;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public AddressViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lam_customer_address_item, parent, false);
+        return new AddressViewHolder(view);
+    }
 
-        View view = LayoutInflater.from(mContext).inflate(R.layout.lam_customer_address_item, null);
+    @Override
+    public void onBindViewHolder(@NonNull AddressViewHolder holder, int position) {
 
         Address address = mAddresses.get(position);
 
-        TextView receiverName = view.findViewById(R.id.receiverName);
-        TextView phoneNumber = view.findViewById(R.id.phoneNumber);
-        TextView numberStreetAddress = view.findViewById(R.id.number_street_address);
-        TextView address_2 = view.findViewById(R.id.address_2);
-        TextView isDeliveryAddress = view.findViewById(R.id.isDeliveryAddress);
+        holder.receiverName.setText(address.getReceiverName());
+        holder.phoneNumber.setText(address.getReceiverPhoneNumber());
+        holder.numberStreetAddress.setText(address.getNumberStreetAddress());
+        holder.address_2.setText(address.getAddress2());
 
-        receiverName.setText(address.getReceiverName());
-        phoneNumber.setText(address.getReceiverPhoneNumber());
-        numberStreetAddress.setText(address.getNumberStreetAddress());
-        address_2.setText(address.getAddress2());
+        holder.isDeliveryAddress.setVisibility(address.getDeliveryAddress() ? View.VISIBLE : View.GONE);
+    }
 
-        isDeliveryAddress.setVisibility(address.getDeliveryAddress() ? View.VISIBLE : View.GONE);
+    @Override
+    public int getItemCount() {
+        if (mAddresses == null ) {
+            return 0;
+        }
+        return mAddresses.size();
+    }
 
-        return view;
+    public class AddressViewHolder  extends RecyclerView.ViewHolder {
+
+        private TextView receiverName;
+        private TextView phoneNumber;
+        private TextView numberStreetAddress;
+        private TextView address_2;
+        private TextView isDeliveryAddress;
+
+        public AddressViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            receiverName = itemView.findViewById(R.id.receiverName);
+            phoneNumber = itemView.findViewById(R.id.phoneNumber);
+            numberStreetAddress = itemView.findViewById(R.id.number_street_address);
+            address_2 = itemView.findViewById(R.id.address_2);
+            isDeliveryAddress = itemView.findViewById(R.id.isDeliveryAddress);
+
+        }
     }
 }

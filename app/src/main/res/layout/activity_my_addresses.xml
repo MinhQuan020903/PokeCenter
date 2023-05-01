@@ -8,12 +8,28 @@
     android:background="@color/light_canvas"
     android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/lvAdresses"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        tools:listitem="@layout/lam_customer_address_item" />
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvAddresses"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/lam_customer_address_item" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/rcvAddresses"
+            app:layout_constraintEnd_toEndOf="@+id/rcvAddresses"
+            app:layout_constraintStart_toStartOf="@+id/rcvAddresses"
+            app:layout_constraintTop_toTopOf="@+id/rcvAddresses" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <LinearLayout
         android:id="@+id/addNewAddress"

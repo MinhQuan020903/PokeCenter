@@ -72,37 +72,37 @@ public class CustomerHomeFragment extends Fragment implements RecyclerViewInterf
         rcvPokemon.setLayoutManager(linearLayoutManager);
         rcvPokemon.setAdapter(pokemonAdapter);
 
-        if (PokeApiFetcher.pokemonHomeDemoData.isEmpty()) {
-            // Chỗ này là để set Data cho Adapter là những cái loading Card
-            ArrayList<Pokemon> loadingPokemons = new ArrayList<>();
-            for (int i = 1; i <= 10; ++i) {
-                loadingPokemons.add(new Pokemon("loading", "", ""));
-            }
-
-            pokemonAdapter.setData(loadingPokemons);
-
-
-            ExecutorService executor = Executors.newSingleThreadExecutor();
-            Handler handler = new Handler(Looper.getMainLooper());
-
-            for (int i = 0; i < loadingPokemons.size(); ++i) {
-                Pokemon poke = loadingPokemons.get(i);
-
-                int finalI = i;
-                executor.execute(() -> {
-                    Pokemon fetchedPokemon = PokeApiFetcher.fetchPokemonRandom();
-                    handler.post(() -> {
-                        poke.setName(fetchedPokemon.getName());
-                        poke.setImageUrl(fetchedPokemon.getImageUrl());
-                        poke.setType(fetchedPokemon.getType());
-                        pokemonAdapter.updateItem(finalI);
-                    });
-                });
-            }
-        }
-        else {
-            pokemonAdapter.setData(PokeApiFetcher.pokemonHomeDemoData);
-        }
+//        if (PokeApiFetcher.pokemonHomeDemoData.isEmpty()) {
+//            // Chỗ này là để set Data cho Adapter là những cái loading Card
+//            ArrayList<Pokemon> loadingPokemons = new ArrayList<>();
+//            for (int i = 1; i <= 10; ++i) {
+//                loadingPokemons.add(new Pokemon("loading", "", ""));
+//            }
+//
+//            pokemonAdapter.setData(loadingPokemons);
+//
+//
+//            ExecutorService executor = Executors.newSingleThreadExecutor();
+//            Handler handler = new Handler(Looper.getMainLooper());
+//
+//            for (int i = 0; i < loadingPokemons.size(); ++i) {
+//                Pokemon poke = loadingPokemons.get(i);
+//
+//                int finalI = i;
+//                executor.execute(() -> {
+//                    Pokemon fetchedPokemon = PokeApiFetcher.fetchPokemonRandom();
+//                    handler.post(() -> {
+//                        poke.setName(fetchedPokemon.getName());
+//                        poke.setImageUrl(fetchedPokemon.getImageUrl());
+//                        poke.setType(fetchedPokemon.getType());
+//                        pokemonAdapter.updateItem(finalI);
+//                    });
+//                });
+//            }
+//        }
+//        else {
+//            pokemonAdapter.setData(PokeApiFetcher.pokemonHomeDemoData);
+//        }
 
         // _______Trending________
         rcvProduct = binding.rcvGridProduct;
