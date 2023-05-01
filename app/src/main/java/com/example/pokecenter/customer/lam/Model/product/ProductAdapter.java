@@ -1,7 +1,6 @@
 package com.example.pokecenter.customer.lam.Model.product;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
-import com.example.pokecenter.customer.lam.Interface.RecyclerViewInterface;
-import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
-import com.example.pokecenter.customer.lam.Model.pokemon.PokemonAdapter;
+import com.example.pokecenter.customer.lam.Interface.PokemonRecyclerViewInterface;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
@@ -28,11 +25,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private Context mContext;
     private ArrayList<Product> mProducts = new ArrayList<>();
 
-    private final RecyclerViewInterface recyclerViewInterface;
+    private final PokemonRecyclerViewInterface pokemonRecyclerViewInterface;
 
-    public ProductAdapter(Context context, RecyclerViewInterface recyclerViewInterface) {
+    public ProductAdapter(Context context, PokemonRecyclerViewInterface pokemonRecyclerViewInterface) {
         this.mContext = context;
-        this.recyclerViewInterface = recyclerViewInterface;
+        this.pokemonRecyclerViewInterface = pokemonRecyclerViewInterface;
     }
 
     public void setData(ArrayList<Product> list) {
@@ -50,7 +47,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lam_card_view_product, parent, false);
-        return new ProductAdapter.ProductViewHolder(view, recyclerViewInterface);
+        return new ProductAdapter.ProductViewHolder(view, pokemonRecyclerViewInterface);
     }
 
     @Override
@@ -85,7 +82,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         private TextView productPrice;
         private ProgressBar progress_bar;
 
-        public ProductViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
+        public ProductViewHolder(@NonNull View itemView, PokemonRecyclerViewInterface pokemonRecyclerViewInterface) {
             super(itemView);
 
             productImage = itemView.findViewById(R.id.product_image);
@@ -99,11 +96,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             });
 
             itemView.setOnClickListener(view -> {
-                if (recyclerViewInterface != null) {
+                if (pokemonRecyclerViewInterface != null) {
                     int pos = getAbsoluteAdapterPosition();
 
                     if (pos != RecyclerView.NO_POSITION) {
-                        recyclerViewInterface.onProductCardClick(mProducts.get(pos));
+                        pokemonRecyclerViewInterface.onProductCardClick(mProducts.get(pos));
                     }
                 }
             });

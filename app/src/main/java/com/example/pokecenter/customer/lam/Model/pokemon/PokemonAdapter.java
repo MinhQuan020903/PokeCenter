@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
-import com.example.pokecenter.customer.lam.Interface.RecyclerViewInterface;
+import com.example.pokecenter.customer.lam.Interface.PokemonRecyclerViewInterface;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -24,11 +24,11 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
     private Context mContext;
     private ArrayList<Pokemon> mPokemons = new ArrayList<>();
 
-    private final RecyclerViewInterface recyclerViewInterface;
+    private final PokemonRecyclerViewInterface pokemonRecyclerViewInterface;
 
-    public PokemonAdapter(Context context, RecyclerViewInterface recyclerViewInterface) {
+    public PokemonAdapter(Context context, PokemonRecyclerViewInterface pokemonRecyclerViewInterface) {
         this.mContext  = context;
-        this.recyclerViewInterface = recyclerViewInterface;
+        this.pokemonRecyclerViewInterface = pokemonRecyclerViewInterface;
     }
 
     public void setData(ArrayList<Pokemon> list) {
@@ -56,7 +56,7 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
     @Override
     public PokemonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lam_card_view_pokemon_api, parent, false);
-        return new PokemonViewHolder(view, recyclerViewInterface);
+        return new PokemonViewHolder(view, pokemonRecyclerViewInterface);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
         private LinearLayout pokeLayoutCard;
         private ProgressBar progress_bar;
 
-        public PokemonViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
+        public PokemonViewHolder(@NonNull View itemView, PokemonRecyclerViewInterface pokemonRecyclerViewInterface) {
             super(itemView);
 
             pokeImage = itemView.findViewById(R.id.poke_image);
@@ -95,11 +95,11 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
             progress_bar = itemView.findViewById(R.id.progress_bar);
 
             itemView.setOnClickListener(view -> {
-                if (recyclerViewInterface != null) {
+                if (pokemonRecyclerViewInterface != null) {
                     int pos = getAbsoluteAdapterPosition();
 
                     if (pos != RecyclerView.NO_POSITION) {
-                         recyclerViewInterface.onPokemonCardClick(mPokemons.get(pos));
+                         pokemonRecyclerViewInterface.onPokemonCardClick(mPokemons.get(pos));
                     }
                 }
             });

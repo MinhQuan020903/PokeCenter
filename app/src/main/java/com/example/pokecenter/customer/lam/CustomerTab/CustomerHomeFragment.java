@@ -1,19 +1,11 @@
 package com.example.pokecenter.customer.lam.CustomerTab;
 
-import static androidx.core.content.ContextCompat.getColor;
-
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -21,20 +13,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
-import com.example.pokecenter.customer.lam.API.PokeApiFetcher;
-import com.example.pokecenter.customer.lam.Interface.RecyclerViewInterface;
+import com.example.pokecenter.customer.lam.Interface.PokemonRecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
 import com.example.pokecenter.customer.lam.Model.pokemon.PokemonAdapter;
 import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.customer.lam.Model.product.ProductAdapter;
-import com.example.pokecenter.customer.lam.ProductByPokemonFragment;
 import com.example.pokecenter.databinding.FragmentCustomerHomeBinding;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-public class CustomerHomeFragment extends Fragment implements RecyclerViewInterface {
+public class CustomerHomeFragment extends Fragment implements PokemonRecyclerViewInterface {
 
     private FragmentCustomerHomeBinding binding;
     private RecyclerView rcvPokemon;

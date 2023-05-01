@@ -5,7 +5,6 @@ import static com.example.pokecenter.customer.lam.API.PokeApiFetcher.allPokeName
 import android.content.Context;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
@@ -14,30 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.PokeApiFetcher;
-import com.example.pokecenter.customer.lam.CustomerTab.CustomerFragment;
-import com.example.pokecenter.customer.lam.CustomerTab.CustomerFragmentDirections;
-import com.example.pokecenter.customer.lam.CustomerTab.CustomerHomeFragment;
-import com.example.pokecenter.customer.lam.Interface.RecyclerViewInterface;
+import com.example.pokecenter.customer.lam.Interface.PokemonRecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
 import com.example.pokecenter.customer.lam.Model.pokemon.PokemonAdapter;
 import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.databinding.FragmentCustomerPokedexBinding;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
@@ -48,7 +35,7 @@ import java.util.concurrent.Executors;
  * Use the {@link CustomerPokedexFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CustomerPokedexFragment extends Fragment implements RecyclerViewInterface {
+public class CustomerPokedexFragment extends Fragment implements PokemonRecyclerViewInterface {
 
     private FragmentCustomerPokedexBinding binding;
     private RecyclerView rcvGridPokemon;

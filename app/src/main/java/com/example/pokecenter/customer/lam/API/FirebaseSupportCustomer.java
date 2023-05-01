@@ -56,6 +56,7 @@ public class FirebaseSupportCustomer {
         pushData.put("receiverPhoneNumber", newAddress.getReceiverPhoneNumber());
         pushData.put("numberStreetAddress", newAddress.getNumberStreetAddress());
         pushData.put("address2", newAddress.getAddress2());
+        pushData.put("type", newAddress.getType());
         pushData.put("isDeliveryAddress", newAddress.getDeliveryAddress());
 
         /* convert pushData to Json string */
@@ -80,20 +81,20 @@ public class FirebaseSupportCustomer {
             newAddress.setId(extractedData.get("name"));
 
             if (newAddress.getDeliveryAddress() == true) {
-                removeCurrentDeliveryAddress();
+                removeOldDeliveryAddress(newAddress.getId());
             }
 
         }
 
     }
 
-    private void removeCurrentDeliveryAddress() {
+    private void removeOldDeliveryAddress(String newIdDeliveryAddress) throws IOException {
 
         String remoteId = "";
 
         /* set current Delivery Address to false locally*/
         for (Address address : MyAddressesActivity.myAddresses) {
-            if (address.getDeliveryAddress() == true) {
+            if (address.getDeliveryAddress() == true && address.getId() != newIdDeliveryAddress) {
                 address.setDeliveryAddress(false);
                 remoteId = address.getId();
                 break;
@@ -123,13 +124,7 @@ public class FirebaseSupportCustomer {
                 .patch(body)
                 .build();
 
-        executor.execute(() -> {
-            try {
-                client.newCall(request).execute();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        client.newCall(request).execute();
     }
 
     public List<Address> fetchingAddressesData() throws IOException {
@@ -160,7 +155,7 @@ public class FirebaseSupportCustomer {
                                 (String) value.get("receiverPhoneNumber"),
                                 (String) value.get("numberStreetAddress"),
                                 (String) value.get("address2"),
-                                (String) value.get("Type"),
+                                (String) value.get("type"),
                                 (Boolean) value.get("isDeliveryAddress")
                         )
                 );
@@ -169,6 +164,45 @@ public class FirebaseSupportCustomer {
 
         return fetchedAddresses;
 
+    }
+
+    public void deleteAddress(String id) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(urlDb + "accounts/" + emailWithCurrentUser.replace(".", ",") + "/addresses/" + id + ".json")
+                .delete()
+                .build();
+
+        Response response = client.newCall(request).execute();
+    }
+
+    public void updateAddress(Address addressNeedsToBeUpdate) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        Map<String, Object> updateData = new HashMap<>();
+        updateData.put("receiverName", addressNeedsToBeUpdate.getReceiverName());
+        updateData.put("receiverPhoneNumber", addressNeedsToBeUpdate.getReceiverPhoneNumber());
+        updateData.put("numberStreetAddress", addressNeedsToBeUpdate.getNumberStreetAddress());
+        updateData.put("address2", addressNeedsToBeUpdate.getAddress2());
+        updateData.put("type", addressNeedsToBeUpdate.getType());
+        updateData.put("isDeliveryAddress", addressNeedsToBeUpdate.getDeliveryAddress());
+
+        String userJsonData = new Gson().toJson(updateData);
+
+        // create request body
+        RequestBody body = RequestBody.create(userJsonData, JSON);
+
+        // create POST request
+        Request request = new Request.Builder()
+                .url(urlDb + "accounts/" + emailWithCurrentUser.replace(".", ",") + "/addresses/" + addressNeedsToBeUpdate.getId() + ".json")
+                .patch(body)
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+            removeOldDeliveryAddress(addressNeedsToBeUpdate.getId());
+        }
     }
 
 }

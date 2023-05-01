@@ -5,6 +5,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -20,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
+import com.example.pokecenter.customer.lam.Interface.AddressRecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.address.Address;
 import com.example.pokecenter.customer.lam.Model.address.AddressAdapter;
 import com.example.pokecenter.databinding.ActivityMyAddressesBinding;
@@ -31,9 +34,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import okhttp3.Response;
-
-public class MyAddressesActivity extends AppCompatActivity {
+public class MyAddressesActivity extends AppCompatActivity implements AddressRecyclerViewInterface {
 
     private ActivityMyAddressesBinding binding;
 
@@ -60,6 +61,7 @@ public class MyAddressesActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // getSupportActionBar().setHomeAsUpIndicator(R.drawable.lam_round_arrow_back_secondary_24);
 
+
         binding = ActivityMyAddressesBinding.inflate(getLayoutInflater());
 
         /* Set Address ListView */
@@ -67,12 +69,8 @@ public class MyAddressesActivity extends AppCompatActivity {
         binding.rcvAddresses.setLayoutManager(linearLayoutManager);
         binding.rcvAddresses.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-        addressAdapter = new AddressAdapter(this, myAddresses);
+        addressAdapter = new AddressAdapter(this, myAddresses, this);
         binding.rcvAddresses.setAdapter(addressAdapter);
-
-        binding.addNewAddress.setOnClickListener(view -> {
-            openBottomSheetDialog();
-        });
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
@@ -101,7 +99,7 @@ public class MyAddressesActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
     }
 
-    private void openBottomSheetDialog() {
+    private void openBottomSheetDialog(Address existingAddress) {
 
         View viewDialog = getLayoutInflater().inflate(R.layout.lam_address_bottom_sheet, null);
 
@@ -126,6 +124,19 @@ public class MyAddressesActivity extends AppCompatActivity {
         Button finishButton = viewDialog.findViewById(R.id.finish_button);
         Switch setDeliverySwitch = viewDialog.findViewById(R.id.set_delivery_switch);
 
+
+        if (existingAddress != null) {
+
+            fullName.setText(existingAddress.getReceiverName());
+            phoneNumber.setText(existingAddress.getReceiverPhoneNumber());
+            numberStreetAddress.setText(existingAddress.getNumberStreetAddress());
+            address2.setText(existingAddress.getAddress2());
+            homeButton.setChecked(existingAddress.getType().equals("home") ? true : false);
+            officeButton.setChecked(existingAddress.getType().equals("home") ? false : true);
+            setDeliverySwitch.setChecked(existingAddress.getDeliveryAddress());
+
+        }
+
         homeButton.setOnClickListener(view -> {
             officeButton.setChecked(false);
         });
@@ -134,7 +145,11 @@ public class MyAddressesActivity extends AppCompatActivity {
             homeButton.setChecked(false);
         });
 
+        View parentView = (View) viewDialog.getParent();
+
         finishButton.setOnClickListener(view -> {
+            finishButton.setVisibility(View.INVISIBLE);
+
             if (validateDataInput(fullName, phoneNumber, numberStreetAddress, address2)) {
 
                 Address newAddress = new Address(
@@ -150,36 +165,75 @@ public class MyAddressesActivity extends AppCompatActivity {
                 ExecutorService executor = Executors.newSingleThreadExecutor();
                 Handler handler = new Handler(Looper.getMainLooper());
 
-                executor.execute(() -> {
+                if (existingAddress != null) {
 
-                    boolean isSuccessful = true;
+                    /* update existing address */
+                    existingAddress.setReceiverName(newAddress.getReceiverName());
+                    existingAddress.setReceiverPhoneNumber(newAddress.getReceiverPhoneNumber());
+                    existingAddress.setNumberStreetAddress(newAddress.getNumberStreetAddress());
+                    existingAddress.setAddress2(newAddress.getAddress2());
+                    existingAddress.setType(newAddress.getType());
+                    existingAddress.setDeliveryAddress(newAddress.getDeliveryAddress());
 
-                    try {
-                        new FirebaseSupportCustomer().addNewAddressUsingApi(newAddress);
-                    } catch (IOException e) {
-                        isSuccessful = false;
-                    }
+                    executor.execute(() -> {
 
-                    boolean finalIsSuccessful = isSuccessful;
-                    handler.post(() -> {
-                        if (finalIsSuccessful) {
-                            myAddresses.add(newAddress);
-                            addressAdapter.notifyDataSetChanged();
-                            dialog.dismiss();
-                            Toast.makeText(this, "Added new address", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(this, "Add new address failed", Toast.LENGTH_SHORT).show();
-                            finishButton.setText("try again");
+                        boolean isSuccessful = true;
+
+                        try {
+                            new FirebaseSupportCustomer().updateAddress(existingAddress);
+                        } catch (IOException e) {
+                            isSuccessful = false;
                         }
+
+                        boolean finalIsSuccessful = isSuccessful;
+                        handler.post(() -> {
+
+                            if (finalIsSuccessful) {
+                                addressAdapter.notifyDataSetChanged();
+                                dialog.dismiss();
+                                Toast.makeText(this, "Update address successful", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(this, "Update failed", Toast.LENGTH_SHORT).show();
+                                finishButton.setText("try again");
+                            }
+
+                        });
                     });
-                });
+                } else {
+
+                    /* add newAddress to Firebase */
+                    executor.execute(() -> {
+
+                        boolean isSuccessful = true;
+
+                        try {
+                            new FirebaseSupportCustomer().addNewAddressUsingApi(newAddress);
+                        } catch (IOException e) {
+                            isSuccessful = false;
+                        }
+
+                        boolean finalIsSuccessful = isSuccessful;
+                        handler.post(() -> {
+                            if (finalIsSuccessful) {
+                                myAddresses.add(newAddress);
+                                addressAdapter.notifyDataSetChanged();
+                                dialog.dismiss();
+                                Toast.makeText(this, "Added new address", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(this, "Something wrong because connection error", Toast.LENGTH_SHORT).show();
+                                finishButton.setText("try again");
+                            }
+                        });
+                    });
+                }
+
 
 
             }
+            finishButton.setVisibility(View.VISIBLE);
         });
 
     }
-
     private boolean validateDataInput(EditText fullName, EditText phoneNumber, EditText numberStreetAddress, EditText address2) {
         if (fullName.getText().toString().isEmpty()) {
             fullName.setError("You have not entered Full Name");
@@ -204,6 +258,22 @@ public class MyAddressesActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.lam_menu_only_add_item, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.addButton) {
+            openBottomSheetDialog(null);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
         finish();
         return true;
@@ -214,5 +284,49 @@ public class MyAddressesActivity extends AppCompatActivity {
         super.onDestroy();
         binding = null;
         myAddresses = null;
+    }
+
+    @Override
+    public void onAddressDeleteButtonClick(int position) {
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.progressBarBg.setVisibility(View.VISIBLE);
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+
+
+        executor.execute(() -> {
+            boolean isSuccessful = true;
+            try {
+                new FirebaseSupportCustomer().deleteAddress(myAddresses.get(position).getId());
+            } catch (IOException e) {
+                isSuccessful = false;
+            }
+            boolean finalIsSuccessful = isSuccessful;
+            handler.post(() -> {
+                if (finalIsSuccessful) {
+
+                    Toast.makeText(this, "Address removed", Toast.LENGTH_SHORT)
+                            .show();
+                    myAddresses.remove(position);
+                    addressAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(this, "Delete address failed, try againt later!", Toast.LENGTH_SHORT)
+                            .show();
+                }
+                binding.progressBar.setVisibility(View.INVISIBLE);
+                binding.progressBarBg.setVisibility(View.INVISIBLE);
+            });
+        });
+    }
+
+    @Override
+    public void onAddressItemClick(int position) {
+        openBottomSheetDialog(myAddresses.get(position));
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+        super.onPointerCaptureChanged(hasCapture);
     }
 }
