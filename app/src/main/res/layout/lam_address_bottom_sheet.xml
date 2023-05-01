@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:inputType="text"
         android:background="@color/white"
-        android:hint="Fullname"
+        android:hint="Full Name"
         android:paddingVertical="14dp"
         android:paddingHorizontal="20dp"
         android:textColorHint="#9A9A9A"/>
@@ -144,11 +144,11 @@
             android:paddingVertical="14dp"
             android:paddingHorizontal="20dp"
             android:textColor="@color/black"
-            android:text="Set default address"
+            android:text="Set delivery address"
             android:textSize="16sp"/>
 
         <Switch
-            android:id="@+id/set_default_switch"
+            android:id="@+id/set_delivery_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"/>
@@ -161,4 +161,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:text="Finish"/>
+
+
 </LinearLayout>

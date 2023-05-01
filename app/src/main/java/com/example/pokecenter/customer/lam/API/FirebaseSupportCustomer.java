@@ -42,7 +42,7 @@ public class FirebaseSupportCustomer {
     private ExecutorService executor = Executors.newSingleThreadExecutor();
     private Handler handler = new Handler(Looper.getMainLooper());
 
-    public void addNewAddressUsingApi(Address newAddress, Context context) {
+    public void addNewAddressUsingApi(Address newAddress) throws IOException {
 
         // create OkHttpClient instance
         OkHttpClient client = new OkHttpClient();
@@ -68,33 +68,16 @@ public class FirebaseSupportCustomer {
                 .build();
 
 
-        executor.execute(() -> {
+        Response response = client.newCall(request).execute();
 
-            Response response = null;
-            try {
-                response = client.newCall(request).execute();
-            } catch (IOException e) {
-            }
+        if (response.isSuccessful()) {
+            newAddress.setId(response.body().string());
+            setDeliveryAddress(newAddress.getId());
+        }
 
-            boolean finalOk = response.isSuccessful();
+    }
 
-            String id = "";
-
-            try {
-                id = response.body().string();
-            } catch (IOException e) {
-            }
-
-            String finalId = id;
-            handler.post(() -> {
-                if (finalOk) {
-                    newAddress.setId(finalId);
-                    Toast.makeText(context, "Added new address", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(context, "Add new address failed", Toast.LENGTH_SHORT).show();
-                }
-            });
-        });
+    private void setDeliveryAddress(String id) {
 
     }
 

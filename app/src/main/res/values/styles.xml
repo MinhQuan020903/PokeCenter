@@ -13,4 +13,5 @@
     <style name="LogoutButton">
         <item name="colorPrimary">@android:color/holo_red_light</item>
     </style>
+
 </resources>

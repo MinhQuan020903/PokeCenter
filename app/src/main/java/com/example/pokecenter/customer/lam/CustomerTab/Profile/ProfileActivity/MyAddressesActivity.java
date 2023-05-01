@@ -1,17 +1,18 @@
 package com.example.pokecenter.customer.lam.CustomerTab.Profile.ProfileActivity;
 
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.Html;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.Switch;
+import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,17 +25,21 @@ import com.example.pokecenter.customer.lam.Model.address.AddressAdapter;
 import com.example.pokecenter.databinding.ActivityMyAddressesBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import okhttp3.Response;
 
 public class MyAddressesActivity extends AppCompatActivity {
 
     private ActivityMyAddressesBinding binding;
 
     private List<Address> myAddresses = new ArrayList<>();
+
+    private AddressAdapter addressAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +67,7 @@ public class MyAddressesActivity extends AppCompatActivity {
         binding.rcvAddresses.setLayoutManager(linearLayoutManager);
         binding.rcvAddresses.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-        AddressAdapter addressAdapter = new AddressAdapter(this, myAddresses);
+        addressAdapter = new AddressAdapter(this, myAddresses);
         binding.rcvAddresses.setAdapter(addressAdapter);
 
         binding.addNewAddress.setOnClickListener(view -> {
@@ -92,6 +97,99 @@ public class MyAddressesActivity extends AppCompatActivity {
         BottomSheetDialog dialog = new BottomSheetDialog(this);
         dialog.setContentView(viewDialog);
         dialog.show();
+
+        viewDialog.setOnClickListener(view -> {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        });
+
+        EditText fullName = viewDialog.findViewById(R.id.fullName_edit_text);
+        EditText phoneNumber = viewDialog.findViewById(R.id.phoneNumber_edit_text);
+
+        EditText numberStreetAddress = viewDialog.findViewById(R.id.numberStreetAddress_edit_text);
+        EditText address2 = viewDialog.findViewById(R.id.address_2_edit_text);
+
+        RadioButton homeButton = viewDialog.findViewById(R.id.homeType);
+        RadioButton officeButton = viewDialog.findViewById(R.id.officeType);
+
+        Button finishButton = viewDialog.findViewById(R.id.finish_button);
+        Switch setDeliverySwitch = viewDialog.findViewById(R.id.set_delivery_switch);
+
+        homeButton.setOnClickListener(view -> {
+            officeButton.setChecked(false);
+        });
+
+        officeButton.setOnClickListener(view -> {
+            homeButton.setChecked(false);
+        });
+
+        finishButton.setOnClickListener(view -> {
+            if (validateDataInput(fullName, phoneNumber, numberStreetAddress, address2)) {
+
+                Address newAddress = new Address(
+                        null,
+                        fullName.getText().toString(),
+                        phoneNumber.getText().toString(),
+                        numberStreetAddress.getText().toString(),
+                        address2.getText().toString(),
+                        homeButton.isChecked() ? "home" : "office",
+                        setDeliverySwitch.isChecked()
+                );
+
+                ExecutorService executor = Executors.newSingleThreadExecutor();
+                Handler handler = new Handler(Looper.getMainLooper());
+
+                executor.execute(() -> {
+
+                    boolean isSuccessful = true;
+
+                    try {
+                        new FirebaseSupportCustomer().addNewAddressUsingApi(newAddress);
+                    } catch (IOException e) {
+                        isSuccessful = false;
+                    }
+
+                    boolean finalIsSuccessful = isSuccessful;
+                    handler.post(() -> {
+                        if (finalIsSuccessful) {
+                            Toast.makeText(this, "Added new address", Toast.LENGTH_SHORT).show();
+                            myAddresses.add(newAddress);
+                            addressAdapter.notifyDataSetChanged();
+                            dialog.dismiss();
+                        } else {
+                            Toast.makeText(this, "Add new address failed", Toast.LENGTH_SHORT).show();
+                            finishButton.setText("try again");
+                        }
+                    });
+                });
+
+
+            }
+        });
+
+    }
+
+    private boolean validateDataInput(EditText fullName, EditText phoneNumber, EditText numberStreetAddress, EditText address2) {
+        if (fullName.getText().toString().isEmpty()) {
+            fullName.setError("You have not entered Full Name");
+            return false;
+        }
+
+        if (phoneNumber.getText().toString().isEmpty()) {
+            phoneNumber.setError("You have not entered Phone Number");
+            return false;
+        }
+
+        if (numberStreetAddress.getText().toString().isEmpty()) {
+            numberStreetAddress.setError("You have not entered Address 1");
+            return false;
+        }
+
+        if (address2.getText().toString().isEmpty()) {
+            address2.setError("You have not entered Address 2");
+            return false;
+        }
+        return true;
     }
 
     @Override
