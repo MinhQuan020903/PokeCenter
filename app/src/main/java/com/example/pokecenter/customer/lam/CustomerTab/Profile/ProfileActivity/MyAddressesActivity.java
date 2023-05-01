@@ -37,7 +37,7 @@ public class MyAddressesActivity extends AppCompatActivity {
 
     private ActivityMyAddressesBinding binding;
 
-    private List<Address> myAddresses = new ArrayList<>();
+    public static List<Address> myAddresses = new ArrayList<>();
 
     private AddressAdapter addressAdapter;
 
@@ -78,12 +78,23 @@ public class MyAddressesActivity extends AppCompatActivity {
         Handler handler = new Handler(Looper.getMainLooper());
 
         executor.execute(() -> {
-            final List<Address> fetchedAddressesData = new FirebaseSupportCustomer().fetchingAddressesData();
+            List<Address> fetchedAddressesData;
+            try {
+                fetchedAddressesData = new FirebaseSupportCustomer().fetchingAddressesData();
+            } catch (IOException e) {
+                fetchedAddressesData = null;
+            }
 
+            List<Address> finalFetchedAddressesData = fetchedAddressesData;
             handler.post(() -> {
-                myAddresses = fetchedAddressesData;
-                binding.progressBar.setVisibility(View.INVISIBLE);
-                addressAdapter.setData(myAddresses);
+                if (finalFetchedAddressesData != null) {
+                    myAddresses = finalFetchedAddressesData;
+                    binding.progressBar.setVisibility(View.INVISIBLE);
+                    addressAdapter.setData(myAddresses);
+                } else {
+                    Toast.makeText(this, "Connect sever failed", Toast.LENGTH_SHORT)
+                            .show();
+                }
             });
         });
 
@@ -152,10 +163,10 @@ public class MyAddressesActivity extends AppCompatActivity {
                     boolean finalIsSuccessful = isSuccessful;
                     handler.post(() -> {
                         if (finalIsSuccessful) {
-                            Toast.makeText(this, "Added new address", Toast.LENGTH_SHORT).show();
                             myAddresses.add(newAddress);
                             addressAdapter.notifyDataSetChanged();
                             dialog.dismiss();
+                            Toast.makeText(this, "Added new address", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(this, "Add new address failed", Toast.LENGTH_SHORT).show();
                             finishButton.setText("try again");
@@ -202,5 +213,6 @@ public class MyAddressesActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         binding = null;
+        myAddresses = null;
     }
 }

@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.ProfileActivity.MyAddressesActivity;
 import com.example.pokecenter.customer.lam.Model.address.Address;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -17,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -71,17 +74,65 @@ public class FirebaseSupportCustomer {
         Response response = client.newCall(request).execute();
 
         if (response.isSuccessful()) {
-            newAddress.setId(response.body().string());
-            setDeliveryAddress(newAddress.getId());
+            Type type = new TypeToken<Map<String, Object>>(){}.getType();
+            Map<String, String> extractedData = new Gson().fromJson(response.body().string(), type);
+
+            newAddress.setId(extractedData.get("name"));
+
+            if (newAddress.getDeliveryAddress() == true) {
+                removeCurrentDeliveryAddress();
+            }
+
         }
 
     }
 
-    private void setDeliveryAddress(String id) {
+    private void removeCurrentDeliveryAddress() {
 
+        String remoteId = "";
+
+        /* set current Delivery Address to false locally*/
+        for (Address address : MyAddressesActivity.myAddresses) {
+            if (address.getDeliveryAddress() == true) {
+                address.setDeliveryAddress(false);
+                remoteId = address.getId();
+                break;
+            }
+        }
+
+        System.out.println("ID = " + remoteId);
+
+        if (remoteId == "") {
+            return;
+        }
+
+        /* set current Delivery Address to false remotely */
+        OkHttpClient client = new OkHttpClient();
+
+        Map<String, Object> updateData = new HashMap<>();
+        updateData.put("isDeliveryAddress", false);
+
+        String jsonData = new Gson().toJson(updateData);
+
+        RequestBody body = RequestBody.create(jsonData, JSON);
+
+        String url = urlDb + "accounts/" + emailWithCurrentUser.replace(".", ",") + "/addresses/" + remoteId + ".json";
+
+        Request request = new Request.Builder()
+                .url(url)
+                .patch(body)
+                .build();
+
+        executor.execute(() -> {
+            try {
+                client.newCall(request).execute();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
-    public List<Address> fetchingAddressesData() {
+    public List<Address> fetchingAddressesData() throws IOException {
         List<Address> fetchedAddresses = new ArrayList<>();
 
         OkHttpClient client = new OkHttpClient();
@@ -90,38 +141,31 @@ public class FirebaseSupportCustomer {
                 .url(urlDb + "accounts/" + emailWithCurrentUser.replace(".", ",") + "/addresses.json")
                 .build();
 
-        Response response = null;
-        try {
-            response = client.newCall(request).execute();
-        } catch (IOException e) {
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+            String responseString = response.body().string();
+
+            Type type = new TypeToken<Map<String, Object>>(){}.getType();
+
+            Map<String, Map<String, Object>> extractedData = new Gson().fromJson(responseString, type);
+
+
+
+            extractedData.forEach((key, value) -> {
+
+                fetchedAddresses.add(new Address(
+                                key,
+                                (String) value.get("receiverName"),
+                                (String) value.get("receiverPhoneNumber"),
+                                (String) value.get("numberStreetAddress"),
+                                (String) value.get("address2"),
+                                (String) value.get("Type"),
+                                (Boolean) value.get("isDeliveryAddress")
+                        )
+                );
+            });
         }
-
-        String responseString = null;
-        try {
-            responseString = response.body().string();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        Type type = new TypeToken<Map<String, Object>>(){}.getType();
-
-        Map<String, Map<String, Object>> extractedData = new Gson().fromJson(responseString, type);
-
-
-
-        extractedData.forEach((key, value) -> {
-
-            fetchedAddresses.add(new Address(
-                            key,
-                            (String) value.get("receiverName"),
-                            (String) value.get("receiverPhoneNumber"),
-                            (String) value.get("numberStreetAddress"),
-                            (String) value.get("address2"),
-                            (String) value.get("Type"),
-                            (Boolean) value.get("isDeliveryAddress")
-                    )
-            );
-        });
 
         return fetchedAddresses;
 

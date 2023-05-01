@@ -146,12 +146,12 @@ public class SignInActivity extends AppCompatActivity {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
-            int fetchedRole = -1;
+            int fetchedRole;
 
             try {
                 fetchedRole = new FirebaseSupportAccount().getRoleWithEmail(email);
             } catch (IOException e) {
-                e.printStackTrace();
+                fetchedRole = -1;
             }
 
             int finalFetchedRole = fetchedRole;
