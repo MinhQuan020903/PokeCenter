@@ -134,6 +134,7 @@ public class FirebaseSupportCustomer {
                             (String) value.get("receiverPhoneNumber"),
                             (String) value.get("numberStreetAddress"),
                             (String) value.get("address2"),
+                            (String) value.get("Type"),
                             (Boolean) value.get("isDeliveryAddress")
                     )
             );

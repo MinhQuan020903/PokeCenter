@@ -126,7 +126,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     void popUpDialogToInform() {
         Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.success_sign_up_dialog);
+        dialog.setContentView(R.layout.lam_success_sign_up_dialog);
 
         Window window = dialog.getWindow();
 

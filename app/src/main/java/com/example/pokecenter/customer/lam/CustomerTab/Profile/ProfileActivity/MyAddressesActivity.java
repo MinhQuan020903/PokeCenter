@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +22,7 @@ import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.customer.lam.Model.address.Address;
 import com.example.pokecenter.customer.lam.Model.address.AddressAdapter;
 import com.example.pokecenter.databinding.ActivityMyAddressesBinding;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,12 +60,13 @@ public class MyAddressesActivity extends AppCompatActivity {
         /* Set Address ListView */
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         binding.rcvAddresses.setLayoutManager(linearLayoutManager);
+        binding.rcvAddresses.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         AddressAdapter addressAdapter = new AddressAdapter(this, myAddresses);
         binding.rcvAddresses.setAdapter(addressAdapter);
 
         binding.addNewAddress.setOnClickListener(view -> {
-
+            openBottomSheetDialog();
         });
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -80,6 +83,15 @@ public class MyAddressesActivity extends AppCompatActivity {
         });
 
         setContentView(binding.getRoot());
+    }
+
+    private void openBottomSheetDialog() {
+
+        View viewDialog = getLayoutInflater().inflate(R.layout.lam_address_bottom_sheet, null);
+
+        BottomSheetDialog dialog = new BottomSheetDialog(this);
+        dialog.setContentView(viewDialog);
+        dialog.show();
     }
 
     @Override
