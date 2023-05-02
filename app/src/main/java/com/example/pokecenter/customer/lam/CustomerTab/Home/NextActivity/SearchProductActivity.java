@@ -13,7 +13,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.databinding.ActivitySearchProductBinding;
+
+import java.io.IOException;
 
 public class SearchProductActivity extends AppCompatActivity {
 
@@ -26,7 +29,7 @@ public class SearchProductActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Window window = getWindow();
             // change StatusBarColor
-            window.setStatusBarColor(getColor(R.color.white));
+            window.setStatusBarColor(getColor(R.color.light_canvas));
             // change color of icons in status bar
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
@@ -68,9 +71,6 @@ public class SearchProductActivity extends AppCompatActivity {
     }
 
     private void searchProduct(String searchText) {
-        if (searchText.isEmpty()) {
-            return;
-        }
 
     }
 

@@ -1,23 +1,33 @@
 package com.example.pokecenter.customer.lam.API;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity;
 import com.example.pokecenter.customer.lam.Model.address.Address;
+import com.example.pokecenter.customer.lam.Model.product.Option;
+import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -28,7 +38,7 @@ public class FirebaseSupportCustomer {
     private String urlDb = "https://pokecenter-ae954-default-rtdb.firebaseio.com/";
     private final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-    private String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
     private ExecutorService executor = Executors.newSingleThreadExecutor();
     private Handler handler = new Handler(Looper.getMainLooper());
 
@@ -53,6 +63,7 @@ public class FirebaseSupportCustomer {
         RequestBody body = RequestBody.create(userJsonData, JSON);
 
         // create POST request
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         Request request = new Request.Builder()
                 .url(urlDb + "accounts/" + emailWithCurrentUser.replace(".", ",") + "/addresses.json")
                 .post(body)
@@ -103,7 +114,7 @@ public class FirebaseSupportCustomer {
         String jsonData = new Gson().toJson(updateData);
 
         RequestBody body = RequestBody.create(jsonData, JSON);
-
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         String url = urlDb + "accounts/" + emailWithCurrentUser.replace(".", ",") + "/addresses/" + remoteId + ".json";
 
         Request request = new Request.Builder()
@@ -119,6 +130,8 @@ public class FirebaseSupportCustomer {
 
         OkHttpClient client = new OkHttpClient();
 
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
         Request request = new Request.Builder()
                 .url(urlDb + "accounts/" + emailWithCurrentUser.replace(".", ",") + "/addresses.json")
                 .build();
@@ -133,7 +146,7 @@ public class FirebaseSupportCustomer {
                 return new ArrayList<>();
             }
 
-            Type type = new TypeToken<Map<String, Object>>(){}.getType();
+            Type type = new TypeToken<Object>(){}.getType();
             Map<String, Map<String, Object>> extractedData = new Gson().fromJson(responseString, type);
 
             extractedData.forEach((key, value) -> {
@@ -157,6 +170,7 @@ public class FirebaseSupportCustomer {
 
     public void deleteAddress(String id) throws IOException {
         OkHttpClient client = new OkHttpClient();
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         Request request = new Request.Builder()
                 .url(urlDb + "accounts/" + emailWithCurrentUser.replace(".", ",") + "/addresses/" + id + ".json")
                 .delete()
@@ -182,6 +196,7 @@ public class FirebaseSupportCustomer {
         RequestBody body = RequestBody.create(userJsonData, JSON);
 
         // create POST request
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         Request request = new Request.Builder()
                 .url(urlDb + "accounts/" + emailWithCurrentUser.replace(".", ",") + "/addresses/" + addressNeedsToBeUpdate.getId() + ".json")
                 .patch(body)
@@ -194,4 +209,60 @@ public class FirebaseSupportCustomer {
         }
     }
 
+    public List<Product> fetchingAllProductData() throws IOException {
+
+        List<Product> fetchedProducts = new ArrayList<>();
+
+        OkHttpClient client = new OkHttpClient();
+
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(urlDb + "products.json").newBuilder();
+        urlBuilder.addQueryParameter("orderBy", "\"price\"");
+        String url = urlBuilder.build().toString();
+
+        Request request = new Request.Builder()
+                .url(urlDb + "products.json")
+                .build();
+
+        Response response = client.newCall(request).execute();
+        if (response.isSuccessful()) {
+            String responseString = response.body().string();
+
+            if (responseString.equals("null")) {
+                // return list rỗng
+                return new ArrayList<>();
+            }
+
+            Type productType = new TypeToken<Object>(){}.getType();
+            Map<String, Map<String, Object>> extractedData = new Gson().fromJson(responseString, productType);
+
+            extractedData.forEach((key, value) -> {
+
+                Map<String, Map<String, Object>> optionsData = (Map<String, Map<String, Object>>) value.get("options");
+
+                List<Option> options = new ArrayList<>();
+
+                optionsData.forEach((optionKey, optionValue) -> {
+                    options.add(new Option(
+                            (String) optionValue.get("optionName"),
+                            (String) optionValue.get("optionImage"),
+                            ((Double) optionValue.get("currentQuantity")).intValue(),
+                            ((Double) optionValue.get("inputQuantity")).intValue(),
+                            ((Double) optionValue.get("cost")).intValue(),
+                            ((Double) optionValue.get("price")).intValue()
+                    ));
+                });
+                fetchedProducts.add(new Product(
+                        (String) value.get("name"),
+                        (String) value.get("desc"),
+                        (List<String>) value.get("images"),
+                        options
+                ));
+            });
+
+        } else {
+            // Handle the error
+        }
+
+        return fetchedProducts;
+    }
 }

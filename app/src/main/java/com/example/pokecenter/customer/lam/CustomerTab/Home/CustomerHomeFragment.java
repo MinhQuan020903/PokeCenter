@@ -25,6 +25,7 @@ import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
 import com.example.pokecenter.customer.lam.Model.pokemon.PokemonAdapter;
 import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.customer.lam.Model.product.ProductAdapter;
+import com.example.pokecenter.customer.lam.Provider.ProductData;
 import com.example.pokecenter.databinding.FragmentCustomerHomeBinding;
 
 import java.util.ArrayList;
@@ -123,13 +124,15 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
 
         // _______Trending________
         rcvProduct = binding.rcvGridProduct;
-        productAdapter = new ProductAdapter(getContext(), this);
+        productAdapter = new ProductAdapter(getActivity(), this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         rcvProduct.setLayoutManager(gridLayoutManager);
 
-        // Fake Trending Product
-        productAdapter.setData(mockTrendingData());
+        // Setup Loading Trending Product (UX)
+        productAdapter.setData((ArrayList<Product>) ProductData.fetchedProducts);
         rcvProduct.setAdapter(productAdapter);
+
+
 
         return binding.getRoot();
     }
@@ -143,17 +146,11 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
     private ArrayList<Product> mockTrendingData() {
         ArrayList<Product> products = new ArrayList<>();
         for (int i = 1;i <= 4; ++i) {
-            ArrayList<String> additionalImageUrl = new ArrayList<>();
-            additionalImageUrl.add("https://cdn0.fahasa.com/media/catalog/product/8/9/8935312500578-4.jpg");
-            additionalImageUrl.add("https://cdn0.fahasa.com/media/catalog/product/8/9/8935312500578-3.jpg");
-            additionalImageUrl.add("https://cdn0.fahasa.com/media/catalog/product/8/9/8935312500578-_2_.jpg");
             products.add(new Product(
-                    "Keeppley B0104 - Mini Bulbasaur (74 Mảnh Ghép)",
-                    "https://cdn0.fahasa.com/media/catalog/product/8/9/8935312500578.jpg",
-                    229000,
-                    4.9f,
-                    20,
-                    additionalImageUrl
+                    null,
+                    null,
+                    null,
+                    null
             ));
         }
         return products;
@@ -178,11 +175,11 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
 
     @Override
     public void onProductCardClick(Product product) {
-        if (!product.getDefaultImageUrl().isEmpty()) {
-            NavDirections action = CustomerFragmentDirections.actionCustomerFragmentToProductDetailFragment(product);
-
-            NavHostFragment.findNavController(CustomerHomeFragment.this)
-                    .navigate(action);
-        }
+//        if (!product.getDefaultImageUrl().isEmpty()) {
+//            NavDirections action = CustomerFragmentDirections.actionCustomerFragmentToProductDetailFragment(product);
+//
+//            NavHostFragment.findNavController(CustomerHomeFragment.this)
+//                    .navigate(action);
+//        }
     }
 }

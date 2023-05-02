@@ -171,7 +171,6 @@
                     android:text="View all"
                     android:textColor="@color/light_primary"/>
             </LinearLayout>
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcv_grid_product"
                 android:layout_width="match_parent"
