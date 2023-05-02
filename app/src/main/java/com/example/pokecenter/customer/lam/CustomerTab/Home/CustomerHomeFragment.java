@@ -2,6 +2,8 @@ package com.example.pokecenter.customer.lam.CustomerTab.Home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.API.PokeApiFetcher;
 import com.example.pokecenter.customer.lam.CustomerTab.CustomerFragment;
 import com.example.pokecenter.customer.lam.CustomerTab.CustomerFragmentDirections;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.SearchProductActivity;
@@ -29,6 +32,8 @@ import com.example.pokecenter.customer.lam.Provider.ProductData;
 import com.example.pokecenter.databinding.FragmentCustomerHomeBinding;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class CustomerHomeFragment extends Fragment implements PokemonRecyclerViewInterface {
 
@@ -90,37 +95,37 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
         rcvPokemon.setLayoutManager(linearLayoutManager);
         rcvPokemon.setAdapter(pokemonAdapter);
 
-//        if (PokeApiFetcher.pokemonHomeDemoData.isEmpty()) {
-//            // Chỗ này là để set Data cho Adapter là những cái loading Card
-//            ArrayList<Pokemon> loadingPokemons = new ArrayList<>();
-//            for (int i = 1; i <= 10; ++i) {
-//                loadingPokemons.add(new Pokemon("loading", "", ""));
-//            }
-//
-//            pokemonAdapter.setData(loadingPokemons);
-//
-//
-//            ExecutorService executor = Executors.newSingleThreadExecutor();
-//            Handler handler = new Handler(Looper.getMainLooper());
-//
-//            for (int i = 0; i < loadingPokemons.size(); ++i) {
-//                Pokemon poke = loadingPokemons.get(i);
-//
-//                int finalI = i;
-//                executor.execute(() -> {
-//                    Pokemon fetchedPokemon = PokeApiFetcher.fetchPokemonRandom();
-//                    handler.post(() -> {
-//                        poke.setName(fetchedPokemon.getName());
-//                        poke.setImageUrl(fetchedPokemon.getImageUrl());
-//                        poke.setType(fetchedPokemon.getType());
-//                        pokemonAdapter.updateItem(finalI);
-//                    });
-//                });
-//            }
-//        }
-//        else {
-//            pokemonAdapter.setData(PokeApiFetcher.pokemonHomeDemoData);
-//        }
+        if (PokeApiFetcher.pokemonHomeDemoData.isEmpty()) {
+            // Chỗ này là để set Data cho Adapter là những cái loading Card
+            ArrayList<Pokemon> loadingPokemons = new ArrayList<>();
+            for (int i = 1; i <= 5; ++i) {
+                loadingPokemons.add(new Pokemon("loading", "", ""));
+            }
+
+            pokemonAdapter.setData(loadingPokemons);
+
+
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+
+            for (int i = 0; i < loadingPokemons.size(); ++i) {
+                Pokemon poke = loadingPokemons.get(i);
+
+                int finalI = i;
+                executor.execute(() -> {
+                    Pokemon fetchedPokemon = PokeApiFetcher.fetchPokemonRandom();
+                    handler.post(() -> {
+                        poke.setName(fetchedPokemon.getName());
+                        poke.setImageUrl(fetchedPokemon.getImageUrl());
+                        poke.setType(fetchedPokemon.getType());
+                        pokemonAdapter.updateItem(finalI);
+                    });
+                });
+            }
+        }
+        else {
+            pokemonAdapter.setData(PokeApiFetcher.pokemonHomeDemoData);
+        }
 
         // _______Trending________
         rcvProduct = binding.rcvGridProduct;
@@ -129,7 +134,7 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
         rcvProduct.setLayoutManager(gridLayoutManager);
 
         // Setup Loading Trending Product (UX)
-        productAdapter.setData((ArrayList<Product>) ProductData.fetchedProducts);
+        productAdapter.setData(ProductData.fetchedProducts);
         rcvProduct.setAdapter(productAdapter);
 
 

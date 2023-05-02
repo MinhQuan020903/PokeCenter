@@ -1,6 +1,8 @@
 package com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.os.Build;
@@ -14,13 +16,24 @@ import android.widget.TextView;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
+import com.example.pokecenter.customer.lam.Interface.PokemonRecyclerViewInterface;
+import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
+import com.example.pokecenter.customer.lam.Model.product.Product;
+import com.example.pokecenter.customer.lam.Model.product.ProductAdapter;
+import com.example.pokecenter.customer.lam.Provider.ProductData;
 import com.example.pokecenter.databinding.ActivitySearchProductBinding;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
-public class SearchProductActivity extends AppCompatActivity {
+public class SearchProductActivity extends AppCompatActivity implements PokemonRecyclerViewInterface {
 
     private ActivitySearchProductBinding binding;
+
+    private RecyclerView rcvProduct;
+
+    private ProductAdapter productAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +54,8 @@ public class SearchProductActivity extends AppCompatActivity {
         });
 
         /* search bar logic */
-        binding.searchProductBar.setText(getIntent().getStringExtra("searchText"));
+        String searchTextReceiveFromHomeFragment = getIntent().getStringExtra("searchText");
+        binding.searchProductBar.setText(searchTextReceiveFromHomeFragment);
 
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         binding.searchProductBar.setOnEditorActionListener((textView, actionId, keyEvent) -> {
@@ -67,16 +81,42 @@ public class SearchProductActivity extends AppCompatActivity {
             }
         });
 
+        rcvProduct = binding.rcvFetchedProduct;
+        productAdapter = new ProductAdapter(this, this);
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        rcvProduct.setLayoutManager(gridLayoutManager);
+
+        // Setup Loading Trending Product (UX)
+        productAdapter.setData(ProductData.fetchedProducts.stream().filter(item -> item.getName().toLowerCase().contains(searchTextReceiveFromHomeFragment.toLowerCase())).collect(Collectors.toList()));
+        rcvProduct.setAdapter(productAdapter);
+
+        binding.progressBar.setVisibility(View.INVISIBLE);
+
         setContentView(binding.getRoot());
     }
 
     private void searchProduct(String searchText) {
-
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.progressBarBg.setVisibility(View.VISIBLE);
+        productAdapter.setData(ProductData.fetchedProducts.stream().filter(item -> item.getName().toLowerCase().contains(searchText.toLowerCase())).collect(Collectors.toList()));
+        binding.progressBar.setVisibility(View.INVISIBLE);
+        binding.progressBarBg.setVisibility(View.INVISIBLE);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         binding = null;
+    }
+
+    @Override
+    public void onPokemonCardClick(Pokemon pokemon) {
+
+    }
+
+    @Override
+    public void onProductCardClick(Product product) {
+
     }
 }

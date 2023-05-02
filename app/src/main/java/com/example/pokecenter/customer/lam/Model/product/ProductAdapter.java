@@ -24,7 +24,7 @@ import java.util.Locale;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
     private Context mContext;
-    private ArrayList<Product> mProducts = new ArrayList<>();
+    private List<Product> mProducts = new ArrayList<>();
 
     private final PokemonRecyclerViewInterface pokemonRecyclerViewInterface;
 
@@ -33,7 +33,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         this.pokemonRecyclerViewInterface = pokemonRecyclerViewInterface;
     }
 
-    public void setData(ArrayList<Product> list) {
+    public void setData(List<Product> list) {
         this.mProducts = list;
         notifyDataSetChanged();
     }
