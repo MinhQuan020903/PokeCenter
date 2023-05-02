@@ -6,6 +6,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -21,7 +23,10 @@ public class FirebaseSupportAccount {
 
     public void addNewAccountUsingApi(String email, String username, int role) throws IOException {
 
-        User user = new User(username, role);
+        Map<String, Object> user = new HashMap<>();
+        user.put("username", username);
+        user.put("role", role);
+
         String userJson = new Gson().toJson(user);
 
         // create OkHttpClient instance
@@ -45,7 +50,10 @@ public class FirebaseSupportAccount {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference usersRef = database.getReference("accounts");
 
-        User user = new User(username, role);
+        Map<String, Object> user = new HashMap<>();
+        user.put("username", username);
+        user.put("role", role);
+
         usersRef.child(email.replace(".", ",")).setValue(user);
     }
 
@@ -83,35 +91,4 @@ public class FirebaseSupportAccount {
         return role;
     }
 
-
-
-    class User {
-        private String username;
-        private int role;
-
-        public User() {
-        }
-
-        public User(String username, int role) {
-//            this.email = email;
-            this.username = username;
-            this.role = role;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public int getRole() {
-            return role;
-        }
-
-        public void setRole(int role) {
-            this.role = role;
-        }
-    }
 }

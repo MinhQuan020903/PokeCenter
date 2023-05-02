@@ -9,9 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.pokecenter.customer.lam.CustomerTab.Profile.ProfileActivity.CustomerAccountInfoActivity;
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.CustomerAccountInfoActivity;
 import com.example.pokecenter.customer.lam.Authentication.SignInActivity;
-import com.example.pokecenter.customer.lam.CustomerTab.Profile.ProfileActivity.MyAddressesActivity;
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity;
 import com.example.pokecenter.databinding.FragmentCustomerProfileBinding;
 import com.google.firebase.auth.FirebaseAuth;
 

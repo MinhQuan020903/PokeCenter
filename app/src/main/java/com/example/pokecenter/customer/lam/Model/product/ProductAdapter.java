@@ -18,12 +18,13 @@ import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
     private Context mContext;
-    private ArrayList<Product> mProducts = new ArrayList<>();
+    private List<Product> mProducts = new ArrayList<>();
 
     private final PokemonRecyclerViewInterface pokemonRecyclerViewInterface;
 
@@ -32,7 +33,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         this.pokemonRecyclerViewInterface = pokemonRecyclerViewInterface;
     }
 
-    public void setData(ArrayList<Product> list) {
+    public void setData(List<Product> list) {
         this.mProducts = list;
         notifyDataSetChanged();
     }
@@ -53,19 +54,25 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product product = mProducts.get(position);
+
         if (product == null) {
             return;
         }
 
-        if (product.getDefaultImageUrl() != null) {
+        if (product.getName() != null) {
             holder.progress_bar.setVisibility(View.INVISIBLE);
-            Picasso.get().load(product.getDefaultImageUrl()).into(holder.productImage);
+            Picasso.get().load(product.getImages().get(0)).into(holder.productImage);
             holder.productName.setText(product.getName());
 
             NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
 
-            // holder.productPrice.setTypeface(Typeface.MONOSPACE);
-            holder.productPrice.setText(currencyFormatter.format(product.getPrice()));
+            List<Option> options = product.getOptions();
+
+            if (options.size() == 0) {
+                holder.productPrice.setText(currencyFormatter.format(options.get(0).getPrice()));
+            } else {
+                holder.productPrice.setText(currencyFormatter.format(options.get(0).getPrice()) + " - " + currencyFormatter.format(options.get(options.size() - 1).getPrice()));
+            }
         }
     }
 
