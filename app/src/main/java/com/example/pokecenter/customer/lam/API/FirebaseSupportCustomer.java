@@ -141,11 +141,13 @@ public class FirebaseSupportCustomer {
         if (response.isSuccessful()) {
             String responseString = response.body().string();
 
+            if (responseString.equals("null")) {
+                // return list rỗng
+                return new ArrayList<>();
+            }
+
             Type type = new TypeToken<Map<String, Object>>(){}.getType();
-
             Map<String, Map<String, Object>> extractedData = new Gson().fromJson(responseString, type);
-
-
 
             extractedData.forEach((key, value) -> {
 
