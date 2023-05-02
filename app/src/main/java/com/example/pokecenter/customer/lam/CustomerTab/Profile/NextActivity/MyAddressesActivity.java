@@ -1,4 +1,4 @@
-package com.example.pokecenter.customer.lam.CustomerTab.Profile.ProfileActivity;
+package com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity;
 
 import android.content.Context;
 import android.os.Build;

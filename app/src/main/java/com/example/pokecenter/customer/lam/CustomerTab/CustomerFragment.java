@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.CustomerTab.Home.CustomerHomeFragment;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.CustomerProfileFragment;
 import com.example.pokecenter.databinding.FragmentCustomerBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

@@ -1,25 +1,13 @@
 package com.example.pokecenter.customer.lam.API;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.Settings;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
-import com.example.pokecenter.customer.lam.CustomerTab.Profile.ProfileActivity.MyAddressesActivity;
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity;
 import com.example.pokecenter.customer.lam.Model.address.Address;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -35,7 +23,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
 
 public class FirebaseSupportCustomer {
     private String urlDb = "https://pokecenter-ae954-default-rtdb.firebaseio.com/";

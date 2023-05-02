@@ -1,9 +1,13 @@
-package com.example.pokecenter.customer.lam.CustomerTab;
+package com.example.pokecenter.customer.lam.CustomerTab.Home;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavDirections;
@@ -13,6 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.CustomerTab.CustomerFragment;
+import com.example.pokecenter.customer.lam.CustomerTab.CustomerFragmentDirections;
+import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.SearchProductActivity;
 import com.example.pokecenter.customer.lam.Interface.PokemonRecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
 import com.example.pokecenter.customer.lam.Model.pokemon.PokemonAdapter;
@@ -38,12 +45,34 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
         // Inflate the layout for this fragment
         binding = FragmentCustomerHomeBinding.inflate(inflater, container, false);
 
-
-
         // Move to Profile Fragment when User click on avatarImage
         binding.avatarImage.setOnClickListener(view -> {
             // Set selectedItem in Bottom Nav Bar
             CustomerFragment.customerBottomNavigationView.setSelectedItemId(R.id.customerProfileFragment);
+        });
+
+        /* search bar logic */
+        binding.searchProductBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+
+                    String searchText = binding.searchProductBar.getText().toString();
+                    if (!searchText.isEmpty()) {
+                        goToSearchActivity(searchText);
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        binding.searchByTextButton.setOnClickListener(view -> {
+            String searchText = binding.searchProductBar.getText().toString();
+            if (!searchText.isEmpty()) {
+                goToSearchActivity(searchText);
+            }
         });
 
         binding.viewAllPokedex.setOnClickListener(view -> {
@@ -105,6 +134,12 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
         return binding.getRoot();
     }
 
+    private void goToSearchActivity(String searchText) {
+        Intent intent = new Intent(getActivity(), SearchProductActivity.class);
+        intent.putExtra("searchText", searchText);
+        startActivity(intent);
+    }
+
     private ArrayList<Product> mockTrendingData() {
         ArrayList<Product> products = new ArrayList<>();
         for (int i = 1;i <= 4; ++i) {
@@ -133,7 +168,7 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
     @Override
     public void onPokemonCardClick(Pokemon pokemon) {
         if (!pokemon.getImageUrl().isEmpty()) {
-            NavDirections action = CustomerFragmentDirections.actionCustomerFragmentToProductByPokemonFragment(pokemon);
+            NavDirections action = com.example.pokecenter.customer.lam.CustomerTab.CustomerFragmentDirections.actionCustomerFragmentToProductByPokemonFragment(pokemon);
 
             NavHostFragment.findNavController(CustomerHomeFragment.this)
                     .navigate(action);

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/light_canvas"
-    tools:context=".customer.lam.CustomerTab.CustomerHomeFragment" >
+    tools:context=".customer.lam.CustomerTab.Home.CustomerHomeFragment" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -68,14 +68,14 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/editText_username"
+                    android:id="@+id/search_product_bar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@color/white"
                     android:ellipsize="end"
                     android:hint="Search in here"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:maxLines="1"
                     android:padding="16dp"
@@ -84,6 +84,7 @@
                     tools:ignore="VisualLintTextFieldSize" />
 
                 <ImageButton
+                    android:id="@+id/search_by_text_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="4dp"
@@ -97,7 +98,7 @@
         </androidx.cardview.widget.CardView>
 
         <ImageButton
-            android:id="@+id/shoppingCartButton"
+            android:id="@+id/searchByImageButton"
             android:layout_width="62dp"
             android:layout_height="62dp"
             android:src="@drawable/lam_baseline_image_search_32"
