@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavDirections;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.customer.lam.API.PokeApiFetcher;
 import com.example.pokecenter.customer.lam.CustomerTab.CustomerFragment;
 import com.example.pokecenter.customer.lam.CustomerTab.CustomerFragmentDirections;
@@ -31,9 +33,12 @@ import com.example.pokecenter.customer.lam.Model.product.ProductAdapter;
 import com.example.pokecenter.customer.lam.Provider.ProductData;
 import com.example.pokecenter.databinding.FragmentCustomerHomeBinding;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 public class CustomerHomeFragment extends Fragment implements PokemonRecyclerViewInterface {
 
@@ -134,12 +139,38 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
         rcvProduct.setLayoutManager(gridLayoutManager);
 
         // Setup Loading Trending Product (UX)
-        productAdapter.setData(ProductData.fetchedProducts);
+        productAdapter.setData(mockTrendingData());
         rcvProduct.setAdapter(productAdapter);
 
-
+        setTrendingProducts();
 
         return binding.getRoot();
+    }
+
+    private void setTrendingProducts() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        executor.execute(() -> {
+            List<String> fetchedTrendingProductId;
+            try {
+                fetchedTrendingProductId = new FirebaseSupportCustomer().fetchingTrendingProductId(true);
+            } catch (IOException e) {
+                fetchedTrendingProductId = null;
+            }
+            List<String> finalFetchedTrendingProductId = fetchedTrendingProductId;
+            handler.post(() -> {
+                if (finalFetchedTrendingProductId != null) {
+
+                    List<Product> trendingProducts = finalFetchedTrendingProductId.stream().map(item -> ProductData.fetchedProducts.get(item)).collect(Collectors.toList());
+                    productAdapter.setData(trendingProducts);
+                } else {
+                    Toast.makeText(getActivity(), "Fail to load trending products", Toast.LENGTH_SHORT)
+                            .show();
+                }
+            });
+        });
+
     }
 
     private void goToSearchActivity(String searchText) {
