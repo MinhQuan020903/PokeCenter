@@ -23,7 +23,7 @@ import java.util.Collections;
 public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>{
 
     private Context mContext;
-    public static ArrayList<Pokemon> mPokemons = new ArrayList<>();
+    private ArrayList<Pokemon> mPokemons = new ArrayList<>();
 
     private final PokemonRecyclerViewInterface pokemonRecyclerViewInterface;
 

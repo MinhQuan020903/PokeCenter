@@ -109,7 +109,7 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
             pokemonAdapter.setData(loadingPokemons);
 
 
-            ExecutorService executor = Executors.newSingleThreadExecutor();
+            ExecutorService executor = Executors.newCachedThreadPool();
             Handler handler = new Handler(Looper.getMainLooper());
 
             for (int i = 0; i < loadingPokemons.size(); ++i) {

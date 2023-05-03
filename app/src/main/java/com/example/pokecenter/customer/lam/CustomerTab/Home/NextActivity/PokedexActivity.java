@@ -4,6 +4,7 @@ import static com.example.pokecenter.customer.lam.API.PokeApiFetcher.allPokeName
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
@@ -45,20 +46,19 @@ public class PokedexActivity extends AppCompatActivity implements PokemonRecycle
     public static int index = 0;
     Button viewMoreButton;
 
-    private ExecutorService executor = Executors.newSingleThreadExecutor();
-    private Handler handler = new Handler(Looper.getMainLooper());
+
     String inputText = "";
     InputMethodManager inputMethodManager;
 
-    public ArrayList<Pokemon> pokeDexDemoData =  new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
         ExecutorService executor = Executors.newCachedThreadPool();
         Handler UiThread = new Handler(Looper.getMainLooper());
-
 
 
 
@@ -71,6 +71,7 @@ public class PokedexActivity extends AppCompatActivity implements PokemonRecycle
         }
 
         binding = ActivityPokedexBinding.inflate(getLayoutInflater());
+        viewMoreButton = binding.viewMoreButton;
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
         binding.pokedexScreen.setOnClickListener(view -> {
@@ -84,6 +85,7 @@ public class PokedexActivity extends AppCompatActivity implements PokemonRecycle
         rcvGridPokemon.setLayoutManager(gridLayoutManager);
 
         rcvGridPokemon.setAdapter(pokemonAdapter);
+        AddPokemonToRecyclerView();
 
         binding.backButton.setOnClickListener(view -> {
             finish();
@@ -118,12 +120,10 @@ public class PokedexActivity extends AppCompatActivity implements PokemonRecycle
             onSearchPokemon();
         });
 
-        viewMoreButton = binding.viewMoreButton;
+
         if (!inputText.isEmpty()) {
             viewMoreButton.setVisibility(View.INVISIBLE);
         }
-
-        pokemonAdapter.setData(pokeDexDemoData);
 
         viewMoreButton.setOnClickListener(view -> {
             AddPokemonToRecyclerView();
@@ -164,6 +164,9 @@ public class PokedexActivity extends AppCompatActivity implements PokemonRecycle
 
         pokemonAdapter.setData(pokemonLoading);
 
+        ExecutorService executor = Executors.newCachedThreadPool();
+        Handler handler = new Handler(Looper.getMainLooper());
+
         for (int i = 0; i < pokemonLoading.size(); ++i) {
             Pokemon poke = pokemonLoading.get(i);
 
@@ -190,6 +193,9 @@ public class PokedexActivity extends AppCompatActivity implements PokemonRecycle
         pokemonAdapter.addData(pokemonLoading);
 
         viewMoreButton.setEnabled(false);
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
 
         for (int i = 0; i < pokemonLoading.size(); ++i) {
             Pokemon poke = pokemonLoading.get(i);
