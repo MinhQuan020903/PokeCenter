@@ -13,16 +13,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavDirections;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.CustomerActivity;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.customer.lam.API.PokeApiFetcher;
-import com.example.pokecenter.customer.lam.CustomerTab.CustomerFragment;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.PokedexActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.ProductByPokemonActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.SearchProductActivity;
@@ -61,7 +59,7 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
         // Move to Profile Fragment when User click on avatarImage
         binding.avatarImage.setOnClickListener(view -> {
             // Set selectedItem in Bottom Nav Bar
-            CustomerFragment.customerBottomNavigationView.setSelectedItemId(R.id.customerProfileFragment);
+            CustomerActivity.customerBottomNavigationView.setSelectedItemId(R.id.customerProfileFragment);
         });
 
         /* search bar logic */
