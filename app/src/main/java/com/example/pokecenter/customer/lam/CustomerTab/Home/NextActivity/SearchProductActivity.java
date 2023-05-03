@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -117,6 +118,10 @@ public class SearchProductActivity extends AppCompatActivity implements PokemonR
 
     @Override
     public void onProductCardClick(Product product) {
-
+        if (product.getName() != null) {
+            Intent intent = new Intent(this, ProductDetailActivity.class);
+            intent.putExtra("product object", product);
+            startActivity(intent);
+        }
     }
 }

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -113,6 +114,10 @@ public class ProductByPokemonActivity extends AppCompatActivity implements Pokem
 
     @Override
     public void onProductCardClick(Product product) {
-
+        if (product.getName() != null) {
+            Intent intent = new Intent(this, ProductDetailActivity.class);
+            intent.putExtra("product object", product);
+            startActivity(intent);
+        }
     }
 }

@@ -29,11 +29,11 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         binding = ActivityProductDetailBinding.inflate(getLayoutInflater());
 
-        binding.backButton.setOnClickListener(view -> {
+        binding.backButton.setOnClickListener(view ->  {
             finish();
         });
 
-        setContentView(R.layout.activity_product_detail);
+        setContentView(binding.getRoot());
     }
 
     @Override

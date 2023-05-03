@@ -44,8 +44,6 @@ public class PokedexActivity extends AppCompatActivity implements PokemonRecycle
     private RecyclerView rcvGridPokemon;
     private PokemonAdapter pokemonAdapter;
     public static int index = 0;
-    Button viewMoreButton;
-
 
     String inputText = "";
     InputMethodManager inputMethodManager;
@@ -71,7 +69,6 @@ public class PokedexActivity extends AppCompatActivity implements PokemonRecycle
         }
 
         binding = ActivityPokedexBinding.inflate(getLayoutInflater());
-        viewMoreButton = binding.viewMoreButton;
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
         binding.pokedexScreen.setOnClickListener(view -> {
@@ -121,20 +118,12 @@ public class PokedexActivity extends AppCompatActivity implements PokemonRecycle
         });
 
 
-        if (!inputText.isEmpty()) {
-            viewMoreButton.setVisibility(View.INVISIBLE);
-        }
-
-        viewMoreButton.setOnClickListener(view -> {
-            AddPokemonToRecyclerView();
-        });
 
         setContentView(binding.getRoot());
     }
 
     void onSearchPokemon() {
 
-        viewMoreButton.setVisibility(View.INVISIBLE);
         // Ẩn Keyboard
         inputMethodManager.hideSoftInputFromWindow(binding.searchNamePokemonBar.getWindowToken(), 0);
 
@@ -186,13 +175,11 @@ public class PokedexActivity extends AppCompatActivity implements PokemonRecycle
     void AddPokemonToRecyclerView() {
         ArrayList<Pokemon> pokemonLoading = new ArrayList<>();
 
-        for (int i=1; i<=9; ++i) {
+        for (int i=1; i<=15; ++i) {
             pokemonLoading.add(new Pokemon(-1, "", "", ""));
         }
 
         pokemonAdapter.addData(pokemonLoading);
-
-        viewMoreButton.setEnabled(false);
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
@@ -200,7 +187,7 @@ public class PokedexActivity extends AppCompatActivity implements PokemonRecycle
         for (int i = 0; i < pokemonLoading.size(); ++i) {
             Pokemon poke = pokemonLoading.get(i);
 
-            int position = pokemonAdapter.getItemCount() - 9 + i;
+            int position = pokemonAdapter.getItemCount() - 15 + i;
 
             executor.execute(() -> {
                 index = (index + 1) % 902;
@@ -211,9 +198,6 @@ public class PokedexActivity extends AppCompatActivity implements PokemonRecycle
                     poke.setImageUrl(fetchedPokemon.getImageUrl());
                     poke.setType(fetchedPokemon.getType());
                     pokemonAdapter.updateItem(position);
-                    if (position + 1 == pokemonAdapter.getItemCount()) {
-                        binding.viewMoreButton.setEnabled(true);
-                    }
                 });
             });
         }

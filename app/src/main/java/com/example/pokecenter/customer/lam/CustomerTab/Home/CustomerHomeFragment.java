@@ -23,6 +23,7 @@ import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.customer.lam.API.PokeApiFetcher;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.PokedexActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.ProductByPokemonActivity;
+import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.ProductDetailActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.SearchProductActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.TrendingProductsActivity;
 import com.example.pokecenter.customer.lam.Interface.PokemonRecyclerViewInterface;
@@ -211,11 +212,10 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
 
     @Override
     public void onProductCardClick(Product product) {
-//        if (!product.getDefaultImageUrl().isEmpty()) {
-//            NavDirections action = CustomerFragmentDirections.actionCustomerFragmentToProductDetailFragment(product);
-//
-//            NavHostFragment.findNavController(CustomerHomeFragment.this)
-//                    .navigate(action);
-//        }
+        if (product.getName() != null) {
+            Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+            intent.putExtra("product object", product);
+            startActivity(intent);
+        }
     }
 }

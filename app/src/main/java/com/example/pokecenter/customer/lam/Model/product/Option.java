@@ -1,6 +1,8 @@
 package com.example.pokecenter.customer.lam.Model.product;
 
-public class Option {
+import java.io.Serializable;
+
+public class Option implements Serializable {
     private String optionName;
     private String optionImage;
     private int currentQuantity;
