@@ -39,10 +39,6 @@ public class FirebaseSupportCustomer {
     private String urlDb = "https://pokecenter-ae954-default-rtdb.firebaseio.com/";
     private final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-
-    private ExecutorService executor = Executors.newSingleThreadExecutor();
-    private Handler handler = new Handler(Looper.getMainLooper());
-
     public void addNewAddressUsingApi(Address newAddress) throws IOException {
 
         // create OkHttpClient instance
@@ -281,8 +277,31 @@ public class FirebaseSupportCustomer {
             }
 
             Type type = new TypeToken<List<String>>(){}.getType();
-
             ProductData.trendingProductsId = new Gson().fromJson(responseString, type);
         }
+    }
+
+    public List<String> fetchingProductIdByPokemonName(String name) throws IOException {
+        List<String> fetchedProductsId = new ArrayList<>();
+
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(urlDb + "pokemons/" + name.toLowerCase() + ".json")
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+            String responseString = response.body().string();
+
+            if (responseString.equals("null")) {
+                return new ArrayList<>();
+            }
+
+            Type type = new TypeToken<List<String>>(){}.getType();
+            fetchedProductsId = new Gson().fromJson(responseString, type);
+        }
+
+        return fetchedProductsId;
     }
 }

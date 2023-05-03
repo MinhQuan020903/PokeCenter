@@ -7,69 +7,50 @@ import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 
-public class Pokemon implements Parcelable {
+public class Pokemon{
 
+    private int id;
     private String name;
     private String imageUrl;
     private String type;
 
-    protected Pokemon(Parcel in) {
-        name = in.readString();
-        imageUrl = in.readString();
-        type = in.readString();
-    }
-
-
-
-    public static final Creator<Pokemon> CREATOR = new Creator<Pokemon>() {
-        @Override
-        public Pokemon createFromParcel(Parcel in) {
-            return new Pokemon(in);
-        }
-
-        @Override
-        public Pokemon[] newArray(int size) {
-            return new Pokemon[size];
-        }
-    };
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Pokemon(String name, String imageUrl, String type) {
+    public Pokemon(int id, String name, String imageUrl, String type) {
+        this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
         this.type = type;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }
 
-    public String getType() { return type; }
-
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    @Override
-    public void writeToParcel(@NonNull Parcel parcel, int i) {
-        parcel.writeString(name);
-        parcel.writeString(imageUrl);
-        parcel.writeString(type);
+    public String getType() {
+        return type;
     }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
 }

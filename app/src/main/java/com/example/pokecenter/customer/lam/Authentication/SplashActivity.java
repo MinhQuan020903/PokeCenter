@@ -11,16 +11,21 @@ import android.os.Looper;
 import com.example.pokecenter.admin.AdminActivity;
 import com.example.pokecenter.customer.CustomerActivity;
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.API.PokeApiFetcher;
+import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.PokedexActivity;
+import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
 import com.example.pokecenter.customer.lam.Provider.ProductData;
 import com.example.pokecenter.databinding.ActivitySplashScreenBinding;
 import com.example.pokecenter.vender.VenderActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Comparator;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SplashActivity extends AppCompatActivity {
 

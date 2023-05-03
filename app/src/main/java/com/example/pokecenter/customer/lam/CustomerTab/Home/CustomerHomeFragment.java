@@ -23,6 +23,7 @@ import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.customer.lam.API.PokeApiFetcher;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.PokedexActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.ProductByPokemonActivity;
+import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.ProductDetailActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.SearchProductActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.TrendingProductsActivity;
 import com.example.pokecenter.customer.lam.Interface.PokemonRecyclerViewInterface;
@@ -102,14 +103,14 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
         if (PokeApiFetcher.pokemonHomeDemoData.isEmpty()) {
             // Chỗ này là để set Data cho Adapter là những cái loading Card
             ArrayList<Pokemon> loadingPokemons = new ArrayList<>();
-            for (int i = 1; i <= 5; ++i) {
-                loadingPokemons.add(new Pokemon("", "", ""));
+            for (int i = 1; i <= 10; ++i) {
+                loadingPokemons.add(new Pokemon(01, "", "", ""));
             }
 
             pokemonAdapter.setData(loadingPokemons);
 
 
-            ExecutorService executor = Executors.newSingleThreadExecutor();
+            ExecutorService executor = Executors.newCachedThreadPool();
             Handler handler = new Handler(Looper.getMainLooper());
 
             for (int i = 0; i < loadingPokemons.size(); ++i) {
@@ -211,11 +212,10 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
 
     @Override
     public void onProductCardClick(Product product) {
-//        if (!product.getDefaultImageUrl().isEmpty()) {
-//            NavDirections action = CustomerFragmentDirections.actionCustomerFragmentToProductDetailFragment(product);
-//
-//            NavHostFragment.findNavController(CustomerHomeFragment.this)
-//                    .navigate(action);
-//        }
+        if (product.getName() != null) {
+            Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+            intent.putExtra("product object", product);
+            startActivity(intent);
+        }
     }
 }
