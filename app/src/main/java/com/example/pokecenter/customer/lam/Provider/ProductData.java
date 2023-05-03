@@ -8,13 +8,17 @@ import com.example.pokecenter.customer.lam.Model.product.Product;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ProductData {
 
-    public static List<Product> fetchedProducts = new ArrayList<>();
+    public static Map<String, Product> fetchedProducts = new HashMap<>();
+
+    public static List<String> trendingProductsId = new ArrayList<>();
 
     public static String status;
 
@@ -23,19 +27,15 @@ public class ProductData {
         Handler handler = new Handler(Looper.getMainLooper());
 
         executor.execute(() -> {
-
-            List<Product> data;
-
+            boolean isSuccessful = true;
             try {
-                data = new FirebaseSupportCustomer().fetchingAllProductData();
+                new FirebaseSupportCustomer().fetchingAllProductData();
             } catch (IOException e) {
-                data = null;
+                isSuccessful = false;
             }
-
-            List<Product> finalData = data;
+            boolean finalIsSuccessful = isSuccessful;
             handler.post(() -> {
-                if (finalData != null) {
-                    fetchedProducts = finalData;
+                if (finalIsSuccessful) {
                     status = "SUCCESSFUL";
                 } else {
                     status = "FAILED";

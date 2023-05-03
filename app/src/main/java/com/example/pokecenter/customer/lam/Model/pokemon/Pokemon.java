@@ -11,7 +11,6 @@ public class Pokemon implements Parcelable {
 
     private String name;
     private String imageUrl;
-
     private String type;
 
     protected Pokemon(Parcel in) {

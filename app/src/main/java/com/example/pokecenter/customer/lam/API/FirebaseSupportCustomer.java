@@ -8,6 +8,7 @@ import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyAd
 import com.example.pokecenter.customer.lam.Model.address.Address;
 import com.example.pokecenter.customer.lam.Model.product.Option;
 import com.example.pokecenter.customer.lam.Model.product.Product;
+import com.example.pokecenter.customer.lam.Provider.ProductData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -209,9 +210,7 @@ public class FirebaseSupportCustomer {
         }
     }
 
-    public List<Product> fetchingAllProductData() throws IOException {
-
-        List<Product> fetchedProducts = new ArrayList<>();
+    public void fetchingAllProductData() throws IOException {
 
         OkHttpClient client = new OkHttpClient();
 
@@ -228,8 +227,7 @@ public class FirebaseSupportCustomer {
             String responseString = response.body().string();
 
             if (responseString.equals("null")) {
-                // return list rỗng
-                return new ArrayList<>();
+                return;
             }
 
             Type productType = new TypeToken<Object>(){}.getType();
@@ -251,7 +249,8 @@ public class FirebaseSupportCustomer {
                             ((Double) optionValue.get("price")).intValue()
                     ));
                 });
-                fetchedProducts.add(new Product(
+
+                ProductData.fetchedProducts.put(key, new Product(
                         (String) value.get("name"),
                         (String) value.get("desc"),
                         (List<String>) value.get("images"),
@@ -262,7 +261,28 @@ public class FirebaseSupportCustomer {
         } else {
             // Handle the error
         }
+    }
 
-        return fetchedProducts;
+    public void fetchingTrendingProductId() throws IOException {
+
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(urlDb + "trendingProducts.json")
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+            String responseString = response.body().string();
+
+            if (responseString.equals("null")) {
+                return;
+            }
+
+            Type type = new TypeToken<List<String>>(){}.getType();
+
+            ProductData.trendingProductsId = new Gson().fromJson(responseString, type);
+        }
     }
 }

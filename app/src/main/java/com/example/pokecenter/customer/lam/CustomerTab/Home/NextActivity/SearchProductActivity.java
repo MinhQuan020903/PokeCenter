@@ -88,7 +88,7 @@ public class SearchProductActivity extends AppCompatActivity implements PokemonR
         rcvProduct.setLayoutManager(gridLayoutManager);
 
         // Setup Loading Trending Product (UX)
-        productAdapter.setData(ProductData.fetchedProducts.stream().filter(item -> item.getName().toLowerCase().contains(searchTextReceiveFromHomeFragment.toLowerCase())).collect(Collectors.toList()));
+        productAdapter.setData(ProductData.fetchedProducts.values().stream().filter(item -> item.getName().toLowerCase().contains(searchTextReceiveFromHomeFragment.toLowerCase())).collect(Collectors.toList()));
         rcvProduct.setAdapter(productAdapter);
 
         binding.progressBar.setVisibility(View.INVISIBLE);
@@ -99,7 +99,7 @@ public class SearchProductActivity extends AppCompatActivity implements PokemonR
     private void searchProduct(String searchText) {
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.progressBarBg.setVisibility(View.VISIBLE);
-        productAdapter.setData(ProductData.fetchedProducts.stream().filter(item -> item.getName().toLowerCase().contains(searchText.toLowerCase())).collect(Collectors.toList()));
+        productAdapter.setData(ProductData.fetchedProducts.values().stream().filter(item -> item.getName().toLowerCase().contains(searchText.toLowerCase())).collect(Collectors.toList()));
         binding.progressBar.setVisibility(View.INVISIBLE);
         binding.progressBarBg.setVisibility(View.INVISIBLE);
     }
