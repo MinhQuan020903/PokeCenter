@@ -1,115 +1,72 @@
-package com.example.pokecenter.customer.lam;
+package com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity;
 
 import static com.example.pokecenter.customer.lam.API.PokeApiFetcher.allPokeName;
 
-import android.content.Context;
-import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavDirections;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 
+import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.PokeApiFetcher;
 import com.example.pokecenter.customer.lam.Interface.PokemonRecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
 import com.example.pokecenter.customer.lam.Model.pokemon.PokemonAdapter;
 import com.example.pokecenter.customer.lam.Model.product.Product;
-import com.example.pokecenter.databinding.FragmentCustomerPokedexBinding;
+import com.example.pokecenter.databinding.ActivityPokedexBinding;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CustomerPokedexFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class CustomerPokedexFragment extends Fragment implements PokemonRecyclerViewInterface {
+public class PokedexActivity extends AppCompatActivity implements PokemonRecyclerViewInterface {
 
-    private FragmentCustomerPokedexBinding binding;
+    private ActivityPokedexBinding binding;
     private RecyclerView rcvGridPokemon;
     private PokemonAdapter pokemonAdapter;
     int index = (int) (Math.random() * 900) + 1;
 
-    ExecutorService executor = Executors.newSingleThreadExecutor();
-    Handler handler = new Handler(Looper.getMainLooper());
-
-    Button viewMoreButton;
-
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private Handler handler = new Handler(Looper.getMainLooper());
     String inputText = "";
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public CustomerPokedexFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CustomerPokedexFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CustomerPokedexFragment newInstance(String param1, String param2) {
-        CustomerPokedexFragment fragment = new CustomerPokedexFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        binding = FragmentCustomerPokedexBinding.inflate(inflater, container, false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Window window = getWindow();
+            // change StatusBarColor
+            window.setStatusBarColor(getColor(R.color.light_canvas));
+            // change color of icons in status bar
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
+        binding = ActivityPokedexBinding.inflate(getLayoutInflater());
 
         rcvGridPokemon = binding.rcvGridPokemon;
-        pokemonAdapter = new PokemonAdapter(getContext(),  this);
+        pokemonAdapter = new PokemonAdapter(this,  this);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         rcvGridPokemon.setLayoutManager(gridLayoutManager);
 
         rcvGridPokemon.setAdapter(pokemonAdapter);
 
-        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        viewMoreButton = binding.viewMoreButton;
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
         binding.backButton.setOnClickListener(view -> {
-            NavHostFragment.findNavController(this)
-                    .navigateUp();
+            finish();
         });
 
         if (!inputText.isEmpty()) {
@@ -187,19 +144,19 @@ public class CustomerPokedexFragment extends Fragment implements PokemonRecycler
             }
         });
 
-        return binding.getRoot();
+        setContentView(binding.getRoot());
     }
 
     private void AddPokemonToRecyclerView() {
         ArrayList<Pokemon> pokemonLoading = new ArrayList<>();
 
         for (int i=1; i<=9; ++i) {
-            pokemonLoading.add(new Pokemon("loading", "", ""));
+            pokemonLoading.add(new Pokemon("", "", ""));
         }
 
         pokemonAdapter.addData(pokemonLoading);
 
-        viewMoreButton.setEnabled(false);
+        binding.viewMoreButton.setEnabled(false);
 
         for (int i = 0; i < pokemonLoading.size(); ++i) {
             Pokemon poke = pokemonLoading.get(i);
@@ -215,7 +172,7 @@ public class CustomerPokedexFragment extends Fragment implements PokemonRecycler
                     poke.setType(fetchedPokemon.getType());
                     pokemonAdapter.updateItem(position);
                     if (position + 1 == pokemonAdapter.getItemCount()) {
-                        viewMoreButton.setEnabled(true);
+                        binding.viewMoreButton.setEnabled(true);
                     }
                 });
             });
@@ -223,23 +180,22 @@ public class CustomerPokedexFragment extends Fragment implements PokemonRecycler
     }
 
     @Override
-    public void onPokemonCardClick(Pokemon pokemon) {
-        if (!pokemon.getImageUrl().isEmpty()) {
-            NavDirections action = CustomerPokedexFragmentDirections.actionCustomerPokedexFragmentToProductByPokemonFragment(pokemon);
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null;
+    }
 
-            NavHostFragment.findNavController(CustomerPokedexFragment.this)
-                    .navigate(action);
+    @Override
+    public void onPokemonCardClick(Pokemon pokemon) {
+        if (!pokemon.getName().isEmpty()) {
+            Intent intent = new Intent(this, ProductByPokemonActivity.class);
+            intent.putExtra("pokemonName", pokemon.getName());
+            startActivity(intent);
         }
     }
 
     @Override
     public void onProductCardClick(Product product) {
 
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 }

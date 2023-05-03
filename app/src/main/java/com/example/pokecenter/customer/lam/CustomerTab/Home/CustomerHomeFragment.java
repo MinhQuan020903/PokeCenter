@@ -23,7 +23,8 @@ import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.customer.lam.API.PokeApiFetcher;
 import com.example.pokecenter.customer.lam.CustomerTab.CustomerFragment;
-import com.example.pokecenter.customer.lam.CustomerTab.CustomerFragmentDirections;
+import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.PokedexActivity;
+import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.ProductByPokemonActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.SearchProductActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.TrendingProductsActivity;
 import com.example.pokecenter.customer.lam.Interface.PokemonRecyclerViewInterface;
@@ -89,8 +90,7 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
 
         binding.viewAllPokedex.setOnClickListener(view -> {
 
-            NavHostFragment.findNavController(this)
-                    .navigate(R.id.action_customerFragment_to_customerPokedexFragment);
+            startActivity(new Intent(getActivity(), PokedexActivity.class));
         });
 
         // _______Pokedex________
@@ -105,7 +105,7 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
             // Chỗ này là để set Data cho Adapter là những cái loading Card
             ArrayList<Pokemon> loadingPokemons = new ArrayList<>();
             for (int i = 1; i <= 5; ++i) {
-                loadingPokemons.add(new Pokemon("loading", "", ""));
+                loadingPokemons.add(new Pokemon("", "", ""));
             }
 
             pokemonAdapter.setData(loadingPokemons);
@@ -204,12 +204,10 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
 
     @Override
     public void onPokemonCardClick(Pokemon pokemon) {
-        if (!pokemon.getImageUrl().isEmpty()) {
-            NavDirections action = com.example.pokecenter.customer.lam.CustomerTab.CustomerFragmentDirections.actionCustomerFragmentToProductByPokemonFragment(pokemon);
-
-            NavHostFragment.findNavController(CustomerHomeFragment.this)
-                    .navigate(action);
-
+        if (!pokemon.getName().isEmpty()) {
+            Intent intent = new Intent(getActivity(), ProductByPokemonActivity.class);
+            intent.putExtra("pokemonName", pokemon.getName());
+            startActivity(intent);
         }
     }
 
