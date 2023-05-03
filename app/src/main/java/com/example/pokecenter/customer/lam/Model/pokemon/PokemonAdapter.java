@@ -18,11 +18,12 @@ import com.example.pokecenter.customer.lam.Interface.PokemonRecyclerViewInterfac
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>{
 
     private Context mContext;
-    private ArrayList<Pokemon> mPokemons = new ArrayList<>();
+    public static ArrayList<Pokemon> mPokemons = new ArrayList<>();
 
     private final PokemonRecyclerViewInterface pokemonRecyclerViewInterface;
 
@@ -47,9 +48,7 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
     }
 
     public void updateItem(int position) {
-        if (position <= mPokemons.size() - 1) {
             notifyItemChanged(position);
-        }
     }
 
     @NonNull

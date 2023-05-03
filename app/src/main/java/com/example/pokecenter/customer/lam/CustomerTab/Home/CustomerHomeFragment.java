@@ -102,8 +102,8 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
         if (PokeApiFetcher.pokemonHomeDemoData.isEmpty()) {
             // Chỗ này là để set Data cho Adapter là những cái loading Card
             ArrayList<Pokemon> loadingPokemons = new ArrayList<>();
-            for (int i = 1; i <= 5; ++i) {
-                loadingPokemons.add(new Pokemon("", "", ""));
+            for (int i = 1; i <= 10; ++i) {
+                loadingPokemons.add(new Pokemon(01, "", "", ""));
             }
 
             pokemonAdapter.setData(loadingPokemons);
