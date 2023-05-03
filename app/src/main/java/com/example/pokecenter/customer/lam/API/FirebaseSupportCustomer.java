@@ -263,8 +263,7 @@ public class FirebaseSupportCustomer {
         }
     }
 
-    public List<String> fetchingTrendingProductId(boolean isDemo) throws IOException {
-        List<String> fetchedTrendingProductsId = new ArrayList<>();
+    public void fetchingTrendingProductId() throws IOException {
 
         OkHttpClient client = new OkHttpClient();
 
@@ -278,18 +277,12 @@ public class FirebaseSupportCustomer {
             String responseString = response.body().string();
 
             if (responseString.equals("null")) {
-                return new ArrayList<>();
+                return;
             }
 
             Type type = new TypeToken<List<String>>(){}.getType();
 
-            fetchedTrendingProductsId = new Gson().fromJson(responseString, type);
+            ProductData.trendingProductsId = new Gson().fromJson(responseString, type);
         }
-
-        if (isDemo) {
-            return fetchedTrendingProductsId.subList(0, 4);
-        }
-
-        return fetchedTrendingProductsId;
     }
 }

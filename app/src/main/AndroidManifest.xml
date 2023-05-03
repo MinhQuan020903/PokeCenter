@@ -60,6 +60,10 @@
         <activity
             android:name=".customer.lam.CustomerTab.Home.NextActivity.SearchProductActivity"
             android:exported="false"
+            android:theme="@style/Theme.PokeCenter.NoActionBar" />
+        <activity
+            android:name=".customer.lam.CustomerTab.Home.NextActivity.TrendingProductsActivity"
+            android:exported="false"
             android:theme="@style/Theme.PokeCenter.NoActionBar"/>
     </application>
 

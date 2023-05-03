@@ -25,6 +25,7 @@ import com.example.pokecenter.customer.lam.API.PokeApiFetcher;
 import com.example.pokecenter.customer.lam.CustomerTab.CustomerFragment;
 import com.example.pokecenter.customer.lam.CustomerTab.CustomerFragmentDirections;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.SearchProductActivity;
+import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.TrendingProductsActivity;
 import com.example.pokecenter.customer.lam.Interface.PokemonRecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
 import com.example.pokecenter.customer.lam.Model.pokemon.PokemonAdapter;
@@ -133,6 +134,10 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
         }
 
         // _______Trending________
+        binding.viewAllTrending.setOnClickListener(view -> {
+            startActivity(new Intent(getActivity(), TrendingProductsActivity.class));
+        });
+
         rcvProduct = binding.rcvGridProduct;
         productAdapter = new ProductAdapter(getActivity(), this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
@@ -152,17 +157,16 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
         Handler handler = new Handler(Looper.getMainLooper());
 
         executor.execute(() -> {
-            List<String> fetchedTrendingProductId;
+            boolean isSuccessful = true;
             try {
-                fetchedTrendingProductId = new FirebaseSupportCustomer().fetchingTrendingProductId(true);
+                new FirebaseSupportCustomer().fetchingTrendingProductId();
             } catch (IOException e) {
-                fetchedTrendingProductId = null;
+                isSuccessful = false;
             }
-            List<String> finalFetchedTrendingProductId = fetchedTrendingProductId;
+            boolean finalIsSuccessful = isSuccessful;
             handler.post(() -> {
-                if (finalFetchedTrendingProductId != null) {
-
-                    List<Product> trendingProducts = finalFetchedTrendingProductId.stream().map(item -> ProductData.fetchedProducts.get(item)).collect(Collectors.toList());
+                if (finalIsSuccessful) {
+                    List<Product> trendingProducts = ProductData.trendingProductsId.subList(0,4).stream().map(item -> ProductData.fetchedProducts.get(item)).collect(Collectors.toList());
                     productAdapter.setData(trendingProducts);
                 } else {
                     Toast.makeText(getActivity(), "Fail to load trending products", Toast.LENGTH_SHORT)

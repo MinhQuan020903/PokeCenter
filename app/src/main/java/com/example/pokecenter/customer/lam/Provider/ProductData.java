@@ -18,6 +18,8 @@ public class ProductData {
 
     public static Map<String, Product> fetchedProducts = new HashMap<>();
 
+    public static List<String> trendingProductsId = new ArrayList<>();
+
     public static String status;
 
     public void fetchDataFromSever() {
