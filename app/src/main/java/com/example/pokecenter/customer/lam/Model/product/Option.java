@@ -3,28 +3,18 @@ package com.example.pokecenter.customer.lam.Model.product;
 import java.io.Serializable;
 
 public class Option implements Serializable {
-    private String optionName;
     private String optionImage;
     private int currentQuantity;
     private int inputQuantity;
     private int cost;
     private int price;
 
-    public Option(String optionName, String optionImage, int currentQuantity, int inputQuantity, int cost, int price) {
-        this.optionName = optionName;
+    public Option(String optionImage, int currentQuantity, int inputQuantity, int cost, int price) {
         this.optionImage = optionImage;
         this.currentQuantity = currentQuantity;
         this.inputQuantity = inputQuantity;
         this.cost = cost;
         this.price = price;
-    }
-
-    public String getOptionName() {
-        return optionName;
-    }
-
-    public void setOptionName(String optionName) {
-        this.optionName = optionName;
     }
 
     public String getOptionImage() {

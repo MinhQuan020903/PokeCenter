@@ -233,11 +233,10 @@ public class FirebaseSupportCustomer {
 
                 Map<String, Map<String, Object>> optionsData = (Map<String, Map<String, Object>>) value.get("options");
 
-                List<Option> options = new ArrayList<>();
+                Map<String, Option> options = new HashMap<>();
 
                 optionsData.forEach((optionKey, optionValue) -> {
-                    options.add(new Option(
-                            (String) optionValue.get("optionName"),
+                    options.put(optionKey, new Option(
                             (String) optionValue.get("optionImage"),
                             ((Double) optionValue.get("currentQuantity")).intValue(),
                             ((Double) optionValue.get("inputQuantity")).intValue(),

@@ -7,15 +7,20 @@ import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Product implements Serializable {
     private String name;
     private String desc;
     private List<String> images;
-    private List<Option> options;
+    private Map<String, Option> options;
 
-    public Product(String name, String desc, List<String> images, List<Option> options) {
+    public Product(String name, String desc, List<String> images, Map<String, Option> options) {
         this.name = name;
         this.desc = desc;
         this.images = images;
@@ -49,11 +54,19 @@ public class Product implements Serializable {
         this.images = images;
     }
 
-    public List<Option> getOptions() {
+    public Map<String, Option> getOptions() {
         return options;
     }
 
-    public void setOptions(List<Option> options) {
+    public void setOptions(Map<String, Option> options) {
         this.options = options;
+    }
+
+    public List<String> getAllOptionsName() {
+        return new ArrayList<>(options.keySet());
+    }
+
+    public List<Option> getOptionsValue() {
+        return new ArrayList<>(options.values().stream().sorted(Comparator.comparing(Option::getPrice)).collect(Collectors.toList()));
     }
 }
