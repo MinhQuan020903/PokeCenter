@@ -4,12 +4,10 @@ import static com.example.pokecenter.customer.lam.API.PokeApiFetcher.allPokeName
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,7 +17,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.pokecenter.R;
@@ -31,14 +28,9 @@ import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.databinding.ActivityPokedexBinding;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import kotlinx.coroutines.Delay;
 
 public class PokedexActivity extends AppCompatActivity implements PokemonRecyclerViewInterface {
 
@@ -51,18 +43,11 @@ public class PokedexActivity extends AppCompatActivity implements PokemonRecycle
 
     String inputText = "";
     InputMethodManager inputMethodManager;
-
+    boolean isSearch = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
-        ExecutorService executor = Executors.newCachedThreadPool();
-        Handler UiThread = new Handler(Looper.getMainLooper());
-
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Window window = getWindow();
@@ -89,12 +74,14 @@ public class PokedexActivity extends AppCompatActivity implements PokemonRecycle
         initIndex = index;
         AddPokemonToRecyclerView();
 
+
+
         rcvGridPokemon.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
-                if (!recyclerView.canScrollVertically(1)) {
+                if (!recyclerView.canScrollVertically(1) && isSearch == false) {
                     AddPokemonToRecyclerView();
                 }
             }
@@ -140,6 +127,8 @@ public class PokedexActivity extends AppCompatActivity implements PokemonRecycle
 
     void onSearchPokemon() {
 
+        isSearch = true;
+
         // Ẩn Keyboard
         inputMethodManager.hideSoftInputFromWindow(binding.searchNamePokemonBar.getWindowToken(), 0);
 
@@ -172,17 +161,21 @@ public class PokedexActivity extends AppCompatActivity implements PokemonRecycle
         ExecutorService executor = Executors.newCachedThreadPool();
         Handler handler = new Handler(Looper.getMainLooper());
 
+
         for (int i = 0; i < pokemonLoading.size(); ++i) {
-            Pokemon poke = pokemonLoading.get(i);
 
             int finalI = i;
             executor.execute(() -> {
-                Pokemon fetchedPokemon = PokeApiFetcher.fetchPokemonByName(poke.getName());
+                Pokemon fetchedPokemon = PokeApiFetcher.fetchPokemonByName(pokemonLoading.get(finalI).getName());
                 handler.post(() -> {
+                    int pos = pokemonAdapter.find(fetchedPokemon.getName().toLowerCase());
+                    Pokemon poke = pokemonAdapter.get(pos);
+
                     poke.setName(fetchedPokemon.getName());
                     poke.setImageUrl(fetchedPokemon.getImageUrl());
                     poke.setType(fetchedPokemon.getType());
-                    pokemonAdapter.updateItem(finalI);
+
+                    pokemonAdapter.updateItem(pos);
                 });
             });
         }
@@ -191,35 +184,37 @@ public class PokedexActivity extends AppCompatActivity implements PokemonRecycle
     void AddPokemonToRecyclerView() {
         ArrayList<Pokemon> pokemonLoading = new ArrayList<>();
 
-        for (int i=1; i<=15; ++i) {
+        for (int i=1; i<=30; ++i) {
             pokemonLoading.add(new Pokemon(-1, "", "", ""));
         }
 
         pokemonAdapter.addData(pokemonLoading);
 
-        Handler handler = new Handler(Looper.getMainLooper());
+        Handler delayHandler = new Handler();
 
+        delayHandler.postDelayed(() -> {
+            ExecutorService executor = Executors.newCachedThreadPool();
+            Handler handler = new Handler(Looper.getMainLooper());
 
+            for (int i = 0; i < pokemonLoading.size(); ++i) {
+                executor.execute(() -> {
+                    index = (index + 1) % 902;
+                    Pokemon fetchedPokemon = PokeApiFetcher.fetchPokemonById(index);
+                    handler.post(() -> {
+                        int pos = fetchedPokemon.getId() - 1 - initIndex;
+                        Pokemon poke = pokemonAdapter.get(pos);
 
-        for (int i = 0; i < pokemonLoading.size(); ++i) {
-            ExecutorService executor = Executors.newSingleThreadExecutor();
-            executor.execute(() -> {
-                index = (index + 1) % 902;
-                Pokemon fetchedPokemon = PokeApiFetcher.fetchPokemonById(index);
-                handler.post(() -> {
-                    int pos = fetchedPokemon.getId() - 1 - initIndex;
-                    Pokemon poke = pokemonAdapter.get(pos);
+                        poke.setId(fetchedPokemon.getId());
+                        poke.setName(fetchedPokemon.getName());
+                        poke.setImageUrl(fetchedPokemon.getImageUrl());
+                        poke.setType(fetchedPokemon.getType());
 
-                    poke.setId(fetchedPokemon.getId());
-                    poke.setName(fetchedPokemon.getName());
-                    poke.setImageUrl(fetchedPokemon.getImageUrl());
-                    poke.setType(fetchedPokemon.getType());
+                        pokemonAdapter.updateItem(pos);
 
-                    pokemonAdapter.updateItem(pos);
-
+                    });
                 });
-            });
-        }
+            }
+        }, 3000);
     }
 
     @Override

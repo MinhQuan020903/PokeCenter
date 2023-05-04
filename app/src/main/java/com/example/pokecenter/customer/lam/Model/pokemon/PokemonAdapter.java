@@ -55,6 +55,15 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
         return mPokemons.get(position);
     }
 
+    public int find(String name) {
+        for (int i = 0; i < mPokemons.size(); ++i) {
+            if (mPokemons.get(i).getName().equals(name)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     @NonNull
     @Override
     public PokemonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -81,6 +90,8 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
     public int getItemCount() {
         return mPokemons.size();
     }
+
+
 
     public class PokemonViewHolder  extends RecyclerView.ViewHolder {
 
