@@ -51,6 +51,10 @@ public class PokemonAdapter extends  RecyclerView.Adapter<PokemonAdapter.Pokemon
             notifyItemChanged(position);
     }
 
+    public Pokemon get(int position) {
+        return mPokemons.get(position);
+    }
+
     @NonNull
     @Override
     public PokemonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

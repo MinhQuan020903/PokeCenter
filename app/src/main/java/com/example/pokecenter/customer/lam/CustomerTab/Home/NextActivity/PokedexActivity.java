@@ -38,12 +38,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import kotlinx.coroutines.Delay;
+
 public class PokedexActivity extends AppCompatActivity implements PokemonRecyclerViewInterface {
 
     private ActivityPokedexBinding binding;
     private RecyclerView rcvGridPokemon;
     private PokemonAdapter pokemonAdapter;
-    public static int index = 0;
+    private static int index = 0;
+
+    private int initIndex;
 
     String inputText = "";
     InputMethodManager inputMethodManager;
@@ -82,7 +86,19 @@ public class PokedexActivity extends AppCompatActivity implements PokemonRecycle
         rcvGridPokemon.setLayoutManager(gridLayoutManager);
 
         rcvGridPokemon.setAdapter(pokemonAdapter);
+        initIndex = index;
         AddPokemonToRecyclerView();
+
+        rcvGridPokemon.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (!recyclerView.canScrollVertically(1)) {
+                    AddPokemonToRecyclerView();
+                }
+            }
+        });
 
         binding.backButton.setOnClickListener(view -> {
             finish();
@@ -181,23 +197,26 @@ public class PokedexActivity extends AppCompatActivity implements PokemonRecycle
 
         pokemonAdapter.addData(pokemonLoading);
 
-        ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
 
+
+
         for (int i = 0; i < pokemonLoading.size(); ++i) {
-            Pokemon poke = pokemonLoading.get(i);
-
-            int position = pokemonAdapter.getItemCount() - 15 + i;
-
+            ExecutorService executor = Executors.newSingleThreadExecutor();
             executor.execute(() -> {
                 index = (index + 1) % 902;
                 Pokemon fetchedPokemon = PokeApiFetcher.fetchPokemonById(index);
                 handler.post(() -> {
+                    int pos = fetchedPokemon.getId() - 1 - initIndex;
+                    Pokemon poke = pokemonAdapter.get(pos);
+
                     poke.setId(fetchedPokemon.getId());
                     poke.setName(fetchedPokemon.getName());
                     poke.setImageUrl(fetchedPokemon.getImageUrl());
                     poke.setType(fetchedPokemon.getType());
-                    pokemonAdapter.updateItem(position);
+
+                    pokemonAdapter.updateItem(pos);
+
                 });
             });
         }
