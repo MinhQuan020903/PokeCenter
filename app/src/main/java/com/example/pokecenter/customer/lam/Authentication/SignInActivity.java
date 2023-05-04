@@ -19,7 +19,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pokecenter.admin.AdminActivity;
-import com.example.pokecenter.customer.CustomerActivity;
+import com.example.pokecenter.customer.lam.CustomerActivity;
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
 import com.example.pokecenter.databinding.ActivitySignInBinding;

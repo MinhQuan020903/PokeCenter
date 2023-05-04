@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.pokecenter.R;
-import com.smarteist.autoimageslider.SliderView;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 import com.squareup.picasso.Picasso;
 
@@ -22,7 +21,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.Holder> {
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.slider_product_item, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lam_slider_product_item, null);
         return new Holder(view);
     }
 

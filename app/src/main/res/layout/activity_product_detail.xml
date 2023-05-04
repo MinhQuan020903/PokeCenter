@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,10 +9,10 @@
     android:background="@color/light_canvas">
 
 
-
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="54dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,7 +65,7 @@
                 android:layout_marginHorizontal="16dp"
                 tools:text="Orig Pokemon Decor Cute for Baby"
                 android:textColor="@color/black"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="10dp"/>
 
@@ -156,12 +156,56 @@
 
             </LinearLayout>
 
-
-
         </LinearLayout>
 
     </ScrollView>
     
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/white"
+        android:gravity="center_vertical">
 
+        <ImageButton
+            android:id="@+id/shoppingCartButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/lam_baseline_shopping_cart_32"
+            android:background="@color/light_primary"
+            android:paddingHorizontal="12dp"
+            app:tint="@color/white"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"/>
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/addToCart_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Add to cart"
+            android:textStyle="bold"
+            android:textColor="@color/light_secondary"
+            android:textSize="18sp"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"/>
+
+        <TextView
+            android:id="@+id/order_now_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Order Now"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:background="@color/light_secondary"
+            android:textSize="18sp"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
