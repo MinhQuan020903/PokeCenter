@@ -39,7 +39,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".customer.CustomerActivity"
+            android:name=".customer.lam.CustomerActivity"
             android:exported="false"
             android:theme="@style/Theme.PokeCenter.NoActionBar" />
         <activity

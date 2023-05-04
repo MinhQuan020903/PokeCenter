@@ -68,7 +68,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
             List<Option> options = product.getOptions();
 
-            if (options.size() == 0) {
+            if (options.size() == 1) {
                 holder.productPrice.setText(currencyFormatter.format(options.get(0).getPrice()));
             } else {
                 holder.productPrice.setText(currencyFormatter.format(options.get(0).getPrice()) + " - " + currencyFormatter.format(options.get(options.size() - 1).getPrice()));
@@ -84,7 +84,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public class ProductViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView productImage;
-        private ImageView favoriteButton;
         private TextView productName;
         private TextView productPrice;
         private ProgressBar progress_bar;
@@ -93,14 +92,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             super(itemView);
 
             productImage = itemView.findViewById(R.id.product_image);
-            favoriteButton = itemView.findViewById(R.id.favoriteButton);
             productName = itemView.findViewById(R.id.product_name);
             productPrice = itemView.findViewById(R.id.product_price);
             progress_bar = itemView.findViewById(R.id.progress_bar);
 
-            favoriteButton.setOnClickListener(view -> {
-                favoriteButton.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.lam_heart_red_fill));
-            });
 
             itemView.setOnClickListener(view -> {
                 if (pokemonRecyclerViewInterface != null) {

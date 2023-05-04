@@ -101,7 +101,7 @@ public class MyAddressesActivity extends AppCompatActivity implements AddressRec
 
     private void openBottomSheetDialog(Address existingAddress) {
 
-        View viewDialog = getLayoutInflater().inflate(R.layout.lam_address_bottom_sheet, null);
+        View viewDialog = getLayoutInflater().inflate(R.layout.lam_bottom_sheet_address, null);
 
         BottomSheetDialog dialog = new BottomSheetDialog(this);
         dialog.setContentView(viewDialog);

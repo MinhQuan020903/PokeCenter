@@ -1,4 +1,4 @@
-package com.example.pokecenter.customer;
+package com.example.pokecenter.customer.lam;
 
 import static androidx.core.content.ContextCompat.getColor;
 
@@ -70,14 +70,22 @@ public class CustomerActivity extends AppCompatActivity {
         });
 
         /*
+        Lấy giá trị targetedFragment để check xem ở một nơi nào đó trong app
+        mà move tới CustomerActivity với Fragment mong muốn nào
+        VD trong ProductDetailActivity có lệnh move đến CustomerActivity và vào ShoppingCardFragment
+            Intent intent = new Intent(this, CustomerActivity.class);
+            intent.putExtra("targetedFragment", R.id.customerShoppingCardFragment);
+            startActivity(intent);
+
         Set HomeFragment is default
-        Đồng thời lúc này customerBottomNavigationView.setOnItemSelectedListener() ở dòng 80
+
+        Đồng thời lúc này customerBottomNavigationView.setOnItemSelectedListener() ở dòng 51
         cũng sẽ được trigger
         => Thực thi lệnh "replaceFragment(new CustomerHomePlaceholderFragment());"
         => Nội dung page cũng sẽ thay đổi theo
          */
 
-        customerBottomNavigationView.setSelectedItemId(R.id.customerHomeFragment);
+        customerBottomNavigationView.setSelectedItemId(getIntent().getIntExtra("targetedFragment", R.id.customerHomeFragment));
         setContentView(binding.getRoot());
     }
 
