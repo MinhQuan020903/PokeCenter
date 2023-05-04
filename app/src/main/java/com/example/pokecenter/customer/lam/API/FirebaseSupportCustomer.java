@@ -21,12 +21,14 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -233,10 +235,11 @@ public class FirebaseSupportCustomer {
 
                 Map<String, Map<String, Object>> optionsData = (Map<String, Map<String, Object>>) value.get("options");
 
-                Map<String, Option> options = new HashMap<>();
+                List<Option> options = new ArrayList<>();
 
                 optionsData.forEach((optionKey, optionValue) -> {
-                    options.put(optionKey, new Option(
+                    options.add(new Option(
+                            (String) optionKey,
                             (String) optionValue.get("optionImage"),
                             ((Double) optionValue.get("currentQuantity")).intValue(),
                             ((Double) optionValue.get("inputQuantity")).intValue(),
@@ -245,11 +248,13 @@ public class FirebaseSupportCustomer {
                     ));
                 });
 
+                List<Option> sortedOptions = options.stream().sorted(Comparator.comparing(Option::getPrice)).collect(Collectors.toList());
+
                 ProductData.fetchedProducts.put(key, new Product(
                         (String) value.get("name"),
                         (String) value.get("desc"),
                         (List<String>) value.get("images"),
-                        options
+                        sortedOptions
                 ));
             });
 

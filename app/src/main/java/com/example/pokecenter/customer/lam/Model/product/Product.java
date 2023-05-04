@@ -18,9 +18,9 @@ public class Product implements Serializable {
     private String name;
     private String desc;
     private List<String> images;
-    private Map<String, Option> options;
+    private List<Option> options;
 
-    public Product(String name, String desc, List<String> images, Map<String, Option> options) {
+    public Product(String name, String desc, List<String> images, List<Option> options) {
         this.name = name;
         this.desc = desc;
         this.images = images;
@@ -54,19 +54,23 @@ public class Product implements Serializable {
         this.images = images;
     }
 
-    public Map<String, Option> getOptions() {
+    public List<Option> getOptions() {
         return options;
     }
 
-    public void setOptions(Map<String, Option> options) {
+    public void setOptions(List<Option> options) {
         this.options = options;
     }
 
     public List<String> getAllOptionsName() {
-        return new ArrayList<>(options.keySet());
+        return new ArrayList<>(options.stream().map(Option::getOptionName).collect(Collectors.toList()));
     }
 
-    public List<Option> getOptionsValue() {
-        return new ArrayList<>(options.values().stream().sorted(Comparator.comparing(Option::getPrice)).collect(Collectors.toList()));
+    public List<String> copyListImage() {
+        return new ArrayList<>(images);
     }
+
+//    public List<Option> getOptionsValue() {
+//        return new ArrayList<>(options.values().stream().sorted(Comparator.comparing(Option::getPrice)).collect(Collectors.toList()));
+//    }
 }

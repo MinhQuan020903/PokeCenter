@@ -41,7 +41,7 @@
                     app:sliderIndicatorSelectedColor="@color/light_secondary"
                     app:sliderIndicatorUnselectedColor="@color/light_canvas"
                     app:sliderScrollTimeInSec="2"
-                    app:sliderStartAutoCycle="false" />
+                    app:sliderStartAutoCycle="true" />
 
                 <ImageButton
                     android:id="@+id/backButton"
@@ -79,17 +79,19 @@
                 android:layout_marginBottom="8dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/drop_list_down_options"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:hint="Select option"
                 android:layout_marginBottom="4dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+
                 <AutoCompleteTextView
                     android:id="@+id/options_auto_complete_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none"/>
+                    android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout

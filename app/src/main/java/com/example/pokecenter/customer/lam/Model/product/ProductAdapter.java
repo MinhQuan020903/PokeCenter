@@ -66,7 +66,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
             NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
 
-            List<Option> options = product.getOptionsValue();
+            List<Option> options = product.getOptions();
 
             if (options.size() == 1) {
                 holder.productPrice.setText(currencyFormatter.format(options.get(0).getPrice()));

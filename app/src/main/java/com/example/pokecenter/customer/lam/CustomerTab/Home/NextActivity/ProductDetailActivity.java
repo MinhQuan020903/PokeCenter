@@ -52,8 +52,8 @@ public class ProductDetailActivity extends AppCompatActivity {
             finish();
         });
 
-        List<String> displayImageUrl = receiveProduct.getImages();
-        receiveProduct.getOptionsValue().forEach(option -> {
+        List<String> displayImageUrl = receiveProduct.copyListImage();
+        receiveProduct.getOptions().forEach(option -> {
             if (!option.getOptionImage().isEmpty()) {
                 displayImageUrl.add(option.getOptionImage());
             }
@@ -64,15 +64,16 @@ public class ProductDetailActivity extends AppCompatActivity {
         binding.productImageSliderView.setSliderAdapter(sliderAdapter);
         binding.productImageSliderView.setIndicatorAnimation(IndicatorAnimationType.THIN_WORM);
         binding.productImageSliderView.setSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
-        // binding.productImageSliderView.startAutoCycle();
+        binding.productImageSliderView.startAutoCycle();
 
 
         binding.productName.setText(receiveProduct.getName());
 
         if (receiveProduct.getOptions().size() == 1) {
-            binding.productPrice.setText(currencyFormatter.format(receiveProduct.getOptions().get("null").getPrice()));
+            binding.productPrice.setText(currencyFormatter.format(receiveProduct.getOptions().get(0).getPrice()));
+            binding.dropListDownOptions.setVisibility(View.GONE);
         } else {
-            binding.productPrice.setText(currencyFormatter.format(receiveProduct.getOptionsValue().get(0).getPrice()) + " - " + currencyFormatter.format(receiveProduct.getOptionsValue().get(receiveProduct.getOptions().size() - 1).getPrice()));
+            binding.productPrice.setText(currencyFormatter.format(receiveProduct.getOptions().get(0).getPrice()) + " - " + currencyFormatter.format(receiveProduct.getOptions().get(receiveProduct.getOptions().size() - 1).getPrice()));
         }
 
         ArrayAdapter<String> adapterItems = new ArrayAdapter<>(this, R.layout.option_list_item, receiveProduct.getAllOptionsName());
@@ -83,7 +84,13 @@ public class ProductDetailActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 getCurrentFocus().clearFocus();
                 String optionName = adapterView.getItemAtPosition(position).toString();
-                binding.productPrice.setText(currencyFormatter.format(receiveProduct.getOptions().get(optionName).getPrice()));
+                binding.productPrice.setText(currencyFormatter.format(receiveProduct.getOptions().get(position).getPrice()));
+                binding.productImageSliderView.stopAutoCycle();
+                if (receiveProduct.getOptions().get(position).getOptionImage().isEmpty()) {
+                    binding.productImageSliderView.setCurrentPagePosition(0);
+                } else {
+                    binding.productImageSliderView.setCurrentPagePosition(receiveProduct.getImages().size() + position);
+                }
             }
         });
 
