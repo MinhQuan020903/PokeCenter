@@ -201,6 +201,9 @@ public class PokedexActivity extends AppCompatActivity implements PokemonRecycle
                     index = (index + 1) % 902;
                     Pokemon fetchedPokemon = PokeApiFetcher.fetchPokemonById(index);
                     handler.post(() -> {
+                        if (isSearch) {
+                            return;
+                        }
                         int pos = fetchedPokemon.getId() - 1 - initIndex;
                         Pokemon poke = pokemonAdapter.get(pos);
 

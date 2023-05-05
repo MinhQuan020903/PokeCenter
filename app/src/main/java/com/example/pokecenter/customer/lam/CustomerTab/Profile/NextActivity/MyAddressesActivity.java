@@ -87,12 +87,12 @@ public class MyAddressesActivity extends AppCompatActivity implements AddressRec
             handler.post(() -> {
                 if (finalFetchedAddressesData != null) {
                     myAddresses = finalFetchedAddressesData;
-                    binding.progressBar.setVisibility(View.INVISIBLE);
                     addressAdapter.setData(myAddresses);
                 } else {
                     Toast.makeText(this, "Connect sever failed", Toast.LENGTH_SHORT)
                             .show();
                 }
+                binding.progressBar.setVisibility(View.INVISIBLE);
             });
         });
 

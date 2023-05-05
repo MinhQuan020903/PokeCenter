@@ -6,6 +6,7 @@ import android.os.Looper;
 
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity;
 import com.example.pokecenter.customer.lam.Model.address.Address;
+import com.example.pokecenter.customer.lam.Model.cart.Cart;
 import com.example.pokecenter.customer.lam.Model.product.Option;
 import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.customer.lam.Provider.ProductData;
@@ -338,4 +339,40 @@ public class FirebaseSupportCustomer {
 
         usersRef.child(productId).setValue(quantity);
     }
+
+    public List<Cart> fetchingAllCarts() throws IOException {
+        List<Cart> fetchedCarts = new ArrayList<>();
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(urlDb + "customers/" + emailWithCurrentUser.replace(".", ",") + "/carts.json")
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+
+            String responseString = response.body().string();
+
+            if (responseString.equals("null")) {
+                return new ArrayList<>();
+            }
+
+            Type type = new TypeToken<Map<String, Integer>>(){}.getType();
+            Map<String, Integer> fetchedCartsId = new Gson().fromJson(responseString, type);
+
+            fetchedCartsId.forEach((key, value) -> {
+                fetchedCarts.add(new Cart(
+                        ProductData.fetchedProducts.get(key),
+                        value
+                ));
+            });
+
+        }
+
+        return fetchedCarts;
+    }
+
 }

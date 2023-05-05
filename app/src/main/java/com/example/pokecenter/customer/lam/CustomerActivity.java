@@ -44,7 +44,7 @@ public class CustomerActivity extends AppCompatActivity {
         Fragment home = new CustomerHomeFragment();
         Fragment orders = new CustomerOrdersFragment();
         Fragment notifications = new CustomerNotificationsFragment();
-        Fragment shoppingCart = new CustomerShoppingCartFragment();
+
         Fragment profile = new CustomerProfileFragment();
 
         // Move between fragments
@@ -60,6 +60,7 @@ public class CustomerActivity extends AppCompatActivity {
                     replaceFragment(notifications);
                     break;
                 case R.id.customerShoppingCardFragment:
+                    Fragment shoppingCart = new CustomerShoppingCartFragment();
                     replaceFragment(shoppingCart);
                     break;
                 case R.id.customerProfileFragment:
