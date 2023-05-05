@@ -1,7 +1,6 @@
 package com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
@@ -23,7 +22,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
@@ -45,6 +43,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
@@ -55,7 +54,6 @@ public class ProductDetailActivity extends AppCompatActivity {
     BottomSheetDialog dialog;
     ArrayAdapter<String> adapterItems;
     private View customize;
-
     Snackbar snackbar;
 
     @Override
@@ -69,19 +67,19 @@ public class ProductDetailActivity extends AppCompatActivity {
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
 
+        // binding
+        binding = ActivityProductDetailBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         // Pre setup viewDialog
         viewDialog = getLayoutInflater().inflate(R.layout.lam_bottom_sheet_place_order, null);
         dialog = new BottomSheetDialog(this);
         dialog.setContentView(viewDialog);
 
-
         //
         Product receiveProduct = (Product) getIntent().getSerializableExtra("product object");
         adapterItems = new ArrayAdapter<>(this, R.layout.lam_option_list_item, receiveProduct.getAllOptionsName());
         setUpLogicForBottomSheet(receiveProduct);
-
-        // binding
-        binding = ActivityProductDetailBinding.inflate(getLayoutInflater());
 
         binding.backButton.setOnClickListener(view ->  {
             finish();
@@ -160,10 +158,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         setup snack bar
         setUpSnackbar() phải để sau setContentView
          */
-        customize = getLayoutInflater().inflate(R.layout.lam_custom_only_text_snack_bar, null);
         setUpSnackbar();
-
     }
+
 
     private void openAddToCartBottomSheet() {
         viewDialog.findViewById(R.id.add_to_cart_button).setVisibility(View.VISIBLE);
@@ -204,8 +201,11 @@ public class ProductDetailActivity extends AppCompatActivity {
         ImageButton incButton = viewDialog.findViewById(R.id.inc_button);
         ImageButton decButton = viewDialog.findViewById(R.id.dec_button);
 
+        AtomicInteger selectedOptionPosition = new AtomicInteger(-1);
         optionsAutoCompleteTextView.setOnItemClickListener((adapterView, view, position, l) -> {
             optionsAutoCompleteTextView.clearFocus();
+
+            selectedOptionPosition.set(position);
 
             Option selectedOption = product.getOptions().get(position);
             if (!selectedOption.getOptionImage().isEmpty()) {
@@ -255,7 +255,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                 boolean isSuccessful = true;
                 try {
-                    new FirebaseSupportCustomer().addNewCartUsingApi(product.getId(), Integer.parseInt(productCount.getText().toString()));
+                    new FirebaseSupportCustomer().addNewCartUsingApi(product.getId(), Integer.parseInt(productCount.getText().toString()), selectedOptionPosition.get());
                 } catch (IOException e) {
                     isSuccessful = false;
                 }
@@ -283,7 +283,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                 boolean isSuccessful = true;
                 try {
-                    new FirebaseSupportCustomer().addNewCartUsingApi(product.getId(), Integer.parseInt(productCount.getText().toString()));
+                    new FirebaseSupportCustomer().addNewCartUsingApi(product.getId(), Integer.parseInt(productCount.getText().toString()), selectedOptionPosition.get());
                 } catch (IOException e) {
                     isSuccessful = false;
                 }
@@ -309,7 +309,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void setUpSnackbar() {
-        snackbar = Snackbar.make(binding.detailProductScreen, "", Snackbar.LENGTH_SHORT);
+        customize = getLayoutInflater().inflate(R.layout.lam_custom_only_text_snack_bar, null);
+        snackbar = Snackbar.make(binding.getRoot(), "", Snackbar.LENGTH_SHORT);
         snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
 
         Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackbar.getView();

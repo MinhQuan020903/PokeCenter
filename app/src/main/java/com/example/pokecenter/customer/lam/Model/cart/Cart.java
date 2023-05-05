@@ -6,9 +6,12 @@ public class Cart {
     private Product product;
     private int quantity;
 
-    public Cart(Product product, int quantity) {
+    private int selectedOption;
+
+    public Cart(Product product, int quantity, int selectedOption) {
         this.product = product;
         this.quantity = quantity;
+        this.selectedOption = selectedOption;
     }
 
     public Product getProduct() {
@@ -25,5 +28,13 @@ public class Cart {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getSelectedOption() {
+        return selectedOption;
+    }
+
+    public void setSelectedOption(int selectedOption) {
+        this.selectedOption = selectedOption;
     }
 }

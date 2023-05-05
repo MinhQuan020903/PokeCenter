@@ -310,12 +310,16 @@ public class FirebaseSupportCustomer {
         return fetchedProductsId;
     }
 
-    public void addNewCartUsingApi(String productId, int quantity) throws IOException {
+    public void addNewCartUsingApi(String productId, int quantity, int selectedOption) throws IOException {
         /* Lấy productId làm key cho cart, vì mỗi card tương ứng 1 sản phẩm mà id sản phẩm là unique */
 
         OkHttpClient client = new OkHttpClient();
 
-        String jsonData = new Gson().toJson(quantity);
+        Map<String, Integer> pushData = new HashMap<>();
+        pushData.put("quantity", quantity);
+        pushData.put("selectedOption", selectedOption);
+
+        String jsonData = new Gson().toJson(pushData);
 
         // create request body
         RequestBody body = RequestBody.create(jsonData, JSON);
@@ -331,13 +335,17 @@ public class FirebaseSupportCustomer {
         client.newCall(request).execute();
     }
 
-    public void addNewCart(String productId, int quantity) {
+    public void addNewCart(String productId, int quantity, int selectedOption) {
         String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference usersRef = database.getReference("customers/" + emailWithCurrentUser.replace(".", ",") + "/carts");
 
-        usersRef.child(productId).setValue(quantity);
+        Map<String, Integer> pushData = new HashMap<>();
+        pushData.put("quantity", quantity);
+        pushData.put("selectedOption", selectedOption);
+
+        usersRef.child(productId).setValue(pushData);
     }
 
     public List<Cart> fetchingAllCarts() throws IOException {
@@ -360,13 +368,14 @@ public class FirebaseSupportCustomer {
                 return new ArrayList<>();
             }
 
-            Type type = new TypeToken<Map<String, Integer>>(){}.getType();
-            Map<String, Integer> fetchedCartsId = new Gson().fromJson(responseString, type);
+            Type type = new TypeToken<Map<String, Object>>(){}.getType();
+            Map<String, Map<String, Object>> fetchedCartsId = new Gson().fromJson(responseString, type);
 
             fetchedCartsId.forEach((key, value) -> {
                 fetchedCarts.add(new Cart(
                         ProductData.fetchedProducts.get(key),
-                        value
+                        ((Double) value.get("quantity")).intValue(),
+                        ((Double) value.get("selectedOption")).intValue()
                 ));
             });
 
@@ -375,4 +384,16 @@ public class FirebaseSupportCustomer {
         return fetchedCarts;
     }
 
+    public void deleteCart(String id) throws IOException {
+
+        OkHttpClient client = new OkHttpClient();
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Request request = new Request.Builder()
+                .url(urlDb + "customers/" + emailWithCurrentUser.replace(".", ",") + "/carts/" + id + ".json")
+                .delete()
+                .build();
+
+        client.newCall(request).execute();
+    }
 }

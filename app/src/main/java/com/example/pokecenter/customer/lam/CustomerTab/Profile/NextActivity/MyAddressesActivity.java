@@ -64,7 +64,7 @@ public class MyAddressesActivity extends AppCompatActivity implements AddressRec
 
         binding = ActivityMyAddressesBinding.inflate(getLayoutInflater());
 
-        /* Set Address ListView */
+        /* Set up Address RecyclerView */
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         binding.rcvAddresses.setLayoutManager(linearLayoutManager);
         binding.rcvAddresses.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
@@ -311,13 +311,14 @@ public class MyAddressesActivity extends AppCompatActivity implements AddressRec
                     myAddresses.remove(position);
                     addressAdapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(this, "Delete address failed, try againt later!", Toast.LENGTH_SHORT)
+                    Toast.makeText(this, "Delete address failed, try again later!", Toast.LENGTH_SHORT)
                             .show();
                 }
                 binding.progressBar.setVisibility(View.INVISIBLE);
                 binding.progressBarBg.setVisibility(View.INVISIBLE);
             });
         });
+
     }
 
     @Override
