@@ -39,12 +39,10 @@ public class CustomerProfileFragment extends Fragment {
             FirebaseAuth.getInstance().signOut();
 
             startActivity(new Intent(getActivity(), SignInActivity.class));
+            getActivity().finishAffinity();
         });
 
         return binding.getRoot();
-    }
-
-    private void replaceFragment(Fragment selectedFragment) {
     }
 
     @Override

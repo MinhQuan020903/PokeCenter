@@ -1,39 +1,50 @@
 package com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.customer.lam.CustomerActivity;
 import com.example.pokecenter.customer.lam.Model.product.Option;
 import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.customer.lam.SliderAdapter;
 import com.example.pokecenter.databinding.ActivityProductDetailBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
@@ -43,17 +54,13 @@ public class ProductDetailActivity extends AppCompatActivity {
     View viewDialog;
     BottomSheetDialog dialog;
     ArrayAdapter<String> adapterItems;
+    private View customize;
+
+    Snackbar snackbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewDialog = getLayoutInflater().inflate(R.layout.lam_bottom_sheet_place_order, null);
-        dialog = new BottomSheetDialog(this);
-        dialog.setContentView(viewDialog);
-        Product receiveProduct = (Product) getIntent().getSerializableExtra("product object");
-        adapterItems = new ArrayAdapter<>(this, R.layout.lam_option_list_item, receiveProduct.getAllOptionsName());
-        setUpLogicForBottomSheet(receiveProduct);
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Window window = getWindow();
             // change StatusBarColor
@@ -62,6 +69,18 @@ public class ProductDetailActivity extends AppCompatActivity {
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
 
+        // Pre setup viewDialog
+        viewDialog = getLayoutInflater().inflate(R.layout.lam_bottom_sheet_place_order, null);
+        dialog = new BottomSheetDialog(this);
+        dialog.setContentView(viewDialog);
+
+
+        //
+        Product receiveProduct = (Product) getIntent().getSerializableExtra("product object");
+        adapterItems = new ArrayAdapter<>(this, R.layout.lam_option_list_item, receiveProduct.getAllOptionsName());
+        setUpLogicForBottomSheet(receiveProduct);
+
+        // binding
         binding = ActivityProductDetailBinding.inflate(getLayoutInflater());
 
         binding.backButton.setOnClickListener(view ->  {
@@ -136,6 +155,14 @@ public class ProductDetailActivity extends AppCompatActivity {
         binding.orderNowButton.setOnClickListener(view -> openOrderNowBottomSheet());
 
         setContentView(binding.getRoot());
+
+        /*
+        setup snack bar
+        setUpSnackbar() phải để sau setContentView
+         */
+        customize = getLayoutInflater().inflate(R.layout.lam_custom_only_text_snack_bar, null);
+        setUpSnackbar();
+
     }
 
     private void openAddToCartBottomSheet() {
@@ -172,7 +199,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         } else {
             optionsAutoCompleteTextView.setAdapter(adapterItems);
         }
-
 
         TextView productCount = viewDialog.findViewById(R.id.product_count);
         ImageButton incButton = viewDialog.findViewById(R.id.inc_button);
@@ -217,6 +243,85 @@ public class ProductDetailActivity extends AppCompatActivity {
                 productCount.setText(String.valueOf(count - 1));
             }
         });
+
+        /* Logic Add to Cart Button in Bottom Sheet */
+        Button addToCart = viewDialog.findViewById(R.id.add_to_cart_button);
+        addToCart.setOnClickListener(view -> {
+
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+
+            executor.execute(() -> {
+
+                boolean isSuccessful = true;
+                try {
+                    new FirebaseSupportCustomer().addNewCartUsingApi(product.getId(), Integer.parseInt(productCount.getText().toString()));
+                } catch (IOException e) {
+                    isSuccessful = false;
+                }
+
+                boolean finalIsSuccessful = isSuccessful;
+                handler.post(() -> {
+                    if (finalIsSuccessful) {
+                        dialog.dismiss();
+                        showSnackBar("Added to cart");
+                    } else {
+
+                    }
+                });
+            });
+
+        });
+
+        /* Logic Order Button in Bottom Sheet */
+        Button orderNow = viewDialog.findViewById(R.id.order_now_button);
+        orderNow.setOnClickListener(view -> {
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+
+            executor.execute(() -> {
+
+                boolean isSuccessful = true;
+                try {
+                    new FirebaseSupportCustomer().addNewCartUsingApi(product.getId(), Integer.parseInt(productCount.getText().toString()));
+                } catch (IOException e) {
+                    isSuccessful = false;
+                }
+
+                boolean finalIsSuccessful = isSuccessful;
+                handler.post(() -> {
+                    if (finalIsSuccessful) {
+                        dialog.dismiss();
+                        Intent intent = new Intent(this, CustomerActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        /* xem giải thích FLAG_ACTIVITY_CLEAR_TOP ở đây:
+                        https://stackoverflow.com/questions/6330260/finish-all-previous-activities
+                        hoặc rê chuột lên trên để đọc docs
+                         */
+                        intent.putExtra("targetedFragment", R.id.customerShoppingCardFragment);
+                        startActivity(intent);
+                    } else {
+                        showSnackBar("Failed to connect sever");
+                    }
+                });
+            });
+        });
+    }
+
+    private void setUpSnackbar() {
+        snackbar = Snackbar.make(binding.detailProductScreen, "", Snackbar.LENGTH_SHORT);
+        snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
+
+        Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
+        snackbarLayout.setPadding(0, 0, 0 , 140);
+
+        snackbarLayout.addView(customize, 0);
+    }
+
+    private void showSnackBar(String text) {
+        TextView textView = customize.findViewById(R.id.text_inform);
+        textView.setText(text);
+        snackbar.show();
     }
 
     @Override

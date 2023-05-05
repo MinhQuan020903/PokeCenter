@@ -129,17 +129,17 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/order_now_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:text="Order Now"/>
-
-    <Button
         android:id="@+id/add_to_cart_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:text="Add to Cart"/>
+
+    <Button
+        android:id="@+id/order_now_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:text="Order Now"/>
 
 </LinearLayout>

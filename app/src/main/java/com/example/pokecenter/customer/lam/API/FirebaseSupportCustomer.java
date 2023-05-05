@@ -80,7 +80,6 @@ public class FirebaseSupportCustomer {
             if (newAddress.getDeliveryAddress() == true) {
                 removeOldDeliveryAddress(newAddress.getId());
             }
-
         }
 
     }
@@ -251,6 +250,7 @@ public class FirebaseSupportCustomer {
                 List<Option> sortedOptions = options.stream().sorted(Comparator.comparing(Option::getPrice)).collect(Collectors.toList());
 
                 ProductData.fetchedProducts.put(key, new Product(
+                        key,
                         (String) value.get("name"),
                         (String) value.get("desc"),
                         (List<String>) value.get("images"),
@@ -307,5 +307,35 @@ public class FirebaseSupportCustomer {
         }
 
         return fetchedProductsId;
+    }
+
+    public void addNewCartUsingApi(String productId, int quantity) throws IOException {
+        /* Lấy productId làm key cho cart, vì mỗi card tương ứng 1 sản phẩm mà id sản phẩm là unique */
+
+        OkHttpClient client = new OkHttpClient();
+
+        String jsonData = new Gson().toJson(quantity);
+
+        // create request body
+        RequestBody body = RequestBody.create(jsonData, JSON);
+
+        // create POST request
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        Request request = new Request.Builder()
+                .url(urlDb + "customers/" + emailWithCurrentUser.replace(".", ",") + "/carts/" + productId + ".json")
+                .put(body)
+                .build();
+
+        client.newCall(request).execute();
+    }
+
+    public void addNewCart(String productId, int quantity) {
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference usersRef = database.getReference("customers/" + emailWithCurrentUser.replace(".", ",") + "/carts");
+
+        usersRef.child(productId).setValue(quantity);
     }
 }

@@ -189,6 +189,7 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
                     null,
                     null,
                     null,
+                    null,
                     null
             ));
         }

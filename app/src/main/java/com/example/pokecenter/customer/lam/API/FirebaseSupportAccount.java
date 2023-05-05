@@ -37,8 +37,8 @@ public class FirebaseSupportAccount {
 
         // create POST request
         Request request = new Request.Builder()
-                .url(urlDb + "accounts/" + email + ".json")
-                .post(body)
+                .url(urlDb + "accounts/" + email.replace(".", ",") + ".json")
+                .put(body)
                 .build();
 
         // send request and get response

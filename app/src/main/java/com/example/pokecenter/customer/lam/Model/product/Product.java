@@ -15,19 +15,29 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Product implements Serializable {
+    private String id;
     private String name;
     private String desc;
     private List<String> images;
     private List<Option> options;
 
-    public Product(String name, String desc, List<String> images, List<Option> options) {
+    public Product(String id, String name, String desc, List<String> images, List<Option> options) {
+        this.id = id;
         this.name = name;
         this.desc = desc;
         this.images = images;
         this.options = options;
     }
 
-    public Product(Object name, Object desc, Object images, Object options) {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Product(Object id, Object name, Object desc, Object images, Object options) {
     }
 
     public String getName() {
@@ -70,7 +80,4 @@ public class Product implements Serializable {
         return new ArrayList<>(images);
     }
 
-//    public List<Option> getOptionsValue() {
-//        return new ArrayList<>(options.values().stream().sorted(Comparator.comparing(Option::getPrice)).collect(Collectors.toList()));
-//    }
 }
