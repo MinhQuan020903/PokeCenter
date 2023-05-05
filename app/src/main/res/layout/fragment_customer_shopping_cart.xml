@@ -73,10 +73,10 @@
                 android:paddingHorizontal="12dp"/>
 
             <TextView
-                android:id="@+id/addToCart_button"
+                android:id="@+id/total_price"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="174.000 đ"
+                tools:text="174.000 đ"
                 android:textStyle="bold"
                 android:textColor="@color/light_secondary"
                 android:textSize="18sp"
@@ -87,12 +87,9 @@
         </LinearLayout>
 
 
-
-
-
         <TextView
             android:id="@+id/order_now_button"
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="match_parent"
             android:text="Checkout"
             android:textStyle="bold"
@@ -100,7 +97,6 @@
             android:background="@color/light_secondary"
             android:textSize="18sp"
             android:gravity="center_vertical|center_horizontal"
-            android:layout_weight="1"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"/>
 

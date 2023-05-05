@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -56,7 +58,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
 
-        if (cart.getSelectedOption() == -1) {
+        if (cart.getProduct().getOptions().size() == 1) {
             Picasso.get().load(cart.getProduct().getImages().get(0)).into(holder.productImage);
             holder.selectOptionsButton.setVisibility(View.GONE);
             holder.productPrice.setText(currencyFormatter.format(cart.getProduct().getOptions().get(0).getPrice()));
@@ -100,6 +102,18 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             selectedOption = itemView.findViewById(R.id.selectedOption);
             productPrice = itemView.findViewById(R.id.product_price);
             quantity = itemView.findViewById(R.id.quantity);
+
+            CheckBox checkBox = itemView.findViewById(R.id.cart_checkbox);
+
+            checkBox.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+                if (cartRecyclerViewInterface != null) {
+                    int pos = getAbsoluteAdapterPosition();
+
+                    if (pos != RecyclerView.NO_POSITION) {
+                        cartRecyclerViewInterface.onCheckedChange(pos, isChecked);
+                    }
+                }
+            });
 
             ImageButton deleteButton = itemView.findViewById(R.id.delete_button);
             deleteButton.setOnClickListener(view -> {

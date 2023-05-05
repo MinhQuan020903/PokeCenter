@@ -201,7 +201,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         ImageButton incButton = viewDialog.findViewById(R.id.inc_button);
         ImageButton decButton = viewDialog.findViewById(R.id.dec_button);
 
-        AtomicInteger selectedOptionPosition = new AtomicInteger(-1);
+        AtomicInteger selectedOptionPosition = new AtomicInteger(0);
         optionsAutoCompleteTextView.setOnItemClickListener((adapterView, view, position, l) -> {
             optionsAutoCompleteTextView.clearFocus();
 

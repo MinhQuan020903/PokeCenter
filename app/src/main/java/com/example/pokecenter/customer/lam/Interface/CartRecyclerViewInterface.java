@@ -2,7 +2,7 @@ package com.example.pokecenter.customer.lam.Interface;
 
 public interface CartRecyclerViewInterface {
 
-    void onCheckboxClick(int position);
+    void onCheckedChange(int position, boolean isCheck);
 
     void onDeleteButtonClick(int position);
 

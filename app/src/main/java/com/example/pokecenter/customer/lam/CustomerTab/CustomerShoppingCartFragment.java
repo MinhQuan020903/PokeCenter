@@ -26,12 +26,16 @@ import com.example.pokecenter.customer.lam.Model.address.Address;
 import com.example.pokecenter.customer.lam.Model.address.AddressAdapter;
 import com.example.pokecenter.customer.lam.Model.cart.Cart;
 import com.example.pokecenter.customer.lam.Model.cart.CartAdapter;
+import com.example.pokecenter.customer.lam.Model.product.Option;
 import com.example.pokecenter.databinding.FragmentCustomerShoppingCartBinding;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -47,6 +51,8 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
 
     private Snackbar snackbar;
 
+    NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,7 +62,7 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
         /* Set up Cart RecyclerView */
         setUpCartRecyclerView();
 
-
+        binding.totalPrice.setText(currencyFormatter.format(0));
 
         return binding.getRoot();
     }
@@ -124,8 +130,28 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
     }
 
     @Override
-    public void onCheckboxClick(int position) {
+    public void onCheckedChange(int position, boolean isChecked) {
 
+        int totalPrice = 0;
+        try {
+            totalPrice = currencyFormatter.parse(binding.totalPrice.getText().toString()).intValue();
+        } catch (ParseException e) {
+
+        }
+
+        int selectedOptionPosition = myCarts.get(position).getSelectedOption();
+        Option selectedOption = myCarts.get(position).getProduct().getOptions().get(selectedOptionPosition);
+
+        if (isChecked) {
+
+            totalPrice += selectedOption.getPrice() * myCarts.get(position).getQuantity();
+
+        } else {
+
+            totalPrice -= selectedOption.getPrice() * myCarts.get(position).getQuantity();
+        }
+
+        binding.totalPrice.setText(currencyFormatter.format(totalPrice));
     }
 
     @Override
