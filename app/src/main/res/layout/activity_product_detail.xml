@@ -78,21 +78,40 @@
                 android:textSize="18sp"
                 android:layout_marginBottom="8dp"/>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/drop_list_down_options"
-                android:layout_width="250dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:hint="Select option"
-                android:layout_marginBottom="4dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+                android:orientation="horizontal"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="6dp"
+                android:gravity="center_vertical">
 
-                <AutoCompleteTextView
-                    android:id="@+id/options_auto_complete_text_view"
-                    android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/drop_list_down_options"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:inputType="none" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:hint="Select option"
+                    android:layout_marginEnd="16dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+
+
+                    <AutoCompleteTextView
+                        android:id="@+id/options_auto_complete_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/warning"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/lam_warning_24"
+                    android:tooltipText="You have not selected option!"
+                    android:visibility="invisible"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

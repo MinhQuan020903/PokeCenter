@@ -18,7 +18,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -92,7 +95,7 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
                 if (finalFetchedCartsData != null) {
                     finalFetchedCartsData.forEach(cart -> {
                         myCarts.add(cart);
-                        cartAdapter.setData(myCarts);
+                        cartAdapter.notifyDataSetChanged();
                     });
                 } else {
                     binding.informFail.setVisibility(View.VISIBLE);
@@ -110,19 +113,21 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
     }
 
     private void setUpSnackbar() {
-        customize = getLayoutInflater().inflate(R.layout.lam_custom_only_text_snack_bar, null);
         snackbar = Snackbar.make(binding.getRoot(), "", Snackbar.LENGTH_SHORT);
-        snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
 
-        Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
-        snackbarLayout.setPadding(0, 0, 0 , 140);
+        final View snackBarView = snackbar.getView();
+        final FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) snackBarView.getLayoutParams();
 
-        snackbarLayout.addView(customize, 0);
+        params.setMargins(params.leftMargin,
+                params.topMargin,
+                params.rightMargin,
+                params.bottomMargin + 290);
+
+        snackBarView.setLayoutParams(params);
     }
 
     private void showSnackBar(String text) {
-        TextView textView = customize.findViewById(R.id.text_inform);
-        textView.setText(text);
+        snackbar.setText(text);
         snackbar.show();
     }
 
@@ -177,8 +182,15 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         ListView lvOption = dialog.findViewById(R.id.lv_options);
+        OptionAdapter optionAdapter = new OptionAdapter(getActivity(), myCarts.get(position).getProduct().getOptions(), myCarts.get(position).getProduct().getImages().get(0));
 
-        OptionAdapter optionAdapter = new OptionAdapter(getActivity(), myCarts.get(position).getProduct().getOptions());
+        if(optionAdapter.getCount() > 4){
+            ViewGroup.LayoutParams params = lvOption.getLayoutParams();
+
+            params.height = 11 * 100;
+
+            lvOption.setLayoutParams(params);
+        }
         lvOption.setAdapter(optionAdapter);
 
         Button okButton = dialog.findViewById(R.id.okButton);
@@ -211,6 +223,8 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
                     showSnackBar("Cart has been cleared");
                     myCarts.remove(position);
                     cartAdapter.notifyDataSetChanged();
+
+
 
                 } else {
                     showSnackBar("Delete cart failed, try again later!");

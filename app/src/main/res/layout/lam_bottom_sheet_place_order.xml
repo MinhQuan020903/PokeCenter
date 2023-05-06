@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingVertical="10dp"
+    android:paddingHorizontal="16dp"
     android:background="@color/light_canvas">
 
     <com.google.android.material.divider.MaterialDivider
@@ -18,9 +19,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
         android:gravity="center_vertical"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="12dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/product_image"
@@ -58,33 +58,23 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:ellipsize="end"
+        tools:text="Ornament - Pikachu"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="12dp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="bottom|center_horizontal"
-        android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="30dp">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/drop_list_down_options"
-            android:layout_width="210dp"
-            android:layout_height="wrap_content"
-            android:hint="Select option"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-
-            <AutoCompleteTextView
-                android:id="@+id/options_auto_complete_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <View
-            android:id="@+id/spacer"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -132,14 +122,12 @@
         android:id="@+id/add_to_cart_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
         android:text="Add to Cart"/>
 
     <Button
         android:id="@+id/order_now_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
         android:text="Order Now"/>
 
 </LinearLayout>

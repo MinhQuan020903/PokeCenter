@@ -81,6 +81,8 @@
                 android:textColor="@color/light_secondary"
                 android:textSize="18sp"
                 android:gravity="center_vertical|center_horizontal"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"/>
 

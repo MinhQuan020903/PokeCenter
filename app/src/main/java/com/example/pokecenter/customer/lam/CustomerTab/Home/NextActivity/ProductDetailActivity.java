@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -17,8 +16,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,7 +31,6 @@ import com.example.pokecenter.customer.lam.SliderAdapter;
 import com.example.pokecenter.databinding.ActivityProductDetailBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputLayout;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.squareup.picasso.Picasso;
@@ -53,8 +51,9 @@ public class ProductDetailActivity extends AppCompatActivity {
     View viewDialog;
     BottomSheetDialog dialog;
     ArrayAdapter<String> adapterItems;
-    private View customize;
     Snackbar snackbar;
+
+    int selectedOptionPosition = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +72,9 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         // Pre setup viewDialog
         viewDialog = getLayoutInflater().inflate(R.layout.lam_bottom_sheet_place_order, null);
+
+        productCurrentQuantity = viewDialog.findViewById(R.id.product_current_quantity);
+
         dialog = new BottomSheetDialog(this);
         dialog.setContentView(viewDialog);
 
@@ -112,10 +114,17 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         binding.optionsAutoCompleteTextView.setAdapter(adapterItems);
 
+        binding.optionsAutoCompleteTextView.setOnClickListener(view -> {
+            binding.warning.setVisibility(View.INVISIBLE);
+        });
+
         binding.optionsAutoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                getCurrentFocus().clearFocus();
+
+                selectedOptionPosition = position;
+
+                binding.optionsAutoCompleteTextView.clearFocus();
                 binding.productPrice.setText(currencyFormatter.format(receiveProduct.getOptions().get(position).getPrice()));
                 binding.productImageSliderView.stopAutoCycle();
                 if (receiveProduct.getOptions().get(position).getOptionImage().isEmpty()) {
@@ -148,9 +157,23 @@ public class ProductDetailActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        binding.addToCartButton.setOnClickListener(view -> openAddToCartBottomSheet());
+        binding.addToCartButton.setOnClickListener(view -> {
+            if (selectedOptionPosition == -1) {
+                binding.warning.setVisibility(View.VISIBLE);
+            } else {
+                openAddToCartBottomSheet(receiveProduct, selectedOptionPosition);
+            }
 
-        binding.orderNowButton.setOnClickListener(view -> openOrderNowBottomSheet());
+
+        });
+
+        binding.orderNowButton.setOnClickListener(view -> {
+            if (selectedOptionPosition == -1) {
+                binding.warning.setVisibility(View.VISIBLE);
+            } else {
+                openOrderNowBottomSheet(receiveProduct, selectedOptionPosition);
+            }
+        });
 
         setContentView(binding.getRoot());
 
@@ -162,65 +185,53 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
 
-    private void openAddToCartBottomSheet() {
+    private void openAddToCartBottomSheet(Product product, int selectedOptionPosition) {
         viewDialog.findViewById(R.id.add_to_cart_button).setVisibility(View.VISIBLE);
         viewDialog.findViewById(R.id.order_now_button).setVisibility(View.GONE);
 
+        setUpData(product, selectedOptionPosition);
+
         dialog.show();
     }
 
-    private void openOrderNowBottomSheet() {
+    private void openOrderNowBottomSheet(Product product, int selectedOptionPosition) {
         viewDialog.findViewById(R.id.add_to_cart_button).setVisibility(View.GONE);
         viewDialog.findViewById(R.id.order_now_button).setVisibility(View.VISIBLE);
 
+        setUpData(product, selectedOptionPosition);
+
         dialog.show();
     }
 
-    private void setUpLogicForBottomSheet(Product product) {
+    TextView productCurrentQuantity;
+
+    private void setUpData(Product product, int selectedOptionPosition) {
         ImageView productImage = viewDialog.findViewById(R.id.product_image);
-        Picasso.get().load(product.getImages().get(0)).into(productImage);
 
-        TextView priceTextView = viewDialog.findViewById(R.id.product_price);
-        TextView productCurrentQuantity = viewDialog.findViewById(R.id.product_current_quantity);
-
-        TextInputLayout dropListDownOptions = viewDialog.findViewById(R.id.drop_list_down_options);
-        AutoCompleteTextView optionsAutoCompleteTextView = viewDialog.findViewById(R.id.options_auto_complete_text_view);
-
-        View spacer = viewDialog.findViewById(R.id.spacer);
+        Option selectedOption = product.getOptions().get(selectedOptionPosition);
 
         if (product.getOptions().size() == 1) {
-            dropListDownOptions.setVisibility(View.GONE);
-            spacer.setVisibility(View.GONE);
-            priceTextView.setText(currencyFormatter.format(product.getOptions().get(0).getPrice()));
-            productCurrentQuantity.setText("Stock: " + product.getOptions().get(0).getCurrentQuantity());
+            Picasso.get().load(product.getImages().get(0)).into(productImage);
         } else {
-            optionsAutoCompleteTextView.setAdapter(adapterItems);
+            if (selectedOption.getOptionImage().isEmpty()) {
+                Picasso.get().load(product.getImages().get(0)).into(productImage);
+            } else {
+                Picasso.get().load(selectedOption.getOptionImage()).into(productImage);
+            }
         }
+
+        TextView priceTextView = viewDialog.findViewById(R.id.product_price);
+
+
+        priceTextView.setText(currencyFormatter.format(selectedOption.getPrice()));
+        productCurrentQuantity.setText("Stock: " + selectedOption.getCurrentQuantity());
+    }
+
+    private void setUpLogicForBottomSheet(Product product) {
 
         TextView productCount = viewDialog.findViewById(R.id.product_count);
         ImageButton incButton = viewDialog.findViewById(R.id.inc_button);
         ImageButton decButton = viewDialog.findViewById(R.id.dec_button);
-
-        AtomicInteger selectedOptionPosition = new AtomicInteger(0);
-        optionsAutoCompleteTextView.setOnItemClickListener((adapterView, view, position, l) -> {
-            optionsAutoCompleteTextView.clearFocus();
-
-            selectedOptionPosition.set(position);
-
-            Option selectedOption = product.getOptions().get(position);
-            if (!selectedOption.getOptionImage().isEmpty()) {
-                Picasso.get().load(selectedOption.getOptionImage()).into(productImage);
-            }
-            priceTextView.setText(currencyFormatter.format(selectedOption.getPrice()));
-            productCurrentQuantity.setText("Stock: " + selectedOption.getCurrentQuantity());
-
-            productCount.setText(
-                    String.valueOf(
-                            Math.min(selectedOption.getCurrentQuantity(), Integer.parseInt(productCount.getText().toString())
-                            )
-                    )
-            );
-        });
 
         incButton.setOnClickListener(view -> {
             int count = Integer.parseInt(productCount.getText().toString());
@@ -233,7 +244,6 @@ public class ProductDetailActivity extends AppCompatActivity {
             } else {
                 productCount.setText(String.valueOf(count + 1));
             }
-
 
         });
 
@@ -255,7 +265,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                 boolean isSuccessful = true;
                 try {
-                    new FirebaseSupportCustomer().addNewCartUsingApi(product.getId(), Integer.parseInt(productCount.getText().toString()), selectedOptionPosition.get());
+                    new FirebaseSupportCustomer().addNewCartUsingApi(product.getId(), Integer.parseInt(productCount.getText().toString()), selectedOptionPosition);
                 } catch (IOException e) {
                     isSuccessful = false;
                 }
@@ -283,7 +293,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                 boolean isSuccessful = true;
                 try {
-                    new FirebaseSupportCustomer().addNewCartUsingApi(product.getId(), Integer.parseInt(productCount.getText().toString()), selectedOptionPosition.get());
+                    new FirebaseSupportCustomer().addNewCartUsingApi(product.getId(), Integer.parseInt(productCount.getText().toString()), selectedOptionPosition);
                 } catch (IOException e) {
                     isSuccessful = false;
                 }
@@ -309,19 +319,21 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void setUpSnackbar() {
-        customize = getLayoutInflater().inflate(R.layout.lam_custom_only_text_snack_bar, null);
         snackbar = Snackbar.make(binding.getRoot(), "", Snackbar.LENGTH_SHORT);
-        snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
 
-        Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
-        snackbarLayout.setPadding(0, 0, 0 , 140);
+        final View snackBarView = snackbar.getView();
+        final FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) snackBarView.getLayoutParams();
 
-        snackbarLayout.addView(customize, 0);
+        params.setMargins(params.leftMargin,
+                params.topMargin,
+                params.rightMargin,
+                params.bottomMargin + 140);
+
+        snackBarView.setLayoutParams(params);
     }
 
     private void showSnackBar(String text) {
-        TextView textView = customize.findViewById(R.id.text_inform);
-        textView.setText(text);
+        snackbar.setText(text);
         snackbar.show();
     }
 

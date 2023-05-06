@@ -127,6 +127,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     int pos = getAbsoluteAdapterPosition();
 
                     if (pos != RecyclerView.NO_POSITION) {
+                        if (checkBox.isChecked()) {
+                            checkBox.setChecked(false);
+                        }
                         cartRecyclerViewInterface.onDeleteButtonClick(pos);
                     }
                 }
