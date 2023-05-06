@@ -6,12 +6,22 @@ public class Cart {
     private Product product;
     private int quantity;
 
+    private boolean isChecked = false;
+
     private int selectedOption;
 
     public Cart(Product product, int quantity, int selectedOption) {
         this.product = product;
         this.quantity = quantity;
         this.selectedOption = selectedOption;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 
     public Product getProduct() {

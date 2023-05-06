@@ -23,7 +23,7 @@
         android:layout_marginBottom="12dp">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/product_image"
+            android:id="@+id/option_image"
             android:layout_width="210dp"
             android:layout_height="210dp"
             android:src="@drawable/lam_totoro"
@@ -38,7 +38,7 @@
             android:gravity="center_horizontal">
 
             <TextView
-                android:id="@+id/product_price"
+                android:id="@+id/option_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="229.000 đ"
@@ -59,6 +59,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/option_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="2"

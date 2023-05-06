@@ -1,5 +1,8 @@
 package com.example.pokecenter.customer.lam.API;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity;
 import com.example.pokecenter.customer.lam.Model.address.Address;
 import com.example.pokecenter.customer.lam.Model.cart.Cart;
@@ -19,6 +22,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import okhttp3.HttpUrl;
@@ -382,6 +387,59 @@ public class FirebaseSupportCustomer {
         Request request = new Request.Builder()
                 .url(urlDb + "customers/" + emailWithCurrentUser.replace(".", ",") + "/carts/" + id + ".json")
                 .delete()
+                .build();
+
+        client.newCall(request).execute();
+    }
+
+    public void updateAllCarts(List<Cart> carts) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+//        Handler handler = new Handler(Looper.getMainLooper());
+//        carts.forEach(cart -> {
+//            ExecutorService executor = Executors.newSingleThreadExecutor();
+//            executor.execute(() -> {
+//
+//                Map<String, Integer> updateData = new HashMap<>();
+//                updateData.put("quantity", cart.getQuantity());
+//                updateData.put("selectedOption", cart.getSelectedOption());
+//
+//                String jsonData = new Gson().toJson(updateData);
+//
+//                RequestBody body = RequestBody.create(jsonData, JSON);
+//
+//                Request request = new Request.Builder()
+//                        .url(urlDb + "customers/" + emailWithCurrentUser.replace(".", ",") + "/carts/" + cart.getProduct().getId() + ".json")
+//                        .put(body)
+//                        .build();
+//
+//                try {
+//                    client.newCall(request).execute();
+//                } catch (IOException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            });
+//
+//        });
+
+        Map<String, Map<String, Integer>> updateData = new HashMap<>();
+
+        carts.forEach(cart -> {
+
+            Map<String, Integer> value = new HashMap<>();
+            value.put("quantity", cart.getQuantity());
+            value.put("selectedOption", cart.getSelectedOption());
+
+            updateData.put(cart.getProduct().getId(), value);
+        });
+
+        String jsonData = new Gson().toJson(updateData);
+        RequestBody body = RequestBody.create(jsonData, JSON);
+        Request request = new Request.Builder()
+                .url(urlDb + "customers/" + emailWithCurrentUser.replace(".", ",") + "/carts.json")
+                .put(body)
                 .build();
 
         client.newCall(request).execute();

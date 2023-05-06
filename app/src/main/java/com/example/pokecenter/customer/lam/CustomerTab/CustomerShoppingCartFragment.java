@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,12 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
@@ -44,6 +42,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CustomerShoppingCartFragment extends Fragment implements CartRecyclerViewInterface {
 
@@ -52,8 +51,6 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
     private List<Cart> myCarts = new ArrayList<>();
 
     private CartAdapter cartAdapter;
-
-    private View customize;
 
     private Snackbar snackbar;
 
@@ -97,8 +94,13 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
                         myCarts.add(cart);
                         cartAdapter.notifyDataSetChanged();
                     });
+                    if (myCarts.size() == 0) {
+                        binding.informText.setText("You haven't added anything to your cart.");
+                        binding.informText.setVisibility(View.VISIBLE);
+                    }
                 } else {
-                    binding.informFail.setVisibility(View.VISIBLE);
+                    binding.informText.setText("Failed to connect server.");
+                    binding.informText.setVisibility(View.VISIBLE);
                 }
 
                 binding.progressBar.setVisibility(View.INVISIBLE);
@@ -139,27 +141,8 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
 
     @Override
     public void onCheckedChange(int position, boolean isChecked) {
-
-        int totalPrice = 0;
-        try {
-            totalPrice = currencyFormatter.parse(binding.totalPrice.getText().toString()).intValue();
-        } catch (ParseException e) {
-
-        }
-
-        int selectedOptionPosition = myCarts.get(position).getSelectedOption();
-        Option selectedOption = myCarts.get(position).getProduct().getOptions().get(selectedOptionPosition);
-
-        if (isChecked) {
-
-            totalPrice += selectedOption.getPrice() * myCarts.get(position).getQuantity();
-
-        } else {
-
-            totalPrice -= selectedOption.getPrice() * myCarts.get(position).getQuantity();
-        }
-
-        binding.totalPrice.setText(currencyFormatter.format(totalPrice));
+        myCarts.get(position).setChecked(isChecked);
+        calculatePrice();
     }
 
     @Override
@@ -186,16 +169,33 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
 
         if(optionAdapter.getCount() > 4){
             ViewGroup.LayoutParams params = lvOption.getLayoutParams();
-
             params.height = 11 * 100;
-
             lvOption.setLayoutParams(params);
         }
         lvOption.setAdapter(optionAdapter);
 
+
+        lvOption.setOnItemClickListener((adapterView, view, selectedItemPosition, l) -> {
+
+            /*
+            Note: muốn sử dụng setOnItemClickListener thì item trong listView đó không được set thuộc tính android:clickable="true"
+             */
+
+            // Reset background color for all items
+            for(int i = 0; i < adapterView.getChildCount(); i++) {
+                adapterView.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
+            }
+
+            // Set background color for the selected item
+            view.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.lam_background_outline_secondary));
+
+            myCarts.get(position).setSelectedOption(selectedItemPosition);
+        });
+
         Button okButton = dialog.findViewById(R.id.okButton);
         okButton.setOnClickListener(view -> {
             dialog.dismiss();
+            cartAdapter.notifyItemChanged(position);
         });
 
         dialog.show();
@@ -224,8 +224,11 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
                     myCarts.remove(position);
                     cartAdapter.notifyDataSetChanged();
 
-
-
+                    calculatePrice();
+                    if (myCarts.size() == 0) {
+                        binding.informText.setText("You haven't added anything to your cart.");
+                        binding.informText.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     showSnackBar("Delete cart failed, try again later!");
                 }
@@ -240,5 +243,63 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
         Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
         intent.putExtra("product object", myCarts.get(position).getProduct());
         startActivity(intent);
+    }
+
+    @Override
+    public void onIncButtonClick(int position) {
+        int totalPrice = 0;
+        try {
+            totalPrice = currencyFormatter.parse(binding.totalPrice.getText().toString()).intValue();
+        } catch (ParseException e) {
+
+        }
+
+        int selectedOptionPosition = myCarts.get(position).getSelectedOption();
+        Option selectedOption = myCarts.get(position).getProduct().getOptions().get(selectedOptionPosition);
+
+        totalPrice += selectedOption.getPrice();
+        binding.totalPrice.setText(currencyFormatter.format(totalPrice));
+    }
+
+    @Override
+    public void onDecButtonClick(int position) {
+        int totalPrice = 0;
+        try {
+            totalPrice = currencyFormatter.parse(binding.totalPrice.getText().toString()).intValue();
+        } catch (ParseException e) {
+
+        }
+
+        int selectedOptionPosition = myCarts.get(position).getSelectedOption();
+        Option selectedOption = myCarts.get(position).getProduct().getOptions().get(selectedOptionPosition);
+
+        totalPrice -= selectedOption.getPrice();
+        binding.totalPrice.setText(currencyFormatter.format(totalPrice));
+    }
+
+    private void calculatePrice() {
+        AtomicInteger totalPrice = new AtomicInteger();
+        myCarts.forEach(cart -> {
+            if (cart.isChecked()) {
+                totalPrice.addAndGet(cart.getProduct().getOptions().get(cart.getSelectedOption()).getPrice() * cart.getQuantity());
+            }
+        });
+        binding.totalPrice.setText(currencyFormatter.format(totalPrice.get()));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        executor.execute(() -> {
+            try {
+                new FirebaseSupportCustomer().updateAllCarts(myCarts);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }

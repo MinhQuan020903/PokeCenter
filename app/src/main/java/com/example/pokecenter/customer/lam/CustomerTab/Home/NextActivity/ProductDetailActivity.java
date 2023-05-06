@@ -35,6 +35,8 @@ import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnima
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.List;
@@ -73,7 +75,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         // Pre setup viewDialog
         viewDialog = getLayoutInflater().inflate(R.layout.lam_bottom_sheet_place_order, null);
 
-        productCurrentQuantity = viewDialog.findViewById(R.id.product_current_quantity);
+        optionCurrentQuantity = viewDialog.findViewById(R.id.product_current_quantity);
 
         dialog = new BottomSheetDialog(this);
         dialog.setContentView(viewDialog);
@@ -158,9 +160,12 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
 
         binding.addToCartButton.setOnClickListener(view -> {
-            if (selectedOptionPosition == -1) {
+            if (selectedOptionPosition == -1 && receiveProduct.getOptions().size() > 1) {
                 binding.warning.setVisibility(View.VISIBLE);
             } else {
+                if (selectedOptionPosition == -1) {
+                    selectedOptionPosition = 0;
+                }
                 openAddToCartBottomSheet(receiveProduct, selectedOptionPosition);
             }
 
@@ -168,9 +173,12 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
 
         binding.orderNowButton.setOnClickListener(view -> {
-            if (selectedOptionPosition == -1) {
+            if (selectedOptionPosition == -1 && receiveProduct.getOptions().size() > 1) {
                 binding.warning.setVisibility(View.VISIBLE);
             } else {
+                if (selectedOptionPosition == -1) {
+                    selectedOptionPosition = 0;
+                }
                 openOrderNowBottomSheet(receiveProduct, selectedOptionPosition);
             }
         });
@@ -203,28 +211,32 @@ public class ProductDetailActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    TextView productCurrentQuantity;
+    TextView optionCurrentQuantity;
 
     private void setUpData(Product product, int selectedOptionPosition) {
-        ImageView productImage = viewDialog.findViewById(R.id.product_image);
-
         Option selectedOption = product.getOptions().get(selectedOptionPosition);
 
+        TextView optionName = viewDialog.findViewById(R.id.option_name);
+
+
+        ImageView optionImage = viewDialog.findViewById(R.id.option_image);
+
         if (product.getOptions().size() == 1) {
-            Picasso.get().load(product.getImages().get(0)).into(productImage);
+            Picasso.get().load(product.getImages().get(0)).into(optionImage);
+            optionName.setText(product.getName());
         } else {
+            optionName.setText(product.getOptions().get(selectedOptionPosition).getOptionName());
             if (selectedOption.getOptionImage().isEmpty()) {
-                Picasso.get().load(product.getImages().get(0)).into(productImage);
+                Picasso.get().load(product.getImages().get(0)).into(optionImage);
             } else {
-                Picasso.get().load(selectedOption.getOptionImage()).into(productImage);
+                Picasso.get().load(selectedOption.getOptionImage()).into(optionImage);
             }
         }
 
-        TextView priceTextView = viewDialog.findViewById(R.id.product_price);
-
+        TextView priceTextView = viewDialog.findViewById(R.id.option_price);
 
         priceTextView.setText(currencyFormatter.format(selectedOption.getPrice()));
-        productCurrentQuantity.setText("Stock: " + selectedOption.getCurrentQuantity());
+        optionCurrentQuantity.setText("Stock: " + selectedOption.getCurrentQuantity());
     }
 
     private void setUpLogicForBottomSheet(Product product) {
@@ -236,8 +248,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         incButton.setOnClickListener(view -> {
             int count = Integer.parseInt(productCount.getText().toString());
 
-            if (!productCurrentQuantity.getText().toString().isEmpty()) {
-                String numberStr = productCurrentQuantity.getText().toString().replaceAll("\\D+", "");
+            if (!optionCurrentQuantity.getText().toString().isEmpty()) {
+                String numberStr = optionCurrentQuantity.getText().toString().replaceAll("\\D+", "");
                 if (count < Integer.parseInt(numberStr)) {
                     productCount.setText(String.valueOf(count + 1));
                 }
@@ -257,7 +269,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         /* Logic Add to Cart Button in Bottom Sheet */
         Button addToCart = viewDialog.findViewById(R.id.add_to_cart_button);
         addToCart.setOnClickListener(view -> {
-
+            addToCart.setEnabled(false);
             ExecutorService executor = Executors.newSingleThreadExecutor();
             Handler handler = new Handler(Looper.getMainLooper());
 
@@ -273,6 +285,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 boolean finalIsSuccessful = isSuccessful;
                 handler.post(() -> {
                     if (finalIsSuccessful) {
+                        addToCart.setEnabled(true);
                         dialog.dismiss();
                         showSnackBar("Added to cart");
                     } else {
@@ -286,6 +299,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         /* Logic Order Button in Bottom Sheet */
         Button orderNow = viewDialog.findViewById(R.id.order_now_button);
         orderNow.setOnClickListener(view -> {
+            orderNow.setEnabled(false);
             ExecutorService executor = Executors.newSingleThreadExecutor();
             Handler handler = new Handler(Looper.getMainLooper());
 
@@ -301,6 +315,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 boolean finalIsSuccessful = isSuccessful;
                 handler.post(() -> {
                     if (finalIsSuccessful) {
+                        orderNow.setEnabled(true);
                         dialog.dismiss();
                         Intent intent = new Intent(this, CustomerActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -308,6 +323,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                         https://stackoverflow.com/questions/6330260/finish-all-previous-activities
                         hoặc rê chuột lên trên để đọc docs
                          */
+
                         intent.putExtra("targetedFragment", R.id.customerShoppingCardFragment);
                         startActivity(intent);
                     } else {

@@ -10,4 +10,8 @@ public interface CartRecyclerViewInterface {
 
     void onCartItemClick(int position);
 
+    void onIncButtonClick(int position);
+
+    void onDecButtonClick(int position);
+
 }

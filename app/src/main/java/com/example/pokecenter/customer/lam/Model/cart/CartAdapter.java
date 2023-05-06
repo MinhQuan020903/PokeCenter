@@ -71,6 +71,32 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             holder.productPrice.setText(currencyFormatter.format(selectedOption.getPrice()));
         }
         holder.quantity.setText(String.valueOf(cart.getQuantity()));
+
+        holder.incButton.setOnClickListener(view -> {
+            if (cart.getQuantity() < cart.getProduct().getOptions().get(cart.getSelectedOption()).getCurrentQuantity()) {
+                cart.setQuantity(cart.getQuantity() + 1);
+                holder.quantity.setText(String.valueOf(cart.getQuantity()));
+
+                if (holder.checkBox.isChecked()) {
+                    cartRecyclerViewInterface.onIncButtonClick(position);
+                }
+
+            }
+        });
+
+        holder.decButton.setOnClickListener(view -> {
+            if (cart.getQuantity() > 1) {
+                cart.setQuantity(cart.getQuantity() - 1);
+                holder.quantity.setText(String.valueOf(cart.getQuantity()));
+
+                if (holder.checkBox.isChecked()) {
+                    cartRecyclerViewInterface.onDecButtonClick(position);
+                }
+
+            }
+        });
+
+        holder.checkBox.setChecked(cart.isChecked());
     }
 
     @Override
@@ -89,6 +115,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         private TextView productPrice;
         private TextView quantity;
 
+        private ImageButton incButton;
+        private ImageButton decButton;
+        private CheckBox checkBox;
+
         public CartViewHolder(@NonNull View itemView, CartRecyclerViewInterface cartRecyclerViewInterface) {
             super(itemView);
 
@@ -99,12 +129,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             productPrice = itemView.findViewById(R.id.product_price);
             quantity = itemView.findViewById(R.id.quantity);
 
-            CheckBox checkBox = itemView.findViewById(R.id.cart_checkbox);
+            incButton = itemView.findViewById(R.id.inc_button);
+            decButton = itemView.findViewById((R.id.dec_button));
+
+            checkBox = itemView.findViewById(R.id.cart_checkbox);
 
             checkBox.setOnCheckedChangeListener((compoundButton, isChecked) -> {
                 if (cartRecyclerViewInterface != null) {
                     int pos = getAbsoluteAdapterPosition();
-
                     if (pos != RecyclerView.NO_POSITION) {
                         cartRecyclerViewInterface.onCheckedChange(pos, isChecked);
                     }
@@ -114,7 +146,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             selectOptionsButton.setOnClickListener(view -> {
                 if (cartRecyclerViewInterface != null) {
                     int pos = getAbsoluteAdapterPosition();
-
                     if (pos != RecyclerView.NO_POSITION) {
                         cartRecyclerViewInterface.onSelectOptionsButtonClick(pos);
                     }
@@ -125,15 +156,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             deleteButton.setOnClickListener(view -> {
                 if (cartRecyclerViewInterface != null) {
                     int pos = getAbsoluteAdapterPosition();
-
                     if (pos != RecyclerView.NO_POSITION) {
-                        if (checkBox.isChecked()) {
-                            checkBox.setChecked(false);
-                        }
                         cartRecyclerViewInterface.onDeleteButtonClick(pos);
                     }
                 }
             });
+
         }
     }
 }
