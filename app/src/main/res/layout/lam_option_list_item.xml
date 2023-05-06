@@ -1,9 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16sp"
-    android:ellipsize="end"
-    android:maxLines="1"
-    android:textAppearance="?attr/textAppearanceSubtitle1"/>
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="10dp"
+    android:background="@color/white"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/option_image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        tools:src="@drawable/lam_totoro"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/corner8ImageView"
+        android:layout_marginEnd="16dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/option_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Ornament - Charmander"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:id="@+id/option_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="72.000 đ"
+            android:textColor="@color/light_secondary"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

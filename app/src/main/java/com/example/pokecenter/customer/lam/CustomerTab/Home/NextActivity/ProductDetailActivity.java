@@ -26,7 +26,7 @@ import android.widget.TextView;
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.customer.lam.CustomerActivity;
-import com.example.pokecenter.customer.lam.Model.product.Option;
+import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.customer.lam.SliderAdapter;
 import com.example.pokecenter.databinding.ActivityProductDetailBinding;
@@ -78,7 +78,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         //
         Product receiveProduct = (Product) getIntent().getSerializableExtra("product object");
-        adapterItems = new ArrayAdapter<>(this, R.layout.lam_option_list_item, receiveProduct.getAllOptionsName());
+        adapterItems = new ArrayAdapter<>(this, R.layout.lam_text_option_list_item, receiveProduct.getAllOptionsName());
         setUpLogicForBottomSheet(receiveProduct);
 
         binding.backButton.setOnClickListener(view ->  {

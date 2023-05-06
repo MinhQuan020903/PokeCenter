@@ -1,17 +1,10 @@
 package com.example.pokecenter.customer.lam.Model.product;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
+import com.example.pokecenter.customer.lam.Model.option.Option;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Product implements Serializable {

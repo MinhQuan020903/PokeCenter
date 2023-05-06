@@ -9,11 +9,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.Interface.PokemonRecyclerViewInterface;
+import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;

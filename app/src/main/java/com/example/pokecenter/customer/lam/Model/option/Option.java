@@ -1,4 +1,4 @@
-package com.example.pokecenter.customer.lam.Model.product;
+package com.example.pokecenter.customer.lam.Model.option;
 
 import java.io.Serializable;
 

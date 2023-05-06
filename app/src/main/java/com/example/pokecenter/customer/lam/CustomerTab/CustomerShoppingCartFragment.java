@@ -1,12 +1,13 @@
 package com.example.pokecenter.customer.lam.CustomerTab;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,18 +16,20 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.ProductDetailActivity;
 import com.example.pokecenter.customer.lam.Interface.CartRecyclerViewInterface;
-import com.example.pokecenter.customer.lam.Model.address.Address;
-import com.example.pokecenter.customer.lam.Model.address.AddressAdapter;
 import com.example.pokecenter.customer.lam.Model.cart.Cart;
 import com.example.pokecenter.customer.lam.Model.cart.CartAdapter;
-import com.example.pokecenter.customer.lam.Model.product.Option;
+import com.example.pokecenter.customer.lam.Model.option.Option;
+import com.example.pokecenter.customer.lam.Model.option.OptionAdapter;
 import com.example.pokecenter.databinding.FragmentCustomerShoppingCartBinding;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -152,6 +155,38 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
         }
 
         binding.totalPrice.setText(currencyFormatter.format(totalPrice));
+    }
+
+    @Override
+    public void onSelectOptionsButtonClick(int position) {
+        Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.lam_dialog_change_option_of_cart);
+
+        Window window = dialog.getWindow();
+
+        if (window == null) {
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        /*
+         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); khá quan trọng. THỬ BỎ ĐI SẼ HIỂU =)))
+         nếu bỏ dòng này đi thì các thuộc tính của LinearLayout mẹ trong todo_dialog.xml sẽ mất hết
+         thay vào đó sẽ là thuộc tính mặc định của dialog, còn nội dung vẫn giữ nguyên
+         */
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        ListView lvOption = dialog.findViewById(R.id.lv_options);
+
+        OptionAdapter optionAdapter = new OptionAdapter(getActivity(), myCarts.get(position).getProduct().getOptions());
+        lvOption.setAdapter(optionAdapter);
+
+        Button okButton = dialog.findViewById(R.id.okButton);
+        okButton.setOnClickListener(view -> {
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 
     @Override

@@ -12,15 +12,20 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.Model.option.Option;
+import com.example.pokecenter.customer.lam.Model.option.OptionAdapter;
 import com.example.pokecenter.databinding.ActivitySignUpBinding;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.List;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -116,7 +121,6 @@ public class SignUpActivity extends AppCompatActivity {
                         });
                          */
 
-
                     } else {
                         Toast.makeText(this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT)
                                 .show();
@@ -126,7 +130,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     void popUpDialogToInform() {
         Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.lam_success_sign_up_dialog);
+        dialog.setContentView(R.layout.lam_dialog_success_sign_up);
 
         Window window = dialog.getWindow();
 

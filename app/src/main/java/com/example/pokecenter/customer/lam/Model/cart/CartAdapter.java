@@ -4,9 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,10 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
-import com.example.pokecenter.customer.lam.Interface.AddressRecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Interface.CartRecyclerViewInterface;
-import com.example.pokecenter.customer.lam.Model.address.AddressAdapter;
-import com.example.pokecenter.customer.lam.Model.product.Option;
+import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
@@ -111,6 +107,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
                     if (pos != RecyclerView.NO_POSITION) {
                         cartRecyclerViewInterface.onCheckedChange(pos, isChecked);
+                    }
+                }
+            });
+
+            selectOptionsButton.setOnClickListener(view -> {
+                if (cartRecyclerViewInterface != null) {
+                    int pos = getAbsoluteAdapterPosition();
+
+                    if (pos != RecyclerView.NO_POSITION) {
+                        cartRecyclerViewInterface.onSelectOptionsButtonClick(pos);
                     }
                 }
             });
