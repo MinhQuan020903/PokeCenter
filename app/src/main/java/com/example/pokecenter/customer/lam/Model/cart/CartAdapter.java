@@ -162,6 +162,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 }
             });
 
+            itemView.setOnClickListener(view -> {
+                if (cartRecyclerViewInterface != null) {
+                    int pos = getAbsoluteAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        cartRecyclerViewInterface.onCartItemClick(pos);
+                    }
+                }
+            });
         }
     }
 }

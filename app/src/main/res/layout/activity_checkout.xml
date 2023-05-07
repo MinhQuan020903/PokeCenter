@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:padding="16dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -20,14 +19,18 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:text="Delivery Address"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
         <LinearLayout
+            android:id="@+id/change_delivery_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"
+            android:paddingHorizontal="16dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 

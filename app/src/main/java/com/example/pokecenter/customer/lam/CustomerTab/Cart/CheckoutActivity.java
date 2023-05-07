@@ -11,16 +11,19 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity;
+import com.example.pokecenter.customer.lam.Interface.AddressRecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.address.Address;
+import com.example.pokecenter.customer.lam.Model.address.AddressArrayAdapter;
 import com.example.pokecenter.customer.lam.Model.cart.Cart;
 import com.example.pokecenter.databinding.ActivityCheckoutBinding;
 
@@ -28,8 +31,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class CheckoutActivity extends AppCompatActivity {
+public class CheckoutActivity extends AppCompatActivity implements AddressRecyclerViewInterface {
 
     private ActivityCheckoutBinding binding;
 
@@ -53,9 +57,17 @@ public class CheckoutActivity extends AppCompatActivity {
         /* Set up back button */
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         Cart orderNowCart = (Cart) getIntent().getSerializableExtra("orderNowCart");
         List<Cart> checkedCarts = (List<Cart>) getIntent().getSerializableExtra("checkedCarts");
 
+
+        /* Delivery Address logic */
+        deliveryAddressLogic();
+
+    }
+
+    private void deliveryAddressLogic() {
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
@@ -101,6 +113,64 @@ public class CheckoutActivity extends AppCompatActivity {
 
                 binding.progressBar.setVisibility(View.INVISIBLE);
             });
+        });
+
+        binding.changeDeliveryAddress.setOnClickListener(v -> {
+            Dialog dialog = new Dialog(this);
+            dialog.setContentView(R.layout.lam_dialog_change_option_of_cart);
+
+            Window window = dialog.getWindow();
+
+            if (window == null) {
+                return;
+            }
+
+            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        /*
+         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); khá quan trọng. THỬ BỎ ĐI SẼ HIỂU =)))
+         nếu bỏ dòng này đi thì các thuộc tính của LinearLayout mẹ trong todo_dialog.xml sẽ mất hết
+         thay vào đó sẽ là thuộc tính mặc định của dialog, còn nội dung vẫn giữ nguyên
+         */
+            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            ListView lvAddress = dialog.findViewById(R.id.lv_options);
+            AddressArrayAdapter addressArrayAdapter = new AddressArrayAdapter(this, MyAddressesActivity.myAddresses);
+
+            if(addressArrayAdapter.getCount() > 2){
+                ViewGroup.LayoutParams params = lvAddress.getLayoutParams();
+                params.height = 10 * 100;
+                lvAddress.setLayoutParams(params);
+            }
+            lvAddress.setAdapter(addressArrayAdapter);
+
+            AtomicInteger selectedAddressPosition = new AtomicInteger();
+            lvAddress.setOnItemClickListener((adapterView, view, selectedItemPosition, l) -> {
+                /* Note: muốn sử dụng setOnItemClickListener thì item trong listView đó không được set thuộc tính android:clickable="true" */
+
+                // Reset background color for all items
+                for(int i = 0; i < adapterView.getChildCount(); i++) {
+                    adapterView.getChildAt(i).setBackgroundColor(Color.parseColor("#FBF9F9"));
+                }
+
+                // Set background color for the selected item
+                view.setBackground(getDrawable(R.drawable.lam_background_outline_secondary));
+
+                selectedAddressPosition.set(selectedItemPosition);
+            });
+
+            Button okButton = dialog.findViewById(R.id.okButton);
+            okButton.setOnClickListener(view -> {
+
+                Address selectedAddress = MyAddressesActivity.myAddresses.get(selectedAddressPosition.get());
+
+                binding.receiverName.setText(selectedAddress.getReceiverName());
+                binding.numberStreetAddress.setText(selectedAddress.getNumberStreetAddress());
+                binding.address2.setText(selectedAddress.getAddress2());
+
+                dialog.dismiss();
+            });
+
+            dialog.show();
         });
 
     }
@@ -162,5 +232,15 @@ public class CheckoutActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         binding = null;
+    }
+
+    @Override
+    public void onAddressDeleteButtonClick(int position) {
+
+    }
+
+    @Override
+    public void onAddressItemClick(int position) {
+
     }
 }
