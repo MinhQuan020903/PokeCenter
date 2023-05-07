@@ -2,10 +2,11 @@ package com.example.pokecenter.customer.lam.Model.vender;
 
 import com.example.pokecenter.customer.lam.Model.product.Product;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Vender {
+public class Vender implements Serializable {
 
     private String shopName;
 

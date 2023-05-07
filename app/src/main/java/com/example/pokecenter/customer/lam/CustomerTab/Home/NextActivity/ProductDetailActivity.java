@@ -197,6 +197,8 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     }
 
+    private Vender fetchedVender;
+
     private void fetchingAndSetUpVenderInfo(String venderId) {
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -224,6 +226,8 @@ public class ProductDetailActivity extends AppCompatActivity {
                     binding.totalProduct.setText(String.valueOf(finalVender.getTotalProduct()));
                     binding.followCount.setText(String.valueOf(finalVender.getFollowCount()));
 
+                    fetchedVender = finalVender;
+
                 } else {
                     binding.informText.setVisibility(View.VISIBLE);
                 }
@@ -232,7 +236,12 @@ public class ProductDetailActivity extends AppCompatActivity {
 
             });
         });
-        
+
+        binding.venderInfo.setOnClickListener(view -> {
+            Intent intent = new Intent(this, VenderInformationActivity.class);
+            intent.putExtra("vender object", fetchedVender);
+            startActivity(intent);
+        });
     }
 
 

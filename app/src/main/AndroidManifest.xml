@@ -79,7 +79,11 @@
             android:theme="@style/Theme.PokeCenter.NoActionBar" />
         <activity
             android:name=".customer.lam.CustomerTab.Cart.CheckoutActivity"
-            android:exported="false"/>
+            android:exported="false" />
+        <activity
+            android:name=".customer.lam.CustomerTab.Home.NextActivity.VenderInformationActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PokeCenter.NoActionBar"/>
     </application>
 
 </manifest>
