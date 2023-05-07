@@ -31,8 +31,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MyAddressesActivity extends AppCompatActivity implements AddressRecyclerViewInterface {
 
@@ -41,6 +43,8 @@ public class MyAddressesActivity extends AppCompatActivity implements AddressRec
     public static List<Address> myAddresses = new ArrayList<>();
 
     private AddressAdapter addressAdapter;
+
+    boolean addDeliveryAddressFromCheckout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +65,11 @@ public class MyAddressesActivity extends AppCompatActivity implements AddressRec
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // getSupportActionBar().setHomeAsUpIndicator(R.drawable.lam_round_arrow_back_secondary_24);
 
+        /* Customer thực hiện thanh toán nhưng chưa có delivery address */
+        addDeliveryAddressFromCheckout = getIntent().getBooleanExtra("add delivery address", false);
+        if (addDeliveryAddressFromCheckout) {
+            openBottomSheetDialog(null, myAddresses.size());
+        }
 
         binding = ActivityMyAddressesBinding.inflate(getLayoutInflater());
 
@@ -88,9 +97,16 @@ public class MyAddressesActivity extends AppCompatActivity implements AddressRec
                 if (finalFetchedAddressesData != null) {
                     myAddresses = finalFetchedAddressesData;
                     addressAdapter.setData(myAddresses);
+                    if (myAddresses.size() == 0) {
+                        binding.informText.setText("You haven't added any addresses yet");
+                        binding.informText.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     Toast.makeText(this, "Connect sever failed", Toast.LENGTH_SHORT)
                             .show();
+
+                    binding.informText.setText("Failed to connect server");
+                    binding.informText.setVisibility(View.VISIBLE);
                 }
                 binding.progressBar.setVisibility(View.INVISIBLE);
             });
@@ -99,7 +115,7 @@ public class MyAddressesActivity extends AppCompatActivity implements AddressRec
         setContentView(binding.getRoot());
     }
 
-    private void openBottomSheetDialog(Address existingAddress) {
+    private void openBottomSheetDialog(Address existingAddress, int countAddress) {
 
         View viewDialog = getLayoutInflater().inflate(R.layout.lam_bottom_sheet_address, null);
 
@@ -124,6 +140,11 @@ public class MyAddressesActivity extends AppCompatActivity implements AddressRec
         Button finishButton = viewDialog.findViewById(R.id.finish_button);
         Switch setDeliverySwitch = viewDialog.findViewById(R.id.set_delivery_switch);
 
+        if (existingAddress == null && countAddress == 0) {
+            setDeliverySwitch.setChecked(true);
+            setDeliverySwitch.setEnabled(false);
+            viewDialog.findViewById(R.id.inform_delivery_address).setVisibility(View.VISIBLE);
+        }
 
         if (existingAddress != null) {
 
@@ -219,6 +240,12 @@ public class MyAddressesActivity extends AppCompatActivity implements AddressRec
                                 addressAdapter.notifyDataSetChanged();
                                 dialog.dismiss();
                                 Toast.makeText(this, "Added new address", Toast.LENGTH_SHORT).show();
+                                binding.informText.setVisibility(View.INVISIBLE);
+
+                                if (addDeliveryAddressFromCheckout) {
+                                    finish();
+                                }
+
                             } else {
                                 Toast.makeText(this, "Something wrong because connection error", Toast.LENGTH_SHORT).show();
                                 finishButton.setText("try again");
@@ -267,7 +294,7 @@ public class MyAddressesActivity extends AppCompatActivity implements AddressRec
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.addButton) {
-            openBottomSheetDialog(null);
+            openBottomSheetDialog(null, myAddresses.size());
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -283,11 +310,17 @@ public class MyAddressesActivity extends AppCompatActivity implements AddressRec
     protected void onDestroy() {
         super.onDestroy();
         binding = null;
-        myAddresses = null;
     }
 
     @Override
     public void onAddressDeleteButtonClick(int position) {
+
+        if (myAddresses.get(position).getDeliveryAddress()) {
+            Toast.makeText(this, "Cannot delete the delivery address.", Toast.LENGTH_SHORT)
+                    .show();
+            return;
+        }
+
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.progressBarBg.setVisibility(View.VISIBLE);
 
@@ -323,11 +356,17 @@ public class MyAddressesActivity extends AppCompatActivity implements AddressRec
 
     @Override
     public void onAddressItemClick(int position) {
-        openBottomSheetDialog(myAddresses.get(position));
+        openBottomSheetDialog(myAddresses.get(position), myAddresses.size());
     }
 
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-        super.onPointerCaptureChanged(hasCapture);
+    public static Address getDeliveryAddress() {
+        for (int i = 0; i < myAddresses.size(); ++i) {
+            if (myAddresses.get(i).getDeliveryAddress()) {
+                return myAddresses.get(i);
+            }
+        }
+
+        return null;
     }
+
 }

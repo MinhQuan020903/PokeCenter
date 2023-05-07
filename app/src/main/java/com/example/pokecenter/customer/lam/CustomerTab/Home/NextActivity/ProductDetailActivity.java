@@ -25,6 +25,8 @@ import android.widget.TextView;
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.customer.lam.CustomerActivity;
+import com.example.pokecenter.customer.lam.CustomerTab.Cart.CheckoutActivity;
+import com.example.pokecenter.customer.lam.Model.cart.Cart;
 import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.customer.lam.SliderAdapter;
@@ -35,15 +37,12 @@ import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnima
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
@@ -166,7 +165,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 if (selectedOptionPosition == -1) {
                     selectedOptionPosition = 0;
                 }
-                openAddToCartBottomSheet(receiveProduct, selectedOptionPosition);
+                openAddToCartBottomSheet(receiveProduct);
             }
 
 
@@ -179,7 +178,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 if (selectedOptionPosition == -1) {
                     selectedOptionPosition = 0;
                 }
-                openOrderNowBottomSheet(receiveProduct, selectedOptionPosition);
+                openOrderNowBottomSheet(receiveProduct);
             }
         });
 
@@ -193,27 +192,27 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
 
-    private void openAddToCartBottomSheet(Product product, int selectedOptionPosition) {
+    private void openAddToCartBottomSheet(Product product) {
         viewDialog.findViewById(R.id.add_to_cart_button).setVisibility(View.VISIBLE);
         viewDialog.findViewById(R.id.order_now_button).setVisibility(View.GONE);
 
-        setUpData(product, selectedOptionPosition);
+        setUpData(product);
 
         dialog.show();
     }
 
-    private void openOrderNowBottomSheet(Product product, int selectedOptionPosition) {
+    private void openOrderNowBottomSheet(Product product) {
         viewDialog.findViewById(R.id.add_to_cart_button).setVisibility(View.GONE);
         viewDialog.findViewById(R.id.order_now_button).setVisibility(View.VISIBLE);
 
-        setUpData(product, selectedOptionPosition);
+        setUpData(product);
 
         dialog.show();
     }
 
     TextView optionCurrentQuantity;
 
-    private void setUpData(Product product, int selectedOptionPosition) {
+    private void setUpData(Product product) {
         Option selectedOption = product.getOptions().get(selectedOptionPosition);
 
         TextView optionName = viewDialog.findViewById(R.id.option_name);
@@ -249,6 +248,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             int count = Integer.parseInt(productCount.getText().toString());
 
             if (!optionCurrentQuantity.getText().toString().isEmpty()) {
+                // optionCurrentQuantity = Stock: 123
                 String numberStr = optionCurrentQuantity.getText().toString().replaceAll("\\D+", "");
                 if (count < Integer.parseInt(numberStr)) {
                     productCount.setText(String.valueOf(count + 1));
@@ -299,38 +299,13 @@ public class ProductDetailActivity extends AppCompatActivity {
         /* Logic Order Button in Bottom Sheet */
         Button orderNow = viewDialog.findViewById(R.id.order_now_button);
         orderNow.setOnClickListener(view -> {
-            orderNow.setEnabled(false);
-            ExecutorService executor = Executors.newSingleThreadExecutor();
-            Handler handler = new Handler(Looper.getMainLooper());
 
-            executor.execute(() -> {
+            Intent intent = new Intent(this, CheckoutActivity.class);
+            intent.putExtra("orderNowCart", new Cart(product, Integer.parseInt(productCount.getText().toString()), selectedOptionPosition));
 
-                boolean isSuccessful = true;
-                try {
-                    new FirebaseSupportCustomer().addNewCartUsingApi(product.getId(), Integer.parseInt(productCount.getText().toString()), selectedOptionPosition);
-                } catch (IOException e) {
-                    isSuccessful = false;
-                }
+            dialog.dismiss();
 
-                boolean finalIsSuccessful = isSuccessful;
-                handler.post(() -> {
-                    if (finalIsSuccessful) {
-                        orderNow.setEnabled(true);
-                        dialog.dismiss();
-                        Intent intent = new Intent(this, CustomerActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        /* xem giải thích FLAG_ACTIVITY_CLEAR_TOP ở đây:
-                        https://stackoverflow.com/questions/6330260/finish-all-previous-activities
-                        hoặc rê chuột lên trên để đọc docs
-                         */
-
-                        intent.putExtra("targetedFragment", R.id.customerShoppingCardFragment);
-                        startActivity(intent);
-                    } else {
-                        showSnackBar("Failed to connect sever");
-                    }
-                });
-            });
+            startActivity(intent);
         });
     }
 

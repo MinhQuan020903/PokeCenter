@@ -2,7 +2,9 @@ package com.example.pokecenter.customer.lam.Model.cart;
 
 import com.example.pokecenter.customer.lam.Model.product.Product;
 
-public class Cart {
+import java.io.Serializable;
+
+public class Cart implements Serializable {
     private Product product;
     private int quantity;
 

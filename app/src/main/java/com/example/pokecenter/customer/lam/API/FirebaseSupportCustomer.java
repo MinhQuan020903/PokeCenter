@@ -159,7 +159,6 @@ public class FirebaseSupportCustomer {
         }
 
         return fetchedAddresses;
-
     }
 
     public void deleteAddress(String id) throws IOException {
@@ -396,33 +395,6 @@ public class FirebaseSupportCustomer {
         OkHttpClient client = new OkHttpClient();
 
         String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-
-//        Handler handler = new Handler(Looper.getMainLooper());
-//        carts.forEach(cart -> {
-//            ExecutorService executor = Executors.newSingleThreadExecutor();
-//            executor.execute(() -> {
-//
-//                Map<String, Integer> updateData = new HashMap<>();
-//                updateData.put("quantity", cart.getQuantity());
-//                updateData.put("selectedOption", cart.getSelectedOption());
-//
-//                String jsonData = new Gson().toJson(updateData);
-//
-//                RequestBody body = RequestBody.create(jsonData, JSON);
-//
-//                Request request = new Request.Builder()
-//                        .url(urlDb + "customers/" + emailWithCurrentUser.replace(".", ",") + "/carts/" + cart.getProduct().getId() + ".json")
-//                        .put(body)
-//                        .build();
-//
-//                try {
-//                    client.newCall(request).execute();
-//                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            });
-//
-//        });
 
         Map<String, Map<String, Integer>> updateData = new HashMap<>();
 

@@ -1,4 +1,4 @@
-package com.example.pokecenter.customer.lam.CustomerTab;
+package com.example.pokecenter.customer.lam.CustomerTab.Cart;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -43,6 +43,7 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class CustomerShoppingCartFragment extends Fragment implements CartRecyclerViewInterface {
 
@@ -53,7 +54,7 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
     private CartAdapter cartAdapter;
 
     private Snackbar snackbar;
-
+    AtomicInteger totalPrice = new AtomicInteger(0);
     NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
 
     @Override
@@ -66,6 +67,22 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
         setUpCartRecyclerView();
 
         binding.totalPrice.setText(currencyFormatter.format(0));
+        binding.checkoutButton.setOnClickListener(view -> {
+            if (totalPrice.get() > 0) {
+
+                Intent intent = new Intent(getActivity(), CheckoutActivity.class);
+
+                // Filter the list to only include the Cart objects with isChecked = true
+                List<Cart> checkedCarts = myCarts.stream()
+                        .filter(Cart::isChecked)
+                        .collect(Collectors.toList());
+
+                // Put the filtered list as an extra in the Intent
+                intent.putExtra("checkedCarts", new ArrayList<>(checkedCarts));
+
+                startActivity(intent);
+            }
+        });
 
         return binding.getRoot();
     }
@@ -131,12 +148,6 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
     private void showSnackBar(String text) {
         snackbar.setText(text);
         snackbar.show();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 
     @Override
@@ -278,7 +289,7 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
     }
 
     private void calculatePrice() {
-        AtomicInteger totalPrice = new AtomicInteger();
+        totalPrice.set(0);
         myCarts.forEach(cart -> {
             if (cart.isChecked()) {
                 totalPrice.addAndGet(cart.getProduct().getOptions().get(cart.getSelectedOption()).getPrice() * cart.getQuantity());
@@ -288,9 +299,8 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-
+    public void onDestroyView() {
+        super.onDestroyView();
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
 
@@ -300,6 +310,12 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            handler.post(() -> {
+                myCarts = null;
+            });
         });
+
+        binding = null;
     }
+
 }

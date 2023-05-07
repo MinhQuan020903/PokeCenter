@@ -1,7 +1,5 @@
 package com.example.pokecenter.customer.lam;
 
-import static androidx.core.content.ContextCompat.getColor;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -15,12 +13,11 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.CustomerTab.CustomerNotificationsFragment;
 import com.example.pokecenter.customer.lam.CustomerTab.CustomerOrdersFragment;
-import com.example.pokecenter.customer.lam.CustomerTab.CustomerShoppingCartFragment;
+import com.example.pokecenter.customer.lam.CustomerTab.Cart.CustomerShoppingCartFragment;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.CustomerHomeFragment;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.CustomerProfileFragment;
 import com.example.pokecenter.databinding.ActivityCustomerBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class CustomerActivity extends AppCompatActivity {
 
@@ -73,10 +70,6 @@ public class CustomerActivity extends AppCompatActivity {
         /*
         Lấy giá trị targetedFragment để check xem ở một nơi nào đó trong app
         mà move tới CustomerActivity với Fragment mong muốn nào
-        VD trong ProductDetailActivity có lệnh move đến CustomerActivity và vào ShoppingCardFragment
-            Intent intent = new Intent(this, CustomerActivity.class);
-            intent.putExtra("targetedFragment", R.id.customerShoppingCardFragment);
-            startActivity(intent);
 
         Set HomeFragment is default
 

@@ -92,7 +92,7 @@
 
 
         <TextView
-            android:id="@+id/order_now_button"
+            android:id="@+id/checkout_button"
             android:layout_width="140dp"
             android:layout_height="match_parent"
             android:text="Checkout"
@@ -101,7 +101,7 @@
             android:background="@color/light_secondary"
             android:textSize="18sp"
             android:gravity="center_vertical|center_horizontal"
-            android:clickable="true"
+            android:clickable="false"
             android:foreground="?android:attr/selectableItemBackground"/>
 
     </LinearLayout>

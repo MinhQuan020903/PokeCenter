@@ -76,7 +76,10 @@
         <activity
             android:name=".customer.lam.CustomerTab.Home.NextActivity.ProductDetailActivity"
             android:exported="false"
-            android:theme="@style/Theme.PokeCenter.NoActionBar"/>
+            android:theme="@style/Theme.PokeCenter.NoActionBar" />
+        <activity
+            android:name=".customer.lam.CustomerTab.Cart.CheckoutActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>
