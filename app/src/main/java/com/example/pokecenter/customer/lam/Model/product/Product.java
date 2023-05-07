@@ -13,13 +13,15 @@ public class Product implements Serializable {
     private String desc;
     private List<String> images;
     private List<Option> options;
+    private String venderId;
 
-    public Product(String id, String name, String desc, List<String> images, List<Option> options) {
+    public Product(String id, String name, String desc, List<String> images, List<Option> options, String venderId) {
         this.id = id;
         this.name = name;
         this.desc = desc;
         this.images = images;
         this.options = options;
+        this.venderId = venderId;
     }
 
     public String getId() {
@@ -63,6 +65,14 @@ public class Product implements Serializable {
 
     public void setOptions(List<Option> options) {
         this.options = options;
+    }
+
+    public String getVenderId() {
+        return venderId;
+    }
+
+    public void setVenderId(String venderId) {
+        this.venderId = venderId;
     }
 
     public List<String> getAllOptionsName() {

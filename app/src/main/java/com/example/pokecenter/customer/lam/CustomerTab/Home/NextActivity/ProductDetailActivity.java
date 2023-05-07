@@ -21,6 +21,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
@@ -29,6 +30,7 @@ import com.example.pokecenter.customer.lam.CustomerTab.Cart.CheckoutActivity;
 import com.example.pokecenter.customer.lam.Model.cart.Cart;
 import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.product.Product;
+import com.example.pokecenter.customer.lam.Model.vender.Vender;
 import com.example.pokecenter.customer.lam.SliderAdapter;
 import com.example.pokecenter.databinding.ActivityProductDetailBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -182,13 +184,55 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
         });
 
-        setContentView(binding.getRoot());
-
         /*
         setup snack bar
         setUpSnackbar() phải để sau setContentView
          */
         setUpSnackbar();
+
+
+        /* Vender Setup */
+        fetchingAndSetUpVenderInfo(receiveProduct.getVenderId());        
+
+
+    }
+
+    private void fetchingAndSetUpVenderInfo(String venderId) {
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        
+        executor.execute(() -> {
+
+            Vender vender = null;
+            boolean isSuccessful = true;
+            try {
+                vender = new FirebaseSupportCustomer().fetchingVenderById(venderId);
+            } catch (IOException e) {
+                isSuccessful = false;
+            }
+
+            Vender finalVender = vender;
+            boolean finalIsSuccessful = isSuccessful;
+
+            handler.post(() -> {
+                if (finalIsSuccessful) {
+
+                    Picasso.get().load(finalVender.getAvatar()).into(binding.venderAvatar);
+                    binding.shopName.setText(finalVender.getShopName());
+                    binding.registrationDate.setText("Registration: " + finalVender.getRegistrationDate());
+                    binding.totalProduct.setText(String.valueOf(finalVender.getTotalProduct()));
+                    binding.followCount.setText(String.valueOf(finalVender.getFollowCount()));
+
+                } else {
+                    binding.informText.setVisibility(View.VISIBLE);
+                }
+
+                binding.progressBar.setVisibility(View.INVISIBLE);
+
+            });
+        });
+        
     }
 
 

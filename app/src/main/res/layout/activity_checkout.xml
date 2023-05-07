@@ -32,7 +32,8 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:paddingHorizontal="16dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
 
             <ImageView
                 android:layout_width="90dp"
@@ -86,6 +87,15 @@
                 android:src="@drawable/lam_round_arrow_forward_ios_24" />
 
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Order Info"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
     </LinearLayout>
 

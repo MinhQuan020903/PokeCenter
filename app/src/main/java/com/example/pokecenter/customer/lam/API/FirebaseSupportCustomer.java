@@ -8,6 +8,7 @@ import com.example.pokecenter.customer.lam.Model.address.Address;
 import com.example.pokecenter.customer.lam.Model.cart.Cart;
 import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.product.Product;
+import com.example.pokecenter.customer.lam.Model.vender.Vender;
 import com.example.pokecenter.customer.lam.Provider.ProductData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -207,7 +208,6 @@ public class FirebaseSupportCustomer {
         OkHttpClient client = new OkHttpClient();
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse(urlDb + "products.json").newBuilder();
-        urlBuilder.addQueryParameter("orderBy", "\"price\"");
         String url = urlBuilder.build().toString();
 
         Request request = new Request.Builder()
@@ -249,7 +249,8 @@ public class FirebaseSupportCustomer {
                         (String) value.get("name"),
                         (String) value.get("desc"),
                         (List<String>) value.get("images"),
-                        sortedOptions
+                        sortedOptions,
+                        (String) value.get("venderId")
                 ));
             });
 
@@ -415,5 +416,56 @@ public class FirebaseSupportCustomer {
                 .build();
 
         client.newCall(request).execute();
+    }
+
+    public Vender fetchingVenderById(String venderId) throws IOException {
+        Vender fetchedVender = new Vender();
+
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(urlDb + "accounts/" + venderId + ".json")
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+            String responseString = response.body().string();
+
+            Type type = new TypeToken<Map<String, Object>>(){}.getType();
+            Map<String, Object> fetchedAccountData = new Gson().fromJson(responseString, type);
+
+            fetchedVender.setAddress((String) fetchedAccountData.get("address"));
+            fetchedVender.setAvatar((String) fetchedAccountData.get("avatar"));
+            fetchedVender.setPhoneNumber((String) fetchedAccountData.get("phoneNumber"));
+
+        } else {
+            return null;
+        }
+
+        /* Fetch Vender Data */
+        OkHttpClient client1 = new OkHttpClient();
+        Request request1 = new Request.Builder()
+                .url(urlDb + "venders/" + venderId + ".json")
+                .build();
+
+        Response response1 = client.newCall(request1).execute();
+
+        if (response1.isSuccessful()) {
+            String responseString = response1.body().string();
+
+            Type type = new TypeToken<Map<String, Object>>(){}.getType();
+            Map<String, Object> fetchedVenderData = new Gson().fromJson(responseString, type);
+
+            fetchedVender.setShopName((String) fetchedVenderData.get("shopName"));
+            fetchedVender.setFollowCount(((Double) fetchedVenderData.get("followCount")).intValue());
+            fetchedVender.setRegistrationDate((String) fetchedVenderData.get("registrationDate"));
+            fetchedVender.setTotalProduct(((Double) fetchedVenderData.get("totalProduct")).intValue());
+
+        } else {
+            return null;
+        }
+
+        return fetchedVender;
     }
 }
