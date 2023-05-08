@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/light_canvas"
-    android:fitsSystemWindows="true">
+    android:background="@color/light_canvas">
 
 
     <ScrollView
@@ -299,10 +298,11 @@
     </ScrollView>
 
     <LinearLayout
+        android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="54dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/white"
+        android:background="@color/black"
         android:gravity="center_vertical">
 
         <ImageButton
@@ -311,7 +311,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/lam_baseline_shopping_cart_32"
             android:background="@color/light_primary"
-            android:paddingHorizontal="12dp"
+            android:padding="12dp"
             app:tint="@color/white"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"/>
@@ -327,7 +327,8 @@
             android:gravity="center_vertical|center_horizontal"
             android:layout_weight="1"
             android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"/>
+            android:foreground="?android:attr/selectableItemBackground"
+            android:background="@color/white"/>
 
         <TextView
             android:id="@+id/order_now_button"
