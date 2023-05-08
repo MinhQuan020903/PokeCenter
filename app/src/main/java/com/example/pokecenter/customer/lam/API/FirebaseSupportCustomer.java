@@ -9,6 +9,7 @@ import com.example.pokecenter.customer.lam.Model.cart.Cart;
 import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.customer.lam.Model.vender.Vender;
+import com.example.pokecenter.customer.lam.Provider.FollowData;
 import com.example.pokecenter.customer.lam.Provider.ProductData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -470,5 +471,74 @@ public class FirebaseSupportCustomer {
         return fetchedVender;
     }
 
+    public void fetchingFollowData() throws IOException {
+        OkHttpClient client = new OkHttpClient();
 
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Request request = new Request.Builder()
+                .url(urlDb + "customers/" + emailWithCurrentUser.replace(".", ",") + "/following.json")
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+            String responseString = response.body().string();
+
+            if (responseString.equals("null")) {
+                return;
+            }
+
+            Type type = new TypeToken<Map<String, Boolean>>(){}.getType();
+            FollowData.fetchedFollowing = new Gson().fromJson(responseString, type);
+        }
+    }
+
+    public void addFollowing(String venderId) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        Map<String, Boolean> pushData = new HashMap<>();
+        pushData.put(venderId, true);
+
+        String jsonData = new Gson().toJson(pushData);
+
+        RequestBody body = RequestBody.create(jsonData, JSON);
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Request request = new Request.Builder()
+                .url(urlDb + "customers/" + emailWithCurrentUser.replace(".", ",") + "/following.json")
+                .patch(body)
+                .build();
+
+        client.newCall(request).execute();
+    }
+
+    public void deleteFollowing(String venderId) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Request request = new Request.Builder()
+                .url(urlDb + "customers/" + emailWithCurrentUser.replace(".", ",") + "/following/" + venderId + ".json")
+                .delete()
+                .build();
+
+        client.newCall(request).execute();
+    }
+
+    public void updateFollowCount(String venderId, int followCount) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        Map<String, Integer> pushData = new HashMap<>();
+        pushData.put("followCount", followCount);
+
+        String jsonData = new Gson().toJson(pushData);
+
+        RequestBody body = RequestBody.create(jsonData, JSON);
+
+        Request request = new Request.Builder()
+                .url(urlDb + "venders/" + venderId + ".json")
+                .patch(body)
+                .build();
+
+        client.newCall(request).execute();
+    }
 }

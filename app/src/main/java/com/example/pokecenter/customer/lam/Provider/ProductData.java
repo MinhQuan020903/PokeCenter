@@ -43,4 +43,8 @@ public class ProductData {
             });
         });
     }
+
+    public static List<Product> getListProducts() {
+        return new ArrayList<>(fetchedProducts.values());
+    }
 }

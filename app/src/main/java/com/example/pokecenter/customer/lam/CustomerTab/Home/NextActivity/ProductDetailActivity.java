@@ -197,7 +197,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         /* Vender Setup */
         fetchingAndSetUpVenderInfo(receiveProduct.getVenderId());        
 
-
     }
 
     private Vender fetchedVender;
@@ -242,6 +241,9 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         binding.venderInfo.setOnClickListener(view -> {
             Intent intent = new Intent(this, VenderInformationActivity.class);
+
+            fetchedVender.setVenderId(venderId);
+
             intent.putExtra("vender object", fetchedVender);
             startActivity(intent);
         });
@@ -382,6 +384,22 @@ public class ProductDetailActivity extends AppCompatActivity {
     private void showSnackBar(String text) {
         snackbar.setText(text);
         snackbar.show();
+    }
+
+    protected void onRestart() {
+        super.onRestart();
+
+        /* Recreate this Activity when backbutton on VenderInformationActivity */
+
+        /*
+        Trong VenderInformationActivity có thể thay đổi số follower được hiển thị ở màn hình này
+        nên cần reload để update lại số follower
+        */
+
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
     }
 
     @Override

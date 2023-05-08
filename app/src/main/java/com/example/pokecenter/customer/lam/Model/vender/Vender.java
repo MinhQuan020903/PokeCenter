@@ -8,6 +8,8 @@ import java.util.List;
 
 public class Vender implements Serializable {
 
+    private String venderId;
+
     private String shopName;
 
     private String avatar;
@@ -28,7 +30,9 @@ public class Vender implements Serializable {
 
     }
 
-    public Vender(String shopName, String avatar, String address, String phoneNumber, int followCount, String registrationDate, int totalProduct, String background) {
+    public Vender(String venderId, String shopName, String avatar, String address, String phoneNumber, int followCount, String registrationDate, int totalProduct, String background) {
+
+        this.venderId = venderId;
         this.shopName = shopName;
         this.avatar = avatar;
         this.address = address;
@@ -37,6 +41,15 @@ public class Vender implements Serializable {
         this.registrationDate = registrationDate;
         this.totalProduct = totalProduct;
         this.background = background;
+
+    }
+
+    public String getVenderId() {
+        return venderId;
+    }
+
+    public void setVenderId(String venderId) {
+        this.venderId = venderId;
     }
 
     public String getShopName() {

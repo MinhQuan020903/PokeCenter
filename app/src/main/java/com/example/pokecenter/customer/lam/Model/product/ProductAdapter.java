@@ -33,6 +33,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         this.pokemonRecyclerViewInterface = pokemonRecyclerViewInterface;
     }
 
+    public ProductAdapter(Context context, List<Product> products, PokemonRecyclerViewInterface pokemonRecyclerViewInterface) {
+        this.mContext = context;
+        this.mProducts = products;
+        this.pokemonRecyclerViewInterface = pokemonRecyclerViewInterface;
+    }
+
     public void setData(List<Product> list) {
         this.mProducts = list;
         notifyDataSetChanged();

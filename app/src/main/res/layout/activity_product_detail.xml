@@ -49,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="40dp"
-                    android:background="@drawable/lam_background_white_ripple_effect_gray_corner_8"
+                    android:background="@drawable/lam_background_ripple_effect_gray"
                     android:padding="8dp"
                     android:src="@drawable/lam_baseline_keyboard_backward_32"
                     app:layout_constraintStart_toStartOf="parent"
@@ -79,6 +79,7 @@
                 android:layout_marginBottom="8dp"/>
 
             <LinearLayout
+                android:id="@+id/drop_list_down_options"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -87,7 +88,6 @@
                 android:gravity="center_vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/drop_list_down_options"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:hint="Select option"
@@ -180,17 +180,17 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="122dp"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
                 android:background="@color/white">
 
                 <LinearLayout
                     android:id="@+id/vender_info"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="16dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
