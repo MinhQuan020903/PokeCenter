@@ -438,6 +438,7 @@ public class FirebaseSupportCustomer {
             fetchedVender.setAddress((String) fetchedAccountData.get("address"));
             fetchedVender.setAvatar((String) fetchedAccountData.get("avatar"));
             fetchedVender.setPhoneNumber((String) fetchedAccountData.get("phoneNumber"));
+            fetchedVender.setBackground((String) fetchedAccountData.get("background"));
 
         } else {
             return null;

@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/light_canvas">
+    android:background="@color/light_canvas"
+    android:fitsSystemWindows="true">
 
 
     <ScrollView
@@ -48,8 +49,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/lam_background_ripple_effect_gray"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/lam_background_white_ripple_effect_gray_corner_8"
                     android:padding="8dp"
                     android:src="@drawable/lam_baseline_keyboard_backward_32"
                     app:layout_constraintStart_toStartOf="parent"

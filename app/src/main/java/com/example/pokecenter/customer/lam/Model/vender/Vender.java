@@ -22,11 +22,13 @@ public class Vender implements Serializable {
 
     private int totalProduct;
 
+    private String background;
+
     public Vender() {
 
     }
 
-    public Vender(String shopName, String avatar, String address, String phoneNumber, int followCount, String registrationDate, int totalProduct) {
+    public Vender(String shopName, String avatar, String address, String phoneNumber, int followCount, String registrationDate, int totalProduct, String background) {
         this.shopName = shopName;
         this.avatar = avatar;
         this.address = address;
@@ -34,6 +36,7 @@ public class Vender implements Serializable {
         this.followCount = followCount;
         this.registrationDate = registrationDate;
         this.totalProduct = totalProduct;
+        this.background = background;
     }
 
     public String getShopName() {
@@ -90,5 +93,13 @@ public class Vender implements Serializable {
 
     public void setTotalProduct(int totalProduct) {
         this.totalProduct = totalProduct;
+    }
+
+    public String getBackground() {
+        return background;
+    }
+
+    public void setBackground(String background) {
+        this.background = background;
     }
 }
