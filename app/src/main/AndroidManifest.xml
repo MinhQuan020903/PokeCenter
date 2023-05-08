@@ -15,7 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PokeCenter"
         tools:targetApi="31">
-
+        <activity
+            android:name=".WishListActivity"
+            android:exported="false" />
         <activity
             android:name=".customer.lam.Authentication.ForgotPasswordActivity"
             android:exported="false"
@@ -83,7 +85,10 @@
         <activity
             android:name=".customer.lam.CustomerTab.Home.NextActivity.VenderInformationActivity"
             android:exported="false"
-            android:theme="@style/Theme.PokeCenter.NoActionBar"/>
+            android:theme="@style/Theme.PokeCenter.NoActionBar" />
+        <activity
+            android:name=".customer.lam.CustomerTab.Profile.NextActivity.WishListActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

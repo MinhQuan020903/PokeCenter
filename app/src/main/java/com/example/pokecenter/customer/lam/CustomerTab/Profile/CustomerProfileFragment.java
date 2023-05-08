@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.CustomerAccountInfoActivity;
 import com.example.pokecenter.customer.lam.Authentication.SignInActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity;
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.WishListActivity;
+import com.example.pokecenter.customer.lam.Provider.FollowData;
+import com.example.pokecenter.customer.lam.Provider.WishListData;
 import com.example.pokecenter.databinding.FragmentCustomerProfileBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -34,12 +37,18 @@ public class CustomerProfileFragment extends Fragment {
             startActivity(new Intent(getActivity(), MyAddressesActivity.class));
         });
 
+        binding.wishListItem.setOnClickListener(view -> {
+            startActivity(new Intent(getActivity(), WishListActivity.class));
+        });
+
 
         binding.logoutButton.setOnClickListener(view -> {
             FirebaseAuth.getInstance().signOut();
-
             startActivity(new Intent(getActivity(), SignInActivity.class));
             getActivity().finishAffinity();
+
+            FollowData.hasData = false;
+            WishListData.hasData = false;
         });
 
         return binding.getRoot();

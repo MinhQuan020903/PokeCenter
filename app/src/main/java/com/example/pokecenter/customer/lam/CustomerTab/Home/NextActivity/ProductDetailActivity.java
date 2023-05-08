@@ -30,10 +30,12 @@ import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.customer.lam.CustomerActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Cart.CheckoutActivity;
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.WishListActivity;
 import com.example.pokecenter.customer.lam.Model.cart.Cart;
 import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.customer.lam.Model.vender.Vender;
+import com.example.pokecenter.customer.lam.Provider.WishListData;
 import com.example.pokecenter.customer.lam.SliderAdapter;
 import com.example.pokecenter.databinding.ActivityProductDetailBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -53,6 +55,9 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private ActivityProductDetailBinding binding;
     NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+
+    Product receiveProduct;
+
     private boolean isFavourite = false;
     View viewDialog;
     BottomSheetDialog dialog;
@@ -85,7 +90,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         dialog.setContentView(viewDialog);
 
         //
-        Product receiveProduct = (Product) getIntent().getSerializableExtra("product object");
+        receiveProduct = (Product) getIntent().getSerializableExtra("product object");
         adapterItems = new ArrayAdapter<>(this, R.layout.lam_text_option_list_item, receiveProduct.getAllOptionsName());
         setUpLogicForBottomSheet(receiveProduct);
 
@@ -141,9 +146,23 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
         });
 
+        /* Logic favoriteButton & wishList */
+
+        if (WishListData.fetchedWishList.containsKey(receiveProduct.getId())) {
+
+            isFavourite = true;
+
+            ColorFilter colorFilter = new PorterDuffColorFilter(getColor(R.color.dark_secondary), PorterDuff.Mode.SRC_IN);
+            Drawable drawable = ContextCompat.getDrawable(this, R.drawable.lam_baseline_favorite_28);
+            drawable.setColorFilter(colorFilter);
+            binding.favoriteButton.setImageDrawable(drawable);
+        }
+
         binding.favoriteButton.setOnClickListener(view -> {
 
             isFavourite = !isFavourite;
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
 
             if (isFavourite) {
                 // Create a color filter with the desired tint color
@@ -152,8 +171,55 @@ public class ProductDetailActivity extends AppCompatActivity {
                 drawable.setColorFilter(colorFilter);
                 binding.favoriteButton.setImageDrawable(drawable);
 
+
+
+                executor.execute(() -> {
+
+                    WishListData.fetchedWishList.put(receiveProduct.getId(), true);
+
+                    boolean isSuccessful = true;
+                    try {
+                        new FirebaseSupportCustomer().addWishListItem(receiveProduct.getId());
+                    } catch (IOException e) {
+                        isSuccessful = false;
+                    }
+
+                    boolean finalIsSuccessful = isSuccessful;
+                    handler.post(() -> {
+
+                        if (finalIsSuccessful) {
+                            showSnackBar("Added product to the wish list", true);
+                        } else {
+                            showSnackBar("Failed to connect server", false);
+                        }
+
+                    });
+                });
+
             } else {
                 binding.favoriteButton.setImageDrawable(getDrawable(R.drawable.lam_baseline_favorite_border_28));
+                executor.execute(() -> {
+
+                    WishListData.fetchedWishList.remove(receiveProduct.getId());
+
+                    boolean isSuccessful = true;
+                    try {
+                        new FirebaseSupportCustomer().removeWishListItem(receiveProduct.getId());
+                    } catch (IOException e) {
+                        isSuccessful = false;
+                    }
+
+                    boolean finalIsSuccessful = isSuccessful;
+                    handler.post(() -> {
+
+                        if (finalIsSuccessful) {
+                            showSnackBar("Deleted product from the wish list", true);
+                        } else {
+                            showSnackBar("Failed to connect server", false);
+                        }
+
+                    });
+                });
             }
         });
 
@@ -345,7 +411,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                     if (finalIsSuccessful) {
                         addToCart.setEnabled(true);
                         dialog.dismiss();
-                        showSnackBar("Added to cart");
+                        showSnackBar("Added to cart", false);
                     } else {
 
                     }
@@ -376,13 +442,25 @@ public class ProductDetailActivity extends AppCompatActivity {
         params.setMargins(params.leftMargin,
                 params.topMargin,
                 params.rightMargin,
-                params.bottomMargin + 140);
+                params.bottomMargin + 150 + getNavigationBarHeight());
 
         snackBarView.setLayoutParams(params);
     }
 
-    private void showSnackBar(String text) {
+    private void showSnackBar(String text, boolean hasAction) {
         snackbar.setText(text);
+
+        if (hasAction) {
+            snackbar.setAction("View more", view -> {
+
+                Intent intent = new Intent(this, WishListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                startActivity(intent);
+            })
+                    .setActionTextColor(getColor(R.color.light_primary));
+        }
+
         snackbar.show();
     }
 
@@ -405,6 +483,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         binding = null;
     }
 

@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
-import com.example.pokecenter.customer.lam.Model.product.Product;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,13 +13,10 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ProductData {
+public class WishListData {
 
-    public static Map<String, Product> fetchedProducts = new HashMap<>();
-
-    public static List<String> trendingProductsId = new ArrayList<>();
-
-    public static String status;
+    public static Map<String, Boolean> fetchedWishList = new HashMap<>();
+    public static boolean hasData = false;
 
     public static void fetchDataFromSever() {
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -29,22 +25,19 @@ public class ProductData {
         executor.execute(() -> {
             boolean isSuccessful = true;
             try {
-                new FirebaseSupportCustomer().fetchingAllProductData();
+                fetchedWishList = new FirebaseSupportCustomer().fetchingWishList();
             } catch (IOException e) {
                 isSuccessful = false;
             }
             boolean finalIsSuccessful = isSuccessful;
             handler.post(() -> {
-                if (finalIsSuccessful) {
-                    status = "SUCCESSFUL";
-                } else {
-                    status = "FAILED";
-                }
+                hasData = finalIsSuccessful;
             });
         });
     }
 
-    public static List<Product> getListProducts() {
-        return new ArrayList<>(fetchedProducts.values());
+    public static List<String> getWishListId() {
+        return new ArrayList<>(fetchedWishList.keySet());
     }
+
 }

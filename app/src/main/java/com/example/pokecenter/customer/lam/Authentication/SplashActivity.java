@@ -11,6 +11,7 @@ import com.example.pokecenter.admin.AdminActivity;
 import com.example.pokecenter.customer.lam.CustomerActivity;
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.Provider.ProductData;
+import com.example.pokecenter.customer.lam.Provider.WishListData;
 import com.example.pokecenter.databinding.ActivitySplashScreenBinding;
 import com.example.pokecenter.vender.VenderActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,7 +33,8 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         /* Fetch Products Data */
-         new ProductData().fetchDataFromSever();
+        ProductData.fetchDataFromSever();
+        WishListData.fetchDataFromSever();
 
         //Create a Timer for the progress bar to run
         Timer timer = new Timer();
@@ -72,7 +74,7 @@ public class SplashActivity extends AppCompatActivity {
         };
 
         // Use the Handler object to post the Runnable object with the specified delay
-        handler.postDelayed(runnable, 1100);
+        handler.postDelayed(runnable, 1200);
     }
 
     void goToNextActivityWith(int role) {

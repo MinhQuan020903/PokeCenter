@@ -541,4 +541,61 @@ public class FirebaseSupportCustomer {
 
         client.newCall(request).execute();
     }
+
+    public Map<String, Boolean> fetchingWishList() throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Request request = new Request.Builder()
+                .url(urlDb + "customers/" + emailWithCurrentUser.replace(".", ",") + "/wishList.json")
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+            String responseString = response.body().string();
+
+            if (responseString.equals("null")) {
+                return new HashMap<>();
+            }
+
+            Type type = new TypeToken<Map<String, Boolean>>(){}.getType();
+            return new Gson().fromJson(responseString, type);
+        }
+
+        return new HashMap<>();
+    }
+
+    public void addWishListItem(String productId) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        Map<String, Boolean> pushData = new HashMap<>();
+        pushData.put(productId, true);
+
+        String jsonData = new Gson().toJson(pushData);
+
+        RequestBody body = RequestBody.create(jsonData, JSON);
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Request request = new Request.Builder()
+                .url(urlDb + "customers/" + emailWithCurrentUser.replace(".", ",") + "/wishList.json")
+                .patch(body)
+                .build();
+
+        client.newCall(request).execute();
+    }
+
+    public void removeWishListItem(String productId) throws IOException {
+
+        OkHttpClient client = new OkHttpClient();
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Request request = new Request.Builder()
+                .url(urlDb + "customers/" + emailWithCurrentUser.replace(".", ",") + "/wishList/" + productId + ".json")
+                .delete()
+                .build();
+
+        client.newCall(request).execute();
+
+    }
 }

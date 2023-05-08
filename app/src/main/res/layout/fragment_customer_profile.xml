@@ -249,7 +249,7 @@
         android:layout_height="wrap_content"/>
 
     <LinearLayout
-        android:id="@+id/wishlistItem"
+        android:id="@+id/wishListItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="20dp"
@@ -266,7 +266,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Wishlist"
+            android:text="Wish List"
             android:textColor="@color/black"
             android:textSize="18sp"/>
 

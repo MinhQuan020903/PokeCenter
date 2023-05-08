@@ -239,11 +239,9 @@ public class VenderInformationActivity extends AppCompatActivity implements Poke
 
     @Override
     public void onProductCardClick(Product product) {
-        if (product.getName() != null) {
-            Intent intent = new Intent(this, ProductDetailActivity.class);
-            intent.putExtra("product object", product);
-            startActivity(intent);
-        }
+        Intent intent = new Intent(this, ProductDetailActivity.class);
+        intent.putExtra("product object", product);
+        startActivity(intent);
     }
 
     @Override

@@ -194,14 +194,14 @@
                         android:paddingVertical="8dp"
                         android:paddingHorizontal="12dp"
                         android:gravity="center_vertical|center_horizontal"
-                        android:background="@drawable/lam_background_outline_55_white_ripple_effect_corner_8">
+                        android:background="@drawable/lam_background_aa_white_outline_2_ripple_effect_corner_8">
 
                         <ImageView
                             android:id="@+id/icon_follow"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             tools:src="@drawable/lam_followed_24"
-                            app:tint="@color/white"
+                            app:tint="@color/black"
                             android:layout_marginEnd="12dp"/>
 
                         <TextView
@@ -209,7 +209,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             tools:text="Followed"
-                            android:textColor="@color/white"
+                            android:textColor="@color/black"
                             android:textStyle="bold"/>
 
                     </LinearLayout>
