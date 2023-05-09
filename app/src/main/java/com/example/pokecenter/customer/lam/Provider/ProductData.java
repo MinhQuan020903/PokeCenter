@@ -39,6 +39,7 @@ public class ProductData {
                     status = "SUCCESSFUL";
                 } else {
                     status = "FAILED";
+                    fetchDataFromSever();
                 }
             });
         });

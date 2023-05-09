@@ -422,6 +422,8 @@ public class FirebaseSupportCustomer {
     public Vender fetchingVenderById(String venderId) throws IOException {
         Vender fetchedVender = new Vender();
 
+        fetchedVender.setVenderId(venderId);
+
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()

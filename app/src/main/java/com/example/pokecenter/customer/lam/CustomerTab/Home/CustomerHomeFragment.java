@@ -168,7 +168,7 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
                     List<Product> trendingProducts = ProductData.trendingProductsId.subList(0,4).stream().map(item -> ProductData.fetchedProducts.get(item)).collect(Collectors.toList());
                     productAdapter.setData(trendingProducts);
                 } else {
-                    Toast.makeText(getActivity(), "Fail to load trending products", Toast.LENGTH_SHORT)
+                    Toast.makeText(getActivity(), "Failed to load trending products", Toast.LENGTH_SHORT)
                             .show();
                 }
             });

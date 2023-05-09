@@ -98,6 +98,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             finish();
         });
 
+        /* Set up Slider Image */
         List<String> displayImageUrl = receiveProduct.copyListImage();
         receiveProduct.getOptions().forEach(option -> {
             if (!option.getOptionImage().isEmpty()) {
@@ -111,7 +112,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         binding.productImageSliderView.setIndicatorAnimation(IndicatorAnimationType.THIN_WORM);
         binding.productImageSliderView.setSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
         binding.productImageSliderView.startAutoCycle();
-
+        /* --------------------- */
 
         binding.productName.setText(receiveProduct.getName());
 
@@ -124,11 +125,9 @@ public class ProductDetailActivity extends AppCompatActivity {
 
 
         binding.optionsAutoCompleteTextView.setAdapter(adapterItems);
-
         binding.optionsAutoCompleteTextView.setOnClickListener(view -> {
             binding.warning.setVisibility(View.INVISIBLE);
         });
-
         binding.optionsAutoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -146,8 +145,13 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
         });
 
-        /* Logic favoriteButton & wishList */
+        /* Set up Review data */
 
+        /* ------------------ */
+
+        binding.productSold.setText("Sold " + receiveProduct.getProductSold());
+
+        /* Logic favoriteButton & wishList */
         if (WishListData.fetchedWishList.containsKey(receiveProduct.getId())) {
 
             isFavourite = true;
@@ -157,7 +161,6 @@ public class ProductDetailActivity extends AppCompatActivity {
             drawable.setColorFilter(colorFilter);
             binding.favoriteButton.setImageDrawable(drawable);
         }
-
         binding.favoriteButton.setOnClickListener(view -> {
 
             isFavourite = !isFavourite;
@@ -222,13 +225,18 @@ public class ProductDetailActivity extends AppCompatActivity {
                 });
             }
         });
+        /* ------------------------------- */
 
+        /* Vender Setup */
+        fetchingAndSetUpVenderInfo(receiveProduct.getVenderId());
+        /* ------------ */
+
+        /* Set up Bottom Bar */
         binding.shoppingCartButton.setOnClickListener(view -> {
             Intent intent = new Intent(this, CustomerActivity.class);
             intent.putExtra("targetedFragment", R.id.customerShoppingCardFragment);
             startActivity(intent);
         });
-
         binding.addToCartButton.setOnClickListener(view -> {
             if (selectedOptionPosition == -1 && receiveProduct.getOptions().size() > 1) {
                 binding.warning.setVisibility(View.VISIBLE);
@@ -241,7 +249,6 @@ public class ProductDetailActivity extends AppCompatActivity {
 
 
         });
-
         binding.orderNowButton.setOnClickListener(view -> {
             if (selectedOptionPosition == -1 && receiveProduct.getOptions().size() > 1) {
                 binding.warning.setVisibility(View.VISIBLE);
@@ -252,17 +259,15 @@ public class ProductDetailActivity extends AppCompatActivity {
                 openOrderNowBottomSheet(receiveProduct);
             }
         });
+        /* ----------------- */
+
+        binding.productDesc.setText(receiveProduct.getDesc());
 
         /*
         setup snack bar
         setUpSnackbar() phải để sau setContentView
          */
         setUpSnackbar();
-
-
-        /* Vender Setup */
-        fetchingAndSetUpVenderInfo(receiveProduct.getVenderId());        
-
     }
 
     private Vender fetchedVender;
@@ -296,6 +301,13 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                     fetchedVender = finalVender;
 
+                    binding.venderInfo.setOnClickListener(view -> {
+                        Intent intent = new Intent(this, VenderInformationActivity.class);
+
+                        intent.putExtra("vender object", fetchedVender);
+                        startActivity(intent);
+                    });
+
                 } else {
                     binding.informText.setVisibility(View.VISIBLE);
                 }
@@ -305,14 +317,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             });
         });
 
-        binding.venderInfo.setOnClickListener(view -> {
-            Intent intent = new Intent(this, VenderInformationActivity.class);
 
-            fetchedVender.setVenderId(venderId);
-
-            intent.putExtra("vender object", fetchedVender);
-            startActivity(intent);
-        });
     }
 
 

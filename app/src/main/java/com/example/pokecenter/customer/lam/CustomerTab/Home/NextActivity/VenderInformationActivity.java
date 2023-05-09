@@ -64,7 +64,7 @@ public class VenderInformationActivity extends AppCompatActivity implements Poke
 
         binding.outbox.setPadding(0, 0, 0, getNavigationBarHeight());
 
-        receiveVender = (Vender) getIntent().getSerializableExtra("vender object");
+        receiveVender = (Vender) getIntent().getParcelableExtra("vender object");
 
         binding.backButton.setOnClickListener(view -> {
             binding.progressBar.setVisibility(View.VISIBLE);

@@ -5,6 +5,7 @@ import com.example.pokecenter.customer.lam.Model.option.Option;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class Product implements Serializable {
@@ -81,6 +82,13 @@ public class Product implements Serializable {
 
     public List<String> copyListImage() {
         return new ArrayList<>(images);
+    }
+
+    public int getProductSold() {
+        AtomicInteger sum = new AtomicInteger();
+        options.forEach(option -> sum.addAndGet(option.getInputQuantity() - option.getCurrentQuantity()));
+
+        return sum.get();
     }
 
 }

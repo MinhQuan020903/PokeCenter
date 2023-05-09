@@ -1,12 +1,17 @@
 package com.example.pokecenter.customer.lam.Model.vender;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import com.example.pokecenter.customer.lam.Model.product.Product;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Vender implements Serializable {
+public class Vender implements Parcelable {
 
     private String venderId;
 
@@ -43,6 +48,30 @@ public class Vender implements Serializable {
         this.background = background;
 
     }
+
+    protected Vender(Parcel in) {
+        venderId = in.readString();
+        shopName = in.readString();
+        avatar = in.readString();
+        address = in.readString();
+        phoneNumber = in.readString();
+        followCount = in.readInt();
+        registrationDate = in.readString();
+        totalProduct = in.readInt();
+        background = in.readString();
+    }
+
+    public static final Creator<Vender> CREATOR = new Creator<Vender>() {
+        @Override
+        public Vender createFromParcel(Parcel in) {
+            return new Vender(in);
+        }
+
+        @Override
+        public Vender[] newArray(int size) {
+            return new Vender[size];
+        }
+    };
 
     public String getVenderId() {
         return venderId;
@@ -114,5 +143,23 @@ public class Vender implements Serializable {
 
     public void setBackground(String background) {
         this.background = background;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(venderId);
+        parcel.writeString(shopName);
+        parcel.writeString(avatar);
+        parcel.writeString(address);
+        parcel.writeString(phoneNumber);
+        parcel.writeInt(followCount);
+        parcel.writeString(registrationDate);
+        parcel.writeInt(totalProduct);
+        parcel.writeString(background);
     }
 }
