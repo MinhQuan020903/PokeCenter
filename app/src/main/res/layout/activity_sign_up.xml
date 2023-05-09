@@ -69,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/lam_background_rounded_rect_border"
+            android:background="@drawable/lam_background_white_border_1_corner_8"
             android:ellipsize="end"
             android:imeOptions="actionNext"
             android:hint="Severus Snape"
@@ -95,7 +95,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/lam_background_rounded_rect_border"
+            android:background="@drawable/lam_background_white_border_1_corner_8"
             android:ellipsize="end"
             android:hint="snape@example.com"
             android:imeOptions="actionNext"
@@ -121,7 +121,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/lam_background_rounded_rect_border"
+            android:background="@drawable/lam_background_white_border_1_corner_8"
             android:ellipsize="end"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
@@ -151,7 +151,7 @@
                 android:layout_height="wrap_content"
                 android:text="Customer"
                 android:padding="12dp"
-                android:background="@drawable/lam_background_raised_secondary"
+                android:background="@drawable/lam_background_raised_secondary_corner_8"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:gravity="center_horizontal"
@@ -169,11 +169,10 @@
                 android:layout_height="wrap_content"
                 android:text="Vender"
                 android:padding="12dp"
-                android:background="@drawable/lam_background_outline_secondary"
+                android:background="@drawable/lam_background_outline_secondary_corner_8"
                 android:textColor="@color/light_secondary"
                 android:textSize="18sp"
-                android:gravity="center_horizontal"
-                />
+                android:gravity="center_horizontal"/>
 
         </LinearLayout>
 

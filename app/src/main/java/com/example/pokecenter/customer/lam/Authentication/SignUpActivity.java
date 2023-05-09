@@ -2,8 +2,6 @@ package com.example.pokecenter.customer.lam.Authentication;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -14,22 +12,20 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.pokecenter.admin.AdminActivity;
-import com.example.pokecenter.customer.CustomerActivity;
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.Model.option.Option;
+import com.example.pokecenter.customer.lam.Model.option.OptionAdapter;
 import com.example.pokecenter.databinding.ActivitySignUpBinding;
-import com.example.pokecenter.vender.VenderActivity;
-import com.example.pokecenter.customer.lam.API.FirebaseSupport;
+import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.List;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -61,11 +57,11 @@ public class SignUpActivity extends AppCompatActivity {
 
         customerRole.setOnClickListener(view -> {
             customerRole.setTextColor(getColor(R.color.white));
-            customerRole.setBackground(getDrawable(R.drawable.lam_background_raised_secondary));
+            customerRole.setBackground(getDrawable(R.drawable.lam_background_raised_secondary_corner_8));
             customerRole.setTypeface(null, Typeface.BOLD);
 
             venderRole.setTextColor(getColor(R.color.light_secondary));
-            venderRole.setBackground(getDrawable(R.drawable.lam_background_outline_secondary));
+            venderRole.setBackground(getDrawable(R.drawable.lam_background_outline_secondary_corner_8));
             venderRole.setTypeface(null, Typeface.NORMAL);
 
             role = 0;
@@ -73,11 +69,11 @@ public class SignUpActivity extends AppCompatActivity {
 
         venderRole.setOnClickListener(view -> {
             venderRole.setTextColor(getColor(R.color.white));
-            venderRole.setBackground(getDrawable(R.drawable.lam_background_raised_secondary));
+            venderRole.setBackground(getDrawable(R.drawable.lam_background_raised_secondary_corner_8));
             venderRole.setTypeface(null, Typeface.BOLD);
 
             customerRole.setTextColor(getColor(R.color.light_secondary));
-            customerRole.setBackground(getDrawable(R.drawable.lam_background_outline_secondary));
+            customerRole.setBackground(getDrawable(R.drawable.lam_background_outline_secondary_corner_8));
             customerRole.setTypeface(null, Typeface.NORMAL);
 
             role = 1;
@@ -112,19 +108,18 @@ public class SignUpActivity extends AppCompatActivity {
 
                         /* Save User Info */
                         /* Cách 1 */
-                        new FirebaseSupport().saveUser(email, username, role);
+                        new FirebaseSupportAccount().addNewAccount(email, username, role);
 
                         /* Cách 2: Using API + new Thread
                         ExecutorService executor = Executors.newSingleThreadExecutor();
                         executor.execute(() -> {
                             try {
-                                FirebaseSupport.saveUserUsingApi(email, username, role);
+                                new FirebaseSupportAccount().saveUserUsingApi(email, username, role);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         });
                          */
-
 
                     } else {
                         Toast.makeText(this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT)
@@ -135,7 +130,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     void popUpDialogToInform() {
         Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.success_sign_up_dialog);
+        dialog.setContentView(R.layout.lam_dialog_success_sign_up);
 
         Window window = dialog.getWindow();
 

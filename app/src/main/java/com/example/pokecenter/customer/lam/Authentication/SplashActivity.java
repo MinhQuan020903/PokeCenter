@@ -6,23 +6,19 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.widget.Toast;
 
 import com.example.pokecenter.admin.AdminActivity;
-import com.example.pokecenter.customer.CustomerActivity;
+import com.example.pokecenter.customer.lam.CustomerActivity;
 import com.example.pokecenter.R;
-import com.example.pokecenter.customer.lam.API.FirebaseSupport;
+import com.example.pokecenter.customer.lam.Provider.ProductData;
+import com.example.pokecenter.customer.lam.Provider.WishListData;
 import com.example.pokecenter.databinding.ActivitySplashScreenBinding;
 import com.example.pokecenter.vender.VenderActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -35,6 +31,10 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySplashScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        /* Fetch Products Data */
+        ProductData.fetchDataFromSever();
+        WishListData.fetchDataFromSever();
 
         //Create a Timer for the progress bar to run
         Timer timer = new Timer();
@@ -74,7 +74,7 @@ public class SplashActivity extends AppCompatActivity {
         };
 
         // Use the Handler object to post the Runnable object with the specified delay
-        handler.postDelayed(runnable, 1100);
+        handler.postDelayed(runnable, 1200);
     }
 
     void goToNextActivityWith(int role) {
