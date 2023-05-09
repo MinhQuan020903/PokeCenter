@@ -3,11 +3,13 @@ package com.example.pokecenter.customer.lam.API;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity;
 import com.example.pokecenter.customer.lam.Model.address.Address;
 import com.example.pokecenter.customer.lam.Model.cart.Cart;
 import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.product.Product;
+import com.example.pokecenter.customer.lam.Model.review_product.ReviewProduct;
 import com.example.pokecenter.customer.lam.Model.vender.Vender;
 import com.example.pokecenter.customer.lam.Provider.FollowData;
 import com.example.pokecenter.customer.lam.Provider.ProductData;
@@ -599,5 +601,96 @@ public class FirebaseSupportCustomer {
 
         client.newCall(request).execute();
 
+    }
+
+    public List<ReviewProduct> fetchingReviewsForProductId(String productId) throws IOException {
+
+        List<ReviewProduct> fetchedReviewsProduct = new ArrayList<>();
+
+        OkHttpClient client = new OkHttpClient();
+
+        // Construct the URL for the Firebase Realtime Database endpoint
+        HttpUrl.Builder urlBuilder = HttpUrl.parse("https://pokecenter-ae954-default-rtdb.firebaseio.com/reviewsProduct.json").newBuilder();
+
+        urlBuilder.addQueryParameter("orderBy", "\"productId\"")
+                .addQueryParameter("equalTo", "\"" + productId + "\"");
+
+        String url = urlBuilder.build().toString();
+
+        // Create an HTTP GET request
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+
+            String responseString = response.body().string();
+
+            if (responseString.equals("null")) {
+                return new ArrayList<>();
+            }
+
+            Type type = new TypeToken<Map<String, Map<String, Object>>>(){}.getType();
+            Map<String, Map<String, Object>> fetchedData = new Gson().fromJson(responseString, type);
+
+            OkHttpClient clientCustomer = new OkHttpClient();
+
+            fetchedData.forEach((key, value) -> {
+
+                ReviewProduct review = new ReviewProduct(
+                        key,
+                        (String) value.get("title"),
+                        (String) value.get("content"),
+                        ((Double) value.get("rate")).intValue(),
+                        "customer",
+                        "https://static.wikia.nocookie.net/pokemon-fano/images/6/6f/Poke_Ball.png/revision/latest?cb=20140520015336"
+                );
+
+                String customerId = (String) value.get("customerId");
+
+                String urlCustomerName = urlDb + "/accounts/" + customerId + "/username.json";
+                Request requestCustomerName = new Request.Builder()
+                        .url(urlCustomerName)
+                        .build();
+
+
+                try {
+                    Response responseCustomerName = clientCustomer.newCall(requestCustomerName).execute();
+
+
+                    if (responseCustomerName.isSuccessful()) {
+                        String customerName = responseCustomerName.body().string();
+                        review.setCustomerName(new Gson().fromJson(customerName, new TypeToken<String>(){}.getType()));
+                    }
+
+                } catch (IOException e) {
+
+                }
+
+                String urlCustomerAvatar = urlDb + "/accounts/" + customerId + "/avatar.json";
+                Request requestCustomerAvatar = new Request.Builder()
+                        .url(urlCustomerAvatar)
+                        .build();
+
+                try {
+                    Response responseCustomerAvatar = clientCustomer.newCall(requestCustomerAvatar).execute();
+
+                    if (responseCustomerAvatar.isSuccessful()) {
+                        String customerAvatar = responseCustomerAvatar.body().string();
+                        review.setCustomerImage(new Gson().fromJson(customerAvatar, new TypeToken<String>(){}.getType()));
+                    }
+
+                } catch (IOException e) {
+
+                }
+
+                fetchedReviewsProduct.add(review);
+            });
+
+        }
+
+        return  fetchedReviewsProduct;
     }
 }

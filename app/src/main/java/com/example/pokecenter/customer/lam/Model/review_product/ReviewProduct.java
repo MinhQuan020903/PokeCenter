@@ -6,14 +6,20 @@ public class ReviewProduct {
     private String title;
     private String content;
     private int rate;
-    private String customerId;
+    private String customerName;
+    private String customerImage;
 
-    public ReviewProduct(String reviewId, String title, String content, int rate, String customerId) {
+    public ReviewProduct() {
+
+    }
+
+    public ReviewProduct(String reviewId, String title, String content, int rate, String customerName, String customerImage) {
         this.reviewId = reviewId;
         this.title = title;
         this.content = content;
         this.rate = rate;
-        this.customerId = customerId;
+        this.customerName = customerName;
+        this.customerImage = customerImage;
     }
 
     public String getReviewId() {
@@ -48,11 +54,19 @@ public class ReviewProduct {
         this.rate = rate;
     }
 
-    public String getCustomerId() {
-        return customerId;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getCustomerImage() {
+        return customerImage;
+    }
+
+    public void setCustomerImage(String customerImage) {
+        this.customerImage = customerImage;
     }
 }

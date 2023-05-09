@@ -2,6 +2,8 @@ package com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -15,6 +17,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -23,6 +26,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +38,8 @@ import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.Wish
 import com.example.pokecenter.customer.lam.Model.cart.Cart;
 import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.product.Product;
+import com.example.pokecenter.customer.lam.Model.review_product.ReviewProduct;
+import com.example.pokecenter.customer.lam.Model.review_product.ReviewProductAdapter;
 import com.example.pokecenter.customer.lam.Model.vender.Vender;
 import com.example.pokecenter.customer.lam.Provider.WishListData;
 import com.example.pokecenter.customer.lam.SliderAdapter;
@@ -46,6 +52,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
@@ -65,6 +72,9 @@ public class ProductDetailActivity extends AppCompatActivity {
     Snackbar snackbar;
 
     int selectedOptionPosition = -1;
+
+    List<ReviewProduct> reviewsProduct = new ArrayList<>();
+    ReviewProductAdapter reviewProductAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +133,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             binding.productPrice.setText(currencyFormatter.format(receiveProduct.getOptions().get(0).getPrice()) + " - " + currencyFormatter.format(receiveProduct.getOptions().get(receiveProduct.getOptions().size() - 1).getPrice()));
         }
 
-
+        /* Set up Droplist down options */
         binding.optionsAutoCompleteTextView.setAdapter(adapterItems);
         binding.optionsAutoCompleteTextView.setOnClickListener(view -> {
             binding.warning.setVisibility(View.INVISIBLE);
@@ -144,10 +154,13 @@ public class ProductDetailActivity extends AppCompatActivity {
                 }
             }
         });
+        /* ------------------ */
+
 
         /* Set up Review data */
-
+        fetchingAndSetUpReviewProduct();
         /* ------------------ */
+
 
         binding.productSold.setText("Sold " + receiveProduct.getProductSold());
 
@@ -268,6 +281,59 @@ public class ProductDetailActivity extends AppCompatActivity {
         setUpSnackbar() phải để sau setContentView
          */
         setUpSnackbar();
+    }
+
+    private void fetchingAndSetUpReviewProduct() {
+
+        ListView lvReviews = binding.lvReviewProduct;
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        executor.execute(() -> {
+
+            boolean isSuccessful = true;
+            List<ReviewProduct> fetchedReviewsProduct = null;
+
+            try {
+                fetchedReviewsProduct = new FirebaseSupportCustomer().fetchingReviewsForProductId(receiveProduct.getId());
+            } catch (IOException e) {
+                isSuccessful = false;
+            }
+
+            boolean finalIsSuccessful = isSuccessful;
+            List<ReviewProduct> finalFetchedReviewsProduct = fetchedReviewsProduct;
+            handler.post(() -> {
+
+                if (finalIsSuccessful) {
+
+                    reviewsProduct = finalFetchedReviewsProduct;
+                    reviewProductAdapter = new ReviewProductAdapter(this, reviewsProduct);
+                    lvReviews.setAdapter(reviewProductAdapter);
+
+                    int lvReviewsHeight = 0;
+                    for (int i = 0; i < reviewsProduct.size(); ++i ) {
+                        View item  = reviewProductAdapter.getView(i, null, lvReviews);
+
+                        item.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+                        int itemHeight = item.getMeasuredHeight();
+
+                        lvReviewsHeight += itemHeight;
+                    }
+                    ViewGroup.LayoutParams params = lvReviews.getLayoutParams();
+                    params.height = lvReviewsHeight;
+
+                    lvReviews.setLayoutParams(params);
+
+                } else {
+
+                    Toast.makeText(this, "Failed to loading reviews product", Toast.LENGTH_SHORT).show();
+
+                }
+
+            });
+        });
+
     }
 
     private Vender fetchedVender;
@@ -489,7 +555,13 @@ public class ProductDetailActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        binding = null;
+        /*
+        Ở đây không set binding = null
+        vì page này cần đợi API call rồi mới loading dữ liệu
+        Giả sử khi API call chưa xong mà người dùng nhấn backbutton dẫn đến destroy -> binding = null
+        lúc API trả về data và những đoạn code như Picasso.get().load(finalVender.getAvatar()).into(binding.venderAvatar);
+        sẽ được gọi. mà lúc này binding = null -> sinh ra lỗi ObjectNullException
+         */
     }
 
     public int getNavigationBarHeight() {
