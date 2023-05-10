@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -68,6 +69,8 @@ public class TrendingProductsActivity extends AppCompatActivity implements Pokem
 
     @Override
     public void onProductCardClick(Product product) {
-
+        Intent intent = new Intent(this, ProductDetailActivity.class);
+        intent.putExtra("product object", product);
+        startActivity(intent);
     }
 }

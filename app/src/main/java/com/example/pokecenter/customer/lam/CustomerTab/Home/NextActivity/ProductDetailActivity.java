@@ -308,6 +308,21 @@ public class ProductDetailActivity extends AppCompatActivity {
                 if (finalIsSuccessful) {
 
                     reviewsProduct = finalFetchedReviewsProduct;
+
+                    binding.productReviewCount.setText(reviewsProduct.size() + " reviews");
+
+                    int sumRating = 0;
+                    for (int i = 0; i < reviewsProduct.size(); ++i) {
+                        sumRating += reviewsProduct.get(i).getRate();
+                    }
+                    if (sumRating == 0) {
+                        binding.productRate.setText("0");
+                    } else {
+                        binding.productRate.setText(String.format("%.1f", (double)sumRating / reviewsProduct.size()));
+                    }
+
+                    binding.progressBarReview.setVisibility(View.INVISIBLE);
+
                     reviewProductAdapter = new ReviewProductAdapter(this, reviewsProduct);
                     lvReviews.setAdapter(reviewProductAdapter);
 
