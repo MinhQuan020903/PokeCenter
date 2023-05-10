@@ -84,6 +84,8 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
             }
         });
 
+
+
         return binding.getRoot();
     }
 
@@ -199,7 +201,7 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
 
             // Set background color for the selected item
             view.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.lam_background_outline_secondary));
-            myCarts.get(position).setSelectedOption(lvOption.getSelectedItemPosition());
+            myCarts.get(position).setSelectedOption(selectedItemPosition);
 
         });
 

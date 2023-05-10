@@ -270,7 +270,5 @@ public class VenderInformationActivity extends AppCompatActivity implements Poke
             });
 
         }
-
-        binding = null;
     }
 }

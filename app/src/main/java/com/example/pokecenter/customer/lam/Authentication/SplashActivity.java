@@ -34,7 +34,9 @@ public class SplashActivity extends AppCompatActivity {
 
         /* Fetch Products Data */
         ProductData.fetchDataFromSever();
-        WishListData.fetchDataFromSever();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            WishListData.fetchDataFromSever();
+        }
 
         //Create a Timer for the progress bar to run
         Timer timer = new Timer();
@@ -74,7 +76,7 @@ public class SplashActivity extends AppCompatActivity {
         };
 
         // Use the Handler object to post the Runnable object with the specified delay
-        handler.postDelayed(runnable, 1200);
+        handler.postDelayed(runnable, 1100);
     }
 
     void goToNextActivityWith(int role) {
