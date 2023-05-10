@@ -22,6 +22,7 @@ import com.example.pokecenter.admin.AdminActivity;
 import com.example.pokecenter.customer.lam.CustomerActivity;
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
+import com.example.pokecenter.customer.lam.Provider.WishListData;
 import com.example.pokecenter.databinding.ActivitySignInBinding;
 import com.example.pokecenter.vender.VenderActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -125,7 +126,13 @@ public class SignInActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
 
                         if (auth.getCurrentUser().isEmailVerified()) {
-                            determineActivityToNavigateBasedOnRole(email);
+                            WishListData.fetchDataFromSever();
+
+                            Handler handler = new Handler();
+                            handler.postDelayed(() -> {
+                                determineActivityToNavigateBasedOnRole(email);
+                            }, 500);
+
                         } else {
                             Toast.makeText(this, "Please verify your email", Toast.LENGTH_SHORT)
                                     .show();
