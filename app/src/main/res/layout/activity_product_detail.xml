@@ -118,7 +118,7 @@
                             android:id="@+id/product_rate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="4.9"
+                            android:text="0"
                             android:textStyle="bold"
                             android:textSize="16sp"
                             android:textColor="@color/black"/>
@@ -133,7 +133,7 @@
                             android:id="@+id/product_review_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="85 reviews"
+                            android:text="0 reviews"
                             android:textSize="16sp"/>
 
                         <View
@@ -169,7 +169,7 @@
                         android:layout_height="match_parent"
                         android:background="@color/light_canvas"
                         android:paddingVertical="7dp"
-                        android:visibility="visible"/>
+                        android:visibility="invisible"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

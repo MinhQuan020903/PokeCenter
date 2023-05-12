@@ -4,63 +4,87 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
+import com.example.pokecenter.customer.lam.Interface.NotificationRecyclerViewInterface;
+import com.example.pokecenter.customer.lam.Model.notification.Notification;
+import com.example.pokecenter.customer.lam.Model.notification.NotificationAdapter;
+import com.example.pokecenter.databinding.FragmentCustomerNotificationsBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CustomerNotificationsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class CustomerNotificationsFragment extends Fragment {
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class CustomerNotificationsFragment extends Fragment implements NotificationRecyclerViewInterface {
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private FragmentCustomerNotificationsBinding binding;
 
-    public CustomerNotificationsFragment() {
-        // Required empty public constructor
-    }
+    private List<Notification> myNotifications = new ArrayList<>();
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment NotificationsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CustomerNotificationsFragment newInstance(String param1, String param2) {
-        CustomerNotificationsFragment fragment = new CustomerNotificationsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private ListView lvNotifications;
+    private NotificationAdapter notificationAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_customer_notifications, container, false);
+        binding = FragmentCustomerNotificationsBinding.inflate(inflater, container, false);
+
+        /* Set up all notifications */
+        setUpAllNotifications();
+
+        return binding.getRoot();
+    }
+
+    private void setUpAllNotifications() {
+
+        lvNotifications = binding.lvNotifications;
+
+        ExecutorService executor = Executors.newCachedThreadPool();
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        executor.execute(() -> {
+            boolean isSuccessful = true;
+            List<Notification> fetchedNotifications = null;
+            try {
+                fetchedNotifications = new FirebaseSupportCustomer().fetchingAllNotifications();
+            } catch (IOException e) {
+                isSuccessful = false;
+            }
+
+            boolean finalIsSuccessful = isSuccessful;
+            List<Notification> finalFetchedNotifications = fetchedNotifications;
+            handler.post(() -> {
+
+                if (finalIsSuccessful) {
+
+                    myNotifications = finalFetchedNotifications;
+                    notificationAdapter = new NotificationAdapter(getActivity(), myNotifications, this);
+                    lvNotifications.setAdapter(notificationAdapter);
+
+
+                } else {
+                    Toast.makeText(getActivity(), "Failed to connect server", Toast.LENGTH_SHORT).show();
+                }
+
+                binding.progressBar.setVisibility(View.INVISIBLE);
+
+            });
+        });
+
+    }
+
+    @Override
+    public void onNotificationItemClick(int position) {
+
     }
 }

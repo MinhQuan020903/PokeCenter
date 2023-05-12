@@ -274,7 +274,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
         /* ----------------- */
 
-        binding.productDesc.setText(receiveProduct.getDesc());
+        binding.productDesc.setText(receiveProduct.getDesc().replace("\\n", System.getProperty("line.separator")));
 
         /*
         setup snack bar
@@ -321,8 +321,6 @@ public class ProductDetailActivity extends AppCompatActivity {
                         binding.productRate.setText(String.format("%.1f", (double)sumRating / reviewsProduct.size()));
                     }
 
-                    binding.progressBarReview.setVisibility(View.INVISIBLE);
-
                     reviewProductAdapter = new ReviewProductAdapter(this, reviewsProduct);
                     lvReviews.setAdapter(reviewProductAdapter);
 
@@ -345,6 +343,8 @@ public class ProductDetailActivity extends AppCompatActivity {
                     Toast.makeText(this, "Failed to loading reviews product", Toast.LENGTH_SHORT).show();
 
                 }
+
+                // binding.progressBarReview.setVisibility(View.INVISIBLE);
 
             });
         });

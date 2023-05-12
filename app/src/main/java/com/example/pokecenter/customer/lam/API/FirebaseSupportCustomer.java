@@ -7,6 +7,7 @@ import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity;
 import com.example.pokecenter.customer.lam.Model.address.Address;
 import com.example.pokecenter.customer.lam.Model.cart.Cart;
+import com.example.pokecenter.customer.lam.Model.notification.Notification;
 import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.customer.lam.Model.review_product.ReviewProduct;
@@ -22,6 +23,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -692,5 +694,47 @@ public class FirebaseSupportCustomer {
         }
 
         return  fetchedReviewsProduct;
+    }
+
+    public List<Notification> fetchingAllNotifications() throws IOException {
+
+        List<Notification> fetchedNotifications = new ArrayList<>();
+
+        OkHttpClient client = new OkHttpClient();
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Request request = new Request.Builder()
+                .url(urlDb + "customers/" + emailWithCurrentUser.replace(".", ",") + "/notifications.json")
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+
+            String responseString = response.body().string();
+
+            if (responseString.equals("null")) {
+                return new ArrayList<>();
+            }
+
+            Type type = new TypeToken<Map<String, Map<String, Object>>>(){}.getType();
+            Map<String, Map<String, Object>> fetchedData = new Gson().fromJson(responseString, type);
+
+            fetchedData.forEach((key, value) -> {
+                fetchedNotifications.add(new Notification(
+                    key,
+                    (String) value.get("title"),
+                    (String) value.get("content"),
+                    (String) value.get("sentDate"),
+                    (String) value.get("type"),
+                    (Boolean) value.get("read")
+                ));
+            });
+
+        }
+
+        Collections.reverse(fetchedNotifications);
+
+        return fetchedNotifications;
     }
 }
