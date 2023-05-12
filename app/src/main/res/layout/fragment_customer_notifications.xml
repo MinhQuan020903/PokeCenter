@@ -44,7 +44,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="4dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -61,8 +62,8 @@
                         android:layout_height="wrap_content">
 
                         <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:src="@drawable/lam_baseline_circle_24"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -88,6 +89,7 @@
 
 
                 <TextView
+                    android:id="@+id/content_promotion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -123,7 +125,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginBottom="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -146,8 +149,8 @@
                         android:layout_height="wrap_content">
 
                         <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:src="@drawable/lam_baseline_circle_24"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -172,6 +175,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/content_from_pokecenter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -213,6 +217,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:visibility="visible"/>
+        android:visibility="invisible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

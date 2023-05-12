@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
 
 public class CustomerNotificationsFragment extends Fragment implements NotificationRecyclerViewInterface {
 
@@ -59,7 +58,7 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
         });
 
         binding.fromPokecenter.setOnClickListener(view -> {
-            startActivity(new Intent(getActivity(), FromPokeCenterActivity.class));
+            startActivity(new Intent(getActivity(), FromPokeCenterNotificationsActivity.class));
         });
 
         /* Set up all notifications */
@@ -76,8 +75,9 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
         super.onResume();
         if (!isFirst) {
             updateBadge();
-            isFirst = false;
+            notificationAdapter.notifyDataSetChanged();
         }
+        isFirst = false;
     }
 
     private void setUpPopupDialog() {
@@ -133,6 +133,18 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
                             myNotificationsFromPokeCenter.add(notification);
                         }
                     });
+
+                    if (myNotificationsPromotion.size() > 0) {
+                        binding.contentPromotion.setText(myNotificationsPromotion.get(0).getContent().replace("\\n", System.getProperty("line.separator")));
+                    } else {
+
+                    }
+
+                    if (myNotificationsFromPokeCenter.size() > 0) {
+                        binding.contentFromPokecenter.setText(myNotificationsFromPokeCenter.get(0).getContent().replace("\\n", System.getProperty("line.separator")));
+                    } else {
+
+                    }
 
                     updateBadge();
 

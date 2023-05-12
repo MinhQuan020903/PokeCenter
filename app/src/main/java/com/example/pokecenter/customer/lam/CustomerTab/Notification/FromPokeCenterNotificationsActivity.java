@@ -19,18 +19,18 @@ import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.customer.lam.Interface.NotificationRecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.notification.Notification;
 import com.example.pokecenter.customer.lam.Model.notification.NotificationAdapter;
-import com.example.pokecenter.databinding.ActivityPromotionNotificationsBinding;
+import com.example.pokecenter.databinding.ActivityFromPokeCenterNotificationsBinding;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class PromotionNotificationsActivity extends AppCompatActivity implements NotificationRecyclerViewInterface {
+public class FromPokeCenterNotificationsActivity extends AppCompatActivity implements NotificationRecyclerViewInterface {
 
-    private ActivityPromotionNotificationsBinding binding;
+    private ActivityFromPokeCenterNotificationsBinding binding;
 
-    private List<Notification> myNotificationsPromotion = CustomerNotificationsFragment.myNotificationsPromotion;
+    private List<Notification> myNotificationsFromPokeCenter = CustomerNotificationsFragment.myNotificationsFromPokeCenter;
 
     private NotificationAdapter notificationAdapter;
 
@@ -45,13 +45,14 @@ public class PromotionNotificationsActivity extends AppCompatActivity implements
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
 
-        getSupportActionBar().setTitle("Promotion");
+        getSupportActionBar().setTitle("PokeCenter");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        binding = ActivityPromotionNotificationsBinding.inflate(getLayoutInflater());
+
+        binding = ActivityFromPokeCenterNotificationsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        notificationAdapter = new NotificationAdapter(this, myNotificationsPromotion, this);
+        notificationAdapter = new NotificationAdapter(this, myNotificationsFromPokeCenter, this);
         binding.lvNotifications.setAdapter(notificationAdapter);
 
         setUpPopupDialog();
@@ -81,7 +82,7 @@ public class PromotionNotificationsActivity extends AppCompatActivity implements
     @Override
     public void onNotificationItemClick(int position) {
 
-        Notification notification = myNotificationsPromotion.get(position);
+        Notification notification = myNotificationsFromPokeCenter.get(position);
 
         TextView title = dialog.findViewById(R.id.notification_title);
         title.setText(notification.getTitle());

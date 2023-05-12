@@ -91,7 +91,7 @@
             android:name=".customer.lam.CustomerTab.Notification.PromotionNotificationsActivity"
             android:exported="false" />
         <activity
-            android:name=".customer.lam.CustomerTab.Notification.FromPokeCenterActivity"
+            android:name=".customer.lam.CustomerTab.Notification.FromPokeCenterNotificationsActivity"
             android:exported="false" />
     </application>
 
