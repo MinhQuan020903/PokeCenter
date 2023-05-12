@@ -52,8 +52,7 @@
             android:theme="@style/Theme.PokeCenter.NoActionBar" />
         <activity
             android:name=".customer.lam.CustomerTab.Profile.NextActivity.CustomerAccountInfoActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PokeCenter.NoActionBar" />
+            android:exported="false"/>
         <activity
             android:name=".customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity"
             android:exported="false" />
