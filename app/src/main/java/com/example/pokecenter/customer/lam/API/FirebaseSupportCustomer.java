@@ -440,6 +440,7 @@ public class FirebaseSupportCustomer {
             fetchedVender.setAvatar((String) fetchedAccountData.get("avatar"));
             fetchedVender.setPhoneNumber((String) fetchedAccountData.get("phoneNumber"));
             fetchedVender.setBackground((String) fetchedAccountData.get("background"));
+            fetchedVender.setRegistrationDate((String) fetchedAccountData.get("registrationDate"));
 
         } else {
             return null;
@@ -461,7 +462,6 @@ public class FirebaseSupportCustomer {
 
             fetchedVender.setShopName((String) fetchedVenderData.get("shopName"));
             fetchedVender.setFollowCount(((Double) fetchedVenderData.get("followCount")).intValue());
-            fetchedVender.setRegistrationDate((String) fetchedVenderData.get("registrationDate"));
             fetchedVender.setTotalProduct(((Double) fetchedVenderData.get("totalProduct")).intValue());
 
         } else {
