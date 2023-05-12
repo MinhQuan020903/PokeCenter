@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/adminHomeFragment"
+        android:title="Home"
+        android:icon="@drawable/lam_baseline_home_24"/>
+
+    <item android:id="@+id/adminSupportFragment"
+        android:title="Support"
+        android:icon="@drawable/lam_baseline_support_agent_24" />
+
+    <item android:id="@+id/adminNotificationFragment"
+        android:title="Notification"
+        android:icon="@drawable/lam_baseline_notifications_active_24" />
+
+    <item android:id="@+id/adminProfileFragment"
+        android:title="Profile"
+        android:icon="@drawable/lam_baseline_person_24"/>
+</menu>
