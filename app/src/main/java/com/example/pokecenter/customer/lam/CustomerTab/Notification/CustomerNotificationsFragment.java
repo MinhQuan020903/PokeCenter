@@ -47,10 +47,17 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
     private NotificationAdapter notificationAdapter;
 
     private Dialog dialog;
+    private boolean isFirst = true;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        myNotificationsPromotion.clear();
+        myNotificationsFromPokeCenter.clear();
+        isFirst = true;
+
         binding = FragmentCustomerNotificationsBinding.inflate(inflater, container, false);
 
         binding.promotion.setOnClickListener(view -> {
@@ -69,7 +76,6 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
         return binding.getRoot();
     }
 
-    private boolean isFirst = true;
     @Override
     public void onResume() {
         super.onResume();
