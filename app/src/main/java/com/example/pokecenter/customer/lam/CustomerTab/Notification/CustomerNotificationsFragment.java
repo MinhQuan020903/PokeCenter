@@ -1,6 +1,7 @@
-package com.example.pokecenter.customer.lam.CustomerTab;
+package com.example.pokecenter.customer.lam.CustomerTab.Notification;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -39,19 +40,27 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
 
     private List<Notification> myNotifications = new ArrayList<>();
 
-    private List<Notification> myNotificationsPromotion = new ArrayList<>();
+    public static List<Notification> myNotificationsPromotion = new ArrayList<>();
 
-    private List<Notification> myNotificationsFromPokeCenter = new ArrayList<>();
+    public static List<Notification> myNotificationsFromPokeCenter = new ArrayList<>();
 
     private ListView lvNotifications;
     private NotificationAdapter notificationAdapter;
 
-    Dialog dialog;
+    private Dialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentCustomerNotificationsBinding.inflate(inflater, container, false);
+
+        binding.promotion.setOnClickListener(view -> {
+            startActivity(new Intent(getActivity(), PromotionNotificationsActivity.class));
+        });
+
+        binding.fromPokecenter.setOnClickListener(view -> {
+            startActivity(new Intent(getActivity(), FromPokeCenterActivity.class));
+        });
 
         /* Set up all notifications */
         setUpAllNotifications();
@@ -59,6 +68,16 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
         setUpPopupDialog();
 
         return binding.getRoot();
+    }
+
+    private boolean isFirst = true;
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!isFirst) {
+            updateBadge();
+            isFirst = false;
+        }
     }
 
     private void setUpPopupDialog() {
@@ -146,6 +165,8 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
             binding.unreadPromotion.setVisibility(View.GONE);
         }
 
+        /* -------------------------------------------------------------------------------------- */
+
         int countUnreadFromPokeCenter = 0;
 
         for (int i = 0 ; i < myNotificationsFromPokeCenter.size(); ++i) {
@@ -196,7 +217,6 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
 
             updateBadge();
         }
-
 
     }
 }
