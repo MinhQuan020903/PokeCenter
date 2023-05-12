@@ -33,7 +33,7 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
 
         mContext = context;
         mNotifications = notifications;
-
+        this.notificationRecyclerViewInterface = notificationRecyclerViewInterface;
     }
 
     @NonNull

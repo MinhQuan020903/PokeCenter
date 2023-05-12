@@ -1,9 +1,5 @@
 package com.example.pokecenter.customer.lam.API;
 
-import android.os.Handler;
-import android.os.Looper;
-
-import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity;
 import com.example.pokecenter.customer.lam.Model.address.Address;
 import com.example.pokecenter.customer.lam.Model.cart.Cart;
@@ -28,8 +24,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import okhttp3.HttpUrl;
@@ -736,5 +730,24 @@ public class FirebaseSupportCustomer {
         Collections.reverse(fetchedNotifications);
 
         return fetchedNotifications;
+    }
+
+    public void changeStatusNotification(String notificationId) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        Map<String, Boolean> updateData = new HashMap<>();
+        updateData.put("read", true);
+
+        String jsonData = new Gson().toJson(updateData);
+
+        RequestBody body = RequestBody.create(jsonData, JSON);
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Request request = new Request.Builder()
+                .url(urlDb + "customers/" + emailWithCurrentUser.replace(".", ",") + "/notifications/" + notificationId + ".json")
+                .patch(body)
+                .build();
+
+        client.newCall(request).execute();
     }
 }

@@ -1,5 +1,8 @@
 package com.example.pokecenter.customer.lam.CustomerTab;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,7 +12,11 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pokecenter.R;
@@ -24,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 public class CustomerNotificationsFragment extends Fragment implements NotificationRecyclerViewInterface {
 
@@ -31,8 +39,14 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
 
     private List<Notification> myNotifications = new ArrayList<>();
 
+    private List<Notification> myNotificationsPromotion = new ArrayList<>();
+
+    private List<Notification> myNotificationsFromPokeCenter = new ArrayList<>();
+
     private ListView lvNotifications;
     private NotificationAdapter notificationAdapter;
+
+    Dialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,7 +56,29 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
         /* Set up all notifications */
         setUpAllNotifications();
 
+        setUpPopupDialog();
+
         return binding.getRoot();
+    }
+
+    private void setUpPopupDialog() {
+
+        dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.lam_dialog_notification);
+
+        Window window = dialog.getWindow();
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        /*
+         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); khá quan trọng. THỬ BỎ ĐI SẼ HIỂU =)))
+         nếu bỏ dòng này đi thì các thuộc tính của LinearLayout mẹ trong todo_dialog.xml sẽ mất hết
+         thay vào đó sẽ là thuộc tính mặc định của dialog, còn nội dung vẫn giữ nguyên
+         */
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        Button okButton = dialog.findViewById(R.id.ok_button);
+        okButton.setOnClickListener(view -> {
+            dialog.dismiss();
+        });
     }
 
     private void setUpAllNotifications() {
@@ -71,6 +107,15 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
                     notificationAdapter = new NotificationAdapter(getActivity(), myNotifications, this);
                     lvNotifications.setAdapter(notificationAdapter);
 
+                    myNotifications.forEach(notification -> {
+                        if (notification.getType().equals("promotion")) {
+                            myNotificationsPromotion.add(notification);
+                        } else {
+                            myNotificationsFromPokeCenter.add(notification);
+                        }
+                    });
+
+                    updateBadge();
 
                 } else {
                     Toast.makeText(getActivity(), "Failed to connect server", Toast.LENGTH_SHORT).show();
@@ -83,8 +128,75 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
 
     }
 
+    private void updateBadge() {
+
+        int countUnreadPromotion = 0;
+
+        for (int i = 0 ; i < myNotificationsPromotion.size(); ++i) {
+            if (!myNotificationsPromotion.get(i).isRead()) {
+                countUnreadPromotion++;
+            }
+        }
+
+        if (countUnreadPromotion > 0) {
+
+            binding.unreadCountPromotion.setText(String.valueOf(countUnreadPromotion));
+
+        } else {
+            binding.unreadPromotion.setVisibility(View.GONE);
+        }
+
+        int countUnreadFromPokeCenter = 0;
+
+        for (int i = 0 ; i < myNotificationsFromPokeCenter.size(); ++i) {
+            if (!myNotificationsFromPokeCenter.get(i).isRead()) {
+                countUnreadFromPokeCenter++;
+            }
+        }
+
+        if (countUnreadFromPokeCenter > 0) {
+
+            binding.unreadCountFromPokecenter.setText(String.valueOf(countUnreadFromPokeCenter));
+
+        } else {
+            binding.unreadFromPokecenter.setVisibility(View.GONE);
+        }
+
+    }
+
     @Override
     public void onNotificationItemClick(int position) {
+
+        Notification notification = myNotifications.get(position);
+
+        TextView title = dialog.findViewById(R.id.notification_title);
+        title.setText(notification.getTitle());
+
+        TextView content = dialog.findViewById(R.id.notification_content);
+        content.setText(notification.getContent().replace("\\n", System.getProperty("line.separator")));
+
+        TextView sentDate = dialog.findViewById(R.id.sentDate);
+        sentDate.setText(notification.getSentDate());
+
+
+        dialog.show();
+
+        if (!notification.isRead()) {
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            executor.execute(() -> {
+                try {
+                    new FirebaseSupportCustomer().changeStatusNotification(notification.getId());
+                } catch (IOException e) {
+
+                }
+            });
+
+            notification.setRead(true);
+            notificationAdapter.notifyDataSetChanged();
+
+            updateBadge();
+        }
+
 
     }
 }
