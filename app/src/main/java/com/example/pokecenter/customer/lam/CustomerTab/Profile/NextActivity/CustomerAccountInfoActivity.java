@@ -17,12 +17,19 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
+import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.databinding.ActivityCustomerAccountInfoBinding;
 import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -112,9 +119,55 @@ public class CustomerAccountInfoActivity extends AppCompatActivity {
 
         executor.execute(() -> {
 
+            Account fetchedAccountInfo = null;
+            boolean isSuccessful = true;
 
+            try {
+                fetchedAccountInfo = new FirebaseSupportAccount().fetchingCurrentAccount();
+            } catch (IOException e) {
+                isSuccessful = false;
+            }
+
+            boolean finalIsSuccessful = isSuccessful;
+            Account finalFetchedAccountInfo = fetchedAccountInfo;
             handler.post(() -> {
+                if (finalIsSuccessful) {
 
+                    currentAccount = finalFetchedAccountInfo;
+                    Picasso.get().load(currentAccount.getAvatar()).into(binding.customerAvatar);
+
+                    binding.username.setText(currentAccount.getUsername());
+                    binding.email.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+
+                    if (currentAccount.getGender().equals("male")) {
+
+                        binding.genderBoy.setTextColor(getColor(R.color.white));
+                        binding.genderBoy.setBackground(getDrawable(R.drawable.lam_background_raised_secondary_corner_8));
+                        binding.genderBoy.setTypeface(null, Typeface.BOLD);
+
+                    } else {
+
+                        binding.genderGirl.setTextColor(getColor(R.color.white));
+                        binding.genderGirl.setBackground(getDrawable(R.drawable.lam_background_raised_secondary_corner_8));
+                        binding.genderGirl.setTypeface(null, Typeface.BOLD);
+
+                    }
+
+                    binding.phoneNumber.setText(currentAccount.getPhoneNumber());
+
+                    binding.registrationDate.setText(currentAccount.getRegistrationDate());
+
+                    binding.saveButton.setOnClickListener(view -> {
+
+                        binding.saveButton.setVisibility(View.GONE);
+                        binding.progressBarSaveInfor.setVisibility(View.VISIBLE);
+
+                    });
+
+                } else {
+                    Toast.makeText(this, "Failed to load account information", Toast.LENGTH_SHORT)
+                            .show();
+                }
 
                 binding.progressBar.setVisibility(View.INVISIBLE);
             });
