@@ -9,15 +9,7 @@ import com.example.pokecenter.admin.Quan.AdminTab.Home.AdminHomeFragment;
 import com.example.pokecenter.admin.Quan.AdminTab.Notification.AdminNotificationFragment;
 import com.example.pokecenter.admin.Quan.AdminTab.Profile.AdminProfileFragment;
 import com.example.pokecenter.admin.Quan.AdminTab.Support.AdminSupportFragment;
-import com.example.pokecenter.customer.lam.CustomerTab.Cart.CustomerShoppingCartFragment;
-import com.example.pokecenter.customer.lam.CustomerTab.CustomerOrdersFragment;
-import com.example.pokecenter.customer.lam.CustomerTab.Home.CustomerHomeFragment;
-import com.example.pokecenter.customer.lam.CustomerTab.Notification.CustomerNotificationsFragment;
-import com.example.pokecenter.customer.lam.CustomerTab.Profile.CustomerProfileFragment;
 import com.example.pokecenter.databinding.ActivityAdminBinding;
-import com.example.pokecenter.databinding.ActivityCustomerBinding;
-import com.example.pokecenter.vender.Ninh.VenderTab.Home.VenderHomeFragment;
-import com.example.pokecenter.vender.Ninh.VenderTab.Home.VenderStatisticsFragment;
 
 import android.os.Build;
 import android.os.Bundle;

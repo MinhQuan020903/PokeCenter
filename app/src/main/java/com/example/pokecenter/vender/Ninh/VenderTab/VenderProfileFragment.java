@@ -32,7 +32,7 @@ FragmentVenderProfileBinding binding;
             FollowData.hasData = false;
             WishListData.hasData = false;
         });
-        return inflater.inflate(R.layout.fragment_vender_profile, container, false);
+        return binding.getRoot();
 
     }
 }

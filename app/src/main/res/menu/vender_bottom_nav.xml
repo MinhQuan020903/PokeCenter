@@ -2,7 +2,7 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/venderPaymentNav"
+    <item android:id="@+id/venderOrderNav"
         android:title="Order"
         android:icon="@drawable/ninh_vender_order_icon"/>
 
@@ -14,7 +14,7 @@
         android:title="Home"
         android:icon="@drawable/ninh_vender_home_icon"/>
 
-    <item android:id="@+id/venderSupportNav"
+    <item android:id="@+id/venderChatNav"
         android:title="Chat"
         android:icon="@drawable/ninh_vender_chat_icon" />
 
