@@ -1,5 +1,6 @@
 package com.example.pokecenter.customer.lam.API;
 
+import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.PokedexActivity;
 import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
 import com.example.pokecenter.customer.lam.Model.pokemon.PokemonAdapter;
 
@@ -17,9 +18,6 @@ import java.util.Scanner;
 
 public class PokeApiFetcher {
     public static ArrayList<Pokemon> pokemonHomeDemoData = new ArrayList<>();
-
-    public static ArrayList<Pokemon> pokeDexDemoData =  new ArrayList<>();
-
     public static ArrayList<Pokemon> pokemonSearchData = new ArrayList<>();
     public static Pokemon fetchPokemonRandom() {
         try {
@@ -51,7 +49,7 @@ public class PokeApiFetcher {
             JSONArray types = data.getJSONArray("types");
             String type = types.getJSONObject(0).getJSONObject("type").getString("name");
 
-            Pokemon fetchedPokemon = new Pokemon(normalizeName, imageUrl, type);
+            Pokemon fetchedPokemon = new Pokemon(randomPokemonId, normalizeName, imageUrl, type);
 
             pokemonHomeDemoData.add(fetchedPokemon);
 
@@ -99,7 +97,7 @@ public class PokeApiFetcher {
 
             String normalizeName = name.substring(0, 1).toUpperCase() + name.substring(1);
 
-            Pokemon fetchedPokemon = new Pokemon(normalizeName, imageUrl, type);
+            Pokemon fetchedPokemon = new Pokemon(pokemonId, normalizeName, imageUrl, type);
 
             pokemonSearchData.add(fetchedPokemon);
 
@@ -117,9 +115,9 @@ public class PokeApiFetcher {
 
     }
 
-    public static Pokemon fetchPokemonById(int Id) {
+    public static Pokemon fetchPokemonById(int id) {
         try {
-            URL url = new URL("https://pokeapi.co/api/v2/pokemon/" + Id);
+            URL url = new URL("https://pokeapi.co/api/v2/pokemon/" + id);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.connect();
@@ -141,16 +139,14 @@ public class PokeApiFetcher {
             JSONObject data = new JSONObject(inline);
             String pokemonName = data.getString("name");
 
-            String imageUrl = String.format("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/%d.png", Id);
+            String imageUrl = String.format("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/%d.png", id);
 
             JSONArray types = data.getJSONArray("types");
             String type = types.getJSONObject(0).getJSONObject("type").getString("name");
 
             String normalizeName = pokemonName.substring(0, 1).toUpperCase() + pokemonName.substring(1);
 
-            Pokemon fetchedPokemon = new Pokemon(normalizeName, imageUrl, type);
-
-            pokeDexDemoData.add(fetchedPokemon);
+            Pokemon fetchedPokemon = new Pokemon(id, normalizeName, imageUrl, type);
 
             return fetchedPokemon;
 

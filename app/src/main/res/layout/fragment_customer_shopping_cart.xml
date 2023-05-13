@@ -1,17 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".customer.lam.CustomerTab.CustomerShoppingCartFragment">
+    android:background="@color/light_canvas"
+    android:paddingTop="16dp">
 
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Shopping Cart"
-        android:textSize="24sp"/>
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvCarts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            tools:listitem="@layout/lam_cart_item"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/inform_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="40dp"
+            android:textAlignment="center"
+            tools:text="You haven't added anything to your cart."
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="invisible"/>
+
+        <View
+            android:id="@+id/progress_bar_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#AAFFFFFF"
+            android:visibility="invisible"
+            />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="176dp"
+            android:visibility="visible"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_horizontal">
+            <ImageView
+                android:id="@+id/shoppingCartButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/lam_money_32"
+                android:backgroundTint="@color/white"
+                android:paddingHorizontal="12dp"/>
+
+            <TextView
+                android:id="@+id/total_price"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                tools:text="174.000 đ"
+                android:textStyle="bold"
+                android:textColor="@color/light_secondary"
+                android:textSize="18sp"
+                android:gravity="center_vertical|center_horizontal"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"/>
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/checkout_button"
+            android:layout_width="140dp"
+            android:layout_height="match_parent"
+            android:text="Checkout"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:background="@color/light_secondary"
+            android:textSize="18sp"
+            android:gravity="center_vertical|center_horizontal"
+            android:clickable="false"
+            android:foreground="?android:attr/selectableItemBackground"/>
+
+    </LinearLayout>
+
 </LinearLayout>
