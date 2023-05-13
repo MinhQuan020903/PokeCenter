@@ -30,10 +30,12 @@
             android:id="@+id/signUpTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="12dp"
+            android:layout_marginBottom="12dp"
             android:text="Sign Up"
             android:textColor="@color/light_primary"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"/>
 
         <ImageView
             android:layout_width="match_parent"
@@ -136,8 +138,10 @@
         android:layout_height="wrap_content"
         android:text="Forgot password?"
         android:textColor="@color/light_primary"
-        android:paddingVertical="10dp"
-        android:layout_gravity="end"/>
+        android:layout_marginVertical="10dp"
+        android:layout_gravity="end"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"/>
 
 
 

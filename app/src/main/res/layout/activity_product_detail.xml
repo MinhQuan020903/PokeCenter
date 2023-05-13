@@ -39,7 +39,8 @@
                     app:sliderIndicatorSelectedColor="@color/light_secondary"
                     app:sliderIndicatorUnselectedColor="@color/light_canvas"
                     app:sliderScrollTimeInSec="2"
-                    app:sliderStartAutoCycle="true" />
+                    app:sliderStartAutoCycle="true"
+                    android:layout_marginBottom="10dp"/>
 
                 <TextView
                     android:id="@+id/productName"
@@ -96,67 +97,82 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
+                    android:layout_height="56dp"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginBottom="20dp">
 
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@drawable/lam_star_32"
-                        android:layout_marginEnd="8dp"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical">
 
-                    <TextView
-                        android:id="@+id/product_rate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="4.9"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
-                        android:textColor="@color/black"/>
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@drawable/lam_star_32"
+                            android:layout_marginEnd="8dp"/>
 
-                    <View
-                        android:layout_width="2dp"
-                        android:layout_height="20dp"
-                        android:background="@android:color/darker_gray"
-                        android:layout_marginHorizontal="18dp"/>
+                        <TextView
+                            android:id="@+id/product_rate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textStyle="bold"
+                            android:textSize="16sp"
+                            android:textColor="@color/black"/>
 
-                    <TextView
-                        android:id="@+id/product_review_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="85 reviews"
-                        android:textSize="16sp"/>
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="20dp"
+                            android:background="@android:color/darker_gray"
+                            android:layout_marginHorizontal="18dp"/>
 
-                    <View
-                        android:layout_width="2dp"
-                        android:layout_height="20dp"
-                        android:background="@android:color/darker_gray"
-                        android:layout_marginHorizontal="16dp"/>
+                        <TextView
+                            android:id="@+id/product_review_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0 reviews"
+                            android:textSize="16sp"/>
 
-                    <TextView
-                        android:id="@+id/product_sold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="Sold 20"
-                        android:textSize="16sp"/>
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="20dp"
+                            android:background="@android:color/darker_gray"
+                            android:layout_marginHorizontal="16dp"/>
 
-                    <View
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
+                        <TextView
+                            android:id="@+id/product_sold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="Sold 20"
+                            android:textSize="16sp"/>
 
-                    <ImageButton
-                        android:id="@+id/favoriteButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/lam_baseline_favorite_border_28"
-                        android:backgroundTint="@color/light_canvas"/>
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
 
-                </LinearLayout>
+                        <ImageButton
+                            android:id="@+id/favoriteButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/lam_baseline_favorite_border_28"
+                            android:backgroundTint="@color/light_canvas"/>
+
+                    </LinearLayout>
+
+                    <ProgressBar
+                        android:id="@+id/progress_bar_review"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/light_canvas"
+                        android:paddingVertical="7dp"
+                        android:visibility="invisible"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 <!-- Vender -->
                 <androidx.constraintlayout.widget.ConstraintLayout

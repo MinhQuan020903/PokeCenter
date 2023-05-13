@@ -1,11 +1,16 @@
 package com.example.pokecenter.customer.lam.API;
 
-import com.example.pokecenter.customer.lam.Model.address.Address;
+import com.example.pokecenter.customer.lam.Model.account.Account;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,7 +50,7 @@ public class FirebaseSupportAccount {
         Response response = client.newCall(request).execute();
     }
 
-    public void addNewAccount(String email, String username, int role) {
+    public void addNewAccount(String email, String username, int role, String gender) {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference usersRef = database.getReference("accounts");
@@ -53,6 +58,12 @@ public class FirebaseSupportAccount {
         Map<String, Object> user = new HashMap<>();
         user.put("username", username);
         user.put("role", role);
+        user.put("gender", gender);
+        user.put("phoneNumber", "");
+        user.put("avatar", "https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png");
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        user.put("registrationDate", dateFormat.format(Calendar.getInstance().getTime()));
 
         usersRef.child(email.replace(".", ",")).setValue(user);
     }
@@ -89,6 +100,37 @@ public class FirebaseSupportAccount {
 
 
         return role;
+    }
+
+    public Account fetchingCurrentAccount() throws IOException {
+
+        Account fetchedAccount = new Account();
+
+        OkHttpClient client = new OkHttpClient();
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Request request = new Request.Builder()
+                .url(urlDb + "accounts/" + emailWithCurrentUser.replace(".", ",") + ".json")
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+
+            String responseBody = response.body().string();
+
+            Type type = new TypeToken<Map<String, Object>>(){}.getType();
+            Map<String, Object> fetchedData = new Gson().fromJson(responseBody, type);
+
+            fetchedAccount.setAvatar((String) fetchedData.get("avatar"));
+            fetchedAccount.setUsername((String) fetchedData.get("username"));
+            fetchedAccount.setGender((String) fetchedData.get("gender"));
+            fetchedAccount.setPhoneNumber((String) fetchedData.get("phoneNumber"));
+            fetchedAccount.setRegistrationDate((String) fetchedData.get("registrationDate"));
+
+        }
+
+        return fetchedAccount;
     }
 
 }

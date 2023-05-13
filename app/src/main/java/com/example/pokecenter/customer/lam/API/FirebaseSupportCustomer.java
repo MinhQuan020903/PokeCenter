@@ -1,12 +1,9 @@
 package com.example.pokecenter.customer.lam.API;
 
-import android.os.Handler;
-import android.os.Looper;
-
-import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity;
 import com.example.pokecenter.customer.lam.Model.address.Address;
 import com.example.pokecenter.customer.lam.Model.cart.Cart;
+import com.example.pokecenter.customer.lam.Model.notification.Notification;
 import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.customer.lam.Model.review_product.ReviewProduct;
@@ -22,12 +19,11 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import okhttp3.HttpUrl;
@@ -444,6 +440,7 @@ public class FirebaseSupportCustomer {
             fetchedVender.setAvatar((String) fetchedAccountData.get("avatar"));
             fetchedVender.setPhoneNumber((String) fetchedAccountData.get("phoneNumber"));
             fetchedVender.setBackground((String) fetchedAccountData.get("background"));
+            fetchedVender.setRegistrationDate((String) fetchedAccountData.get("registrationDate"));
 
         } else {
             return null;
@@ -465,7 +462,6 @@ public class FirebaseSupportCustomer {
 
             fetchedVender.setShopName((String) fetchedVenderData.get("shopName"));
             fetchedVender.setFollowCount(((Double) fetchedVenderData.get("followCount")).intValue());
-            fetchedVender.setRegistrationDate((String) fetchedVenderData.get("registrationDate"));
             fetchedVender.setTotalProduct(((Double) fetchedVenderData.get("totalProduct")).intValue());
 
         } else {
@@ -692,5 +688,66 @@ public class FirebaseSupportCustomer {
         }
 
         return  fetchedReviewsProduct;
+    }
+
+    public List<Notification> fetchingAllNotifications() throws IOException {
+
+        List<Notification> fetchedNotifications = new ArrayList<>();
+
+        OkHttpClient client = new OkHttpClient();
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Request request = new Request.Builder()
+                .url(urlDb + "customers/" + emailWithCurrentUser.replace(".", ",") + "/notifications.json")
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+
+            String responseString = response.body().string();
+
+            if (responseString.equals("null")) {
+                return new ArrayList<>();
+            }
+
+            Type type = new TypeToken<Map<String, Map<String, Object>>>(){}.getType();
+            Map<String, Map<String, Object>> fetchedData = new Gson().fromJson(responseString, type);
+
+            fetchedData.forEach((key, value) -> {
+                fetchedNotifications.add(new Notification(
+                    key,
+                    (String) value.get("title"),
+                    (String) value.get("content"),
+                    (String) value.get("sentDate"),
+                    (String) value.get("type"),
+                    (Boolean) value.get("read")
+                ));
+            });
+
+        }
+
+        Collections.reverse(fetchedNotifications);
+
+        return fetchedNotifications;
+    }
+
+    public void changeStatusNotification(String notificationId) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        Map<String, Boolean> updateData = new HashMap<>();
+        updateData.put("read", true);
+
+        String jsonData = new Gson().toJson(updateData);
+
+        RequestBody body = RequestBody.create(jsonData, JSON);
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Request request = new Request.Builder()
+                .url(urlDb + "customers/" + emailWithCurrentUser.replace(".", ",") + "/notifications/" + notificationId + ".json")
+                .patch(body)
+                .build();
+
+        client.newCall(request).execute();
     }
 }

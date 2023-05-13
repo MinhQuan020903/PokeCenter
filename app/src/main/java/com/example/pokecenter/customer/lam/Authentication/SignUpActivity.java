@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,9 +35,19 @@ public class SignUpActivity extends AppCompatActivity {
 
     private int role = 0;
 
+    private String gender = "male";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Window window = getWindow();
+            // change StatusBarColor
+            window.setStatusBarColor(getColor(R.color.white));
+            // change color of icons in status bar
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
 
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
 
@@ -79,6 +91,27 @@ public class SignUpActivity extends AppCompatActivity {
             role = 1;
         });
 
+        ImageView genderBoy = binding.genderBoy;
+        ImageView genderGirl = binding.genderGirl;
+
+        genderBoy.setOnClickListener(view -> {
+
+            genderBoy.setBackground(getDrawable(R.drawable.lam_background_outline_secondary_corner_8));
+            genderGirl.setBackground(getDrawable(R.drawable.lam_background_white_border_1_corner_8));
+
+            gender = "male";
+
+        });
+
+        genderGirl.setOnClickListener(view -> {
+
+            genderBoy.setBackground(getDrawable(R.drawable.lam_background_white_border_1_corner_8));
+            genderGirl.setBackground(getDrawable(R.drawable.lam_background_outline_secondary_corner_8));
+
+            gender = "female";
+
+        });
+
         setContentView(binding.getRoot());
     }
 
@@ -108,7 +141,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                         /* Save User Info */
                         /* Cách 1 */
-                        new FirebaseSupportAccount().addNewAccount(email, username, role);
+                        new FirebaseSupportAccount().addNewAccount(email, username, role, gender);
 
                         /* Cách 2: Using API + new Thread
                         ExecutorService executor = Executors.newSingleThreadExecutor();
