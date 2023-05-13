@@ -29,7 +29,6 @@ FragmentVenderProfileBinding binding;
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(getActivity(), SignInActivity.class));
             getActivity().finishAffinity();
-
             FollowData.hasData = false;
             WishListData.hasData = false;
         });
