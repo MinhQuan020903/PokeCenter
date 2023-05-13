@@ -38,7 +38,7 @@
 
 
 
-    <TextView
+    <EditText
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,10 +46,12 @@
         android:textColor="@color/black"
         android:textStyle="bold"
         android:textSize="20sp"
+        android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/constraint_layout_avatar"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:imeOptions="actionDone"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -194,7 +196,7 @@
         android:layout_height="match_parent"
         android:paddingHorizontal="176dp"
         android:background="@color/white"
-        android:visibility="invisible"/>
+        android:visibility="visible"/>
 
     <ImageView
         android:layout_width="300dp"

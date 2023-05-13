@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -15,7 +16,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,8 +34,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import kotlin.Unit;
 
@@ -40,6 +48,8 @@ public class CustomerAccountInfoActivity extends AppCompatActivity {
     private ActivityCustomerAccountInfoBinding binding;
 
     private Account currentAccount;
+
+    InputMethodManager inputMethodManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +65,8 @@ public class CustomerAccountInfoActivity extends AppCompatActivity {
 
         binding = ActivityCustomerAccountInfoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
         fetchingAndSetupData();
 
@@ -85,6 +97,34 @@ public class CustomerAccountInfoActivity extends AppCompatActivity {
             currentAccount.setGender("female");
         });
 
+        binding.phoneNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+                    String inputPhoneNumber = binding.phoneNumber.getText().toString();
+                    // define the regular expression for Vietnamese phone numbers
+                    Pattern pattern = Pattern.compile("(\\d{4})(\\d{3})(\\d{3})");
+                    Matcher matcher = pattern.matcher(inputPhoneNumber);
+                    if (matcher.matches()) {
+                        // format the phone number using dots or spaces
+                        // String formattedPhoneNumber = matcher.group(1) + "." + matcher.group(2) + "." + matcher.group(3);
+                        String formattedPhoneNumber = matcher.group(1) + " " + matcher.group(2) + " " + matcher.group(3);
+
+                        // print the formatted phone number
+                        binding.phoneNumber.setText(formattedPhoneNumber);
+                    }
+
+                    binding.phoneNumber.clearFocus();
+                    inputMethodManager.hideSoftInputFromWindow(textView.getWindowToken(), 0);
+
+                    return true;
+                }
+                return false;
+
+            }
+        });
 
 
 
@@ -109,6 +149,48 @@ public class CustomerAccountInfoActivity extends AppCompatActivity {
 //            }
 //        });
 //
+
+    }
+
+    private void updateAccountInfoToServer() {
+
+        binding.saveButton.setVisibility(View.GONE);
+        binding.progressBarSaveInfor.setVisibility(View.VISIBLE);
+
+        currentAccount.setUsername(binding.username.getText().toString());
+        currentAccount.setPhoneNumber(binding.phoneNumber.getText().toString());
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        executor.execute(() -> {
+            boolean isSuccessful = true;
+
+            try {
+                new FirebaseSupportAccount().updateAccountInfo(currentAccount);
+            } catch (IOException e) {
+                isSuccessful = false;
+            }
+
+            boolean finalIsSuccessful = isSuccessful;
+
+            handler.post(() -> {
+                if (finalIsSuccessful) {
+
+                    Toast.makeText(this, "Update Information Successful", Toast.LENGTH_SHORT)
+                            .show();
+                    finish();
+
+                } else {
+                    Toast.makeText(this, "Update information failed", Toast.LENGTH_SHORT)
+                            .show();
+                }
+
+                binding.saveButton.setVisibility(View.VISIBLE);
+                binding.progressBarSaveInfor.setVisibility(View.GONE);
+            });
+
+        });
 
     }
 
@@ -159,13 +241,17 @@ public class CustomerAccountInfoActivity extends AppCompatActivity {
 
                     binding.saveButton.setOnClickListener(view -> {
 
-                        binding.saveButton.setVisibility(View.GONE);
-                        binding.progressBarSaveInfor.setVisibility(View.VISIBLE);
+                        if (getCurrentFocus() != null) {
+                            getCurrentFocus().clearFocus();
+                        }
 
+                        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+                        updateAccountInfoToServer();
                     });
 
                 } else {
-                    Toast.makeText(this, "Failed to load account information", Toast.LENGTH_SHORT)
+                    Toast.makeText(this, "Failed to load account information", Toast.LENGTH_LONG)
                             .show();
                 }
 
