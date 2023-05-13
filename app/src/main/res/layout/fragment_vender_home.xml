@@ -374,12 +374,12 @@ tools:context=".vender.Ninh.VenderTab.Home.VenderHomeFragment">
                         <ImageView
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            android:src="@drawable/ninh_calendar_function"
+                            android:src="@drawable/tin_vender_home_product"
                             android:layout_marginBottom="8dp"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Calendar"
+                            android:text="Product"
                             android:textStyle="bold"
                             android:textColor="@color/black"/>
                     </LinearLayout>
