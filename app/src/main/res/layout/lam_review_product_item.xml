@@ -14,7 +14,8 @@
         android:layout_height="80dp"
         app:shapeAppearanceOverlay="@style/circleImageView"
         android:src="@drawable/lam_totoro"
-        android:layout_marginEnd="16dp"/>
+        android:layout_marginEnd="16dp"
+        android:scaleType="centerCrop"/>
 
     <LinearLayout
         android:layout_width="match_parent"
