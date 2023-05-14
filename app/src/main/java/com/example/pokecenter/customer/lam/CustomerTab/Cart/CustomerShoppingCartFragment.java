@@ -203,6 +203,8 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
             view.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.lam_background_outline_secondary));
             myCarts.get(position).setSelectedOption(selectedItemPosition);
 
+
+
         });
 
         Button okButton = dialog.findViewById(R.id.okButton);
@@ -210,6 +212,10 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
 
             dialog.dismiss();
             cartAdapter.notifyItemChanged(position);
+
+            if (myCarts.get(position).isChecked()) {
+                calculatePrice();
+            }
 
         });
 

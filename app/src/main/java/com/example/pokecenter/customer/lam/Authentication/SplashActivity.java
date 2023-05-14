@@ -6,10 +6,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.widget.Toast;
 
 import com.example.pokecenter.admin.AdminActivity;
+import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
 import com.example.pokecenter.customer.lam.CustomerActivity;
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.CustomerProfileFragment;
+import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.customer.lam.Provider.ProductData;
 import com.example.pokecenter.customer.lam.Provider.WishListData;
 import com.example.pokecenter.databinding.ActivitySplashScreenBinding;
@@ -17,8 +22,11 @@ import com.example.pokecenter.vender.VenderActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -66,7 +74,32 @@ public class SplashActivity extends AppCompatActivity {
                 } else {
 
                     SharedPreferences sharedPreferences = getSharedPreferences("myPref", MODE_PRIVATE);
-                    goToNextActivityWith(sharedPreferences.getInt("role", -1));
+
+                    ExecutorService executor = Executors.newSingleThreadExecutor();
+                    Handler handler = new Handler(Looper.getMainLooper());
+
+                    executor.execute(() -> {
+
+                                Account fetchedAccountInfo = null;
+                                boolean isSuccessful = true;
+
+                                try {
+                                    fetchedAccountInfo = new FirebaseSupportAccount().fetchingCurrentAccount();
+                                } catch (IOException e) {
+                                    isSuccessful = false;
+                                }
+
+                                boolean finalIsSuccessful = isSuccessful;
+                                Account finalFetchedAccountInfo = fetchedAccountInfo;
+                                handler.post(() -> {
+                                    if (finalIsSuccessful) {
+                                        goToNextActivityWith(sharedPreferences.getInt("role", -1));
+                                        CustomerProfileFragment.currentAccount = finalFetchedAccountInfo;
+                                    } else {
+                                        Toast.makeText(SplashActivity.this, "Failed to connect server", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            });
 
                 }
 
