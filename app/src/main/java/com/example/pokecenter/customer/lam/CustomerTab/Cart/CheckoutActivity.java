@@ -1,6 +1,8 @@
 package com.example.pokecenter.customer.lam.CustomerTab.Cart;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -25,17 +27,32 @@ import com.example.pokecenter.customer.lam.Interface.AddressRecyclerViewInterfac
 import com.example.pokecenter.customer.lam.Model.address.Address;
 import com.example.pokecenter.customer.lam.Model.address.AddressArrayAdapter;
 import com.example.pokecenter.customer.lam.Model.cart.Cart;
+import com.example.pokecenter.customer.lam.Model.checkout_item.CheckoutItem;
+import com.example.pokecenter.customer.lam.Model.checkout_item.CheckoutProductAdapter;
+import com.example.pokecenter.customer.lam.Model.option.Option;
+import com.example.pokecenter.customer.lam.Model.review_product.ReviewProductAdapter;
 import com.example.pokecenter.databinding.ActivityCheckoutBinding;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class CheckoutActivity extends AppCompatActivity implements AddressRecyclerViewInterface {
 
     private ActivityCheckoutBinding binding;
+
+    private List<CheckoutItem> checkoutItemList;
+    private RecyclerView rcv_checkout;
+    private CheckoutProductAdapter checkoutProductAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +78,95 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
         Cart orderNowCart = (Cart) getIntent().getSerializableExtra("orderNowCart");
         List<Cart> checkedCarts = (List<Cart>) getIntent().getSerializableExtra("checkedCarts");
 
+        if (checkedCarts == null) {
+            checkedCarts = new ArrayList<>();
+            checkedCarts.add(orderNowCart);
+        }
+
+        setUpCheckoutRecyclerView(checkedCarts);
+
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+
+        int subTotal = subTotal();
+        int voucherValue = 0;
+        int deliveryCharge = 40000 * countShop();
+        binding.subTotal.setText(currencyFormatter.format(subTotal));
+        binding.voucherValue.setText(currencyFormatter.format(voucherValue));
+        binding.deliveryCharge.setText(currencyFormatter.format(deliveryCharge));
+        binding.total.setText(currencyFormatter.format(subTotal - voucherValue + deliveryCharge));
+
 
         /* Delivery Address logic */
         deliveryAddressLogic();
+
+    }
+
+    private int countShop() {
+
+        Map<String, Boolean> tick = new HashMap<>();
+        int count = 0;
+
+        for (int i = 0; i < checkoutItemList.size(); ++i) {
+            if (!tick.containsKey(checkoutItemList.get(i).getVenderId())) {
+                count++;
+                tick.put(checkoutItemList.get(i).getVenderId(), true);
+            }
+        }
+        return count;
+    }
+
+    private int subTotal() {
+
+        int total = 0;
+        for (int i = 0; i < checkoutItemList.size(); ++i) {
+            total += checkoutItemList.get(i).getPrice() * checkoutItemList.get(i).getQuantity();
+        }
+
+        return total;
+    }
+
+    private void setUpCheckoutRecyclerView(List<Cart> checkedCarts) {
+
+        rcv_checkout = binding.rcvCheckout;
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        rcv_checkout.setLayoutManager(linearLayoutManager);
+
+        checkoutItemList = checkedCarts.stream().map(cart -> {
+                    CheckoutItem item = new CheckoutItem();
+
+                    item.setName(cart.getProduct().getName());
+
+                    if (cart.getProduct().getOptions().size() == 1) {
+                        item.setImage(cart.getProduct().getImages().get(0));
+
+                    } else {
+
+                        Option selectedOption = cart.getProduct().getOptions().get(cart.getSelectedOption());
+                        if (selectedOption.getOptionImage().isEmpty()) {
+                            item.setImage(cart.getProduct().getImages().get(0));
+                        } else {
+                            item.setImage(selectedOption.getOptionImage());
+                        }
+                    }
+
+                    item.setSelectedOption(cart.getProduct().getOptions().get(cart.getSelectedOption()).getOptionName());
+                    item.setPrice(cart.getProduct().getOptions().get(cart.getSelectedOption()).getPrice());
+                    item.setQuantity(cart.getQuantity());
+
+                    item.setVenderId(cart.getProduct().getVenderId());
+
+                    return item;
+                }
+        ).collect(Collectors.toList());
+
+        checkoutProductAdapter = new CheckoutProductAdapter(this, checkoutItemList);
+        rcv_checkout.setAdapter(checkoutProductAdapter);
+
+        ViewGroup.LayoutParams params = rcv_checkout.getLayoutParams();
+        params.height = (checkoutProductAdapter.getItemCount() - 1) * 350 + 366;
+
+        rcv_checkout.setLayoutParams(params);
 
     }
 
@@ -111,7 +214,7 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
 
                 }
 
-                binding.progressBar.setVisibility(View.INVISIBLE);
+                binding.progressBarLoading.setVisibility(View.INVISIBLE);
             });
         });
 

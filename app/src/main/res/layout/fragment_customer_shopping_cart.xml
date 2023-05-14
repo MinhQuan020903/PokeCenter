@@ -95,7 +95,7 @@
             android:id="@+id/checkout_button"
             android:layout_width="140dp"
             android:layout_height="match_parent"
-            android:text="Checkout"
+            android:text="BUY"
             android:textStyle="bold"
             android:textColor="@color/white"
             android:background="@color/light_secondary"

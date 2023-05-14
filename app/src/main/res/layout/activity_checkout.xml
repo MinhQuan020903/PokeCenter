@@ -5,104 +5,347 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/light_canvas">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="Delivery Address"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <LinearLayout
-            android:id="@+id/change_delivery_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:paddingHorizontal="16dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
+            android:orientation="vertical"
+            android:paddingVertical="16dp">
 
-            <ImageView
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/lam_minimap_100" />
-
-            <LinearLayout
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_marginBottom="10dp"
+                android:text="Delivery Address"
+                android:layout_marginStart="16dp"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/receiverName"
+            <LinearLayout
+                android:id="@+id/change_delivery_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:paddingHorizontal="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <ImageView
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/lam_minimap_100" />
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    tools:text="Tran Le Hoang Lam" />
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/number_street_address"
+                    <TextView
+                        android:id="@+id/receiverName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        tools:text="Tran Le Hoang Lam" />
+
+                    <TextView
+                        android:id="@+id/number_street_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:textColor="#8F959E"
+                        android:textSize="16sp"
+                        tools:text="506 Hung Vuong" />
+
+                    <TextView
+                        android:id="@+id/address_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:textColor="#8F959E"
+                        android:textSize="16sp"
+                        tools:text="Phuong Thanh Ha, Thanh pho Hoi An, Quang Nam" />
+
+                </LinearLayout>
+
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:textColor="#8F959E"
-                    android:textSize="16sp"
-                    tools:text="506 Hung Vuong" />
-
-                <TextView
-                    android:id="@+id/address_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:textColor="#8F959E"
-                    android:textSize="16sp"
-                    tools:text="Phuong Thanh Ha, Thanh pho Hoi An, Quang Nam" />
+                    android:src="@drawable/lam_round_arrow_forward_ios_24" />
 
             </LinearLayout>
 
-            <ImageView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/lam_round_arrow_forward_ios_24" />
+                android:layout_marginBottom="10dp"
+                android:text="Payment Method"
+                android:layout_marginStart="16dp"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:paddingHorizontal="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <ImageView
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/lam_visa_icon" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/payment_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:text="Visa Classic" />
+
+                    <TextView
+                        android:id="@+id/id_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:textColor="#8F959E"
+                        android:textSize="16sp"
+                        android:text="**** 7690" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/lam_round_arrow_forward_ios_24" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:text="Order Info"
+                android:layout_marginStart="16dp"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_checkout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"/>
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="20dp">
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/lam_background_white_border_1_corner_8"
+                    android:hint="Promo Code"
+                    android:padding="14dp"
+                    android:textColor="@color/black"
+                    android:layout_weight="1"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:layout_marginEnd="20dp" />
+
+                <TextView
+                    android:layout_width="130dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/lam_background_ripple_effect_primary"
+                    android:text="Apply"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:clickable="true"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sub-total"
+                    android:textSize="18sp"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/sub_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="900.000 đ"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:typeface="monospace"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Voucher"
+                    android:textSize="18sp"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/voucher_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="-42.000 đ"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:typeface="monospace"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Delivery Charge"
+                    android:textSize="18sp"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/delivery_charge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="30.000 đ"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:typeface="monospace"/>
+
+            </LinearLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                app:dividerColor="#E8E8E8"
+                android:layout_marginBottom="6dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total"
+                    android:textSize="18sp"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="888.000 đ"
+                    android:textSize="18sp"
+                    android:textColor="@color/light_secondary"
+                    android:textStyle="bold"
+                    android:typeface="monospace"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="16dp"
+                android:background="@drawable/lam_background_ripple_effect_primary"
+                android:text="CHECKOUT"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:clickable="true" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar_checkout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:paddingVertical="10dp"
+                android:visibility="gone"/>
+
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="Order Info"
-            android:layout_marginStart="16dp"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
+    </ScrollView>
 
-    </LinearLayout>
+
 
     <ProgressBar
-        android:id="@+id/progress_bar"
+        android:id="@+id/progress_bar_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="176dp"/>
+        android:paddingHorizontal="176dp"
+        android:background="#AAFFFFFF"
+        android:visibility="visible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
