@@ -1,4 +1,4 @@
-package com.example.pokecenter.admin.Quan.AdminTab.Home;
+package com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home;
 
 import android.os.Bundle;
 
