@@ -23,7 +23,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="#EEEEEE"/>
+            android:background="#EEEEEE"
+            android:scaleType="centerCrop"/>
 
         <ImageButton
             android:id="@+id/change_avatar_button"
