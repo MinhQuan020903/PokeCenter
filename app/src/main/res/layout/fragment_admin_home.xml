@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".admin.Quan.AdminTab.Home.AdminHomeFragment">
+    tools:context=".admin.Quan.AdminTab.Tabs.Home.AdminHomeFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -74,7 +74,7 @@
                     android:id="@+id/ivAdminStatistic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ninh_statistic_function"
+                    android:src="@drawable/quan_icon_statistic"
                     android:scaleType="fitCenter" />
                 <TextView
                     android:id="@+id/tvAdminStatistic"
@@ -105,7 +105,7 @@
                     android:id="@+id/ivAdminProducts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ninh_statistic_function"
+                    android:src="@drawable/quan_icon_products"
                     android:scaleType="fitCenter" />
                 <TextView
                     android:id="@+id/tvAdminProducts"
@@ -132,12 +132,14 @@
                 android:gravity="center"
                 android:padding="5dp"
                 android:layout_gravity="center">
+
                 <ImageView
                     android:id="@+id/ivAdminUsers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ninh_statistic_function"
-                    android:scaleType="fitCenter" />
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/quan_icon_users" />
+
                 <TextView
                     android:id="@+id/tvAdminUsers"
                     android:layout_width="wrap_content"
@@ -167,14 +169,14 @@
                     android:id="@+id/ivAdminOrders"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ninh_statistic_function"
+                    android:src="@drawable/quan_icon_orders"
                     android:scaleType="fitCenter" />
                 <TextView
                     android:id="@+id/tvAdminOrders"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
-                    android:text="Users"
+                    android:text="Orders"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>

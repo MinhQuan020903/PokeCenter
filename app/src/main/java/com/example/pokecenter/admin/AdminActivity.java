@@ -5,10 +5,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.pokecenter.admin.Quan.AdminTab.Home.AdminHomeFragment;
-import com.example.pokecenter.admin.Quan.AdminTab.Notification.AdminNotificationFragment;
-import com.example.pokecenter.admin.Quan.AdminTab.Profile.AdminProfileFragment;
-import com.example.pokecenter.admin.Quan.AdminTab.Support.AdminSupportFragment;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.AdminHomeFragment;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Notification.AdminNotificationFragment;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Profile.AdminProfileFragment;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Support.AdminSupportFragment;
 import com.example.pokecenter.databinding.ActivityAdminBinding;
 
 import android.os.Build;
