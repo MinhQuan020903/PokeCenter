@@ -54,6 +54,8 @@ import java.util.stream.Collectors;
 public class CheckoutActivity extends AppCompatActivity implements AddressRecyclerViewInterface {
 
     private ActivityCheckoutBinding binding;
+    InputMethodManager inputMethodManager;
+
 
     private List<CheckoutItem> checkoutItemList;
     private RecyclerView rcv_checkout;
@@ -70,16 +72,18 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
         binding = ActivityCheckoutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        binding.checkoutSrcreen.setOnClickListener(view -> {
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        });
+
         /* Set statusBar Color */
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().setStatusBarColor(getColor(R.color.light_primary));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
-        // getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getColor(R.color.white)));
-
-        /* Set color to title */
         getSupportActionBar().setTitle("Checkout");
-        // getSupportActionBar().setTitle(Html.fromHtml("<font color=\"#027B96\">Profile</font>", Html.FROM_HTML_MODE_LEGACY));
+
 
         /* Set up back button */
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -113,8 +117,6 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
     }
 
     private void setUpPromoCode() {
-
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
         binding.applyPromoCodeButton.setOnClickListener(view -> {
             binding.promoCode.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
