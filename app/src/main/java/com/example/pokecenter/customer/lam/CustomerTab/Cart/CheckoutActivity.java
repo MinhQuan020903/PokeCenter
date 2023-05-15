@@ -5,9 +5,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -31,12 +34,14 @@ import com.example.pokecenter.customer.lam.Model.checkout_item.CheckoutItem;
 import com.example.pokecenter.customer.lam.Model.checkout_item.CheckoutProductAdapter;
 import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.review_product.ReviewProductAdapter;
+import com.example.pokecenter.customer.lam.Model.voucher.VoucherInfo;
 import com.example.pokecenter.databinding.ActivityCheckoutBinding;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -53,6 +58,11 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
     private List<CheckoutItem> checkoutItemList;
     private RecyclerView rcv_checkout;
     private CheckoutProductAdapter checkoutProductAdapter;
+    NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+
+    int subTotal;
+    int voucherValue;
+    int deliveryCharge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +84,9 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
         /* Set up back button */
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        /* Delivery Address logic */
+        deliveryAddressLogic();
+
 
         Cart orderNowCart = (Cart) getIntent().getSerializableExtra("orderNowCart");
         List<Cart> checkedCarts = (List<Cart>) getIntent().getSerializableExtra("checkedCarts");
@@ -85,19 +98,99 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
 
         setUpCheckoutRecyclerView(checkedCarts);
 
-        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
 
-        int subTotal = subTotal();
-        int voucherValue = 0;
-        int deliveryCharge = 40000 * countShop();
+        subTotal = subTotal();
+        voucherValue = 0;
+        deliveryCharge = 40000 * countShop();
         binding.subTotal.setText(currencyFormatter.format(subTotal));
         binding.voucherValue.setText(currencyFormatter.format(voucherValue));
         binding.deliveryCharge.setText(currencyFormatter.format(deliveryCharge));
         binding.total.setText(currencyFormatter.format(subTotal - voucherValue + deliveryCharge));
 
+        /* Set up apply voucher logic */
+        setUpPromoCode();
 
-        /* Delivery Address logic */
-        deliveryAddressLogic();
+    }
+
+    private void setUpPromoCode() {
+
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        binding.applyPromoCodeButton.setOnClickListener(view -> {
+            binding.promoCode.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            binding.voucherValue.setText(currencyFormatter.format(0));
+
+            voucherValue = 0;
+            binding.voucherValue.setText(currencyFormatter.format(voucherValue));
+            binding.total.setText(currencyFormatter.format(subTotal + deliveryCharge));
+
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            getCurrentFocus().clearFocus();
+
+            binding.applyPromoCodeButton.setVisibility(View.GONE);
+            binding.progressBarApplyVoucher.setVisibility(View.VISIBLE);
+
+            ExecutorService executor = Executors.newCachedThreadPool();
+            Handler handler = new Handler(Looper.getMainLooper());
+
+            executor.execute(() -> {
+
+                boolean isSuccessful = true;
+                VoucherInfo voucherInfo = null;
+                try {
+                    voucherInfo = new FirebaseSupportCustomer().fetchingVoucherInfo(binding.promoCode.getText().toString());
+                } catch (IOException e) {
+                    isSuccessful = false;
+                }
+
+                boolean finalIsSuccessful = isSuccessful;
+                VoucherInfo finalVoucherInfo = voucherInfo;
+                handler.post(() -> {
+                    if (finalIsSuccessful) {
+
+                        if (finalVoucherInfo != null) {
+                            if (finalVoucherInfo.isStatus()) {
+
+                                Date currentDate = new Date();
+
+                                if (finalVoucherInfo.getStartDate().getTime() <= currentDate.getTime()
+                                        && currentDate.getTime() < finalVoucherInfo.getEndDate().getTime()) {
+
+                                    Drawable icon = getDrawable(R.drawable.lam_baseline_check_24);
+                                    icon.setTint(getColor(R.color.light_secondary));
+                                    binding.promoCode.setCompoundDrawablesWithIntrinsicBounds(null, null, icon, null);
+
+                                    voucherValue = finalVoucherInfo.getValue();
+                                    binding.voucherValue.setText(currencyFormatter.format(voucherValue));
+                                    binding.total.setText(currencyFormatter.format(subTotal - voucherValue + deliveryCharge));
+
+
+                                } else {
+                                    Toast.makeText(this, "Promo code does not exist", Toast.LENGTH_SHORT)
+                                            .show();
+                                }
+
+                                } else {
+                                    Toast.makeText(this, "Promo code already used", Toast.LENGTH_SHORT)
+                                            .show();
+                                }
+
+                        } else {
+                            Toast.makeText(this, "Promo code does not exist", Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+
+                    } else {
+                        Toast.makeText(this, "Failed to connect server", Toast.LENGTH_SHORT)
+                                .show();
+                    }
+
+                    binding.applyPromoCodeButton.setVisibility(View.VISIBLE);
+                    binding.progressBarApplyVoucher.setVisibility(View.GONE);
+                });
+            });
+
+        });
 
     }
 

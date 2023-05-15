@@ -178,7 +178,7 @@
                 android:layout_marginBottom="20dp">
 
                 <EditText
-                    android:id="@+id/email"
+                    android:id="@+id/promo_code"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/lam_background_white_border_1_corner_8"
@@ -188,9 +188,10 @@
                     android:layout_weight="1"
                     android:imeOptions="actionDone"
                     android:inputType="text"
-                    android:layout_marginEnd="20dp" />
+                    android:layout_marginEnd="20dp"/>
 
                 <TextView
+                    android:id="@+id/apply_promo_code_button"
                     android:layout_width="130dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/lam_background_ripple_effect_primary"
@@ -200,6 +201,13 @@
                     android:gravity="center"
                     android:textSize="18sp"
                     android:clickable="true"/>
+
+                <ProgressBar
+                    android:id="@+id/progress_bar_apply_voucher"
+                    android:layout_width="130dp"
+                    android:layout_height="match_parent"
+                    android:paddingVertical="12dp"
+                    android:visibility="gone"/>
 
 
             </LinearLayout>
@@ -337,8 +345,6 @@
         </LinearLayout>
 
     </ScrollView>
-
-
 
     <ProgressBar
         android:id="@+id/progress_bar_loading"
