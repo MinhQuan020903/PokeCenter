@@ -8,6 +8,7 @@ import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.customer.lam.Model.review_product.ReviewProduct;
 import com.example.pokecenter.customer.lam.Model.vender.Vender;
+import com.example.pokecenter.customer.lam.Model.voucher.VoucherInfo;
 import com.example.pokecenter.customer.lam.Provider.FollowData;
 import com.example.pokecenter.customer.lam.Provider.ProductData;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,12 +19,16 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import okhttp3.HttpUrl;
@@ -749,5 +754,80 @@ public class FirebaseSupportCustomer {
                 .build();
 
         client.newCall(request).execute();
+    }
+
+    public VoucherInfo fetchingVoucherInfo(String voucherCode) throws IOException {
+        VoucherInfo voucherInfo = new VoucherInfo();
+
+        OkHttpClient client = new OkHttpClient();
+
+        HttpUrl.Builder urlBuilder = HttpUrl.parse("https://pokecenter-ae954-default-rtdb.firebaseio.com/vouchers.json").newBuilder();
+
+        urlBuilder.addQueryParameter("orderBy", "\"code\"")
+                .addQueryParameter("equalTo", "\"" + voucherCode + "\"");
+
+        String url = urlBuilder.build().toString();
+
+        // Create an HTTP GET request
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+
+            String responseString = response.body().string();
+
+            if (responseString.equals("{}")) {
+                return null;
+            }
+
+            Type type = new TypeToken<Map<String, Map<String, Object>>>(){}.getType();
+            Map<String, Map<String, Object>> fetchedData = new Gson().fromJson(responseString, type);
+
+            AtomicReference<String> blockVoucherId = new AtomicReference<>("");
+            fetchedData.forEach((key, value) -> {
+                voucherInfo.setStatus((Boolean) value.get("status"));
+                blockVoucherId.set((String) value.get("blockVoucherId"));
+            });
+
+            OkHttpClient client1 = new OkHttpClient();
+
+            // Create an HTTP GET request
+            Request request1 = new Request.Builder()
+                    .url(urlDb + "blockVoucher/" + blockVoucherId.get() + ".json")
+                    .build();
+
+            Response response1 = client1.newCall(request1).execute();
+
+            if (response1.isSuccessful()) {
+                String responseString1 = response1.body().string();
+
+                Type type1 = new TypeToken<Map<String, Object>>(){}.getType();
+                Map<String, Object> fetchedData1 = new Gson().fromJson(responseString1, type1);
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+                Date startDate = null;
+                try {
+                    startDate = dateFormat.parse((String) fetchedData1.get("startDate"));
+                } catch (ParseException e) {
+
+                }
+                voucherInfo.setStartDate(startDate);
+
+                Date endDate = null;
+                try {
+                    endDate = dateFormat.parse((String) fetchedData1.get("endDate"));
+                } catch (ParseException e) {
+
+                }
+                voucherInfo.setEndDate(endDate);
+                voucherInfo.setValue(((Double) fetchedData1.get("value")).intValue());
+            }
+        }
+
+        return voucherInfo;
     }
 }

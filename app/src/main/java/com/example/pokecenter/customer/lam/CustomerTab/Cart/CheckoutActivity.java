@@ -1,11 +1,15 @@
 package com.example.pokecenter.customer.lam.CustomerTab.Cart;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -25,17 +30,39 @@ import com.example.pokecenter.customer.lam.Interface.AddressRecyclerViewInterfac
 import com.example.pokecenter.customer.lam.Model.address.Address;
 import com.example.pokecenter.customer.lam.Model.address.AddressArrayAdapter;
 import com.example.pokecenter.customer.lam.Model.cart.Cart;
+import com.example.pokecenter.customer.lam.Model.checkout_item.CheckoutItem;
+import com.example.pokecenter.customer.lam.Model.checkout_item.CheckoutProductAdapter;
+import com.example.pokecenter.customer.lam.Model.option.Option;
+import com.example.pokecenter.customer.lam.Model.review_product.ReviewProductAdapter;
+import com.example.pokecenter.customer.lam.Model.voucher.VoucherInfo;
 import com.example.pokecenter.databinding.ActivityCheckoutBinding;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class CheckoutActivity extends AppCompatActivity implements AddressRecyclerViewInterface {
 
     private ActivityCheckoutBinding binding;
+
+    private List<CheckoutItem> checkoutItemList;
+    private RecyclerView rcv_checkout;
+    private CheckoutProductAdapter checkoutProductAdapter;
+    NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+
+    int subTotal;
+    int voucherValue;
+    int deliveryCharge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +84,182 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
         /* Set up back button */
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        /* Delivery Address logic */
+        deliveryAddressLogic();
+
 
         Cart orderNowCart = (Cart) getIntent().getSerializableExtra("orderNowCart");
         List<Cart> checkedCarts = (List<Cart>) getIntent().getSerializableExtra("checkedCarts");
 
+        if (checkedCarts == null) {
+            checkedCarts = new ArrayList<>();
+            checkedCarts.add(orderNowCart);
+        }
 
-        /* Delivery Address logic */
-        deliveryAddressLogic();
+        setUpCheckoutRecyclerView(checkedCarts);
+
+
+        subTotal = subTotal();
+        voucherValue = 0;
+        deliveryCharge = 40000 * countShop();
+        binding.subTotal.setText(currencyFormatter.format(subTotal));
+        binding.voucherValue.setText(currencyFormatter.format(voucherValue));
+        binding.deliveryCharge.setText(currencyFormatter.format(deliveryCharge));
+        binding.total.setText(currencyFormatter.format(subTotal - voucherValue + deliveryCharge));
+
+        /* Set up apply voucher logic */
+        setUpPromoCode();
+
+    }
+
+    private void setUpPromoCode() {
+
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        binding.applyPromoCodeButton.setOnClickListener(view -> {
+            binding.promoCode.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            binding.voucherValue.setText(currencyFormatter.format(0));
+
+            voucherValue = 0;
+            binding.voucherValue.setText(currencyFormatter.format(voucherValue));
+            binding.total.setText(currencyFormatter.format(subTotal + deliveryCharge));
+
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            getCurrentFocus().clearFocus();
+
+            binding.applyPromoCodeButton.setVisibility(View.GONE);
+            binding.progressBarApplyVoucher.setVisibility(View.VISIBLE);
+
+            ExecutorService executor = Executors.newCachedThreadPool();
+            Handler handler = new Handler(Looper.getMainLooper());
+
+            executor.execute(() -> {
+
+                boolean isSuccessful = true;
+                VoucherInfo voucherInfo = null;
+                try {
+                    voucherInfo = new FirebaseSupportCustomer().fetchingVoucherInfo(binding.promoCode.getText().toString());
+                } catch (IOException e) {
+                    isSuccessful = false;
+                }
+
+                boolean finalIsSuccessful = isSuccessful;
+                VoucherInfo finalVoucherInfo = voucherInfo;
+                handler.post(() -> {
+                    if (finalIsSuccessful) {
+
+                        if (finalVoucherInfo != null) {
+                            if (finalVoucherInfo.isStatus()) {
+
+                                Date currentDate = new Date();
+
+                                if (finalVoucherInfo.getStartDate().getTime() <= currentDate.getTime()
+                                        && currentDate.getTime() < finalVoucherInfo.getEndDate().getTime()) {
+
+                                    Drawable icon = getDrawable(R.drawable.lam_baseline_check_24);
+                                    icon.setTint(getColor(R.color.light_secondary));
+                                    binding.promoCode.setCompoundDrawablesWithIntrinsicBounds(null, null, icon, null);
+
+                                    voucherValue = finalVoucherInfo.getValue();
+                                    binding.voucherValue.setText(currencyFormatter.format(voucherValue));
+                                    binding.total.setText(currencyFormatter.format(subTotal - voucherValue + deliveryCharge));
+
+
+                                } else {
+                                    Toast.makeText(this, "Promo code does not exist", Toast.LENGTH_SHORT)
+                                            .show();
+                                }
+
+                                } else {
+                                    Toast.makeText(this, "Promo code already used", Toast.LENGTH_SHORT)
+                                            .show();
+                                }
+
+                        } else {
+                            Toast.makeText(this, "Promo code does not exist", Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+
+                    } else {
+                        Toast.makeText(this, "Failed to connect server", Toast.LENGTH_SHORT)
+                                .show();
+                    }
+
+                    binding.applyPromoCodeButton.setVisibility(View.VISIBLE);
+                    binding.progressBarApplyVoucher.setVisibility(View.GONE);
+                });
+            });
+
+        });
+
+    }
+
+    private int countShop() {
+
+        Map<String, Boolean> tick = new HashMap<>();
+        int count = 0;
+
+        for (int i = 0; i < checkoutItemList.size(); ++i) {
+            if (!tick.containsKey(checkoutItemList.get(i).getVenderId())) {
+                count++;
+                tick.put(checkoutItemList.get(i).getVenderId(), true);
+            }
+        }
+        return count;
+    }
+
+    private int subTotal() {
+
+        int total = 0;
+        for (int i = 0; i < checkoutItemList.size(); ++i) {
+            total += checkoutItemList.get(i).getPrice() * checkoutItemList.get(i).getQuantity();
+        }
+
+        return total;
+    }
+
+    private void setUpCheckoutRecyclerView(List<Cart> checkedCarts) {
+
+        rcv_checkout = binding.rcvCheckout;
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        rcv_checkout.setLayoutManager(linearLayoutManager);
+
+        checkoutItemList = checkedCarts.stream().map(cart -> {
+                    CheckoutItem item = new CheckoutItem();
+
+                    item.setName(cart.getProduct().getName());
+
+                    if (cart.getProduct().getOptions().size() == 1) {
+                        item.setImage(cart.getProduct().getImages().get(0));
+
+                    } else {
+
+                        Option selectedOption = cart.getProduct().getOptions().get(cart.getSelectedOption());
+                        if (selectedOption.getOptionImage().isEmpty()) {
+                            item.setImage(cart.getProduct().getImages().get(0));
+                        } else {
+                            item.setImage(selectedOption.getOptionImage());
+                        }
+                    }
+
+                    item.setSelectedOption(cart.getProduct().getOptions().get(cart.getSelectedOption()).getOptionName());
+                    item.setPrice(cart.getProduct().getOptions().get(cart.getSelectedOption()).getPrice());
+                    item.setQuantity(cart.getQuantity());
+
+                    item.setVenderId(cart.getProduct().getVenderId());
+
+                    return item;
+                }
+        ).collect(Collectors.toList());
+
+        checkoutProductAdapter = new CheckoutProductAdapter(this, checkoutItemList);
+        rcv_checkout.setAdapter(checkoutProductAdapter);
+
+        ViewGroup.LayoutParams params = rcv_checkout.getLayoutParams();
+        params.height = (checkoutProductAdapter.getItemCount() - 1) * 350 + 366;
+
+        rcv_checkout.setLayoutParams(params);
 
     }
 
@@ -111,7 +307,7 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
 
                 }
 
-                binding.progressBar.setVisibility(View.INVISIBLE);
+                binding.progressBarLoading.setVisibility(View.INVISIBLE);
             });
         });
 

@@ -133,4 +133,28 @@ public class FirebaseSupportAccount {
         return fetchedAccount;
     }
 
+    public void updateAccountInfo(Account account) throws IOException {
+
+        OkHttpClient client = new OkHttpClient();
+
+        Map<String, Object> updateData = new HashMap<>();
+        updateData.put("avatar", account.getAvatar());
+        updateData.put("username", account.getUsername());
+        updateData.put("gender", account.getGender());
+        updateData.put("phoneNumber", account.getPhoneNumber());
+
+        String jsonData = new Gson().toJson(updateData);
+
+        RequestBody body = RequestBody.create(jsonData, JSON);
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Request request = new Request.Builder()
+                .url(urlDb + "accounts/" + emailWithCurrentUser.replace(".", ",") + ".json")
+                .patch(body)
+                .build();
+
+        client.newCall(request).execute();
+
+    }
+
 }

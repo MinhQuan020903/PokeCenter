@@ -13,14 +13,18 @@ import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.Cust
 import com.example.pokecenter.customer.lam.Authentication.SignInActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.WishListActivity;
+import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.customer.lam.Provider.FollowData;
 import com.example.pokecenter.customer.lam.Provider.WishListData;
 import com.example.pokecenter.databinding.FragmentCustomerProfileBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Picasso;
 
 public class CustomerProfileFragment extends Fragment {
 
     private FragmentCustomerProfileBinding binding;
+
+    public static Account currentAccount;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,6 +32,8 @@ public class CustomerProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentCustomerProfileBinding.inflate(inflater, container, false);
 
+        binding.username.setText(currentAccount.getUsername());
+        Picasso.get().load(currentAccount.getAvatar()).into(binding.customerAvatar);
 
         binding.accountInformationItem.setOnClickListener(view -> {
             startActivity(new Intent(getActivity(), CustomerAccountInfoActivity.class));
