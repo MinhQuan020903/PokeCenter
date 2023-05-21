@@ -3,6 +3,7 @@ package com.example.pokecenter.customer.lam.Model.voucher;
 import java.util.Date;
 
 public class VoucherInfo {
+    private String key;
 
     private boolean status;
     private Date startDate;
@@ -13,11 +14,20 @@ public class VoucherInfo {
 
     }
 
-    public VoucherInfo(boolean status, Date startDate, Date endDate, int value) {
+    public VoucherInfo(String key, boolean status, Date startDate, Date endDate, int value) {
+        this.key = key;
         this.status = status;
         this.startDate = startDate;
         this.endDate = endDate;
         this.value = value;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public boolean isStatus() {

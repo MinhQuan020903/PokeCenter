@@ -55,8 +55,6 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
 
     private ActivityCheckoutBinding binding;
     InputMethodManager inputMethodManager;
-
-
     private List<CheckoutItem> checkoutItemList;
     private RecyclerView rcv_checkout;
     private CheckoutProductAdapter checkoutProductAdapter;
@@ -65,6 +63,8 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
     int subTotal;
     int voucherValue;
     int deliveryCharge;
+
+    VoucherInfo voucherInfo = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +114,47 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
         /* Set up apply voucher logic */
         setUpPromoCode();
 
+        setUpCheckoutButton();
+
+
+    }
+
+    private void setUpCheckoutButton() {
+        binding.checkoutButton.setOnClickListener(view -> {
+            binding.checkoutButton.setVisibility(View.GONE);
+            binding.progressBarCheckout.setVisibility(View.VISIBLE);
+
+            ExecutorService executor = Executors.newCachedThreadPool();
+            Handler handler = new Handler(Looper.getMainLooper());
+
+            if (voucherValue > 0){
+                executor.execute(() -> {
+                    try {
+                        new FirebaseSupportCustomer().disableVoucher(voucherInfo.getKey());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+            }
+
+
+            executor.execute(() -> {
+
+                boolean isSuccessful = new FirebaseSupportCustomer().saveOrders(checkoutItemList);
+
+                handler.post(() -> {
+                    if (isSuccessful) {
+                        // Move to Order Confirmed Activity
+                    } else {
+                        // popUp Dialog
+                    }
+
+                    binding.checkoutButton.setVisibility(View.VISIBLE);
+                    binding.progressBarCheckout.setVisibility(View.GONE);
+                });
+            });
+
+        });
     }
 
     private void setUpPromoCode() {
@@ -132,13 +173,13 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
             binding.applyPromoCodeButton.setVisibility(View.GONE);
             binding.progressBarApplyVoucher.setVisibility(View.VISIBLE);
 
-            ExecutorService executor = Executors.newCachedThreadPool();
+            ExecutorService executor = Executors.newSingleThreadExecutor();
             Handler handler = new Handler(Looper.getMainLooper());
 
             executor.execute(() -> {
 
                 boolean isSuccessful = true;
-                VoucherInfo voucherInfo = null;
+                VoucherInfo fetchedVoucherInfo = null;
                 try {
                     voucherInfo = new FirebaseSupportCustomer().fetchingVoucherInfo(binding.promoCode.getText().toString());
                 } catch (IOException e) {
@@ -146,23 +187,23 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
                 }
 
                 boolean finalIsSuccessful = isSuccessful;
-                VoucherInfo finalVoucherInfo = voucherInfo;
                 handler.post(() -> {
                     if (finalIsSuccessful) {
 
-                        if (finalVoucherInfo != null) {
-                            if (finalVoucherInfo.isStatus()) {
+                        if (voucherInfo != null) {
+
+                            if (voucherInfo.isStatus()) {
 
                                 Date currentDate = new Date();
 
-                                if (finalVoucherInfo.getStartDate().getTime() <= currentDate.getTime()
-                                        && currentDate.getTime() < finalVoucherInfo.getEndDate().getTime()) {
+                                if (voucherInfo.getStartDate().getTime() <= currentDate.getTime()
+                                        && currentDate.getTime() < voucherInfo.getEndDate().getTime()) {
 
                                     Drawable icon = getDrawable(R.drawable.lam_baseline_check_24);
                                     icon.setTint(getColor(R.color.light_secondary));
                                     binding.promoCode.setCompoundDrawablesWithIntrinsicBounds(null, null, icon, null);
 
-                                    voucherValue = finalVoucherInfo.getValue();
+                                    voucherValue = voucherInfo.getValue();
                                     binding.voucherValue.setText(currencyFormatter.format(voucherValue));
                                     binding.total.setText(currencyFormatter.format(subTotal - voucherValue + deliveryCharge));
 
@@ -172,10 +213,10 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
                                             .show();
                                 }
 
-                                } else {
-                                    Toast.makeText(this, "Promo code already used", Toast.LENGTH_SHORT)
-                                            .show();
-                                }
+                            } else {
+                                Toast.makeText(this, "Promo code already used", Toast.LENGTH_SHORT)
+                                        .show();
+                            }
 
                         } else {
                             Toast.makeText(this, "Promo code does not exist", Toast.LENGTH_SHORT)
@@ -229,7 +270,7 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
 
         checkoutItemList = checkedCarts.stream().map(cart -> {
                     CheckoutItem item = new CheckoutItem();
-
+                    item.setProductId(cart.getProduct().getId());
                     item.setName(cart.getProduct().getName());
 
                     if (cart.getProduct().getOptions().size() == 1) {
