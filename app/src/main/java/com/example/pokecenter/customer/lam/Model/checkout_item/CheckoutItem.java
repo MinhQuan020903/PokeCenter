@@ -1,7 +1,7 @@
 package com.example.pokecenter.customer.lam.Model.checkout_item;
 
 public class CheckoutItem {
-
+    private String productId;
     private String name;
     private String image;
     private String selectedOption;
@@ -13,13 +13,22 @@ public class CheckoutItem {
 
     }
 
-    public CheckoutItem(String name, String image, String selectedOption, int price, int quantity, String venderId) {
+    public CheckoutItem(String productId, String name, String image, String selectedOption, int price, int quantity, String venderId) {
+        this.productId = productId;
         this.name = name;
         this.image = image;
         this.selectedOption = selectedOption;
         this.price = price;
         this.quantity = quantity;
         this.venderId = venderId;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public String getName() {

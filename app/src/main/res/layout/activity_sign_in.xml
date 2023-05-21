@@ -79,7 +79,7 @@
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:padding="12dp"
+                android:padding="16dp"
                 android:singleLine="true"
                 android:textColor="@android:color/black"
                 app:layout_constraintTop_toTopOf="parent"
