@@ -905,13 +905,12 @@ public class FirebaseSupportCustomer {
 
             try {
                 client.newCall(request).execute();
-
-
             } catch (IOException e) {
                 isSuccess.set(false);
                 return;
             }
         });
+
         return isSuccess.get();
     }
 }

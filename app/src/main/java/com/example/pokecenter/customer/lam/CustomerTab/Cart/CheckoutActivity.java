@@ -55,6 +55,7 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
 
     private ActivityCheckoutBinding binding;
     InputMethodManager inputMethodManager;
+    private List<Cart> checkedCarts;
     private List<CheckoutItem> checkoutItemList;
     private RecyclerView rcv_checkout;
     private CheckoutProductAdapter checkoutProductAdapter;
@@ -93,7 +94,7 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
 
 
         Cart orderNowCart = (Cart) getIntent().getSerializableExtra("orderNowCart");
-        List<Cart> checkedCarts = (List<Cart>) getIntent().getSerializableExtra("checkedCarts");
+        checkedCarts = (List<Cart>) getIntent().getSerializableExtra("checkedCarts");
 
         if (checkedCarts == null) {
             checkedCarts = new ArrayList<>();
@@ -140,10 +141,18 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
 
             executor.execute(() -> {
 
-                boolean isSuccessful = new FirebaseSupportCustomer().saveOrders(checkoutItemList);
+                boolean isSuccessful = new FirebaseSupportCustomer().saveOrders(checkoutItemList);;
 
                 handler.post(() -> {
                     if (isSuccessful) {
+
+
+                        checkedCarts.forEach(removeCart -> {
+                            CustomerShoppingCartFragment.myCarts.removeIf(cart -> cart.getProduct().getId().equals(removeCart.getProduct().getId()));
+                        });
+                        finishAffinity();   // finish để CustomerShoppingCartFragment thực hiện onDestroy
+                        startActivity(new Intent(this, OrderConfirmedActivity.class));
+
                         // Move to Order Confirmed Activity
                     } else {
                         // popUp Dialog
