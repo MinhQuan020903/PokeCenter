@@ -1,4 +1,4 @@
-package com.example.pokecenter.vender.Ninh.VenderTab.Home;
+package com.example.pokecenter.vender.VenderTab.Home;
 
 public class RevenueProduct {
     private String name;

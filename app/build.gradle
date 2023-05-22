@@ -53,6 +53,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:21.3.0'
     implementation 'com.google.firebase:firebase-database:20.2.0'
     implementation 'com.google.firebase:firebase-core:21.1.1'
+    // Ninh test
+    implementation 'com.google.firebase:firebase-firestore:24.4.1'
 
     // Http Request
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'

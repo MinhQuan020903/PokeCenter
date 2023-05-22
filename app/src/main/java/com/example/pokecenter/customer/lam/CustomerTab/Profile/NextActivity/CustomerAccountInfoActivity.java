@@ -193,7 +193,6 @@ public class CustomerAccountInfoActivity extends AppCompatActivity {
                     binding.registrationDate.setText(currentAccount.getRegistrationDate());
 
                     binding.changeAvatarButton.setOnClickListener(view -> {
-                        Log.d("SIUUU", "Mucha gracias aficion, esra es da vosotros, SIUUUUUUUUUUUUU");
                         ImagePicker.with(CustomerAccountInfoActivity.this)
                                 .crop()	    			//Crop image(Optional), Check Customization for more option
                                 .galleryOnly()
@@ -205,7 +204,6 @@ public class CustomerAccountInfoActivity extends AppCompatActivity {
                     });
 
                     binding.saveButton.setOnClickListener(view -> {
-
                         if (getCurrentFocus() != null) {
                             getCurrentFocus().clearFocus();
                         }

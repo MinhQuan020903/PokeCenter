@@ -1,67 +1,41 @@
-package com.example.pokecenter.vender.Ninh.VenderTab.Home;
+package com.example.pokecenter.vender.VenderTab.Home;
 
-import android.graphics.Color;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
-import com.example.pokecenter.R;
-import com.example.pokecenter.databinding.FragmentVenderStatisticsBinding;
-import com.github.mikephil.charting.charts.BarChart;
+import com.example.pokecenter.databinding.ActivityVenderStatisticsBinding;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-public class VenderStatisticsFragment extends Fragment {
 
-
-//  USE
-    FragmentVenderStatisticsBinding binding;
+public class VenderStatisticsActivity extends AppCompatActivity {
+    ActivityVenderStatisticsBinding binding;
     private ArrayList<RevenueData> revenues = new ArrayList<>();
     private ArrayList<RevenueProduct> productRevenues = new ArrayList<>();
     List<BarEntry> entries = new ArrayList<>();
     List<PieEntry> pieEntries = new ArrayList<>();
-
-    public VenderStatisticsFragment() {
-        // Required empty public constructor
-    }
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        binding = FragmentVenderStatisticsBinding.inflate(inflater, container, false);
-        return binding.getRoot();
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = ActivityVenderStatisticsBinding.inflate(getLayoutInflater());
         List<String> dateOptions = new ArrayList<>();
         dateOptions.add("Day");
         dateOptions.add("Month");
         dateOptions.add("Year");
 
-        ArrayAdapter<String> dateAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, dateOptions);
+        ArrayAdapter<String> dateAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, dateOptions);
         dateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinner.setAdapter(dateAdapter);
         binding.spinner.setSelection(0);
@@ -109,8 +83,8 @@ public class VenderStatisticsFragment extends Fragment {
                     BarData data = new BarData(dataSet);
                     binding.barChart.setData(data);
                     binding.barChart.invalidate();
-                    }
-                    else if (selectedOption.equals("Month")) {
+                }
+                else if (selectedOption.equals("Month")) {
                     entries.clear();
                     for (int i = 0; i < revenues.size(); i++) {
                         entries.add(new BarEntry(revenues.get(i).getDate().getMonthValue(), revenues.get(i).getRevenue()));
@@ -120,8 +94,8 @@ public class VenderStatisticsFragment extends Fragment {
                     BarData data = new BarData(dataSet);
                     binding.barChart.setData(data);
                     binding.barChart.invalidate();
-                    }
-                    else if (selectedOption.equals("Year")) {
+                }
+                else if (selectedOption.equals("Year")) {
                     entries.clear();
                     for (int i = 0; i < revenues.size(); i++) {
                         entries.add(new BarEntry(revenues.get(i).getDate().getYear(), revenues.get(i).getRevenue()));
@@ -140,6 +114,7 @@ public class VenderStatisticsFragment extends Fragment {
                 // Do nothing
             }
         });
+        setContentView(binding.getRoot());
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.pokecenter.vender.Ninh.VenderTab;
+package com.example.pokecenter.vender.VenderTab;
 
 import android.os.Bundle;
 
@@ -12,10 +12,10 @@ import com.example.pokecenter.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link VenderOrderFragment#newInstance} factory method to
+ * Use the {@link VenderNotificationsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class VenderOrderFragment extends Fragment {
+public class VenderNotificationsFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class VenderOrderFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public VenderOrderFragment() {
+    public VenderNotificationsFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class VenderOrderFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment VenderOrderFragment.
+     * @return A new instance of fragment VenderNotificationsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static VenderOrderFragment newInstance(String param1, String param2) {
-        VenderOrderFragment fragment = new VenderOrderFragment();
+    public static VenderNotificationsFragment newInstance(String param1, String param2) {
+        VenderNotificationsFragment fragment = new VenderNotificationsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class VenderOrderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_vender_order, container, false);
+        return inflater.inflate(R.layout.fragment_vender_notifications, container, false);
     }
 }

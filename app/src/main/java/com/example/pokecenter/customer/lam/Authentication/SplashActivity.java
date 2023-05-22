@@ -1,5 +1,6 @@
 package com.example.pokecenter.customer.lam.Authentication;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -18,6 +19,7 @@ import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.customer.lam.Provider.ProductData;
 import com.example.pokecenter.customer.lam.Provider.WishListData;
 import com.example.pokecenter.databinding.ActivitySplashScreenBinding;
+import com.example.pokecenter.vender.VenderTab.VenderProfileFragment;
 import com.example.pokecenter.vender.VenderActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -95,6 +97,7 @@ public class SplashActivity extends AppCompatActivity {
                                     if (finalIsSuccessful) {
                                         goToNextActivityWith(sharedPreferences.getInt("role", -1));
                                         CustomerProfileFragment.currentAccount = finalFetchedAccountInfo;
+                                        VenderProfileFragment.currentVender = finalFetchedAccountInfo;
                                     } else {
                                         Toast.makeText(SplashActivity.this, "Failed to connect server", Toast.LENGTH_LONG).show();
                                     }

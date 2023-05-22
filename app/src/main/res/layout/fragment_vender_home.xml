@@ -5,7 +5,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:padding="20dp"
-tools:context=".vender.Ninh.VenderTab.Home.VenderHomeFragment">
+tools:context=".vender.VenderTab.Home.VenderHomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/VenderProfileDescriptionConstraintLayout"
@@ -372,6 +372,7 @@ tools:context=".vender.Ninh.VenderTab.Home.VenderHomeFragment">
                         android:layout_gravity="center"
                         android:background="#00000000">
                         <ImageView
+                            android:id="@+id/ProductFunction"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:src="@drawable/tin_vender_home_product"

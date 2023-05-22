@@ -1,4 +1,4 @@
-package com.example.pokecenter.vender.Ninh.VenderTab.Home;
+package com.example.pokecenter.vender.VenderTab.Home;
 
 import java.time.LocalDate;
 public class RevenueData {
