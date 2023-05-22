@@ -49,7 +49,7 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
 
     private FragmentCustomerShoppingCartBinding binding;
 
-    private List<Cart> myCarts = new ArrayList<>();
+    public static List<Cart> myCarts = new ArrayList<>();
 
     private CartAdapter cartAdapter;
 
@@ -321,7 +321,7 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
                 throw new RuntimeException(e);
             }
             handler.post(() -> {
-                myCarts = null;
+                myCarts = new ArrayList<>();
             });
         });
 
