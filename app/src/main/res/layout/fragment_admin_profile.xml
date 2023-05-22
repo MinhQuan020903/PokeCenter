@@ -7,7 +7,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".admin.Quan.AdminTab.Tabs.Profile.AdminProfileFragment">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clAdminProfile"
         android:layout_width="match_parent"
@@ -36,7 +35,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/ivAdminProfileImage"
+                    android:id="@+id/ivAdminProfileAvatar"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:padding="2dp"
@@ -44,7 +43,7 @@
                     app:shapeAppearanceOverlay="@style/circleImageView" />
 
                 <ImageButton
-                    android:id="@+id/ibAdminProfilePhoto"
+                    android:id="@+id/ibAdminChangeAvatar"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="right|bottom"
@@ -212,6 +211,30 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <Button
+            android:id="@+id/bAdminLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:text="Logout"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/clAdminProfileInformation" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/pbAdminProfile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="176dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white"
+        android:visibility="visible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
