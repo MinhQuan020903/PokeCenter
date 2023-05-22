@@ -3,6 +3,7 @@ package com.example.pokecenter.customer.lam.API;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity;
 import com.example.pokecenter.customer.lam.Model.address.Address;
 import com.example.pokecenter.customer.lam.Model.cart.Cart;
+import com.example.pokecenter.customer.lam.Model.checkout_item.CheckoutItem;
 import com.example.pokecenter.customer.lam.Model.notification.Notification;
 import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.product.Product;
@@ -28,6 +29,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -788,6 +790,7 @@ public class FirebaseSupportCustomer {
 
             AtomicReference<String> blockVoucherId = new AtomicReference<>("");
             fetchedData.forEach((key, value) -> {
+                voucherInfo.setKey(key);
                 voucherInfo.setStatus((Boolean) value.get("status"));
                 blockVoucherId.set((String) value.get("blockVoucherId"));
             });
@@ -829,5 +832,85 @@ public class FirebaseSupportCustomer {
         }
 
         return voucherInfo;
+    }
+
+    public void disableVoucher(String key) throws IOException {
+
+        OkHttpClient client = new OkHttpClient();
+
+        Map<String, Boolean> updateData = new HashMap<>();
+        updateData.put("status", false);
+
+        String jsonData = new Gson().toJson(updateData);
+
+        RequestBody body = RequestBody.create(jsonData, JSON);
+
+        Request request = new Request.Builder()
+                .url(urlDb + "vouchers/" + key + ".json")
+                .patch(body)
+                .build();
+
+        client.newCall(request).execute();
+    }
+
+    public boolean saveOrders(List<CheckoutItem> checkoutItemList) {
+
+        AtomicBoolean isSuccess = new AtomicBoolean(true);
+
+        Map<String, Boolean> vendersId = new HashMap<>();
+        checkoutItemList.forEach(item -> {
+            vendersId.put(item.getVenderId(), true);
+        });
+
+        vendersId.keySet().forEach(key -> {
+
+            int totalAmount = 0;
+            List<Map<String, Object>> filterList = new ArrayList<>();
+            for (int i = 0; i < checkoutItemList.size(); ++i) {
+                if (checkoutItemList.get(i).getVenderId().equals(key)) {
+
+                    CheckoutItem item = checkoutItemList.get(i);
+
+                    Map<String, Object> orderDetail = new HashMap<>();
+                    orderDetail.put("productId", item.getProductId());
+                    orderDetail.put("productName", item.getName());
+                    orderDetail.put("selectedOption", item.getSelectedOption());
+                    orderDetail.put("price", item.getPrice());
+                    orderDetail.put("quantity", item.getQuantity());
+
+                    filterList.add(orderDetail);
+                    totalAmount += checkoutItemList.get(i).getPrice() * checkoutItemList.get(i).getQuantity();
+                }
+            }
+
+            OkHttpClient client = new OkHttpClient();
+
+            Map<String, Object> postData = new HashMap<>();
+            postData.put("createDate", new Date());
+            postData.put("totalAmount", totalAmount);
+
+            String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+            postData.put("customerId", emailWithCurrentUser.replace(".", ","));
+            postData.put("venderId", key);
+            postData.put("details", filterList);
+
+            String jsonData = new Gson().toJson(postData);
+
+            RequestBody body = RequestBody.create(jsonData, JSON);
+
+            Request request = new Request.Builder()
+                    .url(urlDb + "orders.json")
+                    .post(body)
+                    .build();
+
+            try {
+                client.newCall(request).execute();
+            } catch (IOException e) {
+                isSuccess.set(false);
+                return;
+            }
+        });
+
+        return isSuccess.get();
     }
 }

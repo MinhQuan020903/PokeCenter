@@ -1,66 +1,66 @@
 package com.example.pokecenter.admin.Quan.AdminTab.Tabs.Notification;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.Adapter.AdminNotificationAdapter;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.Adapter.MessageSenderAdapter;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminNotification;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.MessageSender;
+import com.example.pokecenter.admin.Quan.AdminTab.Utils.ItemSpacingDecoration;
+import com.example.pokecenter.databinding.FragmentAdminNotificationBinding;
+import com.example.pokecenter.databinding.FragmentAdminSupportBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AdminNotificationFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+
 public class AdminNotificationFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public AdminNotificationFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AdminNotificationFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AdminNotificationFragment newInstance(String param1, String param2) {
-        AdminNotificationFragment fragment = new AdminNotificationFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private Context context;
+    private FragmentAdminNotificationBinding binding;
+    private ArrayList<AdminNotification> adminNotificationsList;
+    private AdminNotificationAdapter adminNotificationAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin_notification, container, false);
+        binding = FragmentAdminNotificationBinding.inflate(inflater, container, false);
+
+        context = container.getContext();
+
+        AdminNotification an1 = new AdminNotification("001", "HELLO", "Welcome to app",
+                "8:46 PM", "Yowassup", true);
+        AdminNotification an2 = new AdminNotification("002", "HELLO", "Welcome to app again",
+                "9:00 PM", "Yowassup", false);
+
+        adminNotificationsList = new ArrayList<>();
+        adminNotificationsList.add(an1);
+        adminNotificationsList.add(an2);
+
+
+        adminNotificationAdapter = new AdminNotificationAdapter(adminNotificationsList, context, R.layout.quan_admin_notification_item);
+        //Add spacing to RecyclerView rvNotifications
+        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.item_spacing);
+        ItemSpacingDecoration itemSpacingDecoration = new ItemSpacingDecoration(spacingInPixels);
+        binding.rvNotifications.addItemDecoration(itemSpacingDecoration);
+
+        binding.rvNotifications.setLayoutManager(new LinearLayoutManager(context));
+        binding.rvNotifications.setAdapter(adminNotificationAdapter);
+
+        return binding.getRoot();
     }
 }

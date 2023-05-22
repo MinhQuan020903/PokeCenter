@@ -54,7 +54,8 @@ import java.util.stream.Collectors;
 public class CheckoutActivity extends AppCompatActivity implements AddressRecyclerViewInterface {
 
     private ActivityCheckoutBinding binding;
-
+    InputMethodManager inputMethodManager;
+    private List<Cart> checkedCarts;
     private List<CheckoutItem> checkoutItemList;
     private RecyclerView rcv_checkout;
     private CheckoutProductAdapter checkoutProductAdapter;
@@ -64,22 +65,26 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
     int voucherValue;
     int deliveryCharge;
 
+    VoucherInfo voucherInfo = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCheckoutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        binding.checkoutSrcreen.setOnClickListener(view -> {
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        });
+
         /* Set statusBar Color */
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().setStatusBarColor(getColor(R.color.light_primary));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
-        // getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getColor(R.color.white)));
-
-        /* Set color to title */
         getSupportActionBar().setTitle("Checkout");
-        // getSupportActionBar().setTitle(Html.fromHtml("<font color=\"#027B96\">Profile</font>", Html.FROM_HTML_MODE_LEGACY));
+
 
         /* Set up back button */
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -89,7 +94,7 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
 
 
         Cart orderNowCart = (Cart) getIntent().getSerializableExtra("orderNowCart");
-        List<Cart> checkedCarts = (List<Cart>) getIntent().getSerializableExtra("checkedCarts");
+        checkedCarts = (List<Cart>) getIntent().getSerializableExtra("checkedCarts");
 
         if (checkedCarts == null) {
             checkedCarts = new ArrayList<>();
@@ -110,11 +115,58 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
         /* Set up apply voucher logic */
         setUpPromoCode();
 
+        setUpCheckoutButton();
+
+
+    }
+
+    private void setUpCheckoutButton() {
+        binding.checkoutButton.setOnClickListener(view -> {
+            binding.checkoutButton.setVisibility(View.GONE);
+            binding.progressBarCheckout.setVisibility(View.VISIBLE);
+
+            ExecutorService executor = Executors.newCachedThreadPool();
+            Handler handler = new Handler(Looper.getMainLooper());
+
+            if (voucherValue > 0){
+                executor.execute(() -> {
+                    try {
+                        new FirebaseSupportCustomer().disableVoucher(voucherInfo.getKey());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+            }
+
+
+            executor.execute(() -> {
+
+                boolean isSuccessful = new FirebaseSupportCustomer().saveOrders(checkoutItemList);;
+
+                handler.post(() -> {
+                    if (isSuccessful) {
+
+
+                        checkedCarts.forEach(removeCart -> {
+                            CustomerShoppingCartFragment.myCarts.removeIf(cart -> cart.getProduct().getId().equals(removeCart.getProduct().getId()));
+                        });
+                        finishAffinity();   // finish để CustomerShoppingCartFragment thực hiện onDestroy
+                        startActivity(new Intent(this, OrderConfirmedActivity.class));
+
+                        // Move to Order Confirmed Activity
+                    } else {
+                        // popUp Dialog
+                    }
+
+                    binding.checkoutButton.setVisibility(View.VISIBLE);
+                    binding.progressBarCheckout.setVisibility(View.GONE);
+                });
+            });
+
+        });
     }
 
     private void setUpPromoCode() {
-
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
         binding.applyPromoCodeButton.setOnClickListener(view -> {
             binding.promoCode.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
@@ -130,13 +182,13 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
             binding.applyPromoCodeButton.setVisibility(View.GONE);
             binding.progressBarApplyVoucher.setVisibility(View.VISIBLE);
 
-            ExecutorService executor = Executors.newCachedThreadPool();
+            ExecutorService executor = Executors.newSingleThreadExecutor();
             Handler handler = new Handler(Looper.getMainLooper());
 
             executor.execute(() -> {
 
                 boolean isSuccessful = true;
-                VoucherInfo voucherInfo = null;
+                VoucherInfo fetchedVoucherInfo = null;
                 try {
                     voucherInfo = new FirebaseSupportCustomer().fetchingVoucherInfo(binding.promoCode.getText().toString());
                 } catch (IOException e) {
@@ -144,23 +196,23 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
                 }
 
                 boolean finalIsSuccessful = isSuccessful;
-                VoucherInfo finalVoucherInfo = voucherInfo;
                 handler.post(() -> {
                     if (finalIsSuccessful) {
 
-                        if (finalVoucherInfo != null) {
-                            if (finalVoucherInfo.isStatus()) {
+                        if (voucherInfo != null) {
+
+                            if (voucherInfo.isStatus()) {
 
                                 Date currentDate = new Date();
 
-                                if (finalVoucherInfo.getStartDate().getTime() <= currentDate.getTime()
-                                        && currentDate.getTime() < finalVoucherInfo.getEndDate().getTime()) {
+                                if (voucherInfo.getStartDate().getTime() <= currentDate.getTime()
+                                        && currentDate.getTime() < voucherInfo.getEndDate().getTime()) {
 
                                     Drawable icon = getDrawable(R.drawable.lam_baseline_check_24);
                                     icon.setTint(getColor(R.color.light_secondary));
                                     binding.promoCode.setCompoundDrawablesWithIntrinsicBounds(null, null, icon, null);
 
-                                    voucherValue = finalVoucherInfo.getValue();
+                                    voucherValue = voucherInfo.getValue();
                                     binding.voucherValue.setText(currencyFormatter.format(voucherValue));
                                     binding.total.setText(currencyFormatter.format(subTotal - voucherValue + deliveryCharge));
 
@@ -170,10 +222,10 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
                                             .show();
                                 }
 
-                                } else {
-                                    Toast.makeText(this, "Promo code already used", Toast.LENGTH_SHORT)
-                                            .show();
-                                }
+                            } else {
+                                Toast.makeText(this, "Promo code already used", Toast.LENGTH_SHORT)
+                                        .show();
+                            }
 
                         } else {
                             Toast.makeText(this, "Promo code does not exist", Toast.LENGTH_SHORT)
@@ -227,7 +279,7 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
 
         checkoutItemList = checkedCarts.stream().map(cart -> {
                     CheckoutItem item = new CheckoutItem();
-
+                    item.setProductId(cart.getProduct().getId());
                     item.setName(cart.getProduct().getName());
 
                     if (cart.getProduct().getOptions().size() == 1) {
