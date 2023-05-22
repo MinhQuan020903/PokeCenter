@@ -1,4 +1,4 @@
-package com.example.pokecenter.vender.Ninh.VenderTab;
+package com.example.pokecenter.vender.VenderTab;
 
 import android.os.Bundle;
 
@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.databinding.FragmentVenderBinding;
-import com.example.pokecenter.vender.Ninh.VenderTab.Home.VenderHomeFragment;
+import com.example.pokecenter.vender.VenderTab.Home.VenderHomeFragment;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 

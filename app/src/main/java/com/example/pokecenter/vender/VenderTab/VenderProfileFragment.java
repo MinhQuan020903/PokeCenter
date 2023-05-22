@@ -1,4 +1,4 @@
-package com.example.pokecenter.vender.Ninh.VenderTab;
+package com.example.pokecenter.vender.VenderTab;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.Authentication.SignInActivity;
+import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.customer.lam.Provider.FollowData;
 import com.example.pokecenter.customer.lam.Provider.WishListData;
 import com.example.pokecenter.databinding.FragmentCustomerProfileBinding;
@@ -20,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class VenderProfileFragment extends Fragment {
 FragmentVenderProfileBinding binding;
+    public static Account currentVender;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

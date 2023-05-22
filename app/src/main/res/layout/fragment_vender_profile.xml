@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".vender.Ninh.VenderTab.VenderProfileFragment"
+    tools:context=".vender.VenderTab.VenderProfileFragment"
     android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
