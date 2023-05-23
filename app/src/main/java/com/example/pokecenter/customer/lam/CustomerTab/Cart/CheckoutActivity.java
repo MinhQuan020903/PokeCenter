@@ -35,6 +35,7 @@ import com.example.pokecenter.customer.lam.Model.checkout_item.CheckoutProductAd
 import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.review_product.ReviewProductAdapter;
 import com.example.pokecenter.customer.lam.Model.voucher.VoucherInfo;
+import com.example.pokecenter.customer.lam.Provider.ProductData;
 import com.example.pokecenter.databinding.ActivityCheckoutBinding;
 import com.squareup.picasso.Picasso;
 
@@ -282,6 +283,8 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
                     item.setProductId(cart.getProduct().getId());
                     item.setName(cart.getProduct().getName());
 
+                    item.setOptionSize(cart.getProduct().getOptions().size());
+
                     if (cart.getProduct().getOptions().size() == 1) {
                         item.setImage(cart.getProduct().getImages().get(0));
 
@@ -295,7 +298,7 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
                         }
                     }
 
-                    item.setSelectedOption(cart.getProduct().getOptions().get(cart.getSelectedOption()).getOptionName());
+                    item.setSelectedOption(cart.getSelectedOption());
                     item.setPrice(cart.getProduct().getOptions().get(cart.getSelectedOption()).getPrice());
                     item.setQuantity(cart.getQuantity());
 

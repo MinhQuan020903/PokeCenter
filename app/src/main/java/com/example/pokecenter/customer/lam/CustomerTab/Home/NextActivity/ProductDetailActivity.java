@@ -316,7 +316,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                         sumRating += reviewsProduct.get(i).getRate();
                     }
                     if (sumRating == 0) {
-                        binding.productRate.setText("0");
+                        binding.productRate.setText("5.0");
                     } else {
                         binding.productRate.setText(String.format("%.1f", (double)sumRating / reviewsProduct.size()));
                     }
