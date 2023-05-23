@@ -101,6 +101,7 @@ public class AdminProfileFragment extends Fragment {
 
             boolean finalIsSuccessful = isSuccessful;
             Account finalFetchedAccountInfo = fetchedAccountInfo;
+
             handler.post(() -> {
                 if (finalIsSuccessful) {
 
@@ -111,26 +112,12 @@ public class AdminProfileFragment extends Fragment {
                     binding.tvAdminEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
                     binding.tvAdminPhone.setText(currentAccount.getPhoneNumber());
 
-                    binding.ibAdminChangeAvatar.setOnClickListener(view -> {
-                        ImagePicker.with((Activity) context)
-                                .crop()	    			//Crop image(Optional), Check Customization for more option
-                                .galleryOnly()
-                                .createIntent( intent -> {
-                                    openGetImageActivityForResult(intent);
-                                    return Unit.INSTANCE;
-                                });
 
+                    binding.bChangeInformation.setOnClickListener(view -> {
+                        Intent intent = new Intent(getActivity(), AdminAccountInfoActivity.class);
+                        intent.putExtra("currentAccount", currentAccount);
+                        startActivity(intent, null);
                     });
-//
-//                    binding.saveButton.setOnClickListener(view -> {
-//
-//                        if (getCurrentFocus() != null) {
-//                            getCurrentFocus().clearFocus();
-//                        }
-//                        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-//
-//                        updateAccountInfoToServer();
-//                    });
 
                     binding.pbAdminProfile.setVisibility(View.INVISIBLE);
                 }
@@ -139,59 +126,5 @@ public class AdminProfileFragment extends Fragment {
 
     }
 
-    public void openGetImageActivityForResult(Intent intent) {
-        getImageActivityResultLauncher.launch(intent);
-    }
-
-    // You can do the assignment inside onAttach or onCreate, i.e, before the activity is displayed
-    ActivityResultLauncher<Intent> getImageActivityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        // There are no request codes
-                        Intent data = result.getData();
-                        assert data != null;
-                        mImageUri = data.getData();
-                        binding.ivAdminProfileAvatar.setImageURI(mImageUri);
-                        updateAvatar();
-                    }
-                }
-            });
-    private void updateAvatar() {
-        binding.pbAdminProfile.setVisibility(View.VISIBLE);
-        binding.clAdminProfile.setVisibility(View.INVISIBLE);
-
-        String currentEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        if (mImageUri != null) {
-            StorageReference fileRef = mStorageRef.child(currentEmail.replace(".", ","));
-            fileRef.putFile(mImageUri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Task<Uri> downloadUrlTask = taskSnapshot.getStorage().getDownloadUrl();
-                            downloadUrlTask.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    Toast.makeText(context, "Update Avatar Successful", Toast.LENGTH_SHORT).show();
-                                    currentAccount.setAvatar(String.valueOf(uri));
-                                    binding.pbAdminProfile.setVisibility(View.INVISIBLE);
-                                    binding.clAdminProfile.setVisibility(View.VISIBLE);
-                                }
-                            });
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(context, "Update Avatar Failed", Toast.LENGTH_SHORT).show();
-                            binding.pbAdminProfile.setVisibility(View.INVISIBLE);
-                            binding.clAdminProfile.setVisibility(View.VISIBLE);
-                        }
-                    });
-
-        }
-    }
 
 }
