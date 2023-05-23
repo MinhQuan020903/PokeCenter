@@ -18,6 +18,9 @@
         android:theme="@style/Theme.PokeCenter"
         tools:targetApi="31">
         <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Profile.AdminAccountInfoActivity"
+            android:exported="false" />
+        <activity
             android:name=".vender.VenderTab.Home.Product.AddOptionActivity"
             android:exported="false" />
         <activity
