@@ -21,6 +21,7 @@
             android:orientation="vertical"
             android:layout_weight="1">
             <TextView
+                android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Rostam Sadiqi"
@@ -44,7 +45,8 @@
             app:strokeWidth="3dp"
             app:strokeColor="@color/light_primary"
             app:shapeAppearanceOverlay="@style/circleImageView"
-            android:src="@drawable/lam_totoro" />
+            tools:src="@drawable/lam_totoro"
+            android:scaleType="centerCrop"/>
     </LinearLayout>
 
     <LinearLayout
@@ -97,15 +99,15 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <ImageButton
-            android:id="@+id/searchByImageButton"
-            android:layout_width="62dp"
-            android:layout_height="62dp"
-            android:src="@drawable/lam_baseline_image_search_32"
-            android:layout_marginEnd="20dp"
-            android:contentDescription="Shopping Cart"
-            android:background="@drawable/lam_background_ripple_effect_primary"
-            app:tint="@color/white" />
+<!--        <ImageButton-->
+<!--            android:id="@+id/searchByImageButton"-->
+<!--            android:layout_width="62dp"-->
+<!--            android:layout_height="62dp"-->
+<!--            android:src="@drawable/lam_baseline_image_search_32"-->
+<!--            android:layout_marginEnd="20dp"-->
+<!--            android:contentDescription="Shopping Cart"-->
+<!--            android:background="@drawable/lam_background_ripple_effect_primary"-->
+<!--            app:tint="@color/white" />-->
 
 
     </LinearLayout>

@@ -22,6 +22,8 @@ import com.example.pokecenter.admin.AdminActivity;
 import com.example.pokecenter.customer.lam.CustomerActivity;
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.CustomerProfileFragment;
+import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.customer.lam.Provider.WishListData;
 import com.example.pokecenter.databinding.ActivitySignInBinding;
 import com.example.pokecenter.vender.VenderActivity;
@@ -128,10 +130,37 @@ public class SignInActivity extends AppCompatActivity {
                         if (auth.getCurrentUser().isEmailVerified()) {
                             WishListData.fetchDataFromSever();
 
-                            Handler handler = new Handler();
-                            handler.postDelayed(() -> {
-                                determineActivityToNavigateBasedOnRole(email);
-                            }, 500);
+                            ExecutorService executor = Executors.newSingleThreadExecutor();
+                            Handler handler = new Handler(Looper.getMainLooper());
+
+                            executor.execute(() -> {
+
+                                Account fetchedAccountInfo = null;
+                                boolean isSuccessful = true;
+
+                                try {
+                                    fetchedAccountInfo = new FirebaseSupportAccount().fetchingCurrentAccount();
+                                } catch (IOException e) {
+                                    isSuccessful = false;
+                                }
+
+                                boolean finalIsSuccessful = isSuccessful;
+                                Account finalFetchedAccountInfo = fetchedAccountInfo;
+                                handler.post(() -> {
+                                    if (finalIsSuccessful) {
+                                        CustomerProfileFragment.currentAccount = finalFetchedAccountInfo;
+
+                                        new Handler().postDelayed(() -> {
+                                            determineActivityToNavigateBasedOnRole(email);
+                                        }, 500);
+
+                                    } else {
+                                        Toast.makeText(SignInActivity.this, "Failed to connect server", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            });
+
+
 
                         } else {
                             Toast.makeText(this, "Please verify your email", Toast.LENGTH_SHORT)

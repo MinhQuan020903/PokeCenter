@@ -25,7 +25,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     private Context mContext;
     private List<Product> mProducts = new ArrayList<>();
-
     private final PokemonRecyclerViewInterface pokemonRecyclerViewInterface;
 
     public ProductAdapter(Context context, PokemonRecyclerViewInterface pokemonRecyclerViewInterface) {

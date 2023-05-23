@@ -355,9 +355,12 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private void fetchingAndSetUpVenderInfo(String venderId) {
 
+        binding.progressBar.setVisibility(View.VISIBLE);
+
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
-        
+
+
         executor.execute(() -> {
 
             Vender vender = null;
@@ -376,7 +379,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                     Picasso.get().load(finalVender.getAvatar()).into(binding.venderAvatar);
                     binding.shopName.setText(finalVender.getShopName());
-                    binding.registrationDate.setText("Registration: " + finalVender.getRegistrationDate());
+                    binding.registrationDate.setText("Joined: " + finalVender.getRegistrationDate());
                     binding.totalProduct.setText(String.valueOf(finalVender.getTotalProduct()));
                     binding.followCount.setText(String.valueOf(finalVender.getFollowCount()));
 
@@ -560,10 +563,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         nên cần reload để update lại số follower
         */
 
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(getIntent());
-        overridePendingTransition(0, 0);
+        fetchingAndSetUpVenderInfo(receiveProduct.getVenderId());
     }
 
     @Override

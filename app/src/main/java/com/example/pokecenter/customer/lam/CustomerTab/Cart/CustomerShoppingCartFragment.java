@@ -49,7 +49,7 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
 
     private FragmentCustomerShoppingCartBinding binding;
 
-    private List<Cart> myCarts = new ArrayList<>();
+    public static List<Cart> myCarts = new ArrayList<>();
 
     private CartAdapter cartAdapter;
 
@@ -203,6 +203,8 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
             view.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.lam_background_outline_secondary));
             myCarts.get(position).setSelectedOption(selectedItemPosition);
 
+
+
         });
 
         Button okButton = dialog.findViewById(R.id.okButton);
@@ -210,6 +212,10 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
 
             dialog.dismiss();
             cartAdapter.notifyItemChanged(position);
+
+            if (myCarts.get(position).isChecked()) {
+                calculatePrice();
+            }
 
         });
 
@@ -315,7 +321,7 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
                 throw new RuntimeException(e);
             }
             handler.post(() -> {
-                myCarts = null;
+                myCarts = new ArrayList<>();
             });
         });
 

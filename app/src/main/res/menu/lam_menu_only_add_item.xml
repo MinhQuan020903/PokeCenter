@@ -5,5 +5,4 @@
         android:icon="@drawable/lam_outline_add_location_alt_24"
         android:title="New"
         app:showAsAction="always"/>
-
 </menu>

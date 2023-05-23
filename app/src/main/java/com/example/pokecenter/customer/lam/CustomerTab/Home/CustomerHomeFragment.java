@@ -26,6 +26,7 @@ import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.Product
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.ProductDetailActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.SearchProductActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.TrendingProductsActivity;
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.CustomerProfileFragment;
 import com.example.pokecenter.customer.lam.Interface.PokemonRecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
 import com.example.pokecenter.customer.lam.Model.pokemon.PokemonAdapter;
@@ -33,6 +34,7 @@ import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.customer.lam.Model.product.ProductAdapter;
 import com.example.pokecenter.customer.lam.Provider.ProductData;
 import com.example.pokecenter.databinding.FragmentCustomerHomeBinding;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -56,6 +58,9 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
 
         // Inflate the layout for this fragment
         binding = FragmentCustomerHomeBinding.inflate(inflater, container, false);
+
+        binding.username.setText(CustomerProfileFragment.currentAccount.getUsername());
+        Picasso.get().load(CustomerProfileFragment.currentAccount.getAvatar()).into(binding.avatarImage);
 
         // Move to Profile Fragment when User click on avatarImage
         binding.avatarImage.setOnClickListener(view -> {
