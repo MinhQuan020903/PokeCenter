@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -89,7 +90,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         binding = ActivityProductDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.bottomBar.setPadding(0, 0, 0, getNavigationBarHeight());
+        binding.paddingBottom.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getNavigationBarHeight()));
 
         // Pre setup viewDialog
         viewDialog = getLayoutInflater().inflate(R.layout.lam_bottom_sheet_place_order, null);
@@ -129,6 +130,12 @@ public class ProductDetailActivity extends AppCompatActivity {
         if (receiveProduct.getOptions().size() == 1) {
             binding.productPrice.setText(currencyFormatter.format(receiveProduct.getOptions().get(0).getPrice()));
             binding.dropListDownOptions.setVisibility(View.GONE);
+
+            if (receiveProduct.getOptions().get(0).getCurrentQuantity() == 0) {
+                binding.bottomBar.setVisibility(View.GONE);
+                binding.outOfStock.setVisibility(View.VISIBLE);
+            }
+
         } else {
             binding.productPrice.setText(currencyFormatter.format(receiveProduct.getOptions().get(0).getPrice()) + " - " + currencyFormatter.format(receiveProduct.getOptions().get(receiveProduct.getOptions().size() - 1).getPrice()));
         }
@@ -151,6 +158,14 @@ public class ProductDetailActivity extends AppCompatActivity {
                     binding.productImageSliderView.setCurrentPagePosition(0);
                 } else {
                     binding.productImageSliderView.setCurrentPagePosition(receiveProduct.getImages().size() + position);
+                }
+
+                if (receiveProduct.getOptions().get(position).getCurrentQuantity() == 0) {
+                    binding.bottomBar.setVisibility(View.GONE);
+                    binding.outOfStock.setVisibility(View.VISIBLE);
+                } else {
+                    binding.bottomBar.setVisibility(View.VISIBLE);
+                    binding.outOfStock.setVisibility(View.GONE);
                 }
             }
         });
