@@ -15,6 +15,7 @@ import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.CustomerTab.Cart.CheckoutActivity;
 import com.example.pokecenter.customer.lam.Model.cart.Cart;
 import com.example.pokecenter.customer.lam.Model.option.Option;
+import com.example.pokecenter.customer.lam.Provider.ProductData;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
@@ -47,12 +48,14 @@ public class CheckoutProductAdapter extends RecyclerView.Adapter<CheckoutProduct
         CheckoutItem checkoutItem = mCheckoutItemList.get(position);
 
         Picasso.get().load(checkoutItem.getImage()).into(holder.productImage);
+
         holder.productName.setText(checkoutItem.getName());
 
-        if (checkoutItem.getSelectedOption().equals("null")) {
+        if (checkoutItem.getOptionSize() == 1) {
             holder.selectedOption.setVisibility(View.GONE);
         } else {
-            holder.selectedOption.setText(checkoutItem.getSelectedOption());
+            String selectedOptionName = ProductData.fetchedProducts.get(checkoutItem.getProductId()).getOptions().get(checkoutItem.getSelectedOption()).getOptionName();
+            holder.selectedOption.setText(selectedOptionName);
         }
 
         holder.price.setText(currencyFormatter.format(checkoutItem.getPrice()));

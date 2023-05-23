@@ -359,15 +359,12 @@
             android:id="@+id/bottom_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@color/black"
-            android:gravity="center_vertical"
-            app:layout_constraintBottom_toBottomOf="parent">
+            android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/shoppingCartButton"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:src="@drawable/lam_baseline_shopping_cart_32"
                 android:background="@color/light_primary"
                 android:padding="12dp"
@@ -404,6 +401,25 @@
                 android:foreground="?android:attr/selectableItemBackground"/>
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/out_of_stock"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Out of stock"
+            android:textColor="#BBBBBB"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:background="#EEEEEE"
+            android:gravity="center"
+            android:textAlignment="gravity"
+            android:visibility="gone"/>
+
+        <View
+            android:id="@+id/paddingBottom"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/black"/>
 
     </LinearLayout>
 

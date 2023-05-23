@@ -43,6 +43,10 @@ public class Option implements Serializable {
         this.currentQuantity = currentQuantity;
     }
 
+    public void decreaseCurrentQuantity(int x) {
+        this.currentQuantity -= x;
+    }
+
     public int getInputQuantity() {
         return inputQuantity;
     }

@@ -60,7 +60,7 @@ Cảm ơn những người tuyệt vời này ([emoji key](https://allcontributo
         <a title="Bug reports">🐛</a>
     </td>
     <td align="center">
-        <a href="https://github.com/Ninh24072003">
+        <a href="https://github.com/NinhNon">
             <img src="https://avatars.githubusercontent.com/u/111855355?v=4" width="100px;" />
             <br />
             <sub>
