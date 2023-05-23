@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -53,6 +54,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
         holder.createDateTime.setText(order.getCreateDateTime());
 
+        holder.listOrders.removeAllViews();
         order.getOrdersDetail().forEach(detailOrder -> {
 
             LayoutInflater inflater = LayoutInflater.from(mContext);
@@ -72,6 +74,15 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             holder.listOrders.addView(detailItemView);
 
         });
+
+        if (order.isExpand()) {
+            holder.arrowIcon.setImageDrawable(mContext.getDrawable(R.drawable.lam_round_keyboard_arrow_up_24));
+            holder.expandableLayout.setVisibility(View.VISIBLE);
+        } else {
+            holder.arrowIcon.setImageDrawable(mContext.getDrawable(R.drawable.lam_round_keyboard_arrow_down_24));
+            holder.expandableLayout.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -86,6 +97,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
         private TextView totalAmount;
         private TextView createDateTime;
+        private ImageView arrowIcon;
+        private LinearLayout expandableLayout;
         private LinearLayout listOrders;
 
         public OrderViewHolder(@NonNull View itemView) {
@@ -93,7 +106,19 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
             totalAmount = itemView.findViewById(R.id.total_amount);
             createDateTime = itemView.findViewById(R.id.createDateTime);
+            arrowIcon = itemView.findViewById(R.id.icon);
+
+            expandableLayout = itemView.findViewById(R.id.expandable_layout);
             listOrders = itemView.findViewById(R.id.list_orders);
+
+            itemView.setOnClickListener(view -> {
+
+                int pos = getAbsoluteAdapterPosition();
+                Order order = mOrders.get(pos);
+                order.toggleExpand();
+                notifyItemChanged(pos);
+
+            });
         }
     }
 }

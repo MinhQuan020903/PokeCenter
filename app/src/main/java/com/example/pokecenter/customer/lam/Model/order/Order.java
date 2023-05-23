@@ -8,11 +8,13 @@ public class Order {
     private int totalAmount;
     private String createDateTime;
     private List<DetailOrder> ordersDetail;
+    private boolean isExpand;
 
     public Order(int totalAmount, String createDateTime, List<DetailOrder> ordersDetail) {
         this.totalAmount = totalAmount;
         this.createDateTime = createDateTime;
         this.ordersDetail = ordersDetail;
+        this.isExpand = false;
     }
 
     public int getTotalAmount() {
@@ -37,5 +39,17 @@ public class Order {
 
     public void setOrdersDetail(List<DetailOrder> ordersDetail) {
         this.ordersDetail = ordersDetail;
+    }
+
+    public boolean isExpand() {
+        return isExpand;
+    }
+
+    public void setExpand(boolean expand) {
+        isExpand = expand;
+    }
+
+    public void toggleExpand() {
+        isExpand = !isExpand;
     }
 }
