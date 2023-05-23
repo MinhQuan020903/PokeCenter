@@ -18,6 +18,18 @@
         android:theme="@style/Theme.PokeCenter"
         tools:targetApi="31">
         <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Home.AdminUsersManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Home.AdminProductsManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Home.AdminOrdersManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Home.AdminStoreStatisticActivity"
+            android:exported="false" />
+        <activity
             android:name=".admin.Quan.AdminTab.Tabs.Profile.AdminAccountInfoActivity"
             android:exported="false" />
         <activity
@@ -117,7 +129,7 @@
         <activity
             android:name=".customer.lam.CustomerTab.Cart.OrderConfirmedActivity"
             android:exported="false"
-            android:theme="@style/Theme.PokeCenter.NoActionBar"/>
+            android:theme="@style/Theme.PokeCenter.NoActionBar" />
     </application>
 
 </manifest>

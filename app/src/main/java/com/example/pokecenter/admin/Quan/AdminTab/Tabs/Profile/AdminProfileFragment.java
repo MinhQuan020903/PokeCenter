@@ -54,6 +54,11 @@ public class AdminProfileFragment extends Fragment {
     private StorageReference mStorageRef;
     private FragmentAdminProfileBinding binding;
 
+    public AdminProfileFragment() {
+    }
+    public AdminProfileFragment(Account currentAccount) {
+        this.currentAccount = currentAccount;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +75,21 @@ public class AdminProfileFragment extends Fragment {
         mStorageRef = FirebaseStorage.getInstance().getReference("avatar");
 
         //Fetch and Setup user's info to layout
-        fetchingAndSetupData();
+
+        if (currentAccount != null) {
+            Picasso.get().load(currentAccount.getAvatar()).into(binding.ivAdminProfileAvatar);
+            binding.tvAdminUsername.setText(currentAccount.getUsername());
+            binding.tvAdminEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+            binding.tvAdminPhone.setText(currentAccount.getPhoneNumber());
+        }
+
+        binding.bChangeInformation.setOnClickListener(view -> {
+            Intent intent = new Intent(getActivity(), AdminAccountInfoActivity.class);
+            intent.putExtra("currentAccount", currentAccount);
+            startActivity(intent, null);
+        });
+
+        binding.pbAdminProfile.setVisibility(View.INVISIBLE);
 
 
         binding.bAdminLogout.setOnClickListener(view -> {
@@ -82,49 +101,5 @@ public class AdminProfileFragment extends Fragment {
         });
         return binding.getRoot();
     }
-
-    private void fetchingAndSetupData() {
-
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
-
-        executor.execute(() -> {
-
-            Account fetchedAccountInfo = null;
-            boolean isSuccessful = true;
-
-            try {
-                fetchedAccountInfo = new FirebaseSupportAccount().fetchingCurrentAccount();
-            } catch (IOException e) {
-                isSuccessful = false;
-            }
-
-            boolean finalIsSuccessful = isSuccessful;
-            Account finalFetchedAccountInfo = fetchedAccountInfo;
-
-            handler.post(() -> {
-                if (finalIsSuccessful) {
-
-                    currentAccount = finalFetchedAccountInfo;
-                    Picasso.get().load(currentAccount.getAvatar()).into(binding.ivAdminProfileAvatar);
-
-                    binding.tvAdminUsername.setText(currentAccount.getUsername());
-                    binding.tvAdminEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-                    binding.tvAdminPhone.setText(currentAccount.getPhoneNumber());
-
-
-                    binding.bChangeInformation.setOnClickListener(view -> {
-                        Intent intent = new Intent(getActivity(), AdminAccountInfoActivity.class);
-                        intent.putExtra("currentAccount", currentAccount);
-                        startActivity(intent, null);
-                    });
-
-                    binding.pbAdminProfile.setVisibility(View.INVISIBLE);
-                }
-            });
-        });
-
-    }
-
 
 }

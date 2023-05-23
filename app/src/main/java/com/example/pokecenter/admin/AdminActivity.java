@@ -7,19 +7,40 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.AdminHomeFragment;
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Notification.AdminNotificationFragment;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Profile.AdminAccountInfoActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Profile.AdminProfileFragment;
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Support.AdminSupportFragment;
+import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
+import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.databinding.ActivityAdminBinding;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.view.Window;
 
 import com.example.pokecenter.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class AdminActivity extends AppCompatActivity {
+
+    private Account currentAccount;
+    private Uri mImageUri;
+    private StorageReference mStorageRef;
 
     private ActivityAdminBinding binding;
     public static BottomNavigationView adminBottomNavigationView;
@@ -35,12 +56,19 @@ public class AdminActivity extends AppCompatActivity {
         }
 
         binding = ActivityAdminBinding.inflate(getLayoutInflater());
+
+        //Initialize a Firebase Storage reference for updating avatar
+        mStorageRef = FirebaseStorage.getInstance().getReference("avatar");
+
+        //Fetch and Setup user's info to layout
+        fetchingAndSetupData();
+
         adminBottomNavigationView = binding.adminBottomNavView;
 
-        Fragment home = new AdminHomeFragment();
+        Fragment home = new AdminHomeFragment(currentAccount);
         Fragment support = new AdminSupportFragment();
         Fragment notification = new AdminNotificationFragment();
-        Fragment profile = new AdminProfileFragment();
+        Fragment profile = new AdminProfileFragment(currentAccount);
 
         // Move between fragments
         adminBottomNavigationView.setOnItemSelectedListener(item -> {
@@ -77,6 +105,8 @@ public class AdminActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
     }
 
+
+
     private void replaceFragment(Fragment selectedFragment) {
 
         /*
@@ -101,4 +131,36 @@ public class AdminActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
+
+    private void fetchingAndSetupData() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        CountDownLatch latch = new CountDownLatch(1); // Create a CountDownLatch
+
+        executor.execute(() -> {
+            Account fetchedAccountInfo = null;
+            boolean isSuccessful = true;
+
+            try {
+                fetchedAccountInfo = new FirebaseSupportAccount().fetchingCurrentAccount();
+            } catch (IOException e) {
+                isSuccessful = false;
+            }
+
+            boolean finalIsSuccessful = isSuccessful;
+            Account finalFetchedAccountInfo = fetchedAccountInfo;
+            if (finalIsSuccessful) {
+                currentAccount = finalFetchedAccountInfo;
+            }
+
+            latch.countDown(); // Signal that the background task is complete
+        });
+
+        try {
+            latch.await(); // Wait for the background task to complete
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
