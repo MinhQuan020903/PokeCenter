@@ -6,6 +6,8 @@ import com.example.pokecenter.customer.lam.Model.cart.Cart;
 import com.example.pokecenter.customer.lam.Model.checkout_item.CheckoutItem;
 import com.example.pokecenter.customer.lam.Model.notification.Notification;
 import com.example.pokecenter.customer.lam.Model.option.Option;
+import com.example.pokecenter.customer.lam.Model.order.DetailOrder;
+import com.example.pokecenter.customer.lam.Model.order.Order;
 import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.customer.lam.Model.review_product.ReviewProduct;
 import com.example.pokecenter.customer.lam.Model.vender.Vender;
@@ -884,7 +886,9 @@ public class FirebaseSupportCustomer {
             OkHttpClient client = new OkHttpClient();
 
             Map<String, Object> postData = new HashMap<>();
-            postData.put("createDate", new Date());
+
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            postData.put("createDate", outputFormat.format(new Date()));
             postData.put("totalAmount", totalAmount);
 
             String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
@@ -938,5 +942,62 @@ public class FirebaseSupportCustomer {
         });
 
         return isSuccess.get();
+    }
+
+    public List<Order> fetchingOrdersData() throws IOException {
+
+        List<Order> fetchedOrders = new ArrayList<>();
+
+        OkHttpClient client = new OkHttpClient();
+
+        // Construct the URL for the Firebase Realtime Database endpoint
+        HttpUrl.Builder urlBuilder = HttpUrl.parse("https://pokecenter-ae954-default-rtdb.firebaseio.com/orders.json").newBuilder();
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        urlBuilder.addQueryParameter("orderBy", "\"customerId\"")
+                .addQueryParameter("equalTo", "\"" + emailWithCurrentUser.replace(".", ",") + "\"");
+
+        String url = urlBuilder.build().toString();
+
+        // Create an HTTP GET request
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+            String responseString = response.body().string();
+
+            if (responseString.equals("null")) {
+                return new ArrayList<>();
+            }
+
+            Type type = new TypeToken<Map<String, Map<String, Object>>>(){}.getType();
+            Map<String, Map<String, Object>> fetchedData = new Gson().fromJson(responseString, type);
+
+            fetchedData.forEach((key, value) -> {
+
+                List<Map<String, Object>> detailOrderData = (List<Map<String, Object>>) value.get("details");
+
+                List<DetailOrder> details = new ArrayList<>();
+                detailOrderData.forEach(detailOrder -> {
+                    details.add(new DetailOrder(
+                            (String) detailOrder.get("productId"),
+                            ((Double) detailOrder.get("selectedOption")).intValue(),
+                            ((Double) detailOrder.get("quantity")).intValue()
+                    ));
+                });
+
+                fetchedOrders.add(new Order(
+                        ((Double) value.get("totalAmount")).intValue(),
+                        (String) value.get("createDate"),
+                        details
+                ));
+            });
+        }
+
+        return fetchedOrders;
+
     }
 }
