@@ -9,16 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import com.example.pokecenter.R;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.Adapter.AdminNotificationAdapter;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.Adapter.MessageSenderAdapter;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminNotification;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.MessageSender;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminNotification.AdminNotificationAdapter;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminNotification.AdminNotification;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.ItemSpacingDecoration;
 import com.example.pokecenter.databinding.FragmentAdminNotificationBinding;
-import com.example.pokecenter.databinding.FragmentAdminSupportBinding;
 
 import java.util.ArrayList;
 

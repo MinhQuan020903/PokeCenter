@@ -11,13 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import com.example.pokecenter.R;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.Adapter.MessageSenderAdapter;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.MessageSender;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.MessageSender.MessageSenderAdapter;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.MessageSender.MessageSender;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.ItemSpacingDecoration;
-import com.example.pokecenter.databinding.FragmentAdminHomeBinding;
 import com.example.pokecenter.databinding.FragmentAdminSupportBinding;
 
 import java.util.ArrayList;

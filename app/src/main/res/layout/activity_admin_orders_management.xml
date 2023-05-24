@@ -6,10 +6,58 @@
     android:layout_height="match_parent"
     tools:context=".admin.Quan.AdminTab.Tabs.Home.AdminOrdersManagementActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+    <LinearLayout
+        android:id="@+id/llOrdersManagementSearch"
+        android:layout_width="0dp"
+        android:layout_height="62dp"
+        android:layout_margin="20dp"
+        android:padding="5dp"
+        android:background="@drawable/quan_rounded_layout_background"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="Orders"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.9">
+
+        <EditText
+            android:id="@+id/etOrderManagementSearch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:ellipsize="end"
+            android:hint="Search in here"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="16dp"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            tools:ignore="VisualLintTextFieldSize" />
+
+        <ImageButton
+            android:id="@+id/bOrderManagementSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/transparent"
+            android:contentDescription="Search Button"
+            android:padding="8dp"
+            android:src="@drawable/lam_baseline_search_32"
+            app:tint="@color/border_shape" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvOrdersManagement"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llOrdersManagementSearch"
+        app:layout_constraintVertical_bias="0.169"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
