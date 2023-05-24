@@ -1,4 +1,4 @@
-package com.example.pokecenter.admin.Quan.AdminTab.Model.Adapter;
+package com.example.pokecenter.admin.Quan.AdminTab.Model.AdminNotification;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,10 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminNotification;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.MessageSender;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 

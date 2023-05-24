@@ -1,4 +1,4 @@
-package com.example.pokecenter.admin.Quan.AdminTab.Model;
+package com.example.pokecenter.admin.Quan.AdminTab.Model.AdminNotification;
 
 import java.io.Serializable;
 

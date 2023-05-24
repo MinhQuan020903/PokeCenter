@@ -1,4 +1,4 @@
-package com.example.pokecenter.admin.Quan.AdminTab.Model.Adapter;
+package com.example.pokecenter.admin.Quan.AdminTab.Model.MessageSender;
 
 
 import android.content.Context;
@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.MessageSender;
 
 import java.util.ArrayList;
 

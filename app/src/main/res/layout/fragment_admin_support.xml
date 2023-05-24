@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="4dp"
                 android:layout_marginEnd="8dp"
-                android:backgroundTint="@color/white"
+                android:backgroundTint="@color/transparent"
                 android:contentDescription="Search Button"
                 android:padding="8dp"
                 android:src="@drawable/lam_baseline_search_32"
