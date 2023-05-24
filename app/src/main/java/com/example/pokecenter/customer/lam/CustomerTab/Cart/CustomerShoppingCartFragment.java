@@ -184,25 +184,22 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
             params.height = 11 * 100;
             lvOption.setLayoutParams(params);
         }
+
         lvOption.setAdapter(optionAdapter);
-
-
         lvOption.setOnItemClickListener((adapterView, view, selectedItemPosition, l) -> {
 
-            /*
-            Note: muốn sử dụng setOnItemClickListener thì item trong listView đó không được set thuộc tính android:clickable="true"
-             */
+            if (myCarts.get(position).getProduct().getOptions().get(selectedItemPosition).getCurrentQuantity() > 0) {
 
-            // Reset background color for all items
-            for(int i = 0; i < adapterView.getChildCount(); i++) {
-                adapterView.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
+                // Reset background color for all items
+                for(int i = 0; i < adapterView.getChildCount(); i++) {
+                    adapterView.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
+                }
+
+                // Set background color for the selected item
+                view.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.lam_background_outline_secondary));
+                myCarts.get(position).setSelectedOption(selectedItemPosition);
+
             }
-
-            // Set background color for the selected item
-            view.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.lam_background_outline_secondary));
-            myCarts.get(position).setSelectedOption(selectedItemPosition);
-
-
 
         });
 

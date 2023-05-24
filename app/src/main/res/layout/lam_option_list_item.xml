@@ -8,7 +8,7 @@
     android:paddingHorizontal="10dp"
     android:paddingVertical="10dp"
     android:background="@color/white"
-    android:foreground="?android:attr/selectableItemBackground">
+    android:clickable="true">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/option_image"

@@ -1,6 +1,9 @@
 package com.example.pokecenter.customer.lam.Model.option;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +55,16 @@ public class OptionAdapter extends ArrayAdapter<Option> {
 
         optionName.setText(option.getOptionName());
         optionPrice.setText(currencyFormatter.format(option.getPrice()));
+
+        if (option.getCurrentQuantity() == 0) {
+            optionName.setTextColor(Color.parseColor("#E3E3E3"));
+            optionPrice.setTextColor(Color.parseColor("#E3E3E3"));
+
+        } else {
+            optionName.setTextColor(Color.parseColor("#000000"));
+            optionPrice.setTextColor(Color.parseColor("#027B96"));
+            view.setClickable(false);
+        }
 
         return view;
     }
