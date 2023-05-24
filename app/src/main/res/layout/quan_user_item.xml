@@ -23,7 +23,9 @@
             app:layout_constraintTop_toTopOf="parent"
             android:background="@null"
             android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/rounded_left_corners_rectangle"/>
+            app:shapeAppearanceOverlay="@style/rounded_left_corners_rectangle"
+            app:strokeColor="@color/quan_light_yellow"
+            app:strokeWidth="2dp"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clUserItem"
