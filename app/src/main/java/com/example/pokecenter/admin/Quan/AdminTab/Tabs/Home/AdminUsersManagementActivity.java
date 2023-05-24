@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -132,6 +135,45 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
 
                     }
                 });
+
+                binding.etUsersManagementSearch.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        // Not used in this case
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        String searchQuery = s.toString().toLowerCase();
+                        //Get position of role spinner
+                        int role = binding.spUserRole.getSelectedItemPosition();
+
+                        ArrayList<User> filteredList = new ArrayList<>();
+                        for (User user : usersList) {
+                            String userName = user.getUsername().toLowerCase();
+
+                            //If selected role in spinner is "All"
+                            if (role == 0) {
+                                if (userName.contains(searchQuery)) {
+                                    filteredList.add(user);
+                                }
+                            } else {    //If selected role in spinner is "Customer", "Vender" or "Admin"
+                                if (userName.contains(searchQuery) && user.getRole() == role - 1) {
+                                    filteredList.add(user);
+                                }
+                            }
+
+                        }
+
+                        userAdapter.setUsersList(filteredList);
+                        userAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                    }
+                });
+
 
                 binding.progressBar.setVisibility(View.INVISIBLE);
             }
