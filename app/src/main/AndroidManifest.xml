@@ -130,6 +130,10 @@
             android:name=".customer.lam.CustomerTab.Cart.OrderConfirmedActivity"
             android:exported="false"
             android:theme="@style/Theme.PokeCenter.NoActionBar" />
+        <activity
+            android:name=".customer.lam.CustomerTab.Profile.NextActivity.MyProductReviewsActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

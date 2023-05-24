@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.CustomerAccountInfoActivity;
 import com.example.pokecenter.customer.lam.Authentication.SignInActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity;
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyProductReviewsActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.WishListActivity;
 import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.customer.lam.Provider.FollowData;
@@ -45,6 +46,10 @@ public class CustomerProfileFragment extends Fragment {
 
         binding.wishListItem.setOnClickListener(view -> {
             startActivity(new Intent(getActivity(), WishListActivity.class));
+        });
+
+        binding.productReviews.setOnClickListener(view -> {
+            startActivity(new Intent(getActivity(), MyProductReviewsActivity.class));
         });
 
 
