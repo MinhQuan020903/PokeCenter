@@ -873,9 +873,7 @@ public class FirebaseSupportCustomer {
 
                     Map<String, Object> orderDetail = new HashMap<>();
                     orderDetail.put("productId", item.getProductId());
-                    orderDetail.put("productName", item.getName());
                     orderDetail.put("selectedOption", item.getSelectedOption());
-                    orderDetail.put("price", item.getPrice());
                     orderDetail.put("quantity", item.getQuantity());
 
                     filterList.add(orderDetail);
@@ -909,6 +907,34 @@ public class FirebaseSupportCustomer {
                 isSuccess.set(false);
                 return;
             }
+
+            filterList.forEach(item -> {
+                String productId = (String) item.get("productId");
+                int selectedOption = (int) item.get("selectedOption");
+                int quantity = (int) item.get("quantity");
+
+                Option option = ProductData.fetchedProducts.get(productId).getOptions().get(selectedOption);
+                option.decreaseCurrentQuantity(quantity);
+
+                Map<String, Integer> patchData = new HashMap<>();
+                patchData.put("currentQuantity", option.getCurrentQuantity());
+
+                String jsonPatchData = new Gson().toJson(patchData);
+                RequestBody patchBody = RequestBody.create(jsonPatchData, JSON);
+
+                Request patchRequest = new Request.Builder()
+                        .url(urlDb + "products/" + productId + "/options/" + option.getOptionName() + ".json")
+                        .patch(patchBody)
+                        .build();
+
+                try {
+                    client.newCall(patchRequest).execute();
+                } catch (IOException e) {
+                    isSuccess.set(false);
+                    return;
+                }
+            });
+
         });
 
         return isSuccess.get();

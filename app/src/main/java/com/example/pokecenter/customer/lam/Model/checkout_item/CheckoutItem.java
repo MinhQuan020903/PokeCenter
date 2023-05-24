@@ -4,7 +4,8 @@ public class CheckoutItem {
     private String productId;
     private String name;
     private String image;
-    private String selectedOption;
+    private int selectedOption;
+    private int optionSize;
     private int price;
     private int quantity;
     private String venderId;
@@ -13,11 +14,12 @@ public class CheckoutItem {
 
     }
 
-    public CheckoutItem(String productId, String name, String image, String selectedOption, int price, int quantity, String venderId) {
+    public CheckoutItem(String productId, String name, String image, int selectedOption, int optionSize, int price, int quantity, String venderId) {
         this.productId = productId;
         this.name = name;
         this.image = image;
         this.selectedOption = selectedOption;
+        this.optionSize = optionSize;
         this.price = price;
         this.quantity = quantity;
         this.venderId = venderId;
@@ -47,12 +49,20 @@ public class CheckoutItem {
         this.image = image;
     }
 
-    public String getSelectedOption() {
+    public int getSelectedOption() {
         return selectedOption;
     }
 
-    public void setSelectedOption(String selectedOption) {
+    public void setSelectedOption(int selectedOption) {
         this.selectedOption = selectedOption;
+    }
+
+    public int getOptionSize() {
+        return optionSize;
+    }
+
+    public void setOptionSize(int optionSize) {
+        this.optionSize = optionSize;
     }
 
     public int getPrice() {
