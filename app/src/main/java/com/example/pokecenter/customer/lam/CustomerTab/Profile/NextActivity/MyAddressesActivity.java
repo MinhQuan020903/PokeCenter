@@ -370,5 +370,4 @@ public class MyAddressesActivity extends AppCompatActivity implements AddressRec
 
         return null;
     }
-
 }

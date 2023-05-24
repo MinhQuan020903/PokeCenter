@@ -75,13 +75,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
         });
 
-        if (order.isExpand()) {
-            holder.arrowIcon.setImageDrawable(mContext.getDrawable(R.drawable.lam_round_keyboard_arrow_up_24));
-            holder.expandableLayout.setVisibility(View.VISIBLE);
-        } else {
-            holder.arrowIcon.setImageDrawable(mContext.getDrawable(R.drawable.lam_round_keyboard_arrow_down_24));
-            holder.expandableLayout.setVisibility(View.GONE);
-        }
+        holder.arrowIcon.setImageDrawable(mContext.getDrawable(R.drawable.lam_round_keyboard_arrow_down_24));
+        holder.expandableLayout.setVisibility(View.GONE);
 
     }
 
@@ -116,7 +111,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                 int pos = getAbsoluteAdapterPosition();
                 Order order = mOrders.get(pos);
                 order.toggleExpand();
-                notifyItemChanged(pos);
+                if (order.isExpand()) {
+                    arrowIcon.setImageDrawable(mContext.getDrawable(R.drawable.lam_round_keyboard_arrow_up_24));
+                    expandableLayout.setVisibility(View.VISIBLE);
+                } else {
+                    arrowIcon.setImageDrawable(mContext.getDrawable(R.drawable.lam_round_keyboard_arrow_down_24));
+                    expandableLayout.setVisibility(View.GONE);
+                }
 
             });
         }

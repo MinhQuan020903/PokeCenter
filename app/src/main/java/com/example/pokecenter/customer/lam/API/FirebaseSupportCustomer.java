@@ -245,7 +245,6 @@ public class FirebaseSupportCustomer {
                             (String) optionValue.get("optionImage"),
                             ((Double) optionValue.get("currentQuantity")).intValue(),
                             ((Double) optionValue.get("inputQuantity")).intValue(),
-                            ((Double) optionValue.get("cost")).intValue(),
                             ((Double) optionValue.get("price")).intValue()
                     ));
                 });

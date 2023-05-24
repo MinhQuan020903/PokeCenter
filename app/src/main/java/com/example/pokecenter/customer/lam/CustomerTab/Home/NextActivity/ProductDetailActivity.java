@@ -402,7 +402,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                     binding.venderInfo.setOnClickListener(view -> {
                         Intent intent = new Intent(this, VenderInformationActivity.class);
-
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         intent.putExtra("vender object", fetchedVender);
                         startActivity(intent);
                     });

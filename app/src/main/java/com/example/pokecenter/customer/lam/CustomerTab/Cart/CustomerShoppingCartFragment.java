@@ -111,8 +111,8 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
                 if (finalFetchedCartsData != null) {
                     finalFetchedCartsData.forEach(cart -> {
                         myCarts.add(cart);
-                        cartAdapter.notifyDataSetChanged();
                     });
+                    cartAdapter.notifyDataSetChanged();
                     if (myCarts.size() == 0) {
                         binding.informText.setText("You haven't added anything to your cart.");
                         binding.informText.setVisibility(View.VISIBLE);
@@ -154,7 +154,6 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
 
     @Override
     public void onCheckedChange(int position, boolean isChecked) {
-        myCarts.get(position).setChecked(isChecked);
         calculatePrice();
     }
 
@@ -185,25 +184,22 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
             params.height = 11 * 100;
             lvOption.setLayoutParams(params);
         }
+
         lvOption.setAdapter(optionAdapter);
-
-
         lvOption.setOnItemClickListener((adapterView, view, selectedItemPosition, l) -> {
 
-            /*
-            Note: muốn sử dụng setOnItemClickListener thì item trong listView đó không được set thuộc tính android:clickable="true"
-             */
+            if (myCarts.get(position).getProduct().getOptions().get(selectedItemPosition).getCurrentQuantity() > 0) {
 
-            // Reset background color for all items
-            for(int i = 0; i < adapterView.getChildCount(); i++) {
-                adapterView.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
+                // Reset background color for all items
+                for(int i = 0; i < adapterView.getChildCount(); i++) {
+                    adapterView.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
+                }
+
+                // Set background color for the selected item
+                view.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.lam_background_outline_secondary));
+                myCarts.get(position).setSelectedOption(selectedItemPosition);
+
             }
-
-            // Set background color for the selected item
-            view.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.lam_background_outline_secondary));
-            myCarts.get(position).setSelectedOption(selectedItemPosition);
-
-
 
         });
 
