@@ -17,12 +17,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     private ArrayList<User> usersList;
     private Context context;
     private int resource;
+
+    public void setUsersList(ArrayList<User> usersList) {
+        this.usersList = usersList;
+    }
 
     public UserAdapter(ArrayList<User> usersList, Context context, int resource) {
         this.usersList = usersList;
@@ -35,6 +40,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         private TextView tvUsername;
         private TextView tvUserEmail;
         private TextView tvUserPhoneNumber;
+        private TextView tvUserRole;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -42,6 +48,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             tvUsername = itemView.findViewById(R.id.tvUsername);
             tvUserEmail = itemView.findViewById(R.id.tvUserEmail);
             tvUserPhoneNumber = itemView.findViewById(R.id.tvUserPhoneNumber);
+            tvUserRole = itemView.findViewById(R.id.tvUserRole);
         }
     }
 
@@ -59,7 +66,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             Picasso.get().load(user.getAvatar()).into(holder.ivUserAvatar);
             holder.tvUsername.setText(user.getUsername());
             holder.tvUserEmail.setText(user.getEmail());
-            holder.tvUserPhoneNumber.setText(user.getPhoneNumber());
+            if (user.getPhoneNumber() == null || Objects.equals(user.getPhoneNumber(), "")) {
+                holder.tvUserPhoneNumber.setText("___");
+            }
+            else {
+                holder.tvUserPhoneNumber.setText(user.getPhoneNumber());
+            }
+
+            String role = (user.getRole() == 0) ? "Customer" : (user.getRole() == 1) ? "Vender" : "Admin";
+            holder.tvUserRole.setText(role);
         }
     }
 

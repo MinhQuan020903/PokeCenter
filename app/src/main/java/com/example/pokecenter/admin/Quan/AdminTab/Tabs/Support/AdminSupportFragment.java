@@ -19,14 +19,13 @@ import com.example.pokecenter.admin.Quan.AdminTab.Utils.ItemSpacingDecoration;
 import com.example.pokecenter.databinding.FragmentAdminSupportBinding;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class AdminSupportFragment extends Fragment {
 
     private Context context;
     private FragmentAdminSupportBinding binding;
     private ArrayList<MessageSender> messageSendersList;
-    private ArrayList<MessageSender> messageCustomersList;
-    private ArrayList<MessageSender> messageVendersList;
     private ArrayList<String> userRoles;
     private MessageSenderAdapter messageSenderAdapter;
 
@@ -52,19 +51,10 @@ public class AdminSupportFragment extends Fragment {
         MessageSender ms3 = new MessageSender(R.drawable.lam_totoro, 0, "Nguyen Trong Ninh",
                 "8:46 PM", "Yowassup", 2);
         messageSendersList = new ArrayList<>();
-        messageCustomersList = new ArrayList<>();
-        messageVendersList = new ArrayList<>();
+
         messageSendersList.add(ms1);
         messageSendersList.add(ms2);
         messageSendersList.add(ms3);
-
-        for (MessageSender ms : messageSendersList) {
-            if (ms.getSenderRole() == 0) {
-                messageCustomersList.add(ms);
-            } else if (ms.getSenderRole() == 1) {
-                messageVendersList.add(ms);
-            }
-        }
 
         messageSenderAdapter = new MessageSenderAdapter(messageSendersList, context, R.layout.quan_chat_sender_item,0);
         //Add spacing to RecyclerView rvClass
@@ -90,11 +80,17 @@ public class AdminSupportFragment extends Fragment {
                         break;
                     }
                     case 1: {   //View Customer
-                        messageSenderAdapter.setMessageSendersList(messageCustomersList);
+                        messageSenderAdapter.setMessageSendersList(messageSendersList.stream()
+                                .filter(v -> v.getSenderRole() == 0)
+                                .collect(Collectors.toCollection(ArrayList::new))
+                        );
                         break;
                     }
                     case 2: {   //View Vender
-                        messageSenderAdapter.setMessageSendersList(messageVendersList);
+                        messageSenderAdapter.setMessageSendersList(messageSendersList.stream()
+                                .filter(v -> v.getSenderRole() == 1)
+                                .collect(Collectors.toCollection(ArrayList::new))
+                        );
                         break;
                     }
                 }
