@@ -111,8 +111,8 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
                 if (finalFetchedCartsData != null) {
                     finalFetchedCartsData.forEach(cart -> {
                         myCarts.add(cart);
-                        cartAdapter.notifyDataSetChanged();
                     });
+                    cartAdapter.notifyDataSetChanged();
                     if (myCarts.size() == 0) {
                         binding.informText.setText("You haven't added anything to your cart.");
                         binding.informText.setVisibility(View.VISIBLE);
@@ -154,7 +154,6 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
 
     @Override
     public void onCheckedChange(int position, boolean isChecked) {
-        myCarts.get(position).setChecked(isChecked);
         calculatePrice();
     }
 

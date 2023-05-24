@@ -59,6 +59,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             holder.selectOptionsButton.setVisibility(View.GONE);
             holder.productPrice.setText(currencyFormatter.format(cart.getProduct().getOptions().get(0).getPrice()));
         } else {
+
+            holder.selectOptionsButton.setVisibility(View.VISIBLE);
+
             Option selectedOption = cart.getProduct().getOptions().get(cart.getSelectedOption());
 
             if (selectedOption.getOptionImage().isEmpty()) {
@@ -135,8 +138,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             checkBox = itemView.findViewById(R.id.cart_checkbox);
 
             checkBox.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+                int pos = getAbsoluteAdapterPosition();
+                mCarts.get(pos).setChecked(isChecked);
                 if (cartRecyclerViewInterface != null) {
-                    int pos = getAbsoluteAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {
                         cartRecyclerViewInterface.onCheckedChange(pos, isChecked);
                     }

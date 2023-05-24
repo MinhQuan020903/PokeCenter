@@ -394,6 +394,9 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
             }
             lvAddress.setAdapter(addressArrayAdapter);
 
+            Button okButton = dialog.findViewById(R.id.okButton);
+            okButton.setEnabled(false);
+
             AtomicInteger selectedAddressPosition = new AtomicInteger();
             lvAddress.setOnItemClickListener((adapterView, view, selectedItemPosition, l) -> {
                 /* Note: muốn sử dụng setOnItemClickListener thì item trong listView đó không được set thuộc tính android:clickable="true" */
@@ -407,9 +410,9 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
                 view.setBackground(getDrawable(R.drawable.lam_background_outline_secondary));
 
                 selectedAddressPosition.set(selectedItemPosition);
+                okButton.setEnabled(true);
             });
 
-            Button okButton = dialog.findViewById(R.id.okButton);
             okButton.setOnClickListener(view -> {
 
                 Address selectedAddress = MyAddressesActivity.myAddresses.get(selectedAddressPosition.get());
