@@ -10,8 +10,6 @@
     android:background="@color/light_canvas"
     android:padding="20dp">
 
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,7 +37,9 @@
                 android:layout_weight="1"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                tools:text="0915 203 143" />
+                tools:text="0915 203 143"
+                android:maxLines="1"
+                android:ellipsize="end"/>
 
             <ImageButton
                 android:id="@+id/delete_button"

@@ -859,11 +859,15 @@ public class FirebaseSupportCustomer {
         AtomicBoolean isSuccess = new AtomicBoolean(true);
 
         Map<String, Boolean> vendersId = new HashMap<>();
-        Map<String, Boolean> productsId = new HashMap<>();
+        Map<String, Map<String, Object>> purchasedProducts = new HashMap<>();
         checkoutItemList.forEach(item -> {
 
             vendersId.put(item.getVenderId(), true);
-            productsId.put(item.getProductId(), false);
+
+            Map<String, Object> value = new HashMap<>();
+            value.put("reviewed", false);
+            value.put("selectedOption", item.getSelectedOption());
+            purchasedProducts.put(item.getProductId(), value);
 
         });
 
@@ -946,7 +950,7 @@ public class FirebaseSupportCustomer {
         });
 
         try {
-            updateListProductReviews(productsId);
+            updateListProductReviews(purchasedProducts);
         } catch (IOException e) {
 
         }
@@ -954,7 +958,7 @@ public class FirebaseSupportCustomer {
         return isSuccess.get();
     }
 
-    public void updateListProductReviews(Map<String, Boolean> productsId) throws IOException {
+    public void updateListProductReviews(Map<String, Map<String, Object>> productsId) throws IOException {
 
         OkHttpClient client = new OkHttpClient();
         String jsonData = new Gson().toJson(productsId);
