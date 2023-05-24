@@ -859,8 +859,16 @@ public class FirebaseSupportCustomer {
         AtomicBoolean isSuccess = new AtomicBoolean(true);
 
         Map<String, Boolean> vendersId = new HashMap<>();
+        Map<String, Map<String, Object>> purchasedProducts = new HashMap<>();
         checkoutItemList.forEach(item -> {
+
             vendersId.put(item.getVenderId(), true);
+
+            Map<String, Object> value = new HashMap<>();
+            value.put("reviewed", false);
+            value.put("selectedOption", item.getSelectedOption());
+            purchasedProducts.put(item.getProductId(), value);
+
         });
 
         vendersId.keySet().forEach(key -> {
@@ -911,6 +919,7 @@ public class FirebaseSupportCustomer {
                 return;
             }
 
+            // Update Product property
             filterList.forEach(item -> {
                 String productId = (String) item.get("productId");
                 int selectedOption = (int) item.get("selectedOption");
@@ -940,8 +949,30 @@ public class FirebaseSupportCustomer {
 
         });
 
+        try {
+            updateListProductReviews(purchasedProducts);
+        } catch (IOException e) {
+
+        }
+
         return isSuccess.get();
     }
+
+    public void updateListProductReviews(Map<String, Map<String, Object>> productsId) throws IOException {
+
+        OkHttpClient client = new OkHttpClient();
+        String jsonData = new Gson().toJson(productsId);
+        RequestBody body = RequestBody.create(jsonData, JSON);
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Request request = new Request.Builder()
+                .url(urlDb + "customers/" + emailWithCurrentUser.replace(".", ",") + "/purchased.json")
+                .patch(body)
+                .build();
+
+        client.newCall(request).execute();
+    }
+
 
     public List<Order> fetchingOrdersData() throws IOException {
 
