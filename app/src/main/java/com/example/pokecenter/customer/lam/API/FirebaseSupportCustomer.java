@@ -6,6 +6,8 @@ import com.example.pokecenter.customer.lam.Model.cart.Cart;
 import com.example.pokecenter.customer.lam.Model.checkout_item.CheckoutItem;
 import com.example.pokecenter.customer.lam.Model.notification.Notification;
 import com.example.pokecenter.customer.lam.Model.option.Option;
+import com.example.pokecenter.customer.lam.Model.order.DetailOrder;
+import com.example.pokecenter.customer.lam.Model.order.Order;
 import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.customer.lam.Model.review_product.ReviewProduct;
 import com.example.pokecenter.customer.lam.Model.vender.Vender;
@@ -243,7 +245,6 @@ public class FirebaseSupportCustomer {
                             (String) optionValue.get("optionImage"),
                             ((Double) optionValue.get("currentQuantity")).intValue(),
                             ((Double) optionValue.get("inputQuantity")).intValue(),
-                            ((Double) optionValue.get("cost")).intValue(),
                             ((Double) optionValue.get("price")).intValue()
                     ));
                 });
@@ -858,8 +859,16 @@ public class FirebaseSupportCustomer {
         AtomicBoolean isSuccess = new AtomicBoolean(true);
 
         Map<String, Boolean> vendersId = new HashMap<>();
+        Map<String, Map<String, Object>> purchasedProducts = new HashMap<>();
         checkoutItemList.forEach(item -> {
+
             vendersId.put(item.getVenderId(), true);
+
+            Map<String, Object> value = new HashMap<>();
+            value.put("reviewed", false);
+            value.put("selectedOption", item.getSelectedOption());
+            purchasedProducts.put(item.getProductId(), value);
+
         });
 
         vendersId.keySet().forEach(key -> {
@@ -873,9 +882,7 @@ public class FirebaseSupportCustomer {
 
                     Map<String, Object> orderDetail = new HashMap<>();
                     orderDetail.put("productId", item.getProductId());
-                    orderDetail.put("productName", item.getName());
                     orderDetail.put("selectedOption", item.getSelectedOption());
-                    orderDetail.put("price", item.getPrice());
                     orderDetail.put("quantity", item.getQuantity());
 
                     filterList.add(orderDetail);
@@ -886,7 +893,9 @@ public class FirebaseSupportCustomer {
             OkHttpClient client = new OkHttpClient();
 
             Map<String, Object> postData = new HashMap<>();
-            postData.put("createDate", new Date());
+
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            postData.put("createDate", outputFormat.format(new Date()));
             postData.put("totalAmount", totalAmount);
 
             String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
@@ -909,8 +918,116 @@ public class FirebaseSupportCustomer {
                 isSuccess.set(false);
                 return;
             }
+
+            // Update Product property
+            filterList.forEach(item -> {
+                String productId = (String) item.get("productId");
+                int selectedOption = (int) item.get("selectedOption");
+                int quantity = (int) item.get("quantity");
+
+                Option option = ProductData.fetchedProducts.get(productId).getOptions().get(selectedOption);
+                option.decreaseCurrentQuantity(quantity);
+
+                Map<String, Integer> patchData = new HashMap<>();
+                patchData.put("currentQuantity", option.getCurrentQuantity());
+
+                String jsonPatchData = new Gson().toJson(patchData);
+                RequestBody patchBody = RequestBody.create(jsonPatchData, JSON);
+
+                Request patchRequest = new Request.Builder()
+                        .url(urlDb + "products/" + productId + "/options/" + option.getOptionName() + ".json")
+                        .patch(patchBody)
+                        .build();
+
+                try {
+                    client.newCall(patchRequest).execute();
+                } catch (IOException e) {
+                    isSuccess.set(false);
+                    return;
+                }
+            });
+
         });
 
+        try {
+            updateListProductReviews(purchasedProducts);
+        } catch (IOException e) {
+
+        }
+
         return isSuccess.get();
+    }
+
+    public void updateListProductReviews(Map<String, Map<String, Object>> productsId) throws IOException {
+
+        OkHttpClient client = new OkHttpClient();
+        String jsonData = new Gson().toJson(productsId);
+        RequestBody body = RequestBody.create(jsonData, JSON);
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Request request = new Request.Builder()
+                .url(urlDb + "customers/" + emailWithCurrentUser.replace(".", ",") + "/purchased.json")
+                .patch(body)
+                .build();
+
+        client.newCall(request).execute();
+    }
+
+
+    public List<Order> fetchingOrdersData() throws IOException {
+
+        List<Order> fetchedOrders = new ArrayList<>();
+
+        OkHttpClient client = new OkHttpClient();
+
+        // Construct the URL for the Firebase Realtime Database endpoint
+        HttpUrl.Builder urlBuilder = HttpUrl.parse("https://pokecenter-ae954-default-rtdb.firebaseio.com/orders.json").newBuilder();
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        urlBuilder.addQueryParameter("orderBy", "\"customerId\"")
+                .addQueryParameter("equalTo", "\"" + emailWithCurrentUser.replace(".", ",") + "\"");
+
+        String url = urlBuilder.build().toString();
+
+        // Create an HTTP GET request
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+            String responseString = response.body().string();
+
+            if (responseString.equals("null")) {
+                return new ArrayList<>();
+            }
+
+            Type type = new TypeToken<Map<String, Map<String, Object>>>(){}.getType();
+            Map<String, Map<String, Object>> fetchedData = new Gson().fromJson(responseString, type);
+
+            fetchedData.forEach((key, value) -> {
+
+                List<Map<String, Object>> detailOrderData = (List<Map<String, Object>>) value.get("details");
+
+                List<DetailOrder> details = new ArrayList<>();
+                detailOrderData.forEach(detailOrder -> {
+                    details.add(new DetailOrder(
+                            (String) detailOrder.get("productId"),
+                            ((Double) detailOrder.get("selectedOption")).intValue(),
+                            ((Double) detailOrder.get("quantity")).intValue()
+                    ));
+                });
+
+                fetchedOrders.add(new Order(
+                        ((Double) value.get("totalAmount")).intValue(),
+                        (String) value.get("createDate"),
+                        details
+                ));
+            });
+        }
+
+        return fetchedOrders;
+
     }
 }

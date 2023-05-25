@@ -55,7 +55,7 @@ public class AddressArrayAdapter  extends ArrayAdapter<Address> {
             isDeliveryAddress.setVisibility(View.GONE);
         }
 
-        deleteButton.setVisibility(View.INVISIBLE);
+        deleteButton.setVisibility(View.GONE);
         return view;
     }
 }

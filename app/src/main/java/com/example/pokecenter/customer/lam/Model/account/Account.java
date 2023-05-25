@@ -1,6 +1,8 @@
 package com.example.pokecenter.customer.lam.Model.account;
 
-public class Account {
+import java.io.Serializable;
+
+public class Account implements Serializable {
 
     private String avatar;
     private String username;

@@ -7,15 +7,13 @@ public class Option implements Serializable {
     private String optionImage;
     private int currentQuantity;
     private int inputQuantity;
-    private int cost;
     private int price;
 
-    public Option(String optionName, String optionImage, int currentQuantity, int inputQuantity, int cost, int price) {
+    public Option(String optionName, String optionImage, int currentQuantity, int inputQuantity, int price) {
         this.optionName = optionName;
         this.optionImage = optionImage;
         this.currentQuantity = currentQuantity;
         this.inputQuantity = inputQuantity;
-        this.cost = cost;
         this.price = price;
     }
 
@@ -43,20 +41,16 @@ public class Option implements Serializable {
         this.currentQuantity = currentQuantity;
     }
 
+    public void decreaseCurrentQuantity(int x) {
+        this.currentQuantity -= x;
+    }
+
     public int getInputQuantity() {
         return inputQuantity;
     }
 
     public void setInputQuantity(int inputQuantity) {
         this.inputQuantity = inputQuantity;
-    }
-
-    public int getCost() {
-        return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
     }
 
     public int getPrice() {

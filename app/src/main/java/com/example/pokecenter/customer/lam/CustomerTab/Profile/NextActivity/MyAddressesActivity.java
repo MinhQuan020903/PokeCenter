@@ -95,18 +95,20 @@ public class MyAddressesActivity extends AppCompatActivity implements AddressRec
             List<Address> finalFetchedAddressesData = fetchedAddressesData;
             handler.post(() -> {
                 if (finalFetchedAddressesData != null) {
+
                     myAddresses = finalFetchedAddressesData;
                     addressAdapter.setData(myAddresses);
+
                     if (myAddresses.size() == 0) {
                         binding.informText.setText("You haven't added any addresses yet");
                         binding.informText.setVisibility(View.VISIBLE);
                     }
+
                 } else {
-                    Toast.makeText(this, "Connect sever failed", Toast.LENGTH_SHORT)
-                            .show();
 
                     binding.informText.setText("Failed to connect server");
                     binding.informText.setVisibility(View.VISIBLE);
+
                 }
                 binding.progressBar.setVisibility(View.INVISIBLE);
             });
@@ -368,5 +370,4 @@ public class MyAddressesActivity extends AppCompatActivity implements AddressRec
 
         return null;
     }
-
 }
