@@ -66,7 +66,9 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
             @Override
             public void onCallback(ArrayList<User> users) {
                 usersList = users;
-
+                for (User user : usersList) {
+                    System.out.println(user.toString());
+                }
                 //Set up spinner
                 setUpRoleSpinner();
                 //Set up recyclerview for user
@@ -161,7 +163,6 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
                             }
 
                         }
-
                         userAdapter.setUsersList(filteredList);
                         userAdapter.notifyDataSetChanged();
                     }
