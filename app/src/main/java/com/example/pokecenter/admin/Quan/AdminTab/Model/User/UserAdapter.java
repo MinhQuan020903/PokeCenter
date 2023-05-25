@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.MessageSender.MessageSender;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.MessageSender.MessageSenderAdapter;
+import com.example.pokecenter.admin.Quan.AdminTab.Utils.OnItemClickListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
@@ -24,6 +25,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private ArrayList<User> usersList;
     private Context context;
     private int resource;
+    private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
 
     public void setUsersList(ArrayList<User> usersList) {
         this.usersList = usersList;
@@ -49,6 +55,18 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             tvUserEmail = itemView.findViewById(R.id.tvUserEmail);
             tvUserPhoneNumber = itemView.findViewById(R.id.tvUserPhoneNumber);
             tvUserRole = itemView.findViewById(R.id.tvUserRole);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClickListener != null) {
+                        int position = getBindingAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            onItemClickListener.onItemClick(usersList.get(position), position);
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -56,6 +74,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(resource, parent, false);
+
         return new ViewHolder(v);
     }
 
@@ -76,7 +95,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             String role = (user.getRole() == 0) ? "Customer" : (user.getRole() == 1) ? "Vender" : "Admin";
             holder.tvUserRole.setText(role);
         }
+
     }
+
 
     @Override
     public int getItemCount() {
