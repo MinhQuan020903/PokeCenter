@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".admin.Quan.AdminTab.Tabs.Home.AdminUsersManagementActivity">
+    android:background="@color/light_secondary"
+    android:elevation="5dp"
+    tools:context=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminUsersManagementActivity">
     <ProgressBar
     android:id="@+id/progress_bar"
     android:layout_width="match_parent"
@@ -19,8 +21,10 @@
         android:layout_margin="20dp"
         android:padding="5dp"
         android:background="@drawable/quan_rounded_layout_background"
+        android:backgroundTint="#F8CA6D"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -49,11 +53,11 @@
             android:layout_marginVertical="4dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:backgroundTint="@color/transparent"
+            android:backgroundTint="#F8CA6D"
             android:contentDescription="Search Button"
             android:padding="8dp"
             android:src="@drawable/lam_baseline_search_32"
-            app:tint="@color/border_shape" />
+            app:tint="@color/white" />
     </LinearLayout>
 
     <RelativeLayout
@@ -63,6 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:padding="5dp"
+        android:backgroundTint="#F8CA6D"
         app:layout_constraintTop_toBottomOf="@id/llUsersManagementSearch"
         app:layout_constraintStart_toStartOf="parent"
         android:background="@drawable/quan_spinner_background"
@@ -74,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
-            android:background="@android:color/transparent"
+            android:background="#F8CA6D"
             android:gravity="center"
             android:layout_marginLeft="5dp"
             android:spinnerMode="dropdown" />
@@ -97,6 +102,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
         android:padding="5dp"
+        android:backgroundTint="#F8CA6D"
         app:layout_constraintTop_toBottomOf="@id/llUsersManagementSearch"
         app:layout_constraintStart_toEndOf="@id/rlChooseUserRole"
         android:background="@drawable/quan_spinner_background"
@@ -108,7 +114,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
-            android:background="@android:color/transparent"
+            android:background="#F8CA6D"
             android:gravity="center"
             android:layout_marginLeft="5dp"
             android:spinnerMode="dropdown" />

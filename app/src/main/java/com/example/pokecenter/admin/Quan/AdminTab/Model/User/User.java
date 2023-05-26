@@ -1,8 +1,13 @@
 package com.example.pokecenter.admin.Quan.AdminTab.Model.User;
 
+import com.example.pokecenter.customer.lam.Model.address.Address;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class User implements Serializable {
+    private ArrayList<Address> addresses;
+    private String address;
     private String avatar;
     private String gender;
     private String phoneNumber;
@@ -10,6 +15,8 @@ public class User implements Serializable {
     private int role;
     private String username;
     private String email;
+
+
 
     public User() {
     }
@@ -21,6 +28,22 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
         this.role = role;
         this.registrationDate = registrationDate;
+    }
+
+    public ArrayList<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(ArrayList<Address> addresses) {
+        this.addresses = addresses;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getAvatar() {
@@ -79,16 +102,25 @@ public class User implements Serializable {
         this.role = role;
     }
 
+
     @Override
     public String toString() {
-        return "User{" +
-                "avatar='" + avatar + '\'' +
-                ", gender='" + gender + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", registrationDate='" + registrationDate + '\'' +
-                ", role=" + role +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        StringBuilder ret = new StringBuilder("User{addresses=");
+        if (addresses != null) {
+            for (Address a : addresses) {
+                ret.append(a.getAddress2()).append(", ");
+            }
+        }
+        ret.append("address='").append(address).append('\'')
+                .append(", avatar='").append(avatar).append('\'')
+                .append(", gender='").append(gender).append('\'')
+                .append(", phoneNumber='").append(phoneNumber).append('\'')
+                .append(", registrationDate='").append(registrationDate).append('\'')
+                .append(", role=").append(role)
+                .append(", username='").append(username).append('\'')
+                .append(", email='").append(email).append('\'')
+                .append('}');
+        return ret.toString();
     }
+
 }

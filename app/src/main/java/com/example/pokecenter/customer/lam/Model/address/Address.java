@@ -1,6 +1,8 @@
 package com.example.pokecenter.customer.lam.Model.address;
 
-public class Address {
+import java.io.Serializable;
+
+public class Address implements Serializable {
     private String id;
     private String receiverName;
     private String receiverPhoneNumber;

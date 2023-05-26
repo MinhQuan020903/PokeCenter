@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:elevation="5dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +24,9 @@
             app:layout_constraintTop_toTopOf="parent"
             android:background="@null"
             android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/rounded_left_corners_rectangle"/>
+            app:shapeAppearanceOverlay="@style/rounded_left_corners_rectangle"
+            app:strokeColor="@color/quan_light_yellow"
+            app:strokeWidth="2dp"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clUserItem"
