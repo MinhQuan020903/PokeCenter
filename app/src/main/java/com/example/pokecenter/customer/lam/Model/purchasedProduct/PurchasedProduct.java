@@ -3,10 +3,30 @@ package com.example.pokecenter.customer.lam.Model.purchasedProduct;
 public class PurchasedProduct {
     private String productId;
     private boolean reviewed;
+    private String purchasedDate;
+    private int selectedOption;
 
-    public PurchasedProduct(String productId, boolean reviewed) {
+    public PurchasedProduct(String productId, boolean reviewed, String purchasedDate, int selectedOption) {
         this.productId = productId;
         this.reviewed = reviewed;
+        this.purchasedDate = purchasedDate;
+        this.selectedOption = selectedOption;
+    }
+
+    public String getPurchasedDate() {
+        return purchasedDate;
+    }
+
+    public void setPurchasedDate(String purchasedDate) {
+        this.purchasedDate = purchasedDate;
+    }
+
+    public int getSelectedOption() {
+        return selectedOption;
+    }
+
+    public void setSelectedOption(int selectedOption) {
+        this.selectedOption = selectedOption;
     }
 
     public String getProductId() {
