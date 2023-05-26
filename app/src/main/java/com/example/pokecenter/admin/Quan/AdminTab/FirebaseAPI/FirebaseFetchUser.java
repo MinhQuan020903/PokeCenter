@@ -7,7 +7,10 @@ import androidx.annotation.NonNull;
 
 import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.Order;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.OrderDetail;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Admin;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.User;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Vender;
 import com.example.pokecenter.customer.lam.Model.address.Address;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,8 +36,10 @@ public class FirebaseFetchUser {
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = null;
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    User user = new User();
+                    //Generate an addressList
+                    ArrayList<Address> addressList = null;
                     if (!dataSnapshot.child("addresses").exists()) {
                         user = dataSnapshot.getValue(User.class);
                     }
@@ -42,7 +47,7 @@ public class FirebaseFetchUser {
                         //Fetch address data
                         DataSnapshot addressesSnapShot = dataSnapshot.child("addresses");
                         if (addressesSnapShot.exists()) {
-                            ArrayList<Address> addressList = new ArrayList<>();
+                            addressList = new ArrayList<>();
                             for (DataSnapshot addressSnapShot : addressesSnapShot.getChildren()) {
                                 //Fetch attributes of an address object
                                 String id = addressSnapShot.getKey();
@@ -56,8 +61,23 @@ public class FirebaseFetchUser {
                                 Address address = new Address(id, receiverName, receiverPhoneNumber, numberStreetAddress, address2, type, isDeliveryAddress);
                                 addressList.add(address);
                             }
-                            assert user != null;
-                            user.setAddresses(addressList);
+                        }
+                    }
+
+                    //Check role of User
+                    int role = dataSnapshot.child("role").getValue(int.class);
+                    switch (role) {
+                        case 0: {
+                            user = new Customer();
+                            break;
+                        }
+                        case 1: {
+                            user = new Vender();
+                            break;
+                        }
+                        case 2: {
+                            user = new Admin();
+                            break;
                         }
                     }
 
@@ -65,13 +85,14 @@ public class FirebaseFetchUser {
                     user.setAvatar(dataSnapshot.child("avatar").getValue(String.class));
                     user.setGender(dataSnapshot.child("gender").getValue(String.class));
                     user.setRegistrationDate(dataSnapshot.child("registrationDate").getValue(String.class));
-                    user.setRole(dataSnapshot.child("role").getValue(int.class));
+                    user.setRole(role);
                     user.setUsername(dataSnapshot.child("username").getValue(String.class));
                     user.setPhoneNumber(dataSnapshot.child("phoneNumber").getValue(String.class));
                     user.setEmail(dataSnapshot.getKey().replace(",","."));
+                    user.setAddresses(addressList);
                     usersList.add(user);
                 }
-                getUserOrderHistory(usersList,firebaseCallback);
+                getCustomerOrderHistory(usersList, firebaseCallback);
             }
 
             @Override
@@ -81,7 +102,7 @@ public class FirebaseFetchUser {
         });
     }
 
-    public void getUserOrderHistory(ArrayList<User> usersList, FirebaseCallback firebaseCallback) {
+    public void getCustomerOrderHistory(ArrayList<User> usersList, FirebaseCallback firebaseCallback) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef = firebaseDatabase.getReference("orders");
 
@@ -115,11 +136,12 @@ public class FirebaseFetchUser {
                     order.setVenderId(dataSnapshot.child("venderId").getValue(String.class).replace(",","."));
 
                     for (User user : usersList) {
-                        if (user.getEmail().equals(order.getCustomerId())) {
-                            if (user.getOrderHistory() == null) {
-                                user.setOrderHistory(new ArrayList<>());
+                        if (user instanceof Customer && user.getEmail().equals(order.getCustomerId())) {
+                            if (((Customer) user).getOrderHistory() == null) {
+                                ((Customer) user).setOrderHistory(new ArrayList<>());
                             }
-                            user.getOrderHistory().add(order);
+                            ((Customer) user).getOrderHistory().add(order);
+                            break;
                         }
                     }
                 }

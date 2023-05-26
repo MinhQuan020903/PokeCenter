@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.User.User;
 import com.example.pokecenter.databinding.ActivityCustomerInfoAndStatisticBinding;
 import com.example.pokecenter.vender.VenderTab.Home.RevenueData;
 import com.example.pokecenter.vender.VenderTab.Home.RevenueProduct;
@@ -55,7 +56,7 @@ public class CustomerInfoAndStatisticActivity extends AppCompatActivity {
         setUpChooseDateForStatisticSpinner();
 
         //Mock Data
-        setUpMockData();
+
 
         //Update the chart when user choose other spinner's option
         binding.spChooseDateForStatistic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -81,8 +82,6 @@ public class CustomerInfoAndStatisticActivity extends AppCompatActivity {
         binding.spChooseDateForStatistic.setAdapter(dateAdapter);
     }
 
-    private void setUpMockData() {
-    }
     @Override
     public boolean onSupportNavigateUp() {
         finish();

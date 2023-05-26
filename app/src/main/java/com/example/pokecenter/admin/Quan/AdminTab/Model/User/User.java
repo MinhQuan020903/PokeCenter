@@ -7,23 +7,20 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class User implements Serializable {
-    private ArrayList<Address> addresses;
-    private String address;
-    private String avatar;
-    private String gender;
-    private String phoneNumber;
-    private String registrationDate;
-    private int role;
-    private String username;
-    private String email;
-
-    private ArrayList<Order> orderHistory;
-
+    protected ArrayList<Address> addresses;
+    protected String address;
+    protected String avatar;
+    protected String gender;
+    protected String phoneNumber;
+    protected String registrationDate;
+    protected int role;
+    protected String username;
+    protected String email;
 
     public User() {
     }
 
-    public User(ArrayList<Address> addresses, String address, String avatar, String gender, String phoneNumber, String registrationDate, int role, String username, String email, ArrayList<Order> orderHistory) {
+    public User(ArrayList<Address> addresses, String address, String avatar, String gender, String phoneNumber, String registrationDate, int role, String username, String email) {
         this.addresses = addresses;
         this.address = address;
         this.avatar = avatar;
@@ -33,16 +30,8 @@ public class User implements Serializable {
         this.role = role;
         this.username = username;
         this.email = email;
-        this.orderHistory = orderHistory;
     }
 
-    public ArrayList<Order> getOrderHistory() {
-        return orderHistory;
-    }
-
-    public void setOrderHistory(ArrayList<Order> orderHistory) {
-        this.orderHistory = orderHistory;
-    }
 
     public ArrayList<Address> getAddresses() {
         return addresses;
@@ -136,13 +125,5 @@ public class User implements Serializable {
                 .append('}');
         return ret.toString();
     }
-    public String toString1() {
-        StringBuilder ret = new StringBuilder(email);
-        if (orderHistory != null) {
-            for (Order order : orderHistory) {
-                ret.append(order.getId() + "| ");
-            }
-            return ret.toString();
-        } else return "";
-    }
+
 }
