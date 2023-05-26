@@ -17,13 +17,19 @@ import android.widget.ArrayAdapter;
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseCallback;
 import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseFetchUser;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.Order;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Admin;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.User;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.UserAdapter;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Vender;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.ItemSpacingDecoration;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.OnItemClickListener;
 import com.example.pokecenter.databinding.ActivityAdminUsersManagementBinding;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import org.checkerframework.checker.units.qual.C;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -62,12 +68,16 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
         usersList = new ArrayList<>();
 
         FirebaseFetchUser firebaseFetchUser = new FirebaseFetchUser(this);
-        firebaseFetchUser.getUsersListFromFirebase(new FirebaseCallback() {
+
+        firebaseFetchUser.getUsersListFromFirebase(new FirebaseCallback<ArrayList<User>>() {
             @Override
             public void onCallback(ArrayList<User> users) {
                 usersList = users;
                 for (User user : usersList) {
-                    System.out.println(user.toString());
+                    if (user instanceof Customer) {
+                        System.out.println(user.getEmail() + " " + ((Customer) user).toString1());
+
+                    }
                 }
                 //Set up spinner
                 setUpRoleSpinner();
@@ -225,8 +235,9 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
 
                 binding.progressBar.setVisibility(View.INVISIBLE);
             }
-        });
 
+
+        });
 
     }
 

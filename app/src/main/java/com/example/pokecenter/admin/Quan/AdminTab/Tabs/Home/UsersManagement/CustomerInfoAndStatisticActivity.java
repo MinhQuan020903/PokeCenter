@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.User.User;
 import com.example.pokecenter.databinding.ActivityCustomerInfoAndStatisticBinding;
 import com.example.pokecenter.vender.VenderTab.Home.RevenueData;
 import com.example.pokecenter.vender.VenderTab.Home.RevenueProduct;
@@ -55,46 +56,13 @@ public class CustomerInfoAndStatisticActivity extends AppCompatActivity {
         setUpChooseDateForStatisticSpinner();
 
         //Mock Data
-        setUpMockData();
 
+
+        //Update the chart when user choose other spinner's option
         binding.spChooseDateForStatistic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedOption = parent.getItemAtPosition(position).toString();
-                if (selectedOption.equals("Day")) {
-                    entries.clear();
-                    for (int i = 0; i < revenues.size(); i++) {
-                        entries.add(new BarEntry(revenues.get(i).getDate().getDayOfMonth(), revenues.get(i).getRevenue()));
-                    }
-                    BarDataSet dataSet = new BarDataSet(entries, "Revenue");
-                    dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-                    BarData data = new BarData(dataSet);
-                    binding.barChart.setData(data);
-                    binding.barChart.invalidate();
-                }
-                else if (selectedOption.equals("Month")) {
-                    entries.clear();
-                    for (int i = 0; i < revenues.size(); i++) {
-                        entries.add(new BarEntry(revenues.get(i).getDate().getMonthValue(), revenues.get(i).getRevenue()));
-                    }
-                    BarDataSet dataSet = new BarDataSet(entries, "Revenue");
-                    dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-                    BarData data = new BarData(dataSet);
-                    binding.barChart.setData(data);
-                    binding.barChart.invalidate();
-                }
-                else if (selectedOption.equals("Year")) {
-                    entries.clear();
-                    for (int i = 0; i < revenues.size(); i++) {
-                        entries.add(new BarEntry(revenues.get(i).getDate().getYear(), revenues.get(i).getRevenue()));
-                    }
-                    BarDataSet dataSet = new BarDataSet(entries, "Revenue");
-                    dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-                    BarData data = new BarData(dataSet);
-                    binding.barChart.setData(data);
-                    binding.barChart.invalidate();
-                }
-                binding.barChart.invalidate(); // Refresh the chart
+
             }
 
             @Override
@@ -114,34 +82,6 @@ public class CustomerInfoAndStatisticActivity extends AppCompatActivity {
         binding.spChooseDateForStatistic.setAdapter(dateAdapter);
     }
 
-    private void setUpMockData() {
-        revenues.add(new RevenueData(LocalDate.of(2023, 5, 20), 1000));
-        revenues.add(new RevenueData(LocalDate.of(2023, 4, 19), 1200));
-        revenues.add(new RevenueData(LocalDate.of(2023, 5, 21), 1500));
-
-        productRevenues.add(new RevenueProduct("LyNhan",1000));
-        productRevenues.add(new RevenueProduct("LyNhan",1200));
-        productRevenues.add(new RevenueProduct("LyNhan",1300));
-        productRevenues.add(new RevenueProduct("VoTac",1000));
-        productRevenues.add(new RevenueProduct("Lan",1000));
-        productRevenues.add(new RevenueProduct("Nhan",1200));
-        for (int i = 0; i < revenues.size(); i++) {
-            entries.add(new BarEntry(revenues.get(i).getDate().getDayOfMonth(), revenues.get(i).getRevenue()));
-        }
-        BarDataSet dataSet = new BarDataSet(entries, "Revenue");
-        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        BarData data = new BarData(dataSet);
-        binding.barChart.setData(data);
-        binding.barChart.invalidate();
-
-
-        for (int i = 0; i < productRevenues.size(); i++) {
-            pieEntries.add(new PieEntry(productRevenues.get(i).getRevenue(), productRevenues.get(i).getName()));
-        }
-        PieDataSet pieDataSet = new PieDataSet(pieEntries, "Product");
-        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        PieData pieData = new PieData(pieDataSet);
-    }
     @Override
     public boolean onSupportNavigateUp() {
         finish();
