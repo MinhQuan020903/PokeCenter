@@ -5,6 +5,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.Order;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.OrderDetail;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.User;
 import com.example.pokecenter.customer.lam.Model.address.Address;
 import com.google.firebase.database.DataSnapshot;
@@ -28,7 +30,7 @@ public class FirebaseFetchUser {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef = firebaseDatabase.getReference("accounts");
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
@@ -68,6 +70,58 @@ public class FirebaseFetchUser {
                     user.setPhoneNumber(dataSnapshot.child("phoneNumber").getValue(String.class));
                     user.setEmail(dataSnapshot.getKey().replace(",","."));
                     usersList.add(user);
+                }
+                getUserOrderHistory(usersList,firebaseCallback);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(context, "GET USER FAILED", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void getUserOrderHistory(ArrayList<User> usersList, FirebaseCallback firebaseCallback) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = firebaseDatabase.getReference("orders");
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Order order = new Order();
+                        //Fetch Order data
+                        DataSnapshot orderDetailsSnapShot = dataSnapshot.child("details");
+                        if (orderDetailsSnapShot.exists()) {
+                            ArrayList<OrderDetail> orderDetails = new ArrayList<>();
+                            for (DataSnapshot orderDetailSnapShot : orderDetailsSnapShot.getChildren()) {
+                                //Fetch attributes of an OrderDetail object
+                                String productId = orderDetailSnapShot.child("productId").getValue(String.class);
+                                int quantity = orderDetailSnapShot.child("quantity").getValue(int.class);
+                                int selectedOption = orderDetailSnapShot.child("selectedOption").getValue(int.class);
+
+                                //Create a temp object
+                                OrderDetail orderDetail = new OrderDetail(productId, quantity, selectedOption);
+                                orderDetails.add(orderDetail);
+                            }
+                            assert order != null;
+                            order.setDetails(orderDetails);
+                        }
+
+                    order.setId(dataSnapshot.getKey());
+                    order.setCreateDate(dataSnapshot.child("createDate").getValue(String.class));
+                    order.setCustomerId(dataSnapshot.child("customerId").getValue(String.class).replace(",","."));
+                    order.setTotalAmount(dataSnapshot.child("totalAmount").getValue(int.class));
+                    order.setVenderId(dataSnapshot.child("venderId").getValue(String.class).replace(",","."));
+
+                    for (User user : usersList) {
+                        if (user.getEmail().equals(order.getCustomerId())) {
+                            if (user.getOrderHistory() == null) {
+                                user.setOrderHistory(new ArrayList<>());
+                            }
+                            user.getOrderHistory().add(order);
+                        }
+                    }
                 }
                 firebaseCallback.onCallback(usersList);
             }

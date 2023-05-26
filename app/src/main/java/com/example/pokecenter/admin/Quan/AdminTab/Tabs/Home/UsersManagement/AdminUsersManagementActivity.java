@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseCallback;
 import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseFetchUser;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.Order;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.User;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.UserAdapter;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.ItemSpacingDecoration;
@@ -67,7 +68,7 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
             public void onCallback(ArrayList<User> users) {
                 usersList = users;
                 for (User user : usersList) {
-                    System.out.println(user.toString());
+                    System.out.println(user.toString1());
                 }
                 //Set up spinner
                 setUpRoleSpinner();
@@ -225,6 +226,7 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
 
                 binding.progressBar.setVisibility(View.INVISIBLE);
             }
+
         });
 
 

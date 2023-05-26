@@ -1,5 +1,6 @@
 package com.example.pokecenter.admin.Quan.AdminTab.Model.User;
 
+import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.Order;
 import com.example.pokecenter.customer.lam.Model.address.Address;
 
 import java.io.Serializable;
@@ -16,18 +17,31 @@ public class User implements Serializable {
     private String username;
     private String email;
 
+    private ArrayList<Order> orderHistory;
 
 
     public User() {
     }
 
-    public User(String avatar,String gender, String phoneNumber, String registrationDate, int role,  String username) {
+    public User(ArrayList<Address> addresses, String address, String avatar, String gender, String phoneNumber, String registrationDate, int role, String username, String email, ArrayList<Order> orderHistory) {
+        this.addresses = addresses;
+        this.address = address;
         this.avatar = avatar;
-        this.username = username;
         this.gender = gender;
         this.phoneNumber = phoneNumber;
-        this.role = role;
         this.registrationDate = registrationDate;
+        this.role = role;
+        this.username = username;
+        this.email = email;
+        this.orderHistory = orderHistory;
+    }
+
+    public ArrayList<Order> getOrderHistory() {
+        return orderHistory;
+    }
+
+    public void setOrderHistory(ArrayList<Order> orderHistory) {
+        this.orderHistory = orderHistory;
     }
 
     public ArrayList<Address> getAddresses() {
@@ -122,5 +136,13 @@ public class User implements Serializable {
                 .append('}');
         return ret.toString();
     }
-
+    public String toString1() {
+        StringBuilder ret = new StringBuilder(email);
+        if (orderHistory != null) {
+            for (Order order : orderHistory) {
+                ret.append(order.getId() + "| ");
+            }
+            return ret.toString();
+        } else return "";
+    }
 }
