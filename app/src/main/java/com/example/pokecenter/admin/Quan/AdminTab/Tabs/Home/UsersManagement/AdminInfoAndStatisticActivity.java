@@ -8,6 +8,7 @@ import com.example.pokecenter.R;
 
 public class AdminInfoAndStatisticActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

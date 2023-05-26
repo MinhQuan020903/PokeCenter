@@ -21,5 +21,8 @@
     <color name="light_border_shape">#E6E6E6</color>
     <color name="grey">#D3D1D1</color>
     <color name="quan_light_yellow">#F8CA6D</color>
+    <color name="quan_purple">#695FD9</color>
+    <color name="quan_cyan">#46C5E1</color>
+    <color name="quan_bright_cyan">#1CD5FF</color>
 
 </resources>
