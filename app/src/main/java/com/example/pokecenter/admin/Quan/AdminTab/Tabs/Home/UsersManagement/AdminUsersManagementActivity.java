@@ -73,12 +73,6 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
             @Override
             public void onCallback(ArrayList<User> users) {
                 usersList = users;
-                for (User user : usersList) {
-                    if (user instanceof Customer) {
-                        System.out.println(user.getEmail() + " " + ((Customer) user).toString1());
-
-                    }
-                }
                 //Set up spinner
                 setUpRoleSpinner();
                 //Set up recyclerview for user
@@ -95,19 +89,19 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
                             }
                             case 1: {   //View Customer
                                 userAdapter.setUsersList(usersList.stream()
-                                        .filter(v -> v.getRole() == 0)
+                                        .filter(v -> v instanceof Customer)
                                         .collect(Collectors.toCollection(ArrayList::new)));
                                 break;
                             }
                             case 2: {   //View Vender
                                 userAdapter.setUsersList(usersList.stream()
-                                        .filter(v -> v.getRole() == 1)
+                                        .filter(v -> v instanceof Vender)
                                         .collect(Collectors.toCollection(ArrayList::new)));
                                 break;
                             }
                             case 3: {   //View Vender
                                 userAdapter.setUsersList(usersList.stream()
-                                        .filter(v -> v.getRole() == 2)
+                                        .filter(v -> v instanceof Admin)
                                         .collect(Collectors.toCollection(ArrayList::new)));
                                 break;
                             }

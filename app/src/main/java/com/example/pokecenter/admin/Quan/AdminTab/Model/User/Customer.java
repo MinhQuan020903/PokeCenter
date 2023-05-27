@@ -49,10 +49,10 @@ public class Customer extends User {
     }
 
     public String toString1() {
-        StringBuilder ret = new StringBuilder(email);
+        StringBuilder ret = new StringBuilder("\n ====>");
         if (orderHistory != null) {
             for (Order order : orderHistory) {
-                ret.append(order.getId() + "| ");
+                ret.append(order.toString() + "\n");
             }
             return ret.toString();
         } else return "";

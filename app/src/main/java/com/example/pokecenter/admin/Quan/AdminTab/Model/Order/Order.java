@@ -74,13 +74,18 @@ public class Order implements Serializable {
 
     @Override
     public String toString() {
-        return "Order{" +
+        StringBuilder ret = new StringBuilder("");
+        ret.append("Order{" +
                 "id='" + id + '\'' +
                 ", createDate='" + createDate + '\'' +
                 ", customerId='" + customerId + '\'' +
                 ", venderId='" + venderId + '\'' +
-                ", details=" + details +
-                ", totalAmount=" + totalAmount +
-                '}';
+                ", totalAmount=" + totalAmount);
+        if (details != null) {
+            for (OrderDetail orderDetail : details) {
+                ret.append(orderDetail.toString());
+            }
+        }
+        return ret.toString();
     }
 }

@@ -39,4 +39,13 @@ public class OrderDetail implements Serializable {
     public void setSelectedOption(int selectedOption) {
         this.selectedOption = selectedOption;
     }
+
+    @Override
+    public String toString() {
+        return "OrderDetail{" +
+                "productId='" + productId + '\'' +
+                ", quantity=" + quantity +
+                ", selectedOption=" + selectedOption +
+                '}';
+    }
 }

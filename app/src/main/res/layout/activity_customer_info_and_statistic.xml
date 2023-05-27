@@ -43,6 +43,7 @@
                     android:src="@drawable/lam_totoro"
                     app:shapeAppearanceOverlay="@style/circleImageView"
                     app:strokeColor="@color/quan_light_yellow"
+                    android:scaleType="centerCrop"
                     app:strokeWidth="1dp" />
             </FrameLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -64,7 +65,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:textStyle="bold"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 android:textColor="@color/white"
                 android:text="Do Mai Minh Quan"/>
 
@@ -74,7 +75,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/tvCustomerUsername"
                 app:layout_constraintStart_toStartOf="parent"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:textColor="@color/white"
                 android:text="doquan020903@gmail.com"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -150,7 +151,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:textColor="@color/white"
-                        android:textSize="20sp"
+                        android:textSize="15sp"
                         android:text="5"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -225,7 +226,7 @@
             <RelativeLayout
                 android:id="@+id/rlChooseDateForStatistic"
                 android:layout_width="0dp"
-                app:layout_constraintWidth_percent="0.3"
+                app:layout_constraintWidth_percent="0.4"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:backgroundTint="@color/quan_bright_cyan"
@@ -256,7 +257,7 @@
             </RelativeLayout>
 
             <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/barChart"
+                android:id="@+id/bcCustomerSpendingChart"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginTop="10dp"
