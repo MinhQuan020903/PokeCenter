@@ -32,40 +32,40 @@
         android:layout_marginBottom="20dp"
         android:layout_gravity="center_horizontal">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/star1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/lam_star_fill_gold_24"
-            android:layout_marginEnd="10dp"/>
+            android:backgroundTint="@color/light_canvas"/>
 
-        <ImageView
+        <ImageButton
             android:id="@+id/star2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/lam_star_fill_gold_24"
-            android:layout_marginEnd="10dp"/>
+            android:backgroundTint="@color/light_canvas"/>
 
-        <ImageView
+        <ImageButton
             android:id="@+id/star3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/lam_star_fill_gold_24"
-            android:layout_marginEnd="10dp"/>
+            android:backgroundTint="@color/light_canvas"/>
 
-        <ImageView
+        <ImageButton
             android:id="@+id/star4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/lam_star_fill_gold_24"
-            android:layout_marginEnd="10dp"/>
+            android:backgroundTint="@color/light_canvas"/>
 
-        <ImageView
+        <ImageButton
             android:id="@+id/star5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/lam_star_fill_gold_24"
-            android:layout_marginEnd="10dp"/>
+            android:backgroundTint="@color/light_canvas"/>
 
     </LinearLayout>
 
@@ -101,8 +101,17 @@
         android:background="@color/white"
         android:paddingVertical="14dp"
         android:paddingHorizontal="20dp"
-        android:textColorHint="#9A9A9A"
-        android:layout_marginBottom="20dp"/>
+        android:textColorHint="#9A9A9A" />
+
+    <TextView
+        android:id="@+id/title_error_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You haven't entered the review title."
+        android:textColor="#FF0000"
+        android:textStyle="italic"
+        android:layout_marginStart="20dp"
+        android:visibility="gone"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -111,18 +120,18 @@
         android:textSize="18sp"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="6dp"
+        android:layout_marginTop="16dp"
         android:textStyle="bold"/>
 
     <EditText
         android:id="@+id/review_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"
         android:background="@color/white"
         android:paddingVertical="14dp"
         android:paddingHorizontal="20dp"
-        android:textColorHint="#9A9A9A"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        android:inputType="text" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

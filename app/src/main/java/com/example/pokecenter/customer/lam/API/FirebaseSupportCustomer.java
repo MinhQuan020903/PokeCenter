@@ -650,7 +650,8 @@ public class FirebaseSupportCustomer {
                         (String) value.get("content"),
                         ((Double) value.get("rate")).intValue(),
                         "customer",
-                        "https://static.wikia.nocookie.net/pokemon-fano/images/6/6f/Poke_Ball.png/revision/latest?cb=20140520015336"
+                        "https://static.wikia.nocookie.net/pokemon-fano/images/6/6f/Poke_Ball.png/revision/latest?cb=20140520015336",
+                        (String) value.get("createDate")
                 );
 
                 String customerId = (String) value.get("customerId");
@@ -1071,6 +1072,45 @@ public class FirebaseSupportCustomer {
         }
 
         return  fetchedPurchasedProducts;
+    }
+
+    public void addProductReview(String productId, String title, String content, int rate) throws IOException {
+
+        OkHttpClient client = new OkHttpClient();
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        Map<String, Object> postData = new HashMap<>();
+        postData.put("productId", productId);
+        postData.put("title", title);
+        postData.put("content", content);
+        postData.put("rate", rate);
+        postData.put("customerId", emailWithCurrentUser.replace(".", ","));
+        postData.put("createDate", outputFormat.format(new Date()));
+
+        String jsonData = new Gson().toJson(postData);
+        RequestBody body = RequestBody.create(jsonData, JSON);
+
+        Request request = new Request.Builder()
+                .url(urlDb + "reviewsProduct.json")
+                .post(body)
+                .build();
+
+        client.newCall(request).execute();
+
+        // Update reviewed -> true
+        Map<String, Object> updateData = new HashMap<>();
+        updateData.put("reviewed", true);
+
+        jsonData = new Gson().toJson(updateData);
+        body = RequestBody.create(jsonData, JSON);
+
+        request = new Request.Builder()
+                .url(urlDb + "customers/" + emailWithCurrentUser.replace(".", ",") + "/purchased/" + productId + ".json")
+                .patch(body)
+                .build();
+
+        client.newCall(request).execute();
     }
 
 }

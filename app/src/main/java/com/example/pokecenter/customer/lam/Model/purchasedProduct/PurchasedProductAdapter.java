@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.Interface.PurchasedProductRecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.customer.lam.Provider.ProductData;
@@ -24,10 +25,12 @@ public class PurchasedProductAdapter extends RecyclerView.Adapter<PurchasedProdu
 
     private Context mContext;
     private List<PurchasedProduct> mPurchasedProducts;
+    private final PurchasedProductRecyclerViewInterface purchasedProductRecyclerViewInterface;
     NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-    public PurchasedProductAdapter(Context context, List<PurchasedProduct> purchasedProducts) {
+    public PurchasedProductAdapter(Context context, List<PurchasedProduct> purchasedProducts, PurchasedProductRecyclerViewInterface purchasedProductRecyclerViewInterface) {
         mContext = context;
         mPurchasedProducts = purchasedProducts;
+        this.purchasedProductRecyclerViewInterface = purchasedProductRecyclerViewInterface;
     }
 
     public void setData(List<PurchasedProduct> purchasedProducts) {
@@ -77,6 +80,8 @@ public class PurchasedProductAdapter extends RecyclerView.Adapter<PurchasedProdu
             holder.reviewButton.setVisibility(View.VISIBLE);
             holder.reviewedImage.setVisibility(View.GONE);
         }
+
+        holder.reviewButton.setOnClickListener(view -> purchasedProductRecyclerViewInterface.onReviewButtonClick(position));
 
     }
 

@@ -8,18 +8,20 @@ public class ReviewProduct {
     private int rate;
     private String customerName;
     private String customerImage;
+    private String createDate;
 
     public ReviewProduct() {
 
     }
 
-    public ReviewProduct(String reviewId, String title, String content, int rate, String customerName, String customerImage) {
+    public ReviewProduct(String reviewId, String title, String content, int rate, String customerName, String customerImage, String createDate) {
         this.reviewId = reviewId;
         this.title = title;
         this.content = content;
         this.rate = rate;
         this.customerName = customerName;
         this.customerImage = customerImage;
+        this.createDate = createDate;
     }
 
     public String getReviewId() {
@@ -68,5 +70,13 @@ public class ReviewProduct {
 
     public void setCustomerImage(String customerImage) {
         this.customerImage = customerImage;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
     }
 }
