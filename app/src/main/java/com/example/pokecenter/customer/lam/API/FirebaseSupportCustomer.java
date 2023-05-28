@@ -9,6 +9,7 @@ import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.order.DetailOrder;
 import com.example.pokecenter.customer.lam.Model.order.Order;
 import com.example.pokecenter.customer.lam.Model.product.Product;
+import com.example.pokecenter.customer.lam.Model.purchasedProduct.PurchasedProduct;
 import com.example.pokecenter.customer.lam.Model.review_product.ReviewProduct;
 import com.example.pokecenter.customer.lam.Model.vender.Vender;
 import com.example.pokecenter.customer.lam.Model.voucher.VoucherInfo;
@@ -649,7 +650,8 @@ public class FirebaseSupportCustomer {
                         (String) value.get("content"),
                         ((Double) value.get("rate")).intValue(),
                         "customer",
-                        "https://static.wikia.nocookie.net/pokemon-fano/images/6/6f/Poke_Ball.png/revision/latest?cb=20140520015336"
+                        "https://static.wikia.nocookie.net/pokemon-fano/images/6/6f/Poke_Ball.png/revision/latest?cb=20140520015336",
+                        (String) value.get("createDate")
                 );
 
                 String customerId = (String) value.get("customerId");
@@ -854,6 +856,7 @@ public class FirebaseSupportCustomer {
         client.newCall(request).execute();
     }
 
+    SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm");
     public boolean saveOrders(List<CheckoutItem> checkoutItemList) {
 
         AtomicBoolean isSuccess = new AtomicBoolean(true);
@@ -867,6 +870,7 @@ public class FirebaseSupportCustomer {
             Map<String, Object> value = new HashMap<>();
             value.put("reviewed", false);
             value.put("selectedOption", item.getSelectedOption());
+            value.put("purchasedDate", outputFormat.format(new Date()));
             purchasedProducts.put(item.getProductId(), value);
 
         });
@@ -894,7 +898,7 @@ public class FirebaseSupportCustomer {
 
             Map<String, Object> postData = new HashMap<>();
 
-            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
             postData.put("createDate", outputFormat.format(new Date()));
             postData.put("totalAmount", totalAmount);
 
@@ -1030,4 +1034,83 @@ public class FirebaseSupportCustomer {
         return fetchedOrders;
 
     }
+
+    public List<PurchasedProduct> fetchingPurchasedProducts() throws IOException {
+
+        List<PurchasedProduct> fetchedPurchasedProducts = new ArrayList<>();
+
+        OkHttpClient client = new OkHttpClient();
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        Request request = new Request.Builder()
+                .url(urlDb + "customers/" + emailWithCurrentUser.replace(".", ",") + "/purchased.json")
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+            String responseString = response.body().string();
+
+            if (responseString.equals("null")) {
+                return new ArrayList<>();
+            }
+
+            Type type = new TypeToken<Map<String, Map<String, Object>>>(){}.getType();
+            Map<String, Map<String, Object>> fetchedData = new Gson().fromJson(responseString, type);
+
+            fetchedData.forEach((key, value) -> {
+
+                fetchedPurchasedProducts.add(new PurchasedProduct(
+                        key,
+                        (Boolean) value.get("reviewed"),
+                        (String) value.get("purchasedDate"),
+                        ((Double) value.get("selectedOption")).intValue()
+                ));
+
+            });
+        }
+
+        return  fetchedPurchasedProducts;
+    }
+
+    public void addProductReview(String productId, String title, String content, int rate) throws IOException {
+
+        OkHttpClient client = new OkHttpClient();
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        Map<String, Object> postData = new HashMap<>();
+        postData.put("productId", productId);
+        postData.put("title", title);
+        postData.put("content", content);
+        postData.put("rate", rate);
+        postData.put("customerId", emailWithCurrentUser.replace(".", ","));
+        postData.put("createDate", outputFormat.format(new Date()));
+
+        String jsonData = new Gson().toJson(postData);
+        RequestBody body = RequestBody.create(jsonData, JSON);
+
+        Request request = new Request.Builder()
+                .url(urlDb + "reviewsProduct.json")
+                .post(body)
+                .build();
+
+        client.newCall(request).execute();
+
+        // Update reviewed -> true
+        Map<String, Object> updateData = new HashMap<>();
+        updateData.put("reviewed", true);
+
+        jsonData = new Gson().toJson(updateData);
+        body = RequestBody.create(jsonData, JSON);
+
+        request = new Request.Builder()
+                .url(urlDb + "customers/" + emailWithCurrentUser.replace(".", ",") + "/purchased/" + productId + ".json")
+                .patch(body)
+                .build();
+
+        client.newCall(request).execute();
+    }
+
 }
