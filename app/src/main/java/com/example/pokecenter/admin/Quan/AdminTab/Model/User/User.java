@@ -1,26 +1,52 @@
 package com.example.pokecenter.admin.Quan.AdminTab.Model.User;
 
+import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.Order;
+import com.example.pokecenter.customer.lam.Model.address.Address;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class User implements Serializable {
-    private String avatar;
-    private String gender;
-    private String phoneNumber;
-    private String registrationDate;
-    private int role;
-    private String username;
-    private String email;
+    protected ArrayList<Address> addresses;
+    protected String address;
+    protected String avatar;
+    protected String gender;
+    protected String phoneNumber;
+    protected String registrationDate;
+    protected int role;
+    protected String username;
+    protected String email;
 
     public User() {
     }
 
-    public User(String avatar,String gender, String phoneNumber, String registrationDate, int role,  String username) {
+    public User(ArrayList<Address> addresses, String address, String avatar, String gender, String phoneNumber, String registrationDate, int role, String username, String email) {
+        this.addresses = addresses;
+        this.address = address;
         this.avatar = avatar;
-        this.username = username;
         this.gender = gender;
         this.phoneNumber = phoneNumber;
-        this.role = role;
         this.registrationDate = registrationDate;
+        this.role = role;
+        this.username = username;
+        this.email = email;
+    }
+
+
+    public ArrayList<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(ArrayList<Address> addresses) {
+        this.addresses = addresses;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getAvatar() {
@@ -79,16 +105,25 @@ public class User implements Serializable {
         this.role = role;
     }
 
+
     @Override
     public String toString() {
-        return "User{" +
-                "avatar='" + avatar + '\'' +
-                ", gender='" + gender + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", registrationDate='" + registrationDate + '\'' +
-                ", role=" + role +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        StringBuilder ret = new StringBuilder("User{addresses=");
+        if (addresses != null) {
+            for (Address a : addresses) {
+                ret.append(a.getAddress2()).append(", ");
+            }
+        }
+        ret.append("address='").append(address).append('\'')
+                .append(", avatar='").append(avatar).append('\'')
+                .append(", gender='").append(gender).append('\'')
+                .append(", phoneNumber='").append(phoneNumber).append('\'')
+                .append(", registrationDate='").append(registrationDate).append('\'')
+                .append(", role=").append(role)
+                .append(", username='").append(username).append('\'')
+                .append(", email='").append(email).append('\'')
+                .append('}');
+        return ret.toString();
     }
+
 }

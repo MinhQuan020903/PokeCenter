@@ -18,16 +18,25 @@
         android:theme="@style/Theme.PokeCenter"
         tools:targetApi="31">
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.AdminUsersManagementActivity"
+            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminInfoAndStatisticActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.AdminProductsManagementActivity"
+            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderInfoAndStatisticActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.AdminOrdersManagementActivity"
+            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerInfoAndStatisticActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.AdminStoreStatisticActivity"
+            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminUsersManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductsManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Home.OrdersManagement.AdminOrdersManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Home.StoreStatistic.AdminStoreStatisticActivity"
             android:exported="false" />
         <activity
             android:name=".admin.Quan.AdminTab.Tabs.Profile.AdminAccountInfoActivity"

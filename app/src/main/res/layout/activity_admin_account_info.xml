@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/quan_cyan"
     tools:context=".admin.Quan.AdminTab.Tabs.Profile.AdminAccountInfoActivity">
 
 
@@ -223,7 +224,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:backgroundTint="@color/light_primary"
+            android:backgroundTint="@color/light_secondary"
             android:text="Save"
             android:textAllCaps="false"
             android:textColor="@color/white"

@@ -9,10 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.pokecenter.R;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.OrdersManagement.AdminOrdersManagementActivity;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductsManagementActivity;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.StoreStatistic.AdminStoreStatisticActivity;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminUsersManagementActivity;
 import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.databinding.FragmentAdminHomeBinding;
-import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 public class AdminHomeFragment extends Fragment {

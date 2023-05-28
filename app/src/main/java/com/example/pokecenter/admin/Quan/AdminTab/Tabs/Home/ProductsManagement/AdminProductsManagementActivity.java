@@ -1,4 +1,4 @@
-package com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home;
+package com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.ProductsManagement;
 
 import androidx.appcompat.app.AppCompatActivity;
 
