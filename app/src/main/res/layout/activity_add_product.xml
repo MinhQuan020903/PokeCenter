@@ -9,30 +9,8 @@ tools:context=".vender.VenderTab.Home.Product.AddProductActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="647dp"
+        android:layout_height="800dp"
         android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@color/white">
-
-            <View
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_centerVertical="true"
-                android:layout_margin="20dp"
-                android:background="@drawable/lam_round_arrow_back_secondary_24" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="Add New Items"
-                android:textColor="@color/black"
-                android:textSize="22sp" />
-        </RelativeLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
