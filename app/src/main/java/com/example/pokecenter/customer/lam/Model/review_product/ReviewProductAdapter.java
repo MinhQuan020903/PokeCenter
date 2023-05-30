@@ -1,6 +1,7 @@
 package com.example.pokecenter.customer.lam.Model.review_product;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,6 +79,10 @@ public class ReviewProductAdapter extends ArrayAdapter<ReviewProduct> {
 
         TextView reviewContent = view.findViewById(R.id.review_content);
         reviewContent.setText(review.getContent());
+
+
+        TextView createDate = view.findViewById(R.id.review_create_date);
+        createDate.setText(review.getCreateDate());
 
         return view;
     }
