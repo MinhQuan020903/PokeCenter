@@ -94,12 +94,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/quan_icon_statistic"
-                    android:scaleType="fitCenter" />
+                    android:scaleType="fitCenter"
+                    app:tint="@color/quan_light_yellow" />
                 <TextView
                     android:id="@+id/tvAdminStatistic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
+                    android:textColor="@color/light_secondary"
                     android:text="Statistic"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -134,7 +136,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/quan_icon_products" />
+                    android:src="@drawable/quan_icon_products"
+                    app:tint="@color/quan_light_yellow"/>
 
                 <TextView
                     android:id="@+id/tvAdminProducts"
@@ -142,7 +145,8 @@
                     android:layout_height="wrap_content"
                     android:text="Products"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/light_secondary"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -175,7 +179,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/quan_icon_users" />
+                    android:src="@drawable/quan_icon_users"
+                    app:tint="@color/quan_light_yellow"/>
 
                 <TextView
                     android:id="@+id/tvAdminUsers"
@@ -183,6 +188,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:text="Users"
+                    android:textColor="@color/light_secondary"
                     android:textStyle="bold" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -214,13 +220,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/quan_icon_orders"
-                    android:scaleType="fitCenter" />
+                    android:scaleType="fitCenter"
+                    app:tint="@color/quan_light_yellow"/>
                 <TextView
                     android:id="@+id/tvAdminOrders"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:text="Orders"
+                    android:textColor="@color/light_secondary"
                     android:textStyle="bold" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

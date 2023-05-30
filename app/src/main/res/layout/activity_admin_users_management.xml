@@ -12,7 +12,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="176dp"
-    android:background="@color/white"
+    android:background="@color/light_primary"
     android:visibility="visible"/>
     <LinearLayout
         android:id="@+id/llUsersManagementSearch"
