@@ -154,4 +154,28 @@ public class FirebaseFetchUser {
             }
         });
     }
+
+    public void getCustomerFollowers(String customerEmail, FirebaseCallback firebaseCallback) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = firebaseDatabase
+                .getReference("customers")
+                .child(customerEmail)
+                .child("following");
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> followerList = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    followerList.add(dataSnapshot.getKey().replace(",","."));
+                }
+                firebaseCallback.onCallback(followerList);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(context, "GET USER'S FOLLOWER FAILED", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

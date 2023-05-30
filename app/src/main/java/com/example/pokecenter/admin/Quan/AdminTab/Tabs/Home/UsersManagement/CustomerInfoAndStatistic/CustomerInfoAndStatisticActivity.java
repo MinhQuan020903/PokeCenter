@@ -1,4 +1,4 @@
-package com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement;
+package com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerInfoAndStatistic;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -120,8 +120,12 @@ public class CustomerInfoAndStatisticActivity extends AppCompatActivity {
         orderValues = new ArrayList<>();
         spendingValues = new ArrayList<>();
 
-        calculateSpendingInRecentDays();
-        showOrderStatistic();
+        //Check if customer's account has any order already
+        if (customer.getOrderHistory() != null) {
+            calculateSpendingInRecentDays();
+            showOrderStatistic();
+        }
+
 
         //Set up for choose date spinner
         setUpDateSpinner();
@@ -158,18 +162,24 @@ public class CustomerInfoAndStatisticActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch(position) {
                     case 0: {
-                        calculateSpendingInRecentDays();
-                        showOrderStatistic();
+                        if (customer.getOrderHistory() != null) {
+                            calculateSpendingInRecentDays();
+                            showOrderStatistic();
+                        }
                         break;
                     }
                     case 1: {
-                        calculateSpendingInCurrentMonth();
-                        showOrderStatistic();
+                        if (customer.getOrderHistory() != null) {
+                            calculateSpendingInCurrentMonth();
+                            showOrderStatistic();
+                        }
                         break;
                     }
                     case 2: {
-                        calculateSpendingInCurrentYear();
-                        showOrderStatistic();
+                        if (customer.getOrderHistory() != null) {
+                            calculateSpendingInCurrentYear();
+                            showOrderStatistic();
+                        }
                         break;
                     }
                 }
@@ -194,6 +204,15 @@ public class CustomerInfoAndStatisticActivity extends AppCompatActivity {
                 showSpendingStatistic();
             }
         });
+
+        binding.clCustomerProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CustomerInfoAndStatisticActivity.this, CustomerProfileInfoActivity.class);
+                intent.putExtra("Customer", customer);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setUpDateSpinner() {
@@ -213,6 +232,7 @@ public class CustomerInfoAndStatisticActivity extends AppCompatActivity {
         BarData data = new BarData(barDataSetOrder);
         binding.bcCustomerSpendingChart.setData(data);
         binding.bcCustomerSpendingChart.invalidate();
+
     }
 
     private void showSpendingStatistic() {
@@ -242,6 +262,7 @@ public class CustomerInfoAndStatisticActivity extends AppCompatActivity {
             totalOrderPerDayInCurrentMonth.put(i, 0);
             totalSpendingPerDayInCurrentMonth.put(i, 0);
         }
+
 
         //Get date of order and put it in HashMap
         for (Order order : customer.getOrderHistory()) {

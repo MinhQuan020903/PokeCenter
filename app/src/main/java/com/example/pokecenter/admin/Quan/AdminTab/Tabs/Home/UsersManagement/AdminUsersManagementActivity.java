@@ -17,23 +17,23 @@ import android.widget.ArrayAdapter;
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseCallback;
 import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseFetchUser;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.Order;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Admin;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.User;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.UserAdapter;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Vender;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerInfoAndStatistic.CustomerInfoAndStatisticActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.ItemSpacingDecoration;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.OnItemClickListener;
 import com.example.pokecenter.databinding.ActivityAdminUsersManagementBinding;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.checkerframework.checker.units.qual.C;
-
-import java.io.Serializable;
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class AdminUsersManagementActivity extends AppCompatActivity {
@@ -44,6 +44,7 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
     private InputMethodManager inputMethodManager;
     private UserAdapter userAdapter;
     private ActivityAdminUsersManagementBinding binding;
+    private Collator collator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,9 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
 
         binding = ActivityAdminUsersManagementBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        //Create a comparator for Vietnamese
+        collator = Collator.getInstance(new Locale("vi"));
 
         getSupportActionBar().setTitle("Users");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -73,6 +77,7 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
             @Override
             public void onCallback(ArrayList<User> users) {
                 usersList = users;
+
                 //Set up spinner
                 setUpRoleSpinner();
                 //Set up recyclerview for user
@@ -121,11 +126,11 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         switch(position) {
                             case 0: {   //Ascending
-                                usersList.sort(Comparator.comparing(User::getUsername));
+                                Collections.sort(usersList, Comparator.comparing(User::getUsername, collator));
                                 break;
                             }
                             case 1: {   //Descending
-                                usersList.sort(Comparator.comparing(User::getUsername).reversed());
+                                Collections.sort(usersList, Comparator.comparing(User::getUsername, collator).reversed());
 
                                 break;
                             }
@@ -204,7 +209,7 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
                 });
 
                 //Navigate to Info and Statistic Activity when an item is clicked
-                userAdapter.setOnItemClickListener(new OnItemClickListener() {
+                userAdapter.setOnItemClickListener(new OnItemClickListener<User>() {
                     @Override
                     public void onItemClick(User user, int position) {
                         Intent intent = null;

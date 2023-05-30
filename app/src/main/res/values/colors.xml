@@ -24,5 +24,8 @@
     <color name="quan_purple">#695FD9</color>
     <color name="quan_cyan">#46C5E1</color>
     <color name="quan_bright_cyan">#1CD5FF</color>
+    <color name="quan_light_grey">#BABABA</color>
+    <color name="quan_dark_cyan">#3997AC</color>
+    <color name="quan_bright_red">#DD2727</color>
 
 </resources>
