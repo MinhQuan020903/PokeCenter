@@ -25,7 +25,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private ArrayList<User> usersList;
     private Context context;
     private int resource;
-    private OnItemClickListener onItemClickListener;
+    private OnItemClickListener<User> onItemClickListener;
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.onItemClickListener = listener;
