@@ -25,6 +25,7 @@
         android:id="@+id/rcvPurchasedProduct"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="12dp"
         tools:listitem="@layout/lam_purchased_product_item"
         android:visibility="visible"/>
 

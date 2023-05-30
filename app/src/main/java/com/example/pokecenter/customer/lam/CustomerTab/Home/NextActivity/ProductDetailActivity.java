@@ -16,6 +16,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -75,7 +78,6 @@ public class ProductDetailActivity extends AppCompatActivity {
     int selectedOptionPosition = -1;
 
     List<ReviewProduct> reviewsProduct = new ArrayList<>();
-    ReviewProductAdapter reviewProductAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -300,7 +302,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private void fetchingAndSetUpReviewProduct() {
 
-        ListView lvReviews = binding.lvReviewProduct;
+        //ListView lvReviews = binding.lvReviewProduct;
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
@@ -336,22 +338,57 @@ public class ProductDetailActivity extends AppCompatActivity {
                         binding.productRate.setText(String.format("%.1f", (double)sumRating / reviewsProduct.size()));
                     }
 
-                    reviewProductAdapter = new ReviewProductAdapter(this, reviewsProduct);
-                    lvReviews.setAdapter(reviewProductAdapter);
 
-                    int lvReviewsHeight = 0;
-                    for (int i = 0; i < reviewsProduct.size(); ++i ) {
-                        View item  = reviewProductAdapter.getView(i, null, lvReviews);
+                    for (int i = 0; i < reviewsProduct.size(); ++i) {
+                        View view = getLayoutInflater().inflate(R.layout.lam_review_product_item, null);
+                        ReviewProduct review = reviewsProduct.get(i);
 
-                        item.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-                        int itemHeight = item.getMeasuredHeight();
+                        ImageView avatarImage = view.findViewById(R.id.avatarImage);
+                        Picasso.get().load(review.getCustomerImage()).into(avatarImage);
 
-                        lvReviewsHeight += itemHeight;
+                        TextView customerName = view.findViewById(R.id.customerName);
+                        customerName.setText(review.getCustomerName());
+
+                        TextView reviewTitle = view.findViewById(R.id.review_title);
+                        reviewTitle.setText(review.getTitle());
+
+                        LinearLayout rate = view.findViewById(R.id.product_rate);
+
+                        // Set layout params with end margin of 8dp
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        layoutParams.setMarginEnd((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics()));
+
+                        // Add the appropriate number of stars to the LinearLayout
+                        for (int j = 1; j <= review.getRate(); ++j) {
+
+                            // Create a new ImageView object for gold fill star
+                            ImageView starGoldFill = new ImageView(this);
+                            starGoldFill.setImageResource(R.drawable.lam_star_fill_gold_24);
+
+                            rate.addView(starGoldFill, layoutParams);
+
+                        }
+
+                        for (int j = 1; j <= 5 - review.getRate(); ++j) {
+
+                            // Create a new ImageView object for black outline star
+                            ImageView starBlackOutline = new ImageView(this);
+                            starBlackOutline.setImageResource(R.drawable.lam_star_outline_black_24);
+
+                            rate.addView(starBlackOutline, layoutParams);
+                        }
+
+                        TextView reviewContent = view.findViewById(R.id.review_content);
+                        reviewContent.setText(review.getContent());
+
+
+                        TextView createDate = view.findViewById(R.id.review_create_date);
+                        createDate.setText(review.getCreateDate());
+
+                        binding.reviewList.addView(view);
+
                     }
-                    ViewGroup.LayoutParams params = lvReviews.getLayoutParams();
-                    params.height = lvReviewsHeight;
-
-                    lvReviews.setLayoutParams(params);
 
                 } else {
 
