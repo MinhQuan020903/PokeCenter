@@ -13,67 +13,152 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
+
         <TextView
             android:id="@+id/tvAddress2Label"
             android:layout_width="0dp"
-            app:layout_constraintWidth_percent="0.25"
+            app:layout_constraintWidth_percent="0.4"
             android:layout_height="wrap_content"
-            android:text="Product: "
+            android:layout_margin="5dp"
+            android:text="Address: "
             android:textSize="14sp"
             android:textStyle="bold"
+            android:textColor="#BABABA"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvProductName"
+            android:id="@+id/tvAddress2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="__________"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/tvProductNameLabel"
-            android:maxLines="1"
+            android:textColor="@color/white"
+            android:layout_margin="5dp"
+            app:layout_constraintStart_toEndOf="@id/tvAddress2Label"
+            android:maxLines="2"
             app:layout_constraintTop_toTopOf="parent" />
         <TextView
-            android:id="@+id/tvProductVenderIdLabel"
+            android:id="@+id/tvNumberStreetAddressLabel"
             android:layout_width="0dp"
-            app:layout_constraintWidth_percent="0.25"
+            app:layout_constraintWidth_percent="0.4"
             android:layout_height="wrap_content"
-            android:text="Vender ID: "
+            android:text="Number street address: "
             android:textSize="14sp"
             android:textStyle="bold"
+            android:textColor="#BABABA"
+            android:layout_margin="5dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvProductNameLabel" />
+            app:layout_constraintTop_toBottomOf="@id/tvAddress2Label" />
 
         <TextView
-            android:id="@+id/tvProductVenderId"
+            android:id="@+id/tvNumberStreetAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:text="__________"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_margin="5dp"
+            app:layout_constraintStart_toEndOf="@+id/tvNumberStreetAddressLabel"
+            app:layout_constraintTop_toBottomOf="@id/tvAddress2" />
+        <TextView
+            android:id="@+id/tvReceiverNameLabel"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.4"
+            android:layout_height="wrap_content"
+            android:text="Receiver name: "
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#BABABA"
+            android:layout_margin="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNumberStreetAddressLabel" />
+
+        <TextView
+            android:id="@+id/tvReceiverName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="__________"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/tvProductVenderIdLabel"
-            app:layout_constraintTop_toBottomOf="@id/tvProductName" />
+            android:textColor="@color/white"
+            android:layout_margin="5dp"
+            app:layout_constraintStart_toEndOf="@+id/tvReceiverNameLabel"
+            app:layout_constraintTop_toBottomOf="@id/tvNumberStreetAddress" />
         <TextView
-            android:id="@+id/tvProductPriceLabel"
+            android:id="@+id/tvReceiverPhoneNumberLabel"
             android:layout_width="0dp"
-            app:layout_constraintWidth_percent="0.25"
+            app:layout_constraintWidth_percent="0.4"
             android:layout_height="wrap_content"
-            android:text="Price: "
+            android:text="Receiver phonenumber: "
             android:textSize="14sp"
             android:textStyle="bold"
+            android:textColor="#BABABA"
+            android:layout_margin="5dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvProductVenderIdLabel" />
+            app:layout_constraintTop_toBottomOf="@id/tvReceiverNameLabel" />
 
         <TextView
-            android:id="@+id/tvProductPrice"
+            android:id="@+id/tvReceiverPhoneNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="__________"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/tvProductPriceLabel"
-            app:layout_constraintTop_toBottomOf="@id/tvProductVenderId" />
+            android:textColor="@color/white"
+            android:layout_margin="5dp"
+            app:layout_constraintStart_toEndOf="@+id/tvReceiverPhoneNumberLabel"
+            app:layout_constraintTop_toBottomOf="@id/tvReceiverName" />
+        <TextView
+            android:id="@+id/tvTypeLabel"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.4"
+            android:layout_height="wrap_content"
+            android:text="Type: "
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#BABABA"
+            android:layout_margin="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvReceiverPhoneNumberLabel" />
+
+        <TextView
+            android:id="@+id/tvType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="__________"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_margin="5dp"
+            app:layout_constraintStart_toEndOf="@+id/tvTypeLabel"
+            app:layout_constraintTop_toBottomOf="@id/tvReceiverPhoneNumber" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTypeLabel">
+            <TextView
+                android:id="@+id/tvIsDeliveryAddresLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delivery Address: "
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#BABABA"
+                android:layout_marginStart="5dp" />
+            <CheckBox
+                android:id="@+id/cbIsDeliveryAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/white"/>
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
