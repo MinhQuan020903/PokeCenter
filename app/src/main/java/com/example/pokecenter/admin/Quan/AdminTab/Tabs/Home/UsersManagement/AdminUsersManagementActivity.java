@@ -22,6 +22,7 @@ import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.User;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.UserAdapter;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Vender;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerInfoAndStatistic.CustomerInfoAndStatisticActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.ItemSpacingDecoration;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.OnItemClickListener;
 import com.example.pokecenter.databinding.ActivityAdminUsersManagementBinding;
@@ -77,12 +78,6 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
             public void onCallback(ArrayList<User> users) {
                 usersList = users;
 
-                for (User user: usersList) {
-                    if (user instanceof Customer) {
-                        //System.out.println(((Customer) user).toString1());
-                        System.out.println(" ==>? " + ((Customer) user).toString1() + "\n ");
-                    }
-                }
                 //Set up spinner
                 setUpRoleSpinner();
                 //Set up recyclerview for user

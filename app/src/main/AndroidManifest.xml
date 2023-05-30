@@ -27,7 +27,7 @@
             android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderInfoAndStatisticActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerInfoAndStatisticActivity"
+            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerInfoAndStatistic.CustomerInfoAndStatisticActivity"
             android:exported="false" />
         <activity
             android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminUsersManagementActivity"
