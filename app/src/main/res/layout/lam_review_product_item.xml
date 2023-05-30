@@ -6,7 +6,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:gravity="top"
-    android:paddingVertical="20dp">
+    android:paddingVertical="20dp"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/avatarImage"
@@ -55,6 +57,14 @@
             android:layout_height="wrap_content"
             tools:text="Gói sản phẩm cẩn thận, giao hàng đúng hẹn, hàng chuẩn màu, rất đẹp!"
             android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_marginBottom="12dp"/>
+
+        <TextView
+            android:id="@+id/review_create_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="22/05/2022 at 19:32"
             android:textSize="16sp"/>
 
     </LinearLayout>
