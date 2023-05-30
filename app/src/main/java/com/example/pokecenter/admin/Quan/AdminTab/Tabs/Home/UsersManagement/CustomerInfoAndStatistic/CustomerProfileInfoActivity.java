@@ -62,6 +62,15 @@ public class CustomerProfileInfoActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        binding.clCustomerProfileInfoFollowers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CustomerProfileInfoActivity.this, CustomerProfileInfoFollowersActivity.class);
+                intent.putExtra("Customer", customer);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
