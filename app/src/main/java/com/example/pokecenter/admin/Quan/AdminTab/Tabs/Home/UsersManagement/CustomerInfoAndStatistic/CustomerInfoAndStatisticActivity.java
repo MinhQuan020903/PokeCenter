@@ -204,6 +204,15 @@ public class CustomerInfoAndStatisticActivity extends AppCompatActivity {
                 showSpendingStatistic();
             }
         });
+
+        binding.clCustomerProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CustomerInfoAndStatisticActivity.this, CustomerProfileInfoActivity.class);
+                intent.putExtra("Customer", customer);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setUpDateSpinner() {

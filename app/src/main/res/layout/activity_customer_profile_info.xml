@@ -20,23 +20,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
         <LinearLayout
             android:id="@+id/clCustomerProfileInfoAvatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
+            android:layout_marginTop="112dp"
             android:orientation="vertical"
             app:layout_constraintBaseline_toBaselineOf="@+id/clCustomerProfileInfo"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_gravity="center">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/ivCustomerProfileInfoAvatar"
@@ -44,21 +46,23 @@
                     android:layout_height="125dp"
                     android:padding="2dp"
                     android:src="@drawable/lam_totoro"
+                    android:scaleType="centerCrop"
                     app:shapeAppearanceOverlay="@style/circleImageView"
                     app:strokeColor="@color/quan_light_yellow"
-                    app:strokeWidth="1dp"/>
+                    app:strokeWidth="1dp" />
             </FrameLayout>
+
             <TextView
                 android:id="@+id/tvCustomerProfileInfoName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Do Mai Minh Quan"
                 android:textColor="@color/white"
+                android:layout_marginTop="15dp"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:text="Do Mai Minh Quan"
-                app:layout_constraintTop_toBottomOf="@id/ivCustomerProfileInfoAvatar"/>
+                app:layout_constraintTop_toBottomOf="@id/ivCustomerProfileInfoAvatar" />
         </LinearLayout>
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clCustomerProfileInfoDetail"
@@ -189,6 +193,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
+                    android:enabled="false"
                     android:buttonTint="@color/white"
                     android:gravity="center_vertical"
                     android:text="Male"
@@ -199,6 +204,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:enabled="false"
                     android:buttonTint="@color/white"
                     android:gravity="center_vertical"
                     android:text="Female"
@@ -295,7 +301,7 @@
             app:icon="@drawable/lam_baseline_person_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/clCustomerProfileInfoDetail" />
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
