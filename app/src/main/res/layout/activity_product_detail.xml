@@ -324,9 +324,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingVertical="16sp"
+                    android:paddingTop="16dp"
                     android:paddingHorizontal="16sp"
-                    android:layout_marginBottom="16sp"
                     android:background="@color/white"
                     android:orientation="vertical">
 
@@ -339,12 +338,13 @@
                         android:textStyle="bold"
                         android:layout_marginBottom="10dp"/>
 
-                    <ListView
-                        android:id="@+id/lv_review_product"
+                    <LinearLayout
+                        android:id="@+id/review_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:listitem="@layout/lam_review_product_item"
-                        android:scrollbars="none"/>
+                        android:orientation="vertical">
+
+                    </LinearLayout>
 
                 </LinearLayout>
                 <!-- Review Product -->
