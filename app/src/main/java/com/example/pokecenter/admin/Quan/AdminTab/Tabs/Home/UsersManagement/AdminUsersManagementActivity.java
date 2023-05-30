@@ -76,6 +76,13 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
             @Override
             public void onCallback(ArrayList<User> users) {
                 usersList = users;
+
+                for (User user: usersList) {
+                    if (user instanceof Customer) {
+                        //System.out.println(((Customer) user).toString1());
+                        System.out.println(" ==>? " + ((Customer) user).toString1() + "\n ");
+                    }
+                }
                 //Set up spinner
                 setUpRoleSpinner();
                 //Set up recyclerview for user
