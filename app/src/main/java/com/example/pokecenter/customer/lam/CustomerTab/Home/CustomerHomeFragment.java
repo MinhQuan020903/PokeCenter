@@ -66,6 +66,7 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
         binding.avatarImage.setOnClickListener(view -> {
             // Set selectedItem in Bottom Nav Bar
             CustomerActivity.customerBottomNavigationView.setSelectedItemId(R.id.customerProfileFragment);
+
         });
 
         /* search bar logic */
@@ -224,4 +225,6 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
             startActivity(intent);
         }
     }
+
+
 }

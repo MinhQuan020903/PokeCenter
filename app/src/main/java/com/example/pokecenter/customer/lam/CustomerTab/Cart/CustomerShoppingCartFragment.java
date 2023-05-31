@@ -25,6 +25,7 @@ import android.widget.ListView;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
+import com.example.pokecenter.customer.lam.CustomerActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.ProductDetailActivity;
 import com.example.pokecenter.customer.lam.Interface.CartRecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.cart.Cart;
@@ -60,6 +61,8 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        CustomerActivity.setEnableBottomNavigation(false);
 
         binding = FragmentCustomerShoppingCartBinding.inflate(inflater, container, false);
 
@@ -123,6 +126,8 @@ public class CustomerShoppingCartFragment extends Fragment implements CartRecycl
                 }
 
                 binding.progressBar.setVisibility(View.INVISIBLE);
+
+                CustomerActivity.setEnableBottomNavigation(true);
             });
         });
     }
