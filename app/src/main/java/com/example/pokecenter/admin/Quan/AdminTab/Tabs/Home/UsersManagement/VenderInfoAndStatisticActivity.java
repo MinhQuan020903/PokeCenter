@@ -19,6 +19,7 @@ import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseFetchVende
 import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.Order;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Vender.Vender;
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.CustomerProfileInfoActivity;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.VenderProductListActivity;
 import com.example.pokecenter.databinding.ActivityVenderInfoAndStatisticBinding;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.BarData;
@@ -200,6 +201,15 @@ public class VenderInfoAndStatisticActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         showRevenueStatistic();
+                    }
+                });
+
+                binding.cvVenderProductStatistic.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(VenderInfoAndStatisticActivity.this, VenderProductListActivity.class);
+                        intent.putExtra("Vender", vender);
+                        startActivity(intent);
                     }
                 });
 

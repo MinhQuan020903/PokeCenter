@@ -307,6 +307,7 @@ public class CustomerInfoAndStatisticActivity extends AppCompatActivity {
         barDataSetSpending = new BarDataSet(spendingValues, "Spending");
         barDataSetSpending.setColors(ColorTemplate.JOYFUL_COLORS);
 
+
     }
 
     private void calculateSpendingInCurrentMonth() {

@@ -1,6 +1,8 @@
 package com.example.pokecenter.admin.Quan.AdminTab.Model.User.Vender;
 
+import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminProduct.AdminProduct;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.Order;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Admin.Admin;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.User;
 import com.example.pokecenter.customer.lam.Model.address.Address;
 import com.example.pokecenter.customer.lam.Model.product.Product;
@@ -13,13 +15,13 @@ public class Vender extends User {
     private String shopName;
     private int followCount;
     private int totalProduct;
-    private ArrayList<Product> productList;
+    private ArrayList<AdminProduct> productList;
     private ArrayList<Order> orderHistory;
 
     public Vender() {
     }
 
-    public Vender(String shopName, int followCount, int totalProduct, ArrayList<Product> productList, ArrayList<Order> orderHistory) {
+    public Vender(String shopName, int followCount, int totalProduct, ArrayList<AdminProduct> productList, ArrayList<Order> orderHistory) {
         this.shopName = shopName;
         this.followCount = followCount;
         this.totalProduct = totalProduct;
@@ -27,7 +29,7 @@ public class Vender extends User {
         this.orderHistory = orderHistory;
     }
 
-    public Vender(ArrayList<Address> addresses, String address, String avatar, String gender, String phoneNumber, String registrationDate, int role, String username, String email, String shopName, int followCount, int totalProduct, ArrayList<Product> productList, ArrayList<Order> orderHistory) {
+    public Vender(ArrayList<Address> addresses, String address, String avatar, String gender, String phoneNumber, String registrationDate, int role, String username, String email, String shopName, int followCount, int totalProduct, ArrayList<AdminProduct> productList, ArrayList<Order> orderHistory) {
         super(addresses, address, avatar, gender, phoneNumber, registrationDate, role, username, email);
         this.shopName = shopName;
         this.followCount = followCount;
@@ -60,11 +62,11 @@ public class Vender extends User {
         this.totalProduct = totalProduct;
     }
 
-    public ArrayList<Product> getProductList() {
+    public ArrayList<AdminProduct> getProductList() {
         return productList;
     }
 
-    public void setProductList(ArrayList<Product> productList) {
+    public void setProductList(ArrayList<AdminProduct> productList) {
         this.productList = productList;
     }
 
