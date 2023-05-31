@@ -182,9 +182,7 @@ public class FirebaseFetchUser {
                         }
                     }
                 }
-                firebaseCallback.onCallback(usersList);
-
-                //getCustomerActivityDetail(usersList, firebaseCallback);
+                getCustomerActivityDetail(usersList, firebaseCallback);
             }
 
             @Override
@@ -273,6 +271,7 @@ public class FirebaseFetchUser {
                     }  catch (Exception e) {
                         Log.d("FirebaseFetchUser", e.toString());
                     }
+
 
                     //Add order history
                     for (User user : usersList) {
