@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
+import com.example.pokecenter.customer.lam.CustomerActivity;
 import com.example.pokecenter.customer.lam.Model.order.Order;
 import com.example.pokecenter.customer.lam.Model.order.OrderAdapter;
 import com.example.pokecenter.databinding.FragmentCustomerOrdersBinding;
@@ -33,6 +34,7 @@ public class CustomerOrdersFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        CustomerActivity.setEnableBottomNavigation(false);
 
         binding = FragmentCustomerOrdersBinding.inflate(inflater, container, false);
 
@@ -84,6 +86,7 @@ public class CustomerOrdersFragment extends Fragment {
 
                 binding.progressBar.setVisibility(View.INVISIBLE);
 
+                CustomerActivity.setEnableBottomNavigation(true);
             });
         });
 
