@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_canvas">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <com.smarteist.autoimageslider.SliderView
+        android:id="@+id/product_image_slider_view"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:sliderAnimationDuration="600"
+        app:sliderAutoCycleDirection="back_and_forth"
+        app:sliderAutoCycleEnabled="true"
+        app:sliderIndicatorAnimationDuration="600"
+        app:sliderIndicatorGravity="center_horizontal|bottom"
+        app:sliderIndicatorMarginBottom="20dp"
+        app:sliderIndicatorOrientation="horizontal"
+        app:sliderIndicatorPadding="7dp"
+        app:sliderIndicatorRadius="2dp"
+        app:sliderIndicatorSelectedColor="@color/light_secondary"
+        app:sliderIndicatorUnselectedColor="@color/light_canvas"
+        app:sliderScrollTimeInSec="2"
+        app:sliderStartAutoCycle="true"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/productName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        tools:text="Orig Pokemon Decor Cute for Baby"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView android:id="@+id/product_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="229.000 đ"
+        android:layout_marginHorizontal="16dp"
+        android:textColor="@color/light_secondary"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"/>
+
+    <LinearLayout
+        android:id="@+id/drop_list_down_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="6dp"
+        android:gravity="center_vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:hint="Select option"
+            android:layout_marginEnd="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+
+
+            <AutoCompleteTextView
+                android:id="@+id/options_auto_complete_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/warning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/lam_warning_24"
+            android:tooltipText="You have not selected option!"
+            android:visibility="invisible"/>
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/lam_star_32"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:id="@+id/product_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/black"/>
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="20dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginHorizontal="18dp"/>
+
+            <TextView
+                android:id="@+id/product_review_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 reviews"
+                android:textSize="16sp"/>
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="20dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginHorizontal="16dp"/>
+
+            <TextView
+                android:id="@+id/product_sold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Sold 20"
+                android:textSize="16sp"/>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <ImageButton
+                android:id="@+id/favoriteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/lam_baseline_favorite_border_28"
+                android:backgroundTint="@color/light_canvas"/>
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progress_bar_review"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/light_canvas"
+            android:paddingVertical="7dp"
+            android:visibility="invisible"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingVertical="16sp"
+            android:paddingHorizontal="16sp"
+            android:layout_marginBottom="16sp"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reviews"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp"/>
+
+            <ListView
+                android:id="@+id/lv_review_product"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/lam_review_product_item"
+                android:scrollbars="none"/>
+
+        </LinearLayout>
+        <!-- Review Product -->
+    </LinearLayout>
+    </ScrollView>
+    </LinearLayout>
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/lam_background_ripple_effect_gray"
+        android:padding="8dp"
+        android:src="@drawable/lam_baseline_keyboard_backward_32"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/black" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,6 +32,9 @@
             android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.ProductInfoAndActivityActivity"
             android:exported="false" />
         <activity
+            android:name=".vender.VenderTab.Home.Product.VenderProductDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminInfoAndStatisticActivity"
             android:exported="false" />
         <activity
@@ -60,8 +63,7 @@
             android:exported="false" />
         <activity
             android:name=".vender.VenderTab.Home.Product.AddProductActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PokeCenter.NoActionBar" />
+            android:exported="false" />
         <activity
             android:name=".vender.VenderTab.Home.Product.VenderProductActivity"
             android:exported="false" />
@@ -156,7 +158,6 @@
         <activity
             android:name=".customer.lam.CustomerTab.Profile.NextActivity.MyProductReviewsActivity"
             android:exported="false" />
-
     </application>
 
 </manifest>

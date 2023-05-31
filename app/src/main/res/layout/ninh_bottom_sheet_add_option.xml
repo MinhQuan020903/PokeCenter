@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:paddingVertical="10dp"
+    android:paddingHorizontal="16dp"
+    android:background="@color/light_canvas">
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_marginHorizontal="160dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/lam_background_raised_secondary_corner_8"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+    <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/option_Image"
+            android:layout_width="210dp"
+            android:layout_height="210dp"
+            android:src="@drawable/lam_totoro"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/corner8ImageView" />
+
+        <ImageButton
+            android:id="@+id/change_avatar_button"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:background="@drawable/quan_rounded_image_button"
+            android:src="@drawable/lam_round_edit_24"
+            app:layout_constraintBottom_toBottomOf="@id/option_Image"
+            app:layout_constraintEnd_toEndOf="@id/option_Image" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal">
+        <EditText
+            android:id="@+id/optionName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:background="@color/white"
+            android:hint="Option Name"
+            android:paddingVertical="14dp"
+            android:paddingHorizontal="20dp"
+            android:textColorHint="#9A9A9A"/>
+        <EditText
+            android:id="@+id/optionPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:background="@color/white"
+            android:hint="Price"
+            android:paddingVertical="14dp"
+            android:paddingHorizontal="20dp"
+            android:textColorHint="#9A9A9A"/>
+
+
+        <EditText
+            android:id="@+id/optionQuantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:background="@color/white"
+            android:hint="Quantity"
+            android:paddingVertical="14dp"
+            android:paddingHorizontal="20dp"
+            android:textColorHint="#9A9A9A"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="bottom|center_horizontal"
+        android:layout_marginBottom="30dp">
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/finishButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="finish"/>
+
+</LinearLayout>

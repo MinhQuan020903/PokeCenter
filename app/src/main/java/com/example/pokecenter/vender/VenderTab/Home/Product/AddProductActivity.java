@@ -1,94 +1,173 @@
 package com.example.pokecenter.vender.VenderTab.Home.Product;
 
+import static com.example.pokecenter.vender.VenderTab.Home.Product.VenderProductActivity.productAdapter;
+import static com.example.pokecenter.vender.VenderTab.Home.Product.VenderProductActivity.venderProduct;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.viewpager.widget.ViewPager;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.Model.option.Option;
+import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.databinding.ActivityAddProductBinding;
+import com.example.pokecenter.vender.API.FirebaseSupportVender;
+import com.example.pokecenter.vender.Interface.OptionRecyclerViewInterface;
+import com.example.pokecenter.vender.Model.Option.VenderOptionAdapter;
+import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.imageview.ShapeableImageView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public class AddProductActivity extends AppCompatActivity {
+import kotlin.Unit;
+
+public class AddProductActivity extends AppCompatActivity implements OptionRecyclerViewInterface {
     ActivityAddProductBinding binding;
-
-    AppCompatButton Uploadbutton;
-    TextInputEditText ItemName, ItemDesc;
-    RelativeLayout PickImagebutton;
-    ViewPager viewPager;
+    private List<Option> myOptions = new ArrayList<>();
+    private VenderOptionAdapter optionAdapter;
+    OptionRecyclerViewInterface optionRecyclerViewInterface;
     Uri ImageUri;
+    private ShapeableImageView optionImage;
     ArrayList<Uri> ChooseImageList;
     ArrayList<String> UrlsList;
     FirebaseFirestore firestore;
     StorageReference storagereference;
     FirebaseStorage mStorage;
+    private Uri mImageUri;
 
+    private StorageReference mStorageRef;
     ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAddProductBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        PickImagebutton = findViewById(R.id.ChooseImage);
-        viewPager = findViewById(R.id.viewPager);
-        ItemDesc = findViewById(R.id.ItemDesc);
-        ItemName = findViewById(R.id.ItemName);
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().setStatusBarColor(getColor(R.color.light_primary));
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+        getSupportActionBar().setTitle("Add new Items");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mStorageRef = FirebaseStorage.getInstance().getReference("option");
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Uploading Data");
         progressDialog.setMessage("Please Wait While Uploading Your data...");
+        binding.optionAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openBottomSheetDialog(null, myOptions.size());
+            }
+        });
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        binding.rcvGridOptions.setLayoutManager(linearLayoutManager);
+        binding.rcvGridOptions.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
+        optionAdapter = new VenderOptionAdapter(this, myOptions, optionRecyclerViewInterface);
+        binding.rcvGridOptions.setAdapter(optionAdapter);
+
 
 
         // firebase Instance
         firestore = FirebaseFirestore.getInstance();
         mStorage = FirebaseStorage.getInstance();
         storagereference = mStorage.getReference();
-        Uploadbutton = findViewById(R.id.UploadBtn);
 
         ChooseImageList = new ArrayList<>();
         UrlsList = new ArrayList<>();
-        PickImagebutton.setOnClickListener(new View.OnClickListener() {
+        binding.ChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 CheckPermission();
-
             }
         });
-        Uploadbutton.setOnClickListener(new View.OnClickListener() {
+        binding.UploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 UploadIMages();
             }
         });
+        setContentView(binding.getRoot());
 
     }
 
+    public void AddProduct() {
+        Product newProduct = new Product(null, binding.ItemName.getText().toString(),
+                binding.ItemDesc.getText().toString(),
+                UrlsList, myOptions,
+                FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", ","));
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+
+            boolean isSuccessful = true;
+
+            try {
+                new FirebaseSupportVender().addNewProduct(newProduct);
+            } catch (IOException e) {
+                isSuccessful = false;
+            }
+
+            boolean finalIsSuccessful = isSuccessful;
+            handler.post(() -> {
+                if (finalIsSuccessful) {
+                    venderProduct.add(newProduct);
+                    productAdapter.notifyDataSetChanged();
+                    Toast.makeText(this, "Added new Product", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Something wrong because connection error", Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
+        progressDialog.dismiss();
+        finish();
+    }
     private void UploadIMages() {
 
         // we need list that images urls
@@ -96,8 +175,10 @@ public class AddProductActivity extends AppCompatActivity {
             Uri IndividualImage = ChooseImageList.get(i);
             if (IndividualImage != null) {
                 progressDialog.show();
-                StorageReference ImageFolder = FirebaseStorage.getInstance().getReference().child("ItemImages");
-                final StorageReference ImageName = ImageFolder.child("Image" + i + ": " + IndividualImage.getLastPathSegment());
+                StorageReference ImageFolder = FirebaseStorage.getInstance().getReference().child("ImageProducts");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String dateString = dateFormat.format(Calendar.getInstance().getTime());
+                final StorageReference ImageName = ImageFolder.child("Image" + i + ": " + IndividualImage.getLastPathSegment() + dateString);
                 ImageName.putFile(IndividualImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -106,7 +187,7 @@ public class AddProductActivity extends AppCompatActivity {
                             public void onSuccess(Uri uri) {
                                 UrlsList.add(String.valueOf(uri));
                                 if (UrlsList.size() == ChooseImageList.size()) {
-                                    StoreLinks(UrlsList);
+                                    AddProduct();
                                 }
                             }
                         });
@@ -118,13 +199,12 @@ public class AddProductActivity extends AppCompatActivity {
             }
         }
 
-
     }
 
     private void StoreLinks(ArrayList<String> urlsList) {
         // now we need get text from EditText
-        String Name = ItemName.getText().toString();
-        String Description = ItemDesc.getText().toString();
+        String Name = binding.ItemName.getText().toString();
+        String Description =binding.ItemDesc.getText().toString();
         if (!TextUtils.isEmpty(Name) && !TextUtils.isEmpty(Description) && ImageUri != null) {
             // now we need a model class
             ItemModel model = new ItemModel(Name, Description, "", UrlsList);
@@ -178,8 +258,6 @@ public class AddProductActivity extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, 1);
-
-
     }
 
     @Override
@@ -200,6 +278,145 @@ public class AddProductActivity extends AppCompatActivity {
 
     private void setAdapter() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(this, ChooseImageList);
-        viewPager.setAdapter(adapter);
+        binding.viewPager.setAdapter(adapter);
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+    private void openBottomSheetDialog(Option existingOption, int countOption) {
+
+        View viewDialog = getLayoutInflater().inflate(R.layout.ninh_bottom_sheet_add_option, null);
+
+        BottomSheetDialog dialog = new BottomSheetDialog(this);
+        dialog.setContentView(viewDialog);
+        dialog.show();
+
+        viewDialog.setOnClickListener(view -> {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        });
+
+        EditText optionName = viewDialog.findViewById(R.id.optionName);
+        EditText optionQuantity = viewDialog.findViewById(R.id.optionQuantity);
+        EditText optionPrice = viewDialog.findViewById(R.id.optionPrice);
+
+        ImageButton uploadImageOption = viewDialog.findViewById(R.id.change_avatar_button);
+        Button finishButton = viewDialog.findViewById(R.id.finishButton);
+        optionImage = viewDialog.findViewById(R.id.option_Image);
+
+        if (existingOption != null) {
+            optionName.setText(existingOption.getOptionName());
+            optionQuantity.setText(existingOption.getInputQuantity());
+            optionPrice.setText(existingOption.getPrice());
+            Picasso.get().load(existingOption.getOptionImage()).into(optionImage);
+        }
+        uploadImageOption.setOnClickListener(view -> {
+            ImagePicker.with(AddProductActivity.this)
+                    .crop()	    			//Crop image(Optional), Check Customization for more option
+                    .galleryOnly()
+                    .createIntent(intent -> {
+                        openSomeActivityForResult(intent);
+                        return Unit.INSTANCE;
+                    });
+        });
+
+        finishButton.setOnClickListener(view -> {
+            finishButton.setVisibility(View.INVISIBLE);
+
+            if (validateDataInput(optionName, optionQuantity, optionPrice)) {
+
+                Option newOption = new Option(
+                        optionName.getText().toString(),String.valueOf(mImageUri),Integer.parseInt(optionQuantity.getText().toString()),Integer.parseInt(optionQuantity.getText().toString()),Integer.parseInt(optionPrice.getText().toString())
+                );
+
+                if (existingOption != null) {
+                    /* update existing Option */
+                    existingOption.setOptionName(newOption.getOptionName());
+                    existingOption.setOptionImage(newOption.getOptionImage());
+                    existingOption.setCurrentQuantity(newOption.getCurrentQuantity());
+                    existingOption.setInputQuantity(newOption.getCurrentQuantity());
+                    existingOption.setPrice(newOption.getPrice());
+                }else{
+                    myOptions.add(newOption);
+                }
+                optionAdapter.notifyDataSetChanged();
+                dialog.dismiss();
+            }
+            finishButton.setVisibility(View.VISIBLE);
+        });
+    }
+
+    public void openSomeActivityForResult(Intent intent) {
+        someActivityResultLauncher.launch(intent);
+    }
+
+    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        assert data != null;
+                        mImageUri = data.getData();
+                        Picasso.get().load(mImageUri).into(optionImage);
+                        updateOptionImage();
+                    }
+                }
+            });
+    private void updateOptionImage() {
+        if (mImageUri != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String dateString = dateFormat.format(Calendar.getInstance().getTime());
+            StorageReference fileRef = mStorageRef.child(dateString);
+            fileRef.putFile(mImageUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Task<Uri> downloadUrlTask = taskSnapshot.getStorage().getDownloadUrl();
+                            downloadUrlTask.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    Toast.makeText(AddProductActivity.this, "Update Option Image Successful", Toast.LENGTH_SHORT).show();
+                                    mImageUri = uri;
+                                    //currentAccount.setAvatar(String.valueOf(uri));
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(AddProductActivity.this, "Update Option Image Failed", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+        }
+    }
+
+    private boolean validateDataInput(EditText name, EditText quantity, EditText price) {
+        if (name.getText().toString().isEmpty()) {
+            name.setError("You have not entered Full Name");
+            return false;
+        }
+
+        if (quantity.getText().toString().isEmpty()) {
+            quantity.setError("You have not entered Phone Number");
+            return false;
+        }
+
+        if (price.getText().toString().isEmpty()) {
+            price.setError("You have not entered Option 1");
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public void onOptionItemClick(int position) {
+        openBottomSheetDialog(myOptions.get(position), myOptions.size());
     }
 }
