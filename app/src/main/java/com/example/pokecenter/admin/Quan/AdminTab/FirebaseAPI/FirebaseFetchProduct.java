@@ -53,7 +53,7 @@ public class FirebaseFetchProduct {
                                 options.add(adminOption);
                             }
                         } catch (Exception e) {
-                                Log.d("FirebaseFetchProduct", "Exception when fetching product's options...");
+                                Log.d("FirebaseFetchProduct", e.toString());
                         }
 
                     }
@@ -72,7 +72,7 @@ public class FirebaseFetchProduct {
                                 index++;
                             }
                         } catch (Exception e) {
-                            Log.d("FirebaseFetchProduct", "Exception when fetching product's images...");
+                            Log.d("FirebaseFetchProduct", e.toString());
                         }
 
                     }
@@ -86,7 +86,7 @@ public class FirebaseFetchProduct {
                         adminProduct.setImages(images);
                         adminProduct.setOptions(options);
                     } catch (Exception e) {
-                        Log.d("FirebaseFetchProduct", "Exception when fetching product...");
+                        Log.d("FirebaseFetchProduct", e.toString());
                     }
 
                     //Add adminProduct to adminProductList

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/light_secondary"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerInfoAndStatistic.CustomerInfoAndStatisticActivity">
+    tools:context=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerInfoAndStatisticActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clCustomerProfile"
@@ -126,10 +126,11 @@
                 <ImageView
                     android:id="@+id/ivCustomerOrderStatistic"
                     android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_height="45dp"
                     android:layout_marginStart="20dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/quan_icon_product"
+                    android:src="@drawable/quan_icon_order"
+                    app:tint="@color/white"
                     android:scaleType="fitCenter" />
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -185,6 +186,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/quan_icon_money"
+                    app:tint="@color/white"
                     android:scaleType="fitCenter" />
                 <LinearLayout
                     android:layout_width="match_parent"

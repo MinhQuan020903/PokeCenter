@@ -1,4 +1,4 @@
-package com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerInfoAndStatistic;
+package com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -20,7 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.pokecenter.R;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer.Customer;
 import com.example.pokecenter.databinding.ActivityCustomerProfileInfoBinding;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
@@ -150,7 +149,8 @@ public class CustomerProfileInfoActivity extends AppCompatActivity {
                                 FirebaseAuth.getInstance().signInWithCredential(credential)
                                         .addOnCompleteListener(task -> {
                                             if (task.isSuccessful()) {
-
+                                                confirmationDialog.dismiss();
+                                                adminAuthDialog.dismiss();
                                             } else {
                                                 tvAdminAuthFailed.setVisibility(View.VISIBLE);
                                             }

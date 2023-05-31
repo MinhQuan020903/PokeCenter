@@ -1,5 +1,6 @@
-package com.example.pokecenter.admin.Quan.AdminTab.Model.User;
+package com.example.pokecenter.admin.Quan.AdminTab.Model.User.Admin;
 
+import com.example.pokecenter.admin.Quan.AdminTab.Model.User.User;
 import com.example.pokecenter.customer.lam.Model.address.Address;
 
 public class Admin extends User {

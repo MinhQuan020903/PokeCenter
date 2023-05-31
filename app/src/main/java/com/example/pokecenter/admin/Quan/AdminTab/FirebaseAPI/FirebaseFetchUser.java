@@ -8,10 +8,10 @@ import androidx.annotation.NonNull;
 
 import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.Order;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.OrderDetail;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Admin;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Admin.Admin;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer.Customer;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.User;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Vender;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Vender.Vender;
 import com.example.pokecenter.customer.lam.Model.address.Address;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,7 +45,7 @@ public class FirebaseFetchUser {
                         try {
                             user = dataSnapshot.getValue(User.class);
                         } catch (Exception e) {
-                            Log.d("FirebaseFetchUser", "Exception when fetching user...");
+                            Log.d("FirebaseFetchUser", e.toString());
                         }
 
                     }
@@ -70,7 +70,7 @@ public class FirebaseFetchUser {
                                 }
                             }
                         } catch (Exception e) {
-                            Log.d("FirebaseFetchUser", "Exception when fetching user's addresses...");
+                            Log.d("FirebaseFetchUser", e.toString());
                         }
 
                     }
@@ -103,14 +103,14 @@ public class FirebaseFetchUser {
                         user.setEmail(dataSnapshot.getKey().replace(",","."));
                         user.setAddresses(addressList);
                     } catch (Exception e) {
-                        Log.d("FirebaseFetchUser", "Exception when fetching user...");
+                        Log.d("FirebaseFetchUser", e.toString());
                     }
 
                     if (user != null) {
                         usersList.add(user);
                     }
                 }
-                getCustomerOrderHistory(usersList, firebaseCallback);
+                getUserOrderHistory(usersList, firebaseCallback);
             }
 
             @Override
@@ -120,7 +120,7 @@ public class FirebaseFetchUser {
         });
     }
 
-    public void getCustomerOrderHistory(ArrayList<User> usersList, FirebaseCallback firebaseCallback) {
+    public void getUserOrderHistory(ArrayList<User> usersList, FirebaseCallback firebaseCallback) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef = firebaseDatabase.getReference("orders");
 
@@ -148,7 +148,7 @@ public class FirebaseFetchUser {
                                 order.setDetails(orderDetails);
                             }
                         }  catch (Exception e) {
-                            Log.d("FirebaseFetchUser", "Exception when fetching user's order details...");
+                            Log.d("FirebaseFetchUser", e.toString());
                         }
 
                     try {
@@ -158,16 +158,25 @@ public class FirebaseFetchUser {
                         order.setTotalAmount(dataSnapshot.child("totalAmount").getValue(int.class));
                         order.setVenderId(dataSnapshot.child("venderId").getValue(String.class).replace(",","."));
                     } catch (Exception e) {
-                        Log.d("FirebaseFetchUser", "Exception when fetching user's orders...");
+                        Log.d("FirebaseFetchUser", e.toString());
                     }
 
+                    //Add order history
                     for (User user : usersList) {
-                        if (user instanceof Customer && user.getEmail().equals(order.getCustomerId())) {
-                            if (((Customer) user).getOrderHistory() == null) {
-                                ((Customer) user).setOrderHistory(new ArrayList<>());
+                        if (user instanceof Customer) {
+                            if (user.getEmail().equals(order.getCustomerId())) {
+                                if (((Customer) user).getOrderHistory() == null) {
+                                    ((Customer) user).setOrderHistory(new ArrayList<>());
+                                }
+                                    ((Customer) user).getOrderHistory().add(order);
                             }
-                            ((Customer) user).getOrderHistory().add(order);
-                            break;
+                        } else if (user instanceof Vender) {
+                            if (user.getEmail().equals(order.getVenderId())) {
+                                if (((Vender) user).getOrderHistory() == null) {
+                                    ((Vender) user).setOrderHistory(new ArrayList<>());
+                                }
+                                ((Vender) user).getOrderHistory().add(order);
+                            }
                         }
                     }
                 }
@@ -197,7 +206,7 @@ public class FirebaseFetchUser {
                         followerList.add(dataSnapshot.getKey().replace(",","."));
                     }
                 } catch (Exception e ) {
-                    Log.d("FirebaseFetchUser", "Exception when fetching user's followers...");
+                    Log.d("FirebaseFetchUser", e.toString());
                 }
 
                 firebaseCallback.onCallback(followerList);

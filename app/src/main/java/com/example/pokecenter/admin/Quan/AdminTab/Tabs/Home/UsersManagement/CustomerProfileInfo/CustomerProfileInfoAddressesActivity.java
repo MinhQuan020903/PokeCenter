@@ -1,4 +1,4 @@
-package com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerInfoAndStatistic;
+package com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,13 +11,10 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.example.pokecenter.R;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.User.CustomerAddressesAdapter;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.User.UserAdapter;
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminUsersManagementActivity;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer.Customer;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer.CustomerAddressesAdapter;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.ItemSpacingDecoration;
 import com.example.pokecenter.databinding.ActivityCustomerProfileInfoAddressesBinding;
-import com.example.pokecenter.databinding.ActivityCustomerProfileInfoBinding;
 
 public class CustomerProfileInfoAddressesActivity extends AppCompatActivity {
     private ActivityCustomerProfileInfoAddressesBinding binding;
