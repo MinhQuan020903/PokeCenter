@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivUserAvatar"
+            android:id="@+id/ivProductImage"
             android:layout_width="0dp"
             app:layout_constraintWidth_percent="0.25"
             android:layout_height="0dp"
@@ -29,13 +29,13 @@
             app:strokeWidth="2dp"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/clUserItem"
+            android:id="@+id/clProductItem"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="3:1"
             android:background="@drawable/quan_rounded_half_right_rectangle"
             android:padding="5dp"
-            app:layout_constraintStart_toEndOf="@id/ivUserAvatar"
+            app:layout_constraintStart_toEndOf="@id/ivProductImage"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.75">
 
@@ -46,95 +46,66 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
                 <TextView
-                    android:id="@+id/tvUsernameLabel"
+                    android:id="@+id/tvProductNameLabel"
                     android:layout_width="0dp"
-                    app:layout_constraintWidth_percent="0.37"
+                    app:layout_constraintWidth_percent="0.25"
                     android:layout_height="wrap_content"
-                    android:text="Username: "
+                    android:text="Product: "
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:textColor="@color/quan_light_grey"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tvUsername"
+                    android:id="@+id/tvProductName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="__________"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toEndOf="@+id/tvUsernameLabel"
+                    app:layout_constraintStart_toEndOf="@id/tvProductNameLabel"
+                    android:maxLines="1"
                     app:layout_constraintTop_toTopOf="parent" />
                 <TextView
-                    android:id="@+id/tvUserEmailLabel"
+                    android:id="@+id/tvProductVenderIdLabel"
                     android:layout_width="0dp"
-                    app:layout_constraintWidth_percent="0.37"
+                    app:layout_constraintWidth_percent="0.25"
                     android:layout_height="wrap_content"
-                    android:text="Email: "
+                    android:text="Vender ID: "
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:textColor="@color/quan_light_grey"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvUsernameLabel" />
+                    app:layout_constraintTop_toBottomOf="@id/tvProductNameLabel" />
 
                 <TextView
-                    android:id="@+id/tvUserEmail"
+                    android:id="@+id/tvProductVenderId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="__________"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toEndOf="@+id/tvUserEmailLabel"
-                    app:layout_constraintTop_toBottomOf="@id/tvUsername" />
-
+                    app:layout_constraintStart_toEndOf="@+id/tvProductVenderIdLabel"
+                    app:layout_constraintTop_toBottomOf="@id/tvProductName" />
                 <TextView
-                    android:id="@+id/tvUserPhoneNumberLabel"
+                    android:id="@+id/tvProductPriceLabel"
                     android:layout_width="0dp"
+                    app:layout_constraintWidth_percent="0.25"
                     android:layout_height="wrap_content"
-                    android:text="Phone number: "
+                    android:text="Price: "
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:textColor="@color/quan_light_grey"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvUserEmailLabel"
-                    app:layout_constraintWidth_percent="0.37" />
+                    app:layout_constraintTop_toBottomOf="@id/tvProductVenderIdLabel" />
 
                 <TextView
-                    android:id="@+id/tvUserPhoneNumber"
+                    android:id="@+id/tvProductPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="__________"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toEndOf="@+id/tvUserPhoneNumberLabel"
-                    app:layout_constraintTop_toBottomOf="@id/tvUserEmail" />
-                <TextView
-                    android:id="@+id/tvUserRoleLabel"
-                    android:layout_width="0dp"
-                    app:layout_constraintWidth_percent="0.37"
-                    android:layout_height="wrap_content"
-                    android:text="Role: "
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/quan_light_grey"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvUserPhoneNumberLabel" />
-
-                <TextView
-                    android:id="@+id/tvUserRole"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="__________"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toEndOf="@+id/tvUserRoleLabel"
-                    app:layout_constraintTop_toBottomOf="@id/tvUserPhoneNumber" />
-
+                    app:layout_constraintStart_toEndOf="@+id/tvProductPriceLabel"
+                    app:layout_constraintTop_toBottomOf="@id/tvProductVenderId" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
