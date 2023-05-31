@@ -53,6 +53,9 @@ public class CustomerProfileInfoFollowersActivity extends AppCompatActivity {
         Intent intent = getIntent();
         customer = (Customer) intent.getSerializableExtra("Customer");
 
+        //Set no follower by default
+        binding.llCustomerNoFollowers.setVisibility(View.INVISIBLE);
+
         //Get ArrayList<String> followerEmailList from Firebase
         String customerFirebaseEmail = customer.getEmail().replace(".", ",");
         FirebaseFetchUser firebaseFetchUser = new FirebaseFetchUser(this);
@@ -62,8 +65,8 @@ public class CustomerProfileInfoFollowersActivity extends AppCompatActivity {
                 followerEmailList = user;
                 if (followerEmailList.size() == 0 || followerEmailList == null) {
                     binding.rvCustomerFollowers.setVisibility(View.INVISIBLE);
+                    binding.llCustomerNoFollowers.setVisibility(View.VISIBLE);
                 } else {
-                    binding.llCustomerNoFollowers.setVisibility(View.INVISIBLE);
                     followerList = new ArrayList<>();
                     firebaseFetchUser.getUsersListFromFirebase(new FirebaseCallback<ArrayList<User>>() {
                         @Override
@@ -78,7 +81,6 @@ public class CustomerProfileInfoFollowersActivity extends AppCompatActivity {
                                 }
                                 index++;
                             }
-
                             setUpRecyclerView();
                         }
                     });

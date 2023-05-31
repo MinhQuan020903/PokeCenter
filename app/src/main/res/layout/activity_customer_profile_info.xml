@@ -289,12 +289,12 @@
 
         <Button
             style="@style/Widget.Material3.Button.ElevatedButton"
-            android:id="@+id/bCustomerProfileInfoDeleteAccount"
+            android:id="@+id/bCustomerProfileInfoDisableAccount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:backgroundTint="@android:color/holo_red_light"
-            android:text="Delete Account"
+            android:text="Disable Account"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp"
