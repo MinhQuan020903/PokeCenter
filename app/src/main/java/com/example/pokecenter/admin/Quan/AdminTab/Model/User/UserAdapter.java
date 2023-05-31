@@ -103,6 +103,4 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public int getItemCount() {
         return usersList.size();
     }
-
-
 }

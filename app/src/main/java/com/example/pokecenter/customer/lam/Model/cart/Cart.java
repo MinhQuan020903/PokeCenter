@@ -12,6 +12,11 @@ public class Cart implements Serializable {
 
     private int selectedOption;
 
+    public Cart(int quantity, int selectedOption) {
+        this.quantity = quantity;
+        this.selectedOption = selectedOption;
+    }
+
     public Cart(Product product, int quantity, int selectedOption) {
         this.product = product;
         this.quantity = quantity;

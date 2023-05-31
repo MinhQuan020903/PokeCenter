@@ -1,4 +1,4 @@
-package com.example.pokecenter.admin.Quan.AdminTab.Model.User;
+package com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer;
 
 import android.content.Context;
 import android.view.LayoutInflater;

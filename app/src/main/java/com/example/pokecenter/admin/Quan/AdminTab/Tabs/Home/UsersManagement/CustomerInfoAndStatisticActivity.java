@@ -1,4 +1,4 @@
-package com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerInfoAndStatistic;
+package com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,43 +13,26 @@ import android.widget.ArrayAdapter;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.Order;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.User.User;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer.Customer;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.CustomerProfileInfoActivity;
 import com.example.pokecenter.databinding.ActivityCustomerInfoAndStatisticBinding;
-import com.example.pokecenter.vender.VenderTab.Home.RevenueData;
-import com.example.pokecenter.vender.VenderTab.Home.RevenueProduct;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.squareup.picasso.Picasso;
 
-import org.checkerframework.checker.units.qual.A;
-
-import java.text.DateFormat;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.ResolverStyle;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 
 public class CustomerInfoAndStatisticActivity extends AppCompatActivity {
@@ -305,12 +288,18 @@ public class CustomerInfoAndStatisticActivity extends AppCompatActivity {
         }
 
         //Set min and max XAxis points (1 -> max date of the month)
-        binding.bcCustomerSpendingChart.getXAxis().setAxisMinimum(localDate.getDayOfMonth() - 5);
-        if (localDate.getDayOfMonth() <= 26) {
-            binding.bcCustomerSpendingChart.getXAxis().setAxisMaximum(localDate.getDayOfMonth() + 4);
-        }
-        else {
+        if (localDate.getDayOfMonth() < localDate.lengthOfMonth() - 3) {
+            if (localDate.getDayOfMonth() > 4) {
+                binding.bcCustomerSpendingChart.getXAxis().setAxisMinimum(localDate.getDayOfMonth() - 3);
+                binding.bcCustomerSpendingChart.getXAxis().setAxisMaximum(localDate.getDayOfMonth() + 3);
+            } else {
+                binding.bcCustomerSpendingChart.getXAxis().setAxisMinimum(1);
+                binding.bcCustomerSpendingChart.getXAxis().setAxisMaximum(7);
+            }
+
+        } else {
             binding.bcCustomerSpendingChart.getXAxis().setAxisMaximum(localDate.lengthOfMonth());
+            binding.bcCustomerSpendingChart.getXAxis().setAxisMinimum(localDate.getDayOfMonth() - 7 - (localDate.lengthOfMonth() - localDate.getDayOfMonth()));
         }
 
         Description description = new Description();
@@ -322,6 +311,7 @@ public class CustomerInfoAndStatisticActivity extends AppCompatActivity {
 
         barDataSetSpending = new BarDataSet(spendingValues, "Spending");
         barDataSetSpending.setColors(ColorTemplate.JOYFUL_COLORS);
+
 
     }
 
