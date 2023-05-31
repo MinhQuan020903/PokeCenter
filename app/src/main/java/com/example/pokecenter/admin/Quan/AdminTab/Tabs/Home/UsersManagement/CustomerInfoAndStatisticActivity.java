@@ -289,10 +289,15 @@ public class CustomerInfoAndStatisticActivity extends AppCompatActivity {
 
         //Set min and max XAxis points (1 -> max date of the month)
         if (localDate.getDayOfMonth() < localDate.lengthOfMonth() - 3) {
-            binding.bcCustomerSpendingChart.getXAxis().setAxisMinimum(localDate.getDayOfMonth() - 3);
-            binding.bcCustomerSpendingChart.getXAxis().setAxisMaximum(localDate.getDayOfMonth() + 3);
-        }
-        else {
+            if (localDate.getDayOfMonth() > 4) {
+                binding.bcCustomerSpendingChart.getXAxis().setAxisMinimum(localDate.getDayOfMonth() - 3);
+                binding.bcCustomerSpendingChart.getXAxis().setAxisMaximum(localDate.getDayOfMonth() + 3);
+            } else {
+                binding.bcCustomerSpendingChart.getXAxis().setAxisMinimum(1);
+                binding.bcCustomerSpendingChart.getXAxis().setAxisMaximum(7);
+            }
+
+        } else {
             binding.bcCustomerSpendingChart.getXAxis().setAxisMaximum(localDate.lengthOfMonth());
             binding.bcCustomerSpendingChart.getXAxis().setAxisMinimum(localDate.getDayOfMonth() - 7 - (localDate.lengthOfMonth() - localDate.getDayOfMonth()));
         }

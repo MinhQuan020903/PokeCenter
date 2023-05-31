@@ -331,10 +331,15 @@ public class VenderInfoAndStatisticActivity extends AppCompatActivity {
         //Set min and max XAxis points (1 -> max date of the month)
 
         if (localDate.getDayOfMonth() < localDate.lengthOfMonth() - 3) {
-            binding.bcVenderChart.getXAxis().setAxisMinimum(localDate.getDayOfMonth() - 3);
-            binding.bcVenderChart.getXAxis().setAxisMaximum(localDate.getDayOfMonth() + 3);
-        }
-        else {
+            if (localDate.getDayOfMonth() > 4) {
+                binding.bcVenderChart.getXAxis().setAxisMinimum(localDate.getDayOfMonth() - 3);
+                binding.bcVenderChart.getXAxis().setAxisMaximum(localDate.getDayOfMonth() + 3);
+            } else {
+                binding.bcVenderChart.getXAxis().setAxisMinimum(1);
+                binding.bcVenderChart.getXAxis().setAxisMaximum(7);
+            }
+
+        } else {
             binding.bcVenderChart.getXAxis().setAxisMaximum(localDate.lengthOfMonth());
             binding.bcVenderChart.getXAxis().setAxisMinimum(localDate.getDayOfMonth() - 7 - (localDate.lengthOfMonth() - localDate.getDayOfMonth()));
         }
