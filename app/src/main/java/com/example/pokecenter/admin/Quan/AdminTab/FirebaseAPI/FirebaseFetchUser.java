@@ -13,6 +13,8 @@ import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer.Customer;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.User;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Vender.Vender;
 import com.example.pokecenter.customer.lam.Model.address.Address;
+import com.example.pokecenter.customer.lam.Model.cart.Cart;
+import com.example.pokecenter.customer.lam.Model.purchasedProduct.PurchasedProduct;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -181,6 +183,8 @@ public class FirebaseFetchUser {
                     }
                 }
                 firebaseCallback.onCallback(usersList);
+
+                //getCustomerActivityDetail(usersList, firebaseCallback);
             }
 
             @Override
@@ -189,6 +193,110 @@ public class FirebaseFetchUser {
             }
         });
     }
+
+    public void getCustomerActivityDetail(ArrayList<User> usersList, FirebaseCallback firebaseCallback) {
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = firebaseDatabase.getReference("customers");
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
+                    ArrayList<Cart> carts = new ArrayList<>();
+                    ArrayList<String> following = new ArrayList<>();
+                    ArrayList<PurchasedProduct> purchased = new ArrayList<>();
+                    ArrayList<String> wishList = new ArrayList<>();
+
+                    //Fetch carts data
+                    try {
+                        DataSnapshot cartsSnapshot = dataSnapshot.child("carts");
+                        if (cartsSnapshot.exists()) {
+                            for (DataSnapshot cartSnapshot : cartsSnapshot.getChildren()) {
+                                //Fetch attributes of an Cart object
+                                int quantity = cartSnapshot.child("quantity").getValue(int.class);
+                                int selectedOption = cartsSnapshot.child("selectedOption").getValue(int.class);
+
+                                //Create a temp object
+                                Cart cart = new Cart(quantity, selectedOption);
+                                carts.add(cart);
+                            }
+                        }
+                    }  catch (Exception e) {
+                        Log.d("FirebaseFetchUser", e.toString());
+                    }
+
+                    //Fetch following data
+                    try {
+                        DataSnapshot followingSnapshot = dataSnapshot.child("following");
+                        if (followingSnapshot.exists()) {
+                            for (DataSnapshot followSnapshot : followingSnapshot.getChildren()) {
+                                //Fetch following emails
+                                String email = followSnapshot.getKey().replace(",",".");
+                                following.add(email);
+                            }
+                        }
+                    }  catch (Exception e) {
+                        Log.d("FirebaseFetchUser", e.toString());
+                    }
+
+                    //Fetch purchased data
+                    try {
+                        DataSnapshot purchasedSnapshot = dataSnapshot.child("purchased");
+                        if (purchasedSnapshot.exists()) {
+                            for (DataSnapshot pSnapshot : purchasedSnapshot.getChildren()) {
+                                //Fetch attributes of an OrderDetail object
+                                String purchasedDate = pSnapshot.child("purchasedDate").getValue(String.class);
+                                Boolean reviewed = pSnapshot.child("reviewed").getValue(Boolean.class);
+                                int selectedOption = pSnapshot.child("selectedOption").getValue(int.class);
+
+                                //Create a temp object
+                                PurchasedProduct purchasedProduct = new PurchasedProduct(purchasedDate, reviewed, selectedOption);
+                                purchased.add(purchasedProduct);
+                            }
+                        }
+                    }  catch (Exception e) {
+                        Log.d("FirebaseFetchUser", e.toString());
+                    }
+
+                    //Fetch wishlist data
+                    try {
+                        DataSnapshot wishlistsSnapshot = dataSnapshot.child("wishlist");
+                        if (wishlistsSnapshot.exists()) {
+                            for (DataSnapshot wishlistSnapshot : wishlistsSnapshot.getChildren()) {
+                                //Fetch wishlist
+                                String wishlist = wishlistSnapshot.getKey();
+                                wishList.add(wishlist);
+                            }
+                        }
+                    }  catch (Exception e) {
+                        Log.d("FirebaseFetchUser", e.toString());
+                    }
+
+                    //Add order history
+                    for (User user : usersList) {
+                        if (user instanceof Customer) {
+                            if (user.getEmail().equals(dataSnapshot.getKey().replace(",","."))) {
+                                ((Customer) user).setCarts(carts);
+                                ((Customer) user).setFollowing(following);
+                                ((Customer) user).setPurchased(purchased);
+                                ((Customer) user).setWishList(wishList);
+                            }
+                        }
+                    }
+                }
+                firebaseCallback.onCallback(usersList);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
 
     public void getCustomerFollowers(String customerEmail, FirebaseCallback firebaseCallback) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();

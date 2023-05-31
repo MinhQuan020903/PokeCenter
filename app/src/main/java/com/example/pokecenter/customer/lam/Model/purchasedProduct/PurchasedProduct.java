@@ -13,6 +13,12 @@ public class PurchasedProduct {
         this.selectedOption = selectedOption;
     }
 
+    public PurchasedProduct(String purchasedDate, boolean reviewed, int selectedOption) {
+        this.reviewed = reviewed;
+        this.purchasedDate = purchasedDate;
+        this.selectedOption = selectedOption;
+    }
+
     public String getPurchasedDate() {
         return purchasedDate;
     }

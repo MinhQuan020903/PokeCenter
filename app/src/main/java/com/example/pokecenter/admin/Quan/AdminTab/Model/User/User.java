@@ -18,6 +18,15 @@ public class User implements Serializable {
     protected String email;
 
     public User() {
+        addresses = new ArrayList<>();
+        address = "";
+        avatar = "";
+        gender = "";
+        phoneNumber = "";
+        registrationDate = "";
+        role = -1;
+        username = "";
+        email = "";
     }
 
     public User(ArrayList<Address> addresses, String address, String avatar, String gender, String phoneNumber, String registrationDate, int role, String username, String email) {
