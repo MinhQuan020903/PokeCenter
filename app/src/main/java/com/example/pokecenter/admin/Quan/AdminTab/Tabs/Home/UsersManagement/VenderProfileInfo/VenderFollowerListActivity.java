@@ -52,6 +52,8 @@ public class VenderFollowerListActivity extends AppCompatActivity {
         Intent intent = getIntent();
         vender = (Vender) intent.getSerializableExtra("Vender");
 
+        venderFollowerList = new ArrayList<>();
+
         FirebaseFetchUser firebaseFetchUser = new FirebaseFetchUser(this);
         firebaseFetchUser.getUsersListFromFirebase(new FirebaseCallback<ArrayList<User>>() {
 
@@ -59,9 +61,12 @@ public class VenderFollowerListActivity extends AppCompatActivity {
             public void onCallback(ArrayList<User> user) {
                 for (User u : user) {
                     if (u instanceof Customer) {
-                        for (String email : ((Customer) u).getFollowing()) {
-                            if (email.equals(vender.getEmail())) {
-                                venderFollowerList.add(u);
+                        if (((Customer) u).getFollowing() != null ) {
+                            for (String email : ((Customer) u).getFollowing()) {
+                                if (email.equals(vender.getEmail())) {
+
+                                    venderFollowerList.add(u);
+                                }
                             }
                         }
                     }
