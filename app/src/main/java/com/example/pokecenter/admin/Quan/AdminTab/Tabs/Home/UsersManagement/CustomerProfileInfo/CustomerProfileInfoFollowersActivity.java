@@ -1,4 +1,4 @@
-package com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerInfoAndStatistic;
+package com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,15 +13,11 @@ import android.view.inputmethod.InputMethodManager;
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseCallback;
 import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseFetchUser;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.User.CustomerAddressesAdapter;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer.Customer;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.User;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.UserAdapter;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.ItemSpacingDecoration;
-import com.example.pokecenter.databinding.ActivityCustomerProfileInfoAddressesBinding;
 import com.example.pokecenter.databinding.ActivityCustomerProfileInfoFollowersBinding;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -53,6 +49,9 @@ public class CustomerProfileInfoFollowersActivity extends AppCompatActivity {
         Intent intent = getIntent();
         customer = (Customer) intent.getSerializableExtra("Customer");
 
+        //Set no follower by default
+        binding.llCustomerNoFollowers.setVisibility(View.INVISIBLE);
+
         //Get ArrayList<String> followerEmailList from Firebase
         String customerFirebaseEmail = customer.getEmail().replace(".", ",");
         FirebaseFetchUser firebaseFetchUser = new FirebaseFetchUser(this);
@@ -62,8 +61,8 @@ public class CustomerProfileInfoFollowersActivity extends AppCompatActivity {
                 followerEmailList = user;
                 if (followerEmailList.size() == 0 || followerEmailList == null) {
                     binding.rvCustomerFollowers.setVisibility(View.INVISIBLE);
+                    binding.llCustomerNoFollowers.setVisibility(View.VISIBLE);
                 } else {
-                    binding.llCustomerNoFollowers.setVisibility(View.INVISIBLE);
                     followerList = new ArrayList<>();
                     firebaseFetchUser.getUsersListFromFirebase(new FirebaseCallback<ArrayList<User>>() {
                         @Override
@@ -78,7 +77,6 @@ public class CustomerProfileInfoFollowersActivity extends AppCompatActivity {
                                 }
                                 index++;
                             }
-
                             setUpRecyclerView();
                         }
                     });

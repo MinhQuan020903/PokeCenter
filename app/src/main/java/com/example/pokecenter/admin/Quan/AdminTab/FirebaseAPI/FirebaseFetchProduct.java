@@ -1,6 +1,7 @@
 package com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,44 +38,61 @@ public class FirebaseFetchProduct {
                     ArrayList<AdminOption> options = null;
                     DataSnapshot optionsSnapShot = dataSnapshot.child("options");
                     if (optionsSnapShot.exists()) {
-                        options = new ArrayList<>();
-                        for (DataSnapshot optionSnapShot : optionsSnapShot.getChildren()) {
-                            //Fetch attributes of an AdminOption object
-                            String id = optionSnapShot.getKey();
-                            Long cost = optionSnapShot.child("cost").getValue(Long.class);
-                            int currentQuantity = optionSnapShot.child("currentQuantity").getValue(int.class);
-                            int inputQuantity = optionSnapShot.child("inputQuantity").getValue(int.class);
-                            String optionImage = optionSnapShot.child("optionImage").getValue(String.class);
-                            Long price = optionSnapShot.child("price").getValue(Long.class);
-                            // Set other address properties if available
-                            AdminOption adminOption = new AdminOption(id, cost, currentQuantity, inputQuantity, optionImage, price);
-                            options.add(adminOption);
+                        try {
+                            options = new ArrayList<>();
+                            for (DataSnapshot optionSnapShot : optionsSnapShot.getChildren()) {
+                                //Fetch attributes of an AdminOption object
+                                String id = optionSnapShot.getKey();
+                                Long cost = optionSnapShot.child("cost").getValue(Long.class);
+                                int currentQuantity = optionSnapShot.child("currentQuantity").getValue(int.class);
+                                int inputQuantity = optionSnapShot.child("inputQuantity").getValue(int.class);
+                                String optionImage = optionSnapShot.child("optionImage").getValue(String.class);
+                                Long price = optionSnapShot.child("price").getValue(Long.class);
+                                // Set other address properties if available
+                                AdminOption adminOption = new AdminOption(id, cost, currentQuantity, inputQuantity, optionImage, price);
+                                options.add(adminOption);
                             }
+                        } catch (Exception e) {
+                                Log.d("FirebaseFetchProduct", e.toString());
+                        }
+
                     }
 
                     //Fetch ArrayList<String> images
                     ArrayList<String> images = null;
                     DataSnapshot imagesSnapShot = dataSnapshot.child("images");
                     if (imagesSnapShot.exists()) {
-                        images = new ArrayList<>();
-                        Integer index = 0;
-                        for (DataSnapshot imageSnapShot : imagesSnapShot.getChildren()) {
-                            //Fetch attributes of images
-                            String res = imageSnapShot.getValue(String.class);
-                            images.add(res);
-                            index++;
+                        try {
+                            images = new ArrayList<>();
+                            Integer index = 0;
+                            for (DataSnapshot imageSnapShot : imagesSnapShot.getChildren()) {
+                                //Fetch attributes of images
+                                String res = imageSnapShot.getValue(String.class);
+                                images.add(res);
+                                index++;
+                            }
+                        } catch (Exception e) {
+                            Log.d("FirebaseFetchProduct", e.toString());
                         }
+
                     }
-                    //Add attributes to adminProduct object
-                    adminProduct.setId(dataSnapshot.getKey());
-                    adminProduct.setDesc(dataSnapshot.child("desc").getValue(String.class));
-                    adminProduct.setName(dataSnapshot.child("name").getValue(String.class));
-                    adminProduct.setVenderId(dataSnapshot.child("venderId").getValue(String.class).replace(",", "."));
-                    adminProduct.setImages(images);
-                    adminProduct.setOptions(options);
+
+                    try {
+                        //Add attributes to adminProduct object
+                        adminProduct.setId(dataSnapshot.getKey());
+                        adminProduct.setDesc(dataSnapshot.child("desc").getValue(String.class));
+                        adminProduct.setName(dataSnapshot.child("name").getValue(String.class));
+                        adminProduct.setVenderId(dataSnapshot.child("venderId").getValue(String.class).replace(",", "."));
+                        adminProduct.setImages(images);
+                        adminProduct.setOptions(options);
+                    } catch (Exception e) {
+                        Log.d("FirebaseFetchProduct", e.toString());
+                    }
 
                     //Add adminProduct to adminProductList
-                    adminProductList.add(adminProduct);
+                    if (adminProduct != null) {
+                        adminProductList.add(adminProduct);
+                    }
                 }
                 firebaseCallback.onCallback(adminProductList);
             }

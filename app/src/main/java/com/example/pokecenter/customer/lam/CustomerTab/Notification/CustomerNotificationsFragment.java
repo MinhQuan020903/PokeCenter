@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
+import com.example.pokecenter.customer.lam.CustomerActivity;
 import com.example.pokecenter.customer.lam.Interface.NotificationRecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.notification.Notification;
 import com.example.pokecenter.customer.lam.Model.notification.NotificationAdapter;
@@ -53,6 +54,8 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        CustomerActivity.setEnableBottomNavigation(false);
 
         myNotificationsPromotion.clear();
         myNotificationsFromPokeCenter.clear();
@@ -159,6 +162,8 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
                 }
 
                 binding.progressBar.setVisibility(View.INVISIBLE);
+
+                CustomerActivity.setEnableBottomNavigation(true);
 
             });
         });

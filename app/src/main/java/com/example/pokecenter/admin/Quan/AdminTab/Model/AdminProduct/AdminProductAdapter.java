@@ -83,22 +83,25 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
             holder.tvProductVenderId.setText(adminProduct.getVenderId());
 
             //Get product price range
-            String priceRange = "";
-            if (adminProduct.getOptions().size() > 1) { //If there're many options, find max and min price
-                long maxPrice = Long.MIN_VALUE, minPrice = Long.MAX_VALUE;
-                for (AdminOption option : adminProduct.getOptions()) {
-                    long currentPrice = option.getPrice();
-                    if (currentPrice > maxPrice) {
-                        maxPrice = currentPrice;
+            String priceRange = "___";
+            if (adminProduct.getOptions().size() > 0) {
+
+                if (adminProduct.getOptions().size() > 1) { //If there're many options, find max and min price
+                    long maxPrice = Long.MIN_VALUE, minPrice = Long.MAX_VALUE;
+                    for (AdminOption option : adminProduct.getOptions()) {
+                        long currentPrice = option.getPrice();
+                        if (currentPrice > maxPrice) {
+                            maxPrice = currentPrice;
+                        }
+                        if (currentPrice < minPrice) {
+                            minPrice = currentPrice;
+                        }
                     }
-                    if (currentPrice < minPrice) {
-                        minPrice = currentPrice;
-                    }
+                    priceRange = minPrice + " đ .. to .." + maxPrice + " đ";
                 }
-                priceRange = minPrice + " đ .. to .." + maxPrice + " đ";
-            }
-            else {
-                priceRange = String.valueOf(adminProduct.getOptions().get(0).getPrice()) + " đ";
+                else {
+                    priceRange = String.valueOf(adminProduct.getOptions().get(0).getPrice()) + " đ";
+                }
             }
 
             holder.tvProductPrice.setText(priceRange);
