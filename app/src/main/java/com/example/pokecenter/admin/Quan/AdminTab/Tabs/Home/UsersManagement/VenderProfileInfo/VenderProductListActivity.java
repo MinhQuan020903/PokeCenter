@@ -16,8 +16,7 @@ import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseFetchVende
 import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminProduct.AdminProduct;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminProduct.AdminProductAdapter;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Vender.Vender;
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductsManagementActivity;
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.ProductsManagement.ProductInfoAndActivityActivity;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.ProductsManagement.ProductStatisticActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.ItemSpacingDecoration;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.OnItemClickListener;
 import com.example.pokecenter.databinding.ActivityVenderProductListBinding;
@@ -59,7 +58,7 @@ public class VenderProductListActivity extends AppCompatActivity {
                 venderProductAdapter.setOnItemClickListener(new OnItemClickListener<AdminProduct>() {
                     @Override
                     public void onItemClick(AdminProduct object, int position) {
-                        Intent intent = new Intent(VenderProductListActivity.this, ProductInfoAndActivityActivity.class);
+                        Intent intent = new Intent(VenderProductListActivity.this, ProductStatisticActivity.class);
                         intent.putExtra("Product", object);
                         startActivity(intent);
                     }

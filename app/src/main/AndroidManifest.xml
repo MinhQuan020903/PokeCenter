@@ -36,7 +36,7 @@
             android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.CustomerProfileInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.ProductInfoAndActivityActivity"
+            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.ProductStatisticActivity"
             android:exported="false" />
         <activity
             android:name=".vender.VenderTab.Home.Product.VenderProductDetailActivity"

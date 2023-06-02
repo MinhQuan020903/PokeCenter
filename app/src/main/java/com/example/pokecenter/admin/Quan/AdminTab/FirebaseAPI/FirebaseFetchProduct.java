@@ -15,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FirebaseFetchProduct {
     private Context context;
@@ -100,6 +101,46 @@ public class FirebaseFetchProduct {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(context, "GET PRODUCT FAILED", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void getProductOrderHistoryFromFirebase(AdminProduct product, FirebaseCallback<HashMap<Integer, Integer>> firebaseCallback) {
+        ArrayList<AdminProduct> adminProductList = new ArrayList<>();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = firebaseDatabase.getReference("orders");
+
+        HashMap<Integer, Integer> selectedOptionAndQuantity = new HashMap<>();
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                try {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        DataSnapshot orderDetailSnapshot = dataSnapshot.child("details");
+                        try {
+                            for (DataSnapshot option : orderDetailSnapshot.getChildren()) {
+                                //If this order detail's product ID match with product,
+                                //Get product option and quantity
+                                if (option.child("productId").getValue(String.class)
+                                        .equals(product.getId())) {
+                                    Integer selectedOption = option.child("selectedOption").getValue(Integer.class);
+                                    Integer quantity = option.child("quantity").getValue(Integer.class);
+                                    selectedOptionAndQuantity.merge(selectedOption, quantity, Integer::sum);
+                                }
+                            }
+                        } catch (Exception e) {
+                            Log.e("getProductOrderHistoryFromFirebase", e.toString());
+                        }
+                    }
+                } catch (Exception e) {
+                    Log.e("getProductOrderHistoryFromFirebase", e.toString());
+                }
+                firebaseCallback.onCallback(selectedOptionAndQuantity);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }

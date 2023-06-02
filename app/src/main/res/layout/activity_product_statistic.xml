@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     android:background="@color/light_secondary"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderInfoAndStatisticActivity">
+    tools:context=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.ProductStatisticActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clVenderProfile"
+        android:id="@+id/clProductProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/clVenderAvatar"
+            android:id="@+id/clProductImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -36,7 +36,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/ivVenderAvatar"
+                    android:id="@+id/ivProductImage"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:padding="2dp"
@@ -49,17 +49,17 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/clVenderHeading"
+            android:id="@+id/clProductHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/clVenderAvatar"
+            app:layout_constraintStart_toEndOf="@id/clProductImage"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/tvVenderUsername"
+                android:id="@+id/tvProductName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
@@ -67,22 +67,12 @@
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:textColor="@color/white"
-                android:text="Do Mai Minh Quan"/>
-
+                android:text="Pokemon"/>
             <TextView
-                android:id="@+id/tvVenderEmail"
+                android:id="@+id/tvVenderStoreName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/tvVenderUsername"
-                app:layout_constraintStart_toStartOf="parent"
-                android:textSize="14sp"
-                android:textColor="@color/white"
-                android:text="doquan020903@gmail.com"/>
-            <TextView
-                android:id="@+id/tvProductVenderId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/tvVenderEmail"
+                app:layout_constraintTop_toBottomOf="@id/tvProductName"
                 app:layout_constraintStart_toStartOf="parent"
                 android:textSize="14sp"
                 android:textColor="@color/white"
@@ -114,10 +104,10 @@
         android:padding="12dp"
         app:layout_constraintHeight_percent="0.8"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/clVenderProfile">
+        app:layout_constraintTop_toBottomOf="@id/clProductProfile">
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cvVenderProductStatistic"
+            android:id="@+id/cvProductQuantityStatistic"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:backgroundTint="#29DB0F"
@@ -135,7 +125,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/ivVenderProductStatistic"
+                    android:id="@+id/ivProductQuantityStatistic"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center_vertical"
@@ -155,13 +145,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Total Products"
+                        android:text="Quantity"
                         android:textColor="@color/white"
                         android:textSize="10sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tvVenderProductStatistic"
+                        android:id="@+id/tvProductQuantityStatistic"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -176,7 +166,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cvVenderOrderStatistic"
+            android:id="@+id/cvProductOrderStatistic"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
@@ -185,7 +175,7 @@
             app:cardElevation="5dp"
             app:layout_constraintDimensionRatio="2:0.75"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cvVenderProductStatistic"
+            app:layout_constraintTop_toBottomOf="@id/cvProductQuantityStatistic"
             app:layout_constraintWidth_percent="0.475">
 
             <LinearLayout
@@ -195,7 +185,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/ivVenderOrderStatistic"
+                    android:id="@+id/ivProductOrderStatistic"
                     android:layout_width="50dp"
                     android:layout_height="45dp"
                     android:layout_gravity="center_vertical"
@@ -221,7 +211,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tvVenderOrderStatistic"
+                        android:id="@+id/tvProductOrderStatistic"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -236,7 +226,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cvVenderFollowerStatistic"
+            android:id="@+id/cvProductOptionStatistic"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:backgroundTint="#29DB0F"
@@ -254,7 +244,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/ivVenderFollowerStatistic"
+                    android:id="@+id/ivProductOptionStatistic"
                     android:layout_width="45dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="20dp"
@@ -273,13 +263,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Followers"
+                        android:text="Option"
                         android:textColor="@color/white"
                         android:textSize="10sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tvVenderFollowerStatistic"
+                        android:id="@+id/tvProductOptionStatistic"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -294,7 +284,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cvVenderRevenueStatistic"
+            android:id="@+id/cvProductRevenueStatistic"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
@@ -303,7 +293,7 @@
             app:cardElevation="5dp"
             app:layout_constraintDimensionRatio="2:0.75"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cvVenderFollowerStatistic"
+            app:layout_constraintTop_toBottomOf="@id/cvProductOptionStatistic"
             app:layout_constraintWidth_percent="0.475">
 
             <LinearLayout
@@ -314,7 +304,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/ivVenderRevenueStatistic"
+                    android:id="@+id/ivProductRevenueStatistic"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
@@ -340,7 +330,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tvVenderRevenueStatistic"
+                        android:id="@+id/tvProductRevenueStatistic"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -362,7 +352,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.73"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cvVenderOrderStatistic">
+            app:layout_constraintTop_toBottomOf="@id/cvProductOrderStatistic">
 
             <RelativeLayout
                 android:id="@+id/rlChooseDateForStatistic"
@@ -399,7 +389,7 @@
             </RelativeLayout>
 
             <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/bcVenderChart"
+                android:id="@+id/bcProductChart"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginTop="10dp"

@@ -520,7 +520,6 @@ public class VenderInfoAndStatisticActivity extends AppCompatActivity {
                 .append(DateTimeFormatter.ofPattern("[dd/MM/yyyy]" + "[MMM dd, yyyy]" + "[MM/dd/yyyy]" + "[dd-MM-yyyy]" + "[yyyy-MM-dd]"));
         DateTimeFormatter dateTimeFormatter = dateTimeFormatterBuilder.toFormatter();
         return LocalDate.parse(sDate, dateTimeFormatter);
-
     }
 
     @Override
