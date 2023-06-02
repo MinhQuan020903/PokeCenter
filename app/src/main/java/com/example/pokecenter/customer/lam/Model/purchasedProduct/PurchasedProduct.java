@@ -1,6 +1,8 @@
 package com.example.pokecenter.customer.lam.Model.purchasedProduct;
 
-public class PurchasedProduct {
+import java.io.Serializable;
+
+public class PurchasedProduct implements Serializable {
     private String productId;
     private boolean reviewed;
     private String purchasedDate;
