@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/light_secondary"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/adminHomeFragment"
     tools:context=".admin.Quan.AdminTab.Tabs.Home.AdminHomeFragment">
 
 

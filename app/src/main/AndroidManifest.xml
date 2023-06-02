@@ -42,9 +42,6 @@
             android:name=".vender.VenderTab.Home.Product.VenderProductDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminInfoAndStatisticActivity"
-            android:exported="false" />
-        <activity
             android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderInfoAndStatisticActivity"
             android:exported="false" />
         <activity

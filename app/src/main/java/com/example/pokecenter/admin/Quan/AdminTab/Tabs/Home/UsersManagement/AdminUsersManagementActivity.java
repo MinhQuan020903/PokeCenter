@@ -103,12 +103,6 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
                                         .collect(Collectors.toCollection(ArrayList::new)));
                                 break;
                             }
-                            case 3: {   //View Vender
-                                userAdapter.setUsersList(usersList.stream()
-                                        .filter(v -> v instanceof Admin)
-                                        .collect(Collectors.toCollection(ArrayList::new)));
-                                break;
-                            }
                         }
                         userAdapter.notifyDataSetChanged();
                     }
@@ -221,10 +215,6 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
                                 intent = new Intent(AdminUsersManagementActivity.this, VenderInfoAndStatisticActivity.class);
                                 break;
                             }
-                            case 2: {
-                                intent = new Intent(AdminUsersManagementActivity.this, AdminInfoAndStatisticActivity.class);
-                                break;
-                            }
                         }
                         intent.putExtra("User", user);
                         startActivity(intent);
@@ -244,7 +234,6 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
         userRoles.add("All");
         userRoles.add("Customer");
         userRoles.add("Vender");
-        userRoles.add("Admin");
 
         userSorts = new ArrayList<>();
         userSorts.add("Ascending");

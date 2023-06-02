@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_secondary"
+    android:id="@+id/adminProfileFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".admin.Quan.AdminTab.Tabs.Profile.AdminProfileFragment">
 
