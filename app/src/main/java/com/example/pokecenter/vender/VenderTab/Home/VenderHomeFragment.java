@@ -35,6 +35,10 @@ private FragmentVenderHomeBinding binding;
             Intent intent = new Intent(getActivity(), VenderProductActivity.class);
             startActivity(intent);
         });
+        binding.NotificationFunction.setOnClickListener(view -> {
+            Intent intent = new Intent(getActivity(), VenderNotificationActivity.class);
+            startActivity(intent);
+        });
         return binding.getRoot();
     }
 }
