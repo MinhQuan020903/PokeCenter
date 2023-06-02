@@ -219,5 +219,21 @@ public class FirebaseSupportVender {
 
         return fetchedOrders;
     }
+    public void updateTotalProduct(int totalProduct) throws IOException {
+        OkHttpClient client = new OkHttpClient();
 
+        Map<String, Integer> pushData = new HashMap<>();
+        pushData.put("totalProduct", totalProduct);
+
+        String jsonData = new Gson().toJson(pushData);
+
+        RequestBody body = RequestBody.create(jsonData, JSON);
+
+        Request request = new Request.Builder()
+                .url(urlDb + "venders/" + FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", ",") + ".json")
+                .patch(body)
+                .build();
+
+        client.newCall(request).execute();
+    }
 }

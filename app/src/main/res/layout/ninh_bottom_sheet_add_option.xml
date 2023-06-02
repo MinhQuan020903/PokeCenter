@@ -76,7 +76,14 @@
             android:paddingVertical="14dp"
             android:paddingHorizontal="20dp"
             android:textColorHint="#9A9A9A"/>
-
+        <AutoCompleteTextView
+            android:id="@+id/searchAutoCompleteTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:hint="pokemon"
+            android:paddingVertical="14dp"
+            android:paddingHorizontal="20dp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

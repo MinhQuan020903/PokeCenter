@@ -1,5 +1,6 @@
 package com.example.pokecenter.vender.VenderTab.Home.Product;
 
+import static com.example.pokecenter.customer.lam.API.PokeApiFetcher.allPokeName;
 import static com.example.pokecenter.vender.VenderTab.Home.Product.VenderProductActivity.productAdapter;
 import static com.example.pokecenter.vender.VenderTab.Home.Product.VenderProductActivity.venderProduct;
 
@@ -27,15 +28,22 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.databinding.ActivityAddProductBinding;
@@ -150,6 +158,7 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
 
             try {
                 new FirebaseSupportVender().addNewProduct(newProduct);
+                new FirebaseSupportVender().updateTotalProduct(venderProduct.size()+1);
             } catch (IOException e) {
                 isSuccessful = false;
             }
@@ -191,7 +200,6 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
                                 }
                             }
                         });
-
                     }
                 });
             } else {
@@ -301,6 +309,8 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
         EditText optionName = viewDialog.findViewById(R.id.optionName);
         EditText optionQuantity = viewDialog.findViewById(R.id.optionQuantity);
         EditText optionPrice = viewDialog.findViewById(R.id.optionPrice);
+        AutoCompleteTextView searchAutoCompleteTextView = viewDialog.findViewById(R.id.searchAutoCompleteTextView);
+
 
         ImageButton uploadImageOption = viewDialog.findViewById(R.id.change_avatar_button);
         Button finishButton = viewDialog.findViewById(R.id.finishButton);
@@ -320,6 +330,26 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
                         openSomeActivityForResult(intent);
                         return Unit.INSTANCE;
                     });
+        });
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        for (String poke : allPokeName) {
+            adapter.add(poke);
+        }
+        searchAutoCompleteTextView.setAdapter(adapter);
+        searchAutoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
         });
 
         finishButton.setOnClickListener(view -> {
@@ -370,7 +400,7 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
         if (mImageUri != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String dateString = dateFormat.format(Calendar.getInstance().getTime());
-            StorageReference fileRef = mStorageRef.child(dateString);
+            StorageReference fileRef = mStorageRef.child( mImageUri.getLastPathSegment() +dateString);
             fileRef.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
