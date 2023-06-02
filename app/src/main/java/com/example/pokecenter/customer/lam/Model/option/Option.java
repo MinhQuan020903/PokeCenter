@@ -17,6 +17,9 @@ public class Option implements Serializable {
         this.price = price;
     }
 
+    public Option( int price) {
+        this.price = price;
+    }
     public String getOptionName() {
         return optionName;
     }

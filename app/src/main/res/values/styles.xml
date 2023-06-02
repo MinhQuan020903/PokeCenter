@@ -25,4 +25,27 @@
         <item name="cornerFamilyTopLeft">rounded</item>
         <item name="cornerFamilyBottomRight">rounded</item>
     </style>
+<!--    Ninh created 31/5-->
+    <style name="CustomCardViewStyleLeft" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay_card_corners_left</item>
+    </style>
+
+
+    <style name="ShapeAppearanceOverlay_card_corners_left" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">30dp</item>
+        <item name="cornerSizeBottomLeft">30dp</item>
+    </style>
+    <style name="CustomCardViewStyleRight" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay_card_corners_right</item>
+    </style>
+
+
+    <style name="ShapeAppearanceOverlay_card_corners_right" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">30dp</item>
+        <item name="cornerSizeBottomRight">30dp</item>
+    </style>
+
+
 </resources>
