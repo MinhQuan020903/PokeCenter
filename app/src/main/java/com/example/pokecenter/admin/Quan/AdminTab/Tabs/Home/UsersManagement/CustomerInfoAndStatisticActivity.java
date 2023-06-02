@@ -70,7 +70,11 @@ public class CustomerInfoAndStatisticActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         Intent intent = getIntent();
-        customer = (Customer)intent.getSerializableExtra("User");
+        if ((Customer)intent.getSerializableExtra("Vender_Customer") != null) {
+            customer = (Customer)intent.getSerializableExtra("Vender_Customer");
+        } else {
+            customer = (Customer)intent.getSerializableExtra("User");
+        }
 
         //Bind attributes to view
         binding.tvCustomerUsername.setText(customer.getUsername());

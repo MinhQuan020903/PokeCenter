@@ -76,7 +76,11 @@ public class VenderInfoAndStatisticActivity extends AppCompatActivity {
         binding = ActivityVenderInfoAndStatisticBinding.inflate(getLayoutInflater());
 
         Intent intent = getIntent();
-        vender = (Vender)intent.getSerializableExtra("User");
+        if ((Vender)intent.getSerializableExtra("Customer_Vender") != null) {
+            vender = (Vender)intent.getSerializableExtra("Customer_Vender");
+        } else {
+            vender = (Vender)intent.getSerializableExtra("User");
+        }
 
         FirebaseFetchVender firebaseFetchVender = new FirebaseFetchVender(this);
         firebaseFetchVender.getVenderDetailFromFirebase(vender, new FirebaseCallback<Vender>() {

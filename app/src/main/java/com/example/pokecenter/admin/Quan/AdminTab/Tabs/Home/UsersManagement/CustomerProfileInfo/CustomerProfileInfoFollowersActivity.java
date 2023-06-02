@@ -16,7 +16,11 @@ import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseFetchUser;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer.Customer;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.User;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.UserAdapter;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerInfoAndStatisticActivity;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderInfoAndStatisticActivity;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.VenderFollowerListActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.ItemSpacingDecoration;
+import com.example.pokecenter.admin.Quan.AdminTab.Utils.OnItemClickListener;
 import com.example.pokecenter.databinding.ActivityCustomerProfileInfoFollowersBinding;
 
 import java.util.ArrayList;
@@ -78,6 +82,15 @@ public class CustomerProfileInfoFollowersActivity extends AppCompatActivity {
                                 index++;
                             }
                             setUpRecyclerView();
+
+                            userAdapter.setOnItemClickListener(new OnItemClickListener<User>() {
+                                @Override
+                                public void onItemClick(User user, int position) {
+                                    Intent intent = new Intent(CustomerProfileInfoFollowersActivity.this, VenderInfoAndStatisticActivity.class);
+                                    intent.putExtra("Customer_Vender", user);
+                                    startActivity(intent);
+                                }
+                            });
                         }
                     });
 

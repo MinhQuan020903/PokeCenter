@@ -19,7 +19,12 @@ import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer.Customer;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.User;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.UserAdapter;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Vender.Vender;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminUsersManagementActivity;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerInfoAndStatisticActivity;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.CustomerProfileInfoActivity;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderInfoAndStatisticActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.ItemSpacingDecoration;
+import com.example.pokecenter.admin.Quan.AdminTab.Utils.OnItemClickListener;
 import com.example.pokecenter.databinding.ActivityVenderFollowerListBinding;
 import com.example.pokecenter.databinding.ActivityVenderProductListBinding;
 
@@ -72,6 +77,15 @@ public class VenderFollowerListActivity extends AppCompatActivity {
                     }
                 }
                 setUpRecyclerView();
+
+                venderFollowerAdapter.setOnItemClickListener(new OnItemClickListener<User>() {
+                    @Override
+                    public void onItemClick(User user, int position) {
+                        Intent intent = new Intent(VenderFollowerListActivity.this, CustomerInfoAndStatisticActivity.class);
+                        intent.putExtra("Vender_Customer", user);
+                        startActivity(intent);
+                    }
+                });
             }
         });
 
