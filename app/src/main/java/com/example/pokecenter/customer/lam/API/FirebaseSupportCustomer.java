@@ -21,6 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.text.ParseException;
@@ -242,7 +244,7 @@ public class FirebaseSupportCustomer {
 
                 optionsData.forEach((optionKey, optionValue) -> {
                     options.add(new Option(
-                            (String) optionKey,
+                            optionKey,
                             (String) optionValue.get("optionImage"),
                             ((Double) optionValue.get("currentQuantity")).intValue(),
                             ((Double) optionValue.get("inputQuantity")).intValue(),
@@ -250,14 +252,14 @@ public class FirebaseSupportCustomer {
                     ));
                 });
 
-                List<Option> sortedOptions = options.stream().sorted(Comparator.comparing(Option::getPrice)).collect(Collectors.toList());
+                // List<Option> sortedOptions = options.stream().sorted(Comparator.comparing(Option::getPrice)).collect(Collectors.toList());
 
                 ProductData.fetchedProducts.put(key, new Product(
                         key,
                         (String) value.get("name"),
                         (String) value.get("desc"),
                         (List<String>) value.get("images"),
-                        sortedOptions,
+                        options,
                         (String) value.get("venderId")
                 ));
             });
@@ -1111,6 +1113,43 @@ public class FirebaseSupportCustomer {
                 .build();
 
         client.newCall(request).execute();
+    }
+
+    public String addNewSupportTicket(String problemName, String desc, String contactMethod) throws IOException {
+
+        OkHttpClient client = new OkHttpClient();
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        Map<String, Object> postData = new HashMap<>();
+        postData.put("customerId", emailWithCurrentUser.replace(".", ","));
+        postData.put("problemName", problemName);
+        postData.put("desc", desc);
+        postData.put("contactMethod", contactMethod);
+        postData.put("createDate", outputFormat.format(new Date()));
+        postData.put("status", "Not resolved");
+
+        String jsonData = new Gson().toJson(postData);
+        RequestBody body = RequestBody.create(jsonData, JSON);
+
+        Request request = new Request.Builder()
+                .url(urlDb + "supportTickets.json")
+                .post(body)
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+
+            String responseBody = response.body().string();
+
+            Type type = new TypeToken<Map<String, Object>>(){}.getType();
+            Map<String, Map<String, Object>> responseData = new Gson().fromJson(responseBody, type);
+
+            String id = String.valueOf(responseData.get("name"));
+            return id;
+        }
+
+        return "";
     }
 
 }

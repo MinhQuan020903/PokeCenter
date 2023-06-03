@@ -18,7 +18,13 @@
         android:theme="@style/Theme.PokeCenter"
         tools:targetApi="31">
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductOptionActivity"
+            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductOptionActivity" 
+            android:exported="false" />
+        <activity
+            android:name=".CustomerSupportInFindingProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".vender.VenderTab.Home.VenderNotificationActivity"
             android:exported="false" />
         <activity
             android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductDetailReviewsActivity"
@@ -75,9 +81,6 @@
             android:name=".admin.Quan.AdminTab.Tabs.Profile.AdminAccountInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".vender.VenderTab.Home.Product.AddOptionActivity"
-            android:exported="false" />
-        <activity
             android:name=".vender.VenderTab.Home.Product.AddProductActivity"
             android:exported="false" />
         <activity
@@ -85,8 +88,7 @@
             android:exported="false" />
         <activity
             android:name=".vender.VenderTab.Home.VenderStatisticsActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PokeCenter.NoActionBar" /> <!-- <activity -->
+            android:exported="false" /> <!-- <activity -->
         <!-- android:name=".ChatWithUserActivity" -->
         <!-- android:exported="false" -->
         <!-- android:label="@string/title_activity_chat_with_user" -->
@@ -173,6 +175,18 @@
             android:theme="@style/Theme.PokeCenter.NoActionBar" />
         <activity
             android:name=".customer.lam.CustomerTab.Profile.NextActivity.MyProductReviewsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".customer.lam.CustomerTab.Profile.NextActivity.StartSellingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".customer.lam.CustomerTab.Profile.NextActivity.Suport.CustomerSupportActivity"
+            android:exported="false" />
+        <activity
+            android:name=".customer.lam.CustomerTab.Profile.NextActivity.Suport.CustomerSupportInFindingProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".customer.lam.CustomerTab.Profile.NextActivity.Suport.CustomerGetSupportActivity"
             android:exported="false" />
     </application>
 

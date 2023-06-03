@@ -2,6 +2,7 @@ package com.example.pokecenter.customer.lam;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 
@@ -108,5 +109,13 @@ public class CustomerActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         binding = null;
+    }
+
+    public static void setEnableBottomNavigation(boolean isEnable) {
+        Menu bottomMenu = customerBottomNavigationView.getMenu();
+
+        for (int i = 0; i < bottomMenu.size(); i++) {
+            bottomMenu.getItem(i).setEnabled(isEnable);
+        }
     }
 }

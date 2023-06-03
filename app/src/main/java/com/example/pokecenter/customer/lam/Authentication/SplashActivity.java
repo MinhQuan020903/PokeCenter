@@ -16,15 +16,19 @@ import com.example.pokecenter.customer.lam.CustomerActivity;
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.CustomerProfileFragment;
 import com.example.pokecenter.customer.lam.Model.account.Account;
+import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.customer.lam.Provider.ProductData;
 import com.example.pokecenter.customer.lam.Provider.WishListData;
 import com.example.pokecenter.databinding.ActivitySplashScreenBinding;
+import com.example.pokecenter.vender.Model.VenderOrder.VenderOrder;
+import com.example.pokecenter.vender.Provider.OrderData;
 import com.example.pokecenter.vender.VenderTab.VenderProfileFragment;
 import com.example.pokecenter.vender.VenderActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
@@ -42,9 +46,12 @@ public class SplashActivity extends AppCompatActivity {
         binding = ActivitySplashScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        SharedPreferences sharedPreferences = getSharedPreferences("myPref", MODE_PRIVATE);
+        int role = sharedPreferences.getInt("role", -1);
+
         /* Fetch Products Data */
         ProductData.fetchDataFromSever();
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null && role == 0) {
             WishListData.fetchDataFromSever();
         }
 
@@ -75,8 +82,6 @@ public class SplashActivity extends AppCompatActivity {
                     startActivity(new Intent(SplashActivity.this, SignInActivity.class));
                 } else {
 
-                    SharedPreferences sharedPreferences = getSharedPreferences("myPref", MODE_PRIVATE);
-
                     ExecutorService executor = Executors.newSingleThreadExecutor();
                     Handler handler = new Handler(Looper.getMainLooper());
 
@@ -95,9 +100,17 @@ public class SplashActivity extends AppCompatActivity {
                                 Account finalFetchedAccountInfo = fetchedAccountInfo;
                                 handler.post(() -> {
                                     if (finalIsSuccessful) {
-                                        goToNextActivityWith(sharedPreferences.getInt("role", -1));
-                                        CustomerProfileFragment.currentAccount = finalFetchedAccountInfo;
-                                        VenderProfileFragment.currentVender = finalFetchedAccountInfo;
+                                        goToNextActivityWith(role);
+
+                                        switch (role) {
+                                            case 0:
+                                                CustomerProfileFragment.currentAccount = finalFetchedAccountInfo;
+                                                break;
+                                            case 1:
+                                                VenderProfileFragment.currentVender = finalFetchedAccountInfo;
+                                                break;
+                                        }
+
                                     } else {
                                         Toast.makeText(SplashActivity.this, "Failed to connect server", Toast.LENGTH_LONG).show();
                                     }

@@ -1,5 +1,6 @@
 package com.example.pokecenter.vender.VenderTab.Home.Product;
 
+import static com.example.pokecenter.customer.lam.API.PokeApiFetcher.allPokeName;
 import static com.example.pokecenter.vender.VenderTab.Home.Product.VenderProductActivity.productAdapter;
 import static com.example.pokecenter.vender.VenderTab.Home.Product.VenderProductActivity.venderProduct;
 
@@ -27,12 +28,18 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.pokecenter.R;
@@ -58,10 +65,13 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -83,6 +93,11 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
 
     private StorageReference mStorageRef;
     ProgressDialog progressDialog;
+    
+    List<String > myCategories = new ArrayList<>();
+    List<String > optionCategories = new ArrayList<>();
+    String optionCategory;
+    List<String > myPokemon = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +113,7 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Uploading Data");
         progressDialog.setMessage("Please Wait While Uploading Your data...");
+        fetchingAndSetupCategories();
         binding.optionAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,6 +166,9 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
 
             try {
                 new FirebaseSupportVender().addNewProduct(newProduct);
+                new FirebaseSupportVender().updateTotalProduct(venderProduct.size()+1);
+                new FirebaseSupportVender().updatePokemonAfterAddProduct(newProduct.getId(),myPokemon);
+                new FirebaseSupportVender().updateCategoryAfterAddProduct(newProduct.getId(),myCategories);
             } catch (IOException e) {
                 isSuccessful = false;
             }
@@ -191,7 +210,6 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
                                 }
                             }
                         });
-
                     }
                 });
             } else {
@@ -204,7 +222,7 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
     private void StoreLinks(ArrayList<String> urlsList) {
         // now we need get text from EditText
         String Name = binding.ItemName.getText().toString();
-        String Description =binding.ItemDesc.getText().toString();
+        String Description = binding.ItemDesc.getText().toString();
         if (!TextUtils.isEmpty(Name) && !TextUtils.isEmpty(Description) && ImageUri != null) {
             // now we need a model class
             ItemModel model = new ItemModel(Name, Description, "", UrlsList);
@@ -301,6 +319,8 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
         EditText optionName = viewDialog.findViewById(R.id.optionName);
         EditText optionQuantity = viewDialog.findViewById(R.id.optionQuantity);
         EditText optionPrice = viewDialog.findViewById(R.id.optionPrice);
+        AutoCompleteTextView optionPokemon = viewDialog.findViewById(R.id.optionPokemon);
+        AutoCompleteTextView optionCategory = viewDialog.findViewById(R.id.option_categories);
 
         ImageButton uploadImageOption = viewDialog.findViewById(R.id.change_avatar_button);
         Button finishButton = viewDialog.findViewById(R.id.finishButton);
@@ -322,6 +342,60 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
                     });
         });
 
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        for (String poke : allPokeName) {
+            adapter.add(poke);
+        }
+        adapter.add("No");
+        adapter.add("Many");
+        adapter.add("NULL");
+        adapter.add("Don'tKnow");
+        optionPokemon.setAdapter(adapter);
+        optionPokemon.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, optionCategories);
+        optionCategory.setAdapter(categoriesAdapter);
+
+        optionCategory.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String input = s.toString().toLowerCase();
+                List<String> suggestions = new ArrayList<>();
+
+                // Iterate through optionCategories to find matching suggestions
+                for (String category : optionCategories) {
+                    if (category.toLowerCase().startsWith(input)) {
+                        suggestions.add(category);
+                    }
+                }
+
+                // Update the adapter with the new suggestions
+                ArrayAdapter<String> updatedAdapter = new ArrayAdapter<>(AddProductActivity.this, android.R.layout.simple_spinner_item, suggestions);
+                optionCategory.setAdapter(updatedAdapter);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+
         finishButton.setOnClickListener(view -> {
             finishButton.setVisibility(View.INVISIBLE);
 
@@ -340,6 +414,12 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
                     existingOption.setPrice(newOption.getPrice());
                 }else{
                     myOptions.add(newOption);
+                }
+                if (!myCategories.contains(optionCategory.getText().toString())) {
+                    myCategories.add(optionCategory.getText().toString());
+                }
+                if (!myPokemon.contains(optionPokemon.getText().toString())) {
+                    myPokemon.add(optionPokemon.getText().toString());
                 }
                 optionAdapter.notifyDataSetChanged();
                 dialog.dismiss();
@@ -370,7 +450,7 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
         if (mImageUri != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String dateString = dateFormat.format(Calendar.getInstance().getTime());
-            StorageReference fileRef = mStorageRef.child(dateString);
+            StorageReference fileRef = mStorageRef.child( mImageUri.getLastPathSegment() +dateString);
             fileRef.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -419,4 +499,33 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
     public void onOptionItemClick(int position) {
         openBottomSheetDialog(myOptions.get(position), myOptions.size());
     }
+    private void fetchingAndSetupCategories() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        executor.execute(() -> {
+
+            List<String> FetchedCategories = new ArrayList<>();
+            boolean isSuccess = true;
+
+            try {
+                FetchedCategories = new FirebaseSupportVender().fetchingAllCategoryTag();
+            } catch (IOException e) {
+                isSuccess = false;
+            }
+
+            boolean finalIsSuccess = isSuccess;
+            List<String> finalFetchedCategories = FetchedCategories;
+            handler.post(() -> {
+
+                if (finalIsSuccess) {
+                    if (finalFetchedCategories.size() > 0) {
+                        optionCategories = finalFetchedCategories;
+                    }
+                }
+            });
+        });
+
+    }
+
 }
