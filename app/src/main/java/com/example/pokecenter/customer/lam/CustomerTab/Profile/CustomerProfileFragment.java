@@ -24,6 +24,7 @@ import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.Cust
 import com.example.pokecenter.customer.lam.Authentication.SignInActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyProductReviewsActivity;
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.StartSellingActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.WishListActivity;
 import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.customer.lam.Provider.FollowData;
@@ -74,6 +75,9 @@ public class CustomerProfileFragment extends Fragment {
             startActivity(new Intent(getActivity(), MyProductReviewsActivity.class));
         });
 
+        binding.starSelling.setOnClickListener(view -> {
+            startActivity(new Intent(getActivity(), StartSellingActivity.class));
+        });
 
         binding.logoutButton.setOnClickListener(view -> {
             FirebaseAuth.getInstance().signOut();
