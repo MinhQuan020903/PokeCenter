@@ -25,6 +25,7 @@ import com.example.pokecenter.customer.lam.Authentication.SignInActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyProductReviewsActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.StartSellingActivity;
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.Suport.CustomerSupportActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.WishListActivity;
 import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.customer.lam.Provider.FollowData;
@@ -77,6 +78,10 @@ public class CustomerProfileFragment extends Fragment {
 
         binding.starSelling.setOnClickListener(view -> {
             startActivity(new Intent(getActivity(), StartSellingActivity.class));
+        });
+
+        binding.support.setOnClickListener(view -> {
+            startActivity(new Intent(getActivity(), CustomerSupportActivity.class));
         });
 
         binding.logoutButton.setOnClickListener(view -> {
