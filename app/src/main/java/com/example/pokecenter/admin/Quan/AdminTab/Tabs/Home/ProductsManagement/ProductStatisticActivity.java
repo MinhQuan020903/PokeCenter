@@ -207,6 +207,15 @@ public class ProductStatisticActivity extends AppCompatActivity {
                     }
                 });
 
+                binding.cvProductOptionStatistic.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(ProductStatisticActivity.this, AdminProductOptionActivity.class);
+                        intent.putExtra("AdminProduct", adminProduct);
+                        startActivity(intent);
+                    }
+                });
+
                 binding.clProductProfile.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
