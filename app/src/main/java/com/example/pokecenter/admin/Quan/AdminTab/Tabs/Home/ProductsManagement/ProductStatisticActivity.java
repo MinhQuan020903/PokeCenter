@@ -2,6 +2,7 @@ package com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.ProductsManagement;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseCallback;
 import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseFetchProduct;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminProduct.AdminOption.AdminOption;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminProduct.AdminProduct;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.Order;
 import com.example.pokecenter.databinding.ActivityProductStatisticBinding;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -30,7 +32,7 @@ public class ProductStatisticActivity extends AppCompatActivity {
 
     private ActivityProductStatisticBinding binding;
     private AdminProduct adminProduct;
-    HashMap<Integer, Integer> selectedOptionAndQuantity;
+    private ArrayList<Order> orderList;
 
     private long totalRevenue;
     private int maxOrderCount;
@@ -61,23 +63,27 @@ public class ProductStatisticActivity extends AppCompatActivity {
         adminProduct = (AdminProduct)intent.getSerializableExtra("AdminProduct");
 
         FirebaseFetchProduct firebaseFetchProduct = new FirebaseFetchProduct(this);
-        firebaseFetchProduct.getProductOrderHistoryFromFirebase(adminProduct, new FirebaseCallback<HashMap<Integer, Integer>>() {
+        firebaseFetchProduct.getProductOrderDetailFromFirebase(adminProduct, new FirebaseCallback<ArrayList<Order>>() {
             @Override
-            public void onCallback(HashMap<Integer, Integer> user) {
-                selectedOptionAndQuantity = user;
+            public void onCallback(ArrayList<Order> orders) {
+                orderList = orders;
 
                 Picasso.get().load(adminProduct.getImages().get(0)).into(binding.ivProductImage);
                 binding.tvProductName.setText(adminProduct.getName());
-                binding.tvProductName.setText(adminProduct.getVenderId());
+                binding.tvProductVenderId.setText(adminProduct.getVenderId());
 
-                Integer quantity = 0;
+                int quantity = 0;
                 for (AdminOption adminOption : adminProduct.getOptions()) {
                     quantity += adminOption.getCurrentQuantity();
                 }
 
-                binding.tvProductQuantityStatistic.setText(quantity);
-                binding.tvProductOptionStatistic.setText(adminProduct.getOptions().size());
+                binding.tvProductQuantityStatistic.setText(Integer.toString(quantity));
+                binding.tvProductOptionStatistic.setText(String.valueOf(adminProduct.getOptions().size()));
+                binding.tvProductOrderStatistic.setText(String.valueOf(orderList.size()));
 
+                for (Order order : orderList) {
+                    Log.e("ORDER", order.getId());
+                }
 
             }
         });

@@ -50,7 +50,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clProductHeading"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.65"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:padding="10dp"
@@ -64,12 +65,14 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:textColor="@color/white"
                 android:text="Pokemon"/>
             <TextView
-                android:id="@+id/tvVenderStoreName"
+                android:id="@+id/tvProductVenderId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/tvProductName"
