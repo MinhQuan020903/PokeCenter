@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_marginHorizontal="20dp"
+    android:background="@drawable/lam_background_white_corner_8">
+
+    <TextView
+        android:id="@+id/todo_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sent Request"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:background="@drawable/lam_background_header_dialog"
+        android:paddingVertical="10dp"
+        android:gravity="center"
+        android:layout_marginBottom="24dp"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Support ID: "
+        android:textColor="@color/black"
+        android:layout_marginBottom="4dp"
+        android:textAlignment="center"
+        android:textSize="18sp"/>
+
+
+    <TextView
+        android:id="@+id/support_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="-NX0liTgMjhzbx7SLH4K"
+        android:textColor="@color/black"
+        android:layout_marginBottom="24dp"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="We will review this request and provide support as soon as possible."
+        android:layout_marginBottom="18dp"
+        android:layout_marginHorizontal="30dp"
+        android:textAlignment="center"
+        android:textSize="16sp"/>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/ok_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="OK"
+        android:background="@color/transparent"
+        android:textAllCaps="false"
+        android:textColor="@color/light_primary"
+        android:foreground="?android:attr/selectableItemBackground"/>
+
+</LinearLayout>
