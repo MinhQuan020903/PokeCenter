@@ -48,7 +48,6 @@ public class SplashActivity extends AppCompatActivity {
 
         /* Fetch Products Data */
         ProductData.fetchDataFromSever();
-        OrderData.fetchDataFromSever();
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             WishListData.fetchDataFromSever();
         }

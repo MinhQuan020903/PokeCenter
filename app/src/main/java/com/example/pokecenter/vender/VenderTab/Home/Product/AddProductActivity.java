@@ -167,6 +167,8 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
             try {
                 new FirebaseSupportVender().addNewProduct(newProduct);
                 new FirebaseSupportVender().updateTotalProduct(venderProduct.size()+1);
+                new FirebaseSupportVender().updatePokemonAfterAddProduct(newProduct.getId(),myPokemon);
+                new FirebaseSupportVender().updateCategoryAfterAddProduct(newProduct.getId(),myCategories);
             } catch (IOException e) {
                 isSuccessful = false;
             }
