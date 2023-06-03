@@ -50,6 +50,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         binding.signUpScreen.setOnClickListener(view -> {
@@ -76,6 +77,8 @@ public class SignUpActivity extends AppCompatActivity {
             venderRole.setBackground(getDrawable(R.drawable.lam_background_outline_secondary_corner_8));
             venderRole.setTypeface(null, Typeface.NORMAL);
 
+            binding.onlyVenderPart.setVisibility(View.GONE);
+
             role = 0;
         });
 
@@ -88,8 +91,13 @@ public class SignUpActivity extends AppCompatActivity {
             customerRole.setBackground(getDrawable(R.drawable.lam_background_outline_secondary_corner_8));
             customerRole.setTypeface(null, Typeface.NORMAL);
 
+            binding.shopNameEditText.setText(binding.fullNameEditText.getText().toString());
+            binding.onlyVenderPart.setVisibility(View.VISIBLE);
+
             role = 1;
         });
+
+
 
         ImageView genderBoy = binding.genderBoy;
         ImageView genderGirl = binding.genderGirl;
@@ -112,7 +120,6 @@ public class SignUpActivity extends AppCompatActivity {
 
         });
 
-        setContentView(binding.getRoot());
     }
 
     private void onClickSignUp() {
@@ -120,8 +127,10 @@ public class SignUpActivity extends AppCompatActivity {
         String username = binding.fullNameEditText.getText().toString().trim();
         String email = binding.emailEditText.getText().toString().trim();
         String password = binding.passwordEditText.getText().toString().trim();
+        String shopName = binding.shopNameEditText.getText().toString().trim();
+        String phoneNumber = binding.phoneNumberEditText.getText().toString().trim();
 
-        if (!validateData(email, password)) {
+        if (!validateData(username, email, password, shopName, phoneNumber)) {
             return;
         }
 
@@ -188,28 +197,34 @@ public class SignUpActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    boolean validateData(String email, String password) {
+    boolean validateData(String username, String email, String password, String shopName, String phoneNumber) {
+        boolean isValid = true;
 
         /* Check empty */
+        if (username.isEmpty()) {
+            binding.fullNameEditText.setError("You have not entered username");
+            isValid = false;
+        }
+
         if (email.isEmpty()) {
             binding.emailEditText.setError("You have not entered email");
-            return false;
+            isValid = false;
         }
         if (password.isEmpty()) {
             binding.passwordEditText.setError("You have not entered password");
-            return false;
+            isValid = false;
         }
 
         /* Check valid */
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             binding.emailEditText.setError("Email is invalid");
-            return false;
+            isValid = false;
         }
         if (password.length() < 6) {
             binding.passwordEditText.setError("Password length should not be less than 6");
-            return false;
+            isValid = false;
         }
-        return true;
+        return isValid;
     }
 
     private void changeInProgress(boolean inProgress) {

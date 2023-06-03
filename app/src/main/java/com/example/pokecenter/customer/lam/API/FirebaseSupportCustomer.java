@@ -242,7 +242,7 @@ public class FirebaseSupportCustomer {
 
                 optionsData.forEach((optionKey, optionValue) -> {
                     options.add(new Option(
-                            (String) optionKey,
+                            optionKey,
                             (String) optionValue.get("optionImage"),
                             ((Double) optionValue.get("currentQuantity")).intValue(),
                             ((Double) optionValue.get("inputQuantity")).intValue(),
@@ -250,14 +250,14 @@ public class FirebaseSupportCustomer {
                     ));
                 });
 
-                List<Option> sortedOptions = options.stream().sorted(Comparator.comparing(Option::getPrice)).collect(Collectors.toList());
+                // List<Option> sortedOptions = options.stream().sorted(Comparator.comparing(Option::getPrice)).collect(Collectors.toList());
 
                 ProductData.fetchedProducts.put(key, new Product(
                         key,
                         (String) value.get("name"),
                         (String) value.get("desc"),
                         (List<String>) value.get("images"),
-                        sortedOptions,
+                        options,
                         (String) value.get("venderId")
                 ));
             });
