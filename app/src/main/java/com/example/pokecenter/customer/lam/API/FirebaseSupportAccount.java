@@ -50,7 +50,7 @@ public class FirebaseSupportAccount {
         Response response = client.newCall(request).execute();
     }
 
-    public void addNewAccount(String email, String username, int role, String gender) {
+    public void addNewAccount(String email, String username, int role, String gender, String phoneNumber) {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference usersRef = database.getReference("accounts");
@@ -59,11 +59,24 @@ public class FirebaseSupportAccount {
         user.put("username", username);
         user.put("role", role);
         user.put("gender", gender);
-        user.put("phoneNumber", "");
+        user.put("phoneNumber", phoneNumber);
         user.put("avatar", "https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png");
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         user.put("registrationDate", dateFormat.format(Calendar.getInstance().getTime()));
+
+        usersRef.child(email.replace(".", ",")).setValue(user);
+    }
+
+    public void addNewVender(String email, String shopName) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference usersRef = database.getReference("venders");
+
+        Map<String, Object> user = new HashMap<>();
+        user.put("shopName", shopName);
+        user.put("followCount", 0);
+        user.put("totalProduct", 0);
+
 
         usersRef.child(email.replace(".", ",")).setValue(user);
     }

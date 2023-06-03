@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pokecenter.R;
@@ -28,6 +29,7 @@ import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.option.OptionAdapter;
 import com.example.pokecenter.databinding.ActivitySignUpBinding;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
@@ -183,7 +185,8 @@ public class SignUpActivity extends AppCompatActivity {
 
                         /* Save User Info */
                         /* Cách 1 */
-                        new FirebaseSupportAccount().addNewAccount(email, username, role, gender);
+                        new FirebaseSupportAccount().addNewAccount(email, username, role, gender, phoneNumber);
+                        new FirebaseSupportAccount().addNewVender(email, shopName);
 
                         /* Cách 2: Using API + new Thread
                         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -280,9 +283,11 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void changeInProgress(boolean inProgress) {
         if (inProgress) {
-            binding.signUpButton.setVisibility(View.INVISIBLE);
+            binding.signUpButton.setVisibility(View.GONE);
+            binding.progressBar.setVisibility(View.VISIBLE);
         } else {
             binding.signUpButton.setVisibility(View.VISIBLE);
+            binding.progressBar.setVisibility(View.GONE);
         }
     }
 
