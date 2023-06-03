@@ -207,6 +207,14 @@ public class ProductStatisticActivity extends AppCompatActivity {
                     }
                 });
 
+                binding.clProductProfile.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(ProductStatisticActivity.this, AdminProductDetailActivity.class);
+                        intent.putExtra("AdminProduct", adminProduct);
+                        startActivity(intent);
+                    }
+                });
             }
         });
         setContentView(binding.getRoot());

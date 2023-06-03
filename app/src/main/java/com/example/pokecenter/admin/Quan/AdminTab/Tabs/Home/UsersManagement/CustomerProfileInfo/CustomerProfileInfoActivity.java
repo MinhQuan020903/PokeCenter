@@ -17,9 +17,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer.Customer;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.VenderProfileInfoActivity;
 import com.example.pokecenter.databinding.ActivityCustomerProfileInfoBinding;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
@@ -151,6 +153,8 @@ public class CustomerProfileInfoActivity extends AppCompatActivity {
                                             if (task.isSuccessful()) {
                                                 confirmationDialog.dismiss();
                                                 adminAuthDialog.dismiss();
+                                                Toast.makeText(CustomerProfileInfoActivity.this, "DISABLED SUCCESSFULLY.", Toast.LENGTH_SHORT).show();
+
                                             } else {
                                                 tvAdminAuthFailed.setVisibility(View.VISIBLE);
                                             }
