@@ -68,17 +68,37 @@ public class FirebaseSupportAccount {
         usersRef.child(email.replace(".", ",")).setValue(user);
     }
 
+    public void addNewVenderUsingApi(String email, String shopName) throws IOException {
+        Map<String, Object> venderData = new HashMap<>();
+        venderData.put("shopName", shopName);
+        venderData.put("followCount", 0);
+        venderData.put("totalProduct", 0);
+
+        String userJson = new Gson().toJson(venderData);
+
+        OkHttpClient client = new OkHttpClient();
+        RequestBody body = RequestBody.create(userJson, JSON);
+
+        Request request = new Request.Builder()
+                .url(urlDb + "venders/" + email.replace(".", ",") + ".json")
+                .patch(body)
+                .build();
+
+        // send request and get response
+        Response response = client.newCall(request).execute();
+    }
+
     public void addNewVender(String email, String shopName) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference usersRef = database.getReference("venders");
 
-        Map<String, Object> user = new HashMap<>();
-        user.put("shopName", shopName);
-        user.put("followCount", 0);
-        user.put("totalProduct", 0);
+        Map<String, Object> venderData = new HashMap<>();
+        venderData.put("shopName", shopName);
+        venderData.put("followCount", 0);
+        venderData.put("totalProduct", 0);
 
 
-        usersRef.child(email.replace(".", ",")).setValue(user);
+        usersRef.child(email.replace(".", ",")).setValue(venderData);
     }
 
 
@@ -168,6 +188,25 @@ public class FirebaseSupportAccount {
 
         client.newCall(request).execute();
 
+    }
+
+    public void updateAccountToVender(String phone) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        Map<String, Object> updateData = new HashMap<>();
+        updateData.put("phoneNumber", phone);
+        updateData.put("role", 1);
+
+        String jsonData = new Gson().toJson(updateData);
+
+        RequestBody body = RequestBody.create(jsonData, JSON);
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Request request = new Request.Builder()
+                .url(urlDb + "accounts/" + emailWithCurrentUser.replace(".", ",") + ".json")
+                .patch(body)
+                .build();
+
+        client.newCall(request).execute();
     }
 
 }

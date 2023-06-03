@@ -46,9 +46,12 @@ public class SplashActivity extends AppCompatActivity {
         binding = ActivitySplashScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        SharedPreferences sharedPreferences = getSharedPreferences("myPref", MODE_PRIVATE);
+        int role = sharedPreferences.getInt("role", -1);
+
         /* Fetch Products Data */
         ProductData.fetchDataFromSever();
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null && role == 0) {
             WishListData.fetchDataFromSever();
         }
 
@@ -79,8 +82,6 @@ public class SplashActivity extends AppCompatActivity {
                     startActivity(new Intent(SplashActivity.this, SignInActivity.class));
                 } else {
 
-                    SharedPreferences sharedPreferences = getSharedPreferences("myPref", MODE_PRIVATE);
-
                     ExecutorService executor = Executors.newSingleThreadExecutor();
                     Handler handler = new Handler(Looper.getMainLooper());
 
@@ -99,9 +100,17 @@ public class SplashActivity extends AppCompatActivity {
                                 Account finalFetchedAccountInfo = fetchedAccountInfo;
                                 handler.post(() -> {
                                     if (finalIsSuccessful) {
-                                        goToNextActivityWith(sharedPreferences.getInt("role", -1));
-                                        CustomerProfileFragment.currentAccount = finalFetchedAccountInfo;
-                                        VenderProfileFragment.currentVender = finalFetchedAccountInfo;
+                                        goToNextActivityWith(role);
+
+                                        switch (role) {
+                                            case 0:
+                                                CustomerProfileFragment.currentAccount = finalFetchedAccountInfo;
+                                                break;
+                                            case 1:
+                                                VenderProfileFragment.currentVender = finalFetchedAccountInfo;
+                                                break;
+                                        }
+
                                     } else {
                                         Toast.makeText(SplashActivity.this, "Failed to connect server", Toast.LENGTH_LONG).show();
                                     }

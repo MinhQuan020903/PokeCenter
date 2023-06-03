@@ -282,7 +282,7 @@
         android:layout_height="wrap_content"/>
 
     <LinearLayout
-        android:id="@+id/cardsItem"
+        android:id="@+id/starSelling"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="20dp"
@@ -325,6 +325,7 @@
         android:layout_height="wrap_content"/>
 
     <LinearLayout
+        android:id="@+id/support"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="20dp"
