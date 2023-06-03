@@ -1,19 +1,32 @@
 package com.example.pokecenter.vender.API;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.example.pokecenter.customer.lam.Model.notification.Notification;
 import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.order.DetailOrder;
 import com.example.pokecenter.customer.lam.Model.order.Order;
 import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.vender.Model.VenderOrder.VenderDetailOrder;
 import com.example.pokecenter.vender.Model.VenderOrder.VenderOrder;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -219,5 +232,195 @@ public class FirebaseSupportVender {
 
         return fetchedOrders;
     }
+    public void updateTotalProduct(int totalProduct) throws IOException {
+        OkHttpClient client = new OkHttpClient();
 
+        Map<String, Integer> pushData = new HashMap<>();
+        pushData.put("totalProduct", totalProduct);
+
+        String jsonData = new Gson().toJson(pushData);
+
+        RequestBody body = RequestBody.create(jsonData, JSON);
+
+        Request request = new Request.Builder()
+                .url(urlDb + "venders/" + FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", ",") + ".json")
+                .patch(body)
+                .build();
+
+        client.newCall(request).execute();
+    }
+
+    public List<String> fetchingAllCategoryTag() throws IOException {
+        List<String> fetchedCategoryTag = new ArrayList<>();
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(urlDb + "category.json")
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+            String responseString = response.body().string();
+
+            if (responseString.equals("null")) {
+                return new ArrayList<>();
+            }
+
+            Type type = new TypeToken<Map<String, Object>>(){}.getType();
+            Map<String, Object> fetchedData = new Gson().fromJson(responseString, type);
+
+            fetchedCategoryTag.addAll(fetchedData.keySet());
+        }
+
+        Collections.reverse(fetchedCategoryTag);
+
+        return fetchedCategoryTag;
+    }
+    public void updatePokemonAfterAddProduct(String productId, List<String> myPokemon) throws IOException {
+        DatabaseReference Ref = FirebaseDatabase.getInstance().getReference("pokemons");
+
+// Push the productId and Pokemon list to the "pokemons" structure in Firebase
+        for ( String s: myPokemon) {
+            Ref.child(s).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        List<String> existingPokemonList = new ArrayList<>();
+                        Object value = dataSnapshot.getValue();
+
+                        if (value instanceof List) {
+                            existingPokemonList = (List<String>) value;
+                        } else if (value instanceof String) {
+                            existingPokemonList.add((String) value);
+                        }
+
+                        existingPokemonList.add(productId);
+
+                        Ref.child(s).setValue(existingPokemonList)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            // Data successfully updated in Firebase
+                                            notifyResult(true);
+                                        } else {
+                                            // Failed to update data in Firebase
+                                            notifyResult(false);
+                                        }
+                                    }
+                                });
+                    } else {
+                        // Handle the case where the product ID doesn't exist in Firebase
+                        List<String> newPokemonList = new ArrayList<>();
+                        newPokemonList.add(productId);
+
+                        Ref.child(s).setValue(newPokemonList)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            // Data successfully added to Firebase
+                                            notifyResult(true);
+                                        } else {
+                                            // Failed to add data to Firebase
+                                            notifyResult(false);
+                                        }
+                                    }
+                                });
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // Handle any errors
+                    notifyResult(false);
+                }
+
+                private void notifyResult(boolean success) {
+                    // Notify the result using a callback or any other mechanism
+                    if (success) {
+                        // Data was successfully updated/added in Firebase
+                    } else {
+                        // Failed to update/add data in Firebase
+                    }
+                }
+            });
+
+        }
+
+    }
+    public void updateCategoryAfterAddProduct(String productId, List<String> myCategory) throws IOException {
+        DatabaseReference Ref = FirebaseDatabase.getInstance().getReference("category");
+
+// Push the productId and Pokemon list to the "pokemons" structure in Firebase
+        for ( String s: myCategory) {
+            Ref.child(s).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        List<String> existingPokemonList = new ArrayList<>();
+                        Object value = dataSnapshot.getValue();
+
+                        if (value instanceof List) {
+                            existingPokemonList = (List<String>) value;
+                        } else if (value instanceof String) {
+                            existingPokemonList.add((String) value);
+                        }
+
+                        existingPokemonList.add(productId);
+
+                        Ref.child(s).setValue(existingPokemonList)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            // Data successfully updated in Firebase
+                                            notifyResult(true);
+                                        } else {
+                                            // Failed to update data in Firebase
+                                            notifyResult(false);
+                                        }
+                                    }
+                                });
+                    } else {
+                        // Handle the case where the product ID doesn't exist in Firebase
+                        List<String> newPokemonList = new ArrayList<>();
+                        newPokemonList.add(productId);
+
+                        Ref.child(s).setValue(newPokemonList)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            // Data successfully added to Firebase
+                                            notifyResult(true);
+                                        } else {
+                                            // Failed to add data to Firebase
+                                            notifyResult(false);
+                                        }
+                                    }
+                                });
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // Handle any errors
+                    notifyResult(false);
+                }
+
+                private void notifyResult(boolean success) {
+                    // Notify the result using a callback or any other mechanism
+                    if (success) {
+                        // Data was successfully updated/added in Firebase
+                    } else {
+                        // Failed to update/add data in Firebase
+                    }
+                }
+            });
+
+        }
+
+    }
 }
