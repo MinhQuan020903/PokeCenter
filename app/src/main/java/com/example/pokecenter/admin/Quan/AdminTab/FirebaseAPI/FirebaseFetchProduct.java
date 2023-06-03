@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 
 import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminProduct.AdminProduct;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminProduct.AdminOption.AdminOption;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminProduct.AdminProductReview.AdminProductReview;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.Order;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.OrderDetail;
 import com.google.firebase.database.DataSnapshot;
@@ -168,6 +169,42 @@ public class FirebaseFetchProduct {
                 }
 
                 firebaseCallback.onCallback(orderList);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void getProductReviewsFromFirebase(AdminProduct adminProduct, FirebaseCallback<ArrayList<AdminProductReview>> firebaseCallback) {
+        ArrayList<AdminProductReview> adminProductReviewList = new ArrayList<>();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = firebaseDatabase.getReference("reviewsProduct");
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                try {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        String productId = dataSnapshot.child("productId").getValue(String.class);
+                        if (productId.equals(adminProduct.getId())) {
+                            String id = dataSnapshot.getKey();
+                            String content = dataSnapshot.child("content").getValue(String.class);
+                            String createDate = dataSnapshot.child("createDate").getValue(String.class);
+                            String customerId = dataSnapshot.child("customerId").getValue(String.class);
+                            int rate = dataSnapshot.child("rate").getValue(int.class);
+                            String title = dataSnapshot.child("title").getValue(String.class);
+
+                            AdminProductReview review = new AdminProductReview(id, content, createDate, customerId, productId, rate, title);
+                            adminProductReviewList.add(review);
+                        }
+                    }
+                } catch (Exception e) {
+                    Log.e("getProductReviewsFromFirebase", e.toString());
+                }
+                firebaseCallback.onCallback(adminProductReviewList);
             }
 
             @Override

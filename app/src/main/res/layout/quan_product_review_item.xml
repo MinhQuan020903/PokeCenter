@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:gravity="top"
+    android:paddingVertical="20dp"
+    android:clickable="true"
+    android:layout_margin="8dp"
+    android:background="@drawable/quan_rounded_layout_background"
+    android:backgroundTint="#64C6DC"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="16dp">
+
+        <TextView
+            android:id="@+id/tvCustomerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Tran Le Hoang Lam"
+            android:textSize="16sp"
+            android:textColor="@color/light_secondary"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/ivProductReviewStar0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/quan_icon_unfilled_star"
+                android:layout_gravity="center_vertical"/>
+            <ImageView
+                android:id="@+id/ivProductReviewStar1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/quan_icon_unfilled_star"
+                android:layout_gravity="center_vertical" />
+            <ImageView
+                android:id="@+id/ivProductReviewStar2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/quan_icon_unfilled_star"
+                android:layout_gravity="center_vertical"/>
+            <ImageView
+                android:id="@+id/ivProductReviewStar3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/quan_icon_unfilled_star"
+                android:layout_gravity="center_vertical"/>
+            <ImageView
+                android:id="@+id/ivProductReviewStar4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/quan_icon_unfilled_star"
+                android:layout_gravity="center_vertical"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvReviewSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Good"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/tvReviewDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Gói sản phẩm cẩn thận, giao hàng đúng hẹn, hàng chuẩn màu, rất đẹp!"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="12dp"/>
+
+        <TextView
+            android:id="@+id/tvReviewCreateDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="22/05/2022 at 19:32"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

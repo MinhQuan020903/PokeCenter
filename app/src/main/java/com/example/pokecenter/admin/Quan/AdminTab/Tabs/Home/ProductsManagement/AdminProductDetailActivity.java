@@ -59,8 +59,14 @@ public class AdminProductDetailActivity extends AppCompatActivity {
         binding.tvProductVenderId.setText(adminProduct.getVenderId());
         binding.tvProductDescription.setText(adminProduct.getDesc());
 
-
-
+        binding.clProductReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminProductDetailActivity.this, AdminProductDetailReviewsActivity.class);
+                intent.putExtra("AdminProduct", adminProduct);
+                startActivity(intent);
+            }
+        });
 
 
         binding.clProductDescription.setOnClickListener(new View.OnClickListener() {
