@@ -77,11 +77,19 @@
             android:paddingHorizontal="20dp"
             android:textColorHint="#9A9A9A"/>
         <AutoCompleteTextView
-            android:id="@+id/searchAutoCompleteTextView"
+            android:id="@+id/optionPokemon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:hint="pokemon"
+            android:hint="Pokemon"
+            android:paddingVertical="14dp"
+            android:paddingHorizontal="20dp"/>
+        <AutoCompleteTextView
+            android:id="@+id/option_categories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:hint="Category"
             android:paddingVertical="14dp"
             android:paddingHorizontal="20dp"/>
     </LinearLayout>

@@ -1,4 +1,5 @@
 package com.example.pokecenter.vender.API;
+import com.example.pokecenter.customer.lam.Model.notification.Notification;
 import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.order.DetailOrder;
 import com.example.pokecenter.customer.lam.Model.order.Order;
@@ -14,6 +15,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -235,5 +237,45 @@ public class FirebaseSupportVender {
                 .build();
 
         client.newCall(request).execute();
+    }
+
+    public List<String> fetchingAllCategoryTag() throws IOException {
+        List<String> fetchedCategoryTag = new ArrayList<>();
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(urlDb + "category.json")
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+            String responseString = response.body().string();
+
+            if (responseString.equals("null")) {
+                return new ArrayList<>();
+            }
+
+            Type type = new TypeToken<Map<String, Object>>(){}.getType();
+            Map<String, Object> fetchedData = new Gson().fromJson(responseString, type);
+
+            fetchedCategoryTag.addAll(fetchedData.keySet());
+        }
+
+        Collections.reverse(fetchedCategoryTag);
+
+        return fetchedCategoryTag;
+    }
+    public void updatePokemonAfterAddProduct(String productId, List<String> myPokemon) throws IOException {
+        Map<String, String> pushData = new HashMap<>();
+        //Post Options
+        for (int i = 0; i < myPokemon.size(); i++) {
+            pushData = new HashMap<>();
+//            pushData.put("currentQuantity", newProduct.getOptions().get(i).getInputQuantity());
+//            /* convert pushData to Json string */
+//            FirebaseDatabase database = FirebaseDatabase.getInstance();
+//            DatabaseReference usersRef = database.getReference("pokemons/" + myPokemon.get(i) + "/");
+//            usersRef.child(newProduct.getOptions().get(i).getOptionName()).setValue(pushData);
+        }
     }
 }
