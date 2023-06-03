@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.Suport.CustomerSupportInFindingProductActivity;
 import com.example.pokecenter.customer.lam.Interface.PokemonRecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
 import com.example.pokecenter.customer.lam.Model.product.Product;
@@ -49,6 +50,7 @@ public class SearchProductActivity extends AppCompatActivity implements PokemonR
         }
 
         binding = ActivitySearchProductBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         binding.backButton.setOnClickListener(view -> {
             finish();
@@ -92,17 +94,14 @@ public class SearchProductActivity extends AppCompatActivity implements PokemonR
         productAdapter.setData(ProductData.fetchedProducts.values().stream().filter(item -> item.getName().toLowerCase().contains(searchTextReceiveFromHomeFragment.toLowerCase())).collect(Collectors.toList()));
         rcvProduct.setAdapter(productAdapter);
 
-        binding.progressBar.setVisibility(View.INVISIBLE);
+        binding.submitARequest.setOnClickListener(view -> {
+            startActivity(new Intent(this, CustomerSupportInFindingProductActivity.class));
+        });
 
-        setContentView(binding.getRoot());
     }
 
     private void searchProduct(String searchText) {
-        binding.progressBar.setVisibility(View.VISIBLE);
-        binding.progressBarBg.setVisibility(View.VISIBLE);
         productAdapter.setData(ProductData.fetchedProducts.values().stream().filter(item -> item.getName().toLowerCase().contains(searchText.toLowerCase())).collect(Collectors.toList()));
-        binding.progressBar.setVisibility(View.INVISIBLE);
-        binding.progressBarBg.setVisibility(View.INVISIBLE);
     }
 
     @Override
