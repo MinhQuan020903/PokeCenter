@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     android:background="@color/light_secondary"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.VenderProfileInfoActivity">
+    tools:context=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clVenderProfileInfo"
+        android:id="@+id/clCustomerProfileInfo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/quan_rounded_layout_background"
@@ -22,12 +22,12 @@
 
 
         <LinearLayout
-            android:id="@+id/clVenderProfileInfoAvatar"
+            android:id="@+id/clCustomerProfileInfoAvatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="112dp"
             android:orientation="vertical"
-            app:layout_constraintBaseline_toBaselineOf="@+id/clVenderProfileInfo"
+            app:layout_constraintBaseline_toBaselineOf="@+id/clCustomerProfileInfo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -41,7 +41,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/ivVenderProfileInfoAvatar"
+                    android:id="@+id/ivCustomerProfileInfoAvatar"
                     android:layout_width="125dp"
                     android:layout_height="125dp"
                     android:padding="2dp"
@@ -53,7 +53,7 @@
             </FrameLayout>
 
             <TextView
-                android:id="@+id/tvVenderProfileInfoName"
+                android:id="@+id/tvCustomerProfileInfoName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Do Mai Minh Quan"
@@ -61,12 +61,13 @@
                 android:layout_marginTop="15dp"
                 android:textSize="24sp"
                 android:textStyle="bold"
+                android:textAlignment="center"
                 android:layout_gravity="center_horizontal"
-                app:layout_constraintTop_toBottomOf="@id/ivVenderProfileInfoAvatar" />
+                app:layout_constraintTop_toBottomOf="@id/ivCustomerProfileInfoAvatar" />
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/clVenderProfileInfoDetail"
+            android:id="@+id/clCustomerProfileInfoDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
@@ -74,10 +75,10 @@
             android:padding="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clVenderProfileInfoAvatar">
+            app:layout_constraintTop_toBottomOf="@+id/clCustomerProfileInfoAvatar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clVenderProfileInfoEmail"
+                android:id="@+id/clCustomerProfileInfoEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -86,7 +87,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/tvVenderProfileInfoEmailLabel"
+                    android:id="@+id/tvCustomerProfileInfoEmailLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Email"
@@ -96,7 +97,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tvVenderProfileInfoEmail"
+                    android:id="@+id/tvCustomerProfileInfoEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -106,22 +107,22 @@
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvVenderProfileInfoEmailLabel" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvCustomerProfileInfoEmailLabel" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clVenderProfileInfoPhoneNumber"
+                android:id="@+id/clCustomerProfileInfoPhoneNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/clVenderProfileInfoEmail">
+                app:layout_constraintTop_toBottomOf="@id/clCustomerProfileInfoEmail">
 
                 <TextView
-                    android:id="@+id/tvVenderProfileInfoPhoneNumberLabel"
+                    android:id="@+id/tvCustomerProfileInfoPhoneNumberLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Phone number"
@@ -131,7 +132,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tvVenderProfileInfoPhoneNumber"
+                    android:id="@+id/tvCustomerProfileInfoPhoneNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -141,20 +142,20 @@
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvVenderProfileInfoPhoneNumberLabel" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvCustomerProfileInfoPhoneNumberLabel" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clVenderProfileInfoRegistrationDate"
+                android:id="@+id/clCustomerProfileInfoRegistrationDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/clVenderProfileInfoPhoneNumber">
+                app:layout_constraintTop_toBottomOf="@id/clCustomerProfileInfoPhoneNumber">
 
                 <TextView
-                    android:id="@+id/tvVenderProfileInfoRegistrationDateLabel"
+                    android:id="@+id/tvCustomerProfileInfoRegistrationDateLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Registration Date"
@@ -164,7 +165,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tvVenderProfileInfoRegistrationDate"
+                    android:id="@+id/tvCustomerProfileInfoRegistrationDate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -175,7 +176,7 @@
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvVenderProfileInfoRegistrationDateLabel"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCustomerProfileInfoRegistrationDateLabel"
                     app:layout_constraintWidth_percent="1.0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -185,12 +186,12 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/clVenderProfileInfoRegistrationDate"
-                app:layout_constraintTop_toBottomOf="@id/clVenderProfileInfoPhoneNumber"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintStart_toEndOf="@id/clCustomerProfileInfoRegistrationDate"
+                app:layout_constraintTop_toBottomOf="@id/clCustomerProfileInfoPhoneNumber"
+                app:layout_constraintBottom_toTopOf="@id/clCustomerProfileInfoAddresses">
 
                 <RadioButton
-                    android:id="@+id/rbVenderProfileInfoMaleGender"
+                    android:id="@+id/rbCustomerProfileInfoMaleGender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
@@ -201,7 +202,7 @@
                     android:textColor="@color/white" />
 
                 <RadioButton
-                    android:id="@+id/rbVenderProfileInfoFemaleGender"
+                    android:id="@+id/rbCustomerProfileInfoFemaleGender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -212,12 +213,85 @@
                     android:textColor="@color/white" />
             </RadioGroup>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clCustomerProfileInfoAddresses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/quan_rounded_layout_background"
+
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/clCustomerProfileInfoRegistrationDate">
+
+                <TextView
+                    android:id="@+id/tvCustomerProfileInfoAddressesLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Address"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                    android:id="@+id/ivCustomerProfileInfoMoreAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:backgroundTint="@color/transparent"
+                    android:src="@drawable/lam_round_arrow_forward_ios_24"
+                    app:tint="@color/white" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clCustomerProfileInfoFollowers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/quan_rounded_layout_background"
+
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/clCustomerProfileInfoAddresses">
+
+                <TextView
+                    android:id="@+id/tvCustomerProfileInfoFollowersLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Followers"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                    android:id="@+id/ivCustomerProfileInfoFollowers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:backgroundTint="@color/transparent"
+                    android:src="@drawable/lam_round_arrow_forward_ios_24"
+                    app:tint="@color/white" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
             style="@style/Widget.Material3.Button.ElevatedButton"
-            android:id="@+id/bVenderProfileInfoDisableAccount"
+            android:id="@+id/bCustomerProfileInfoDisableAccount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -14,22 +13,19 @@ import android.widget.ArrayAdapter;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseCallback;
-import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseFetchUser;
 import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseFetchVender;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.Order;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Vender.Vender;
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.CustomerProfileInfoActivity;
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.VenderFollowerListActivity;
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.VenderProductListActivity;
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.VenderProfileInfoActivity;
-import com.example.pokecenter.databinding.ActivityVenderInfoAndStatisticBinding;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderFollowerListActivity;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderProductListActivity;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderProfileInfoActivity;
+import com.example.pokecenter.databinding.ActivityAdminVenderInfoAndStatisticBinding;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
@@ -43,9 +39,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class VenderInfoAndStatisticActivity extends AppCompatActivity {
+public class AdminVenderInfoAndStatisticActivity extends AppCompatActivity {
 
-    private ActivityVenderInfoAndStatisticBinding binding;
+    private ActivityAdminVenderInfoAndStatisticBinding binding;
     private ArrayList<String> dates;
     private Vender vender;
     private int orderCount;
@@ -73,7 +69,7 @@ public class VenderInfoAndStatisticActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        binding = ActivityVenderInfoAndStatisticBinding.inflate(getLayoutInflater());
+        binding = ActivityAdminVenderInfoAndStatisticBinding.inflate(getLayoutInflater());
 
         Intent intent = getIntent();
         if ((Vender)intent.getSerializableExtra("Customer_Vender") != null) {
@@ -212,7 +208,7 @@ public class VenderInfoAndStatisticActivity extends AppCompatActivity {
                 binding.cvVenderProductStatistic.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(VenderInfoAndStatisticActivity.this, VenderProductListActivity.class);
+                        Intent intent = new Intent(AdminVenderInfoAndStatisticActivity.this, AdminVenderProductListActivity.class);
                         intent.putExtra("Vender", vender);
                         startActivity(intent);
                     }
@@ -221,7 +217,7 @@ public class VenderInfoAndStatisticActivity extends AppCompatActivity {
                 binding.cvVenderFollowerStatistic.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(VenderInfoAndStatisticActivity.this, VenderFollowerListActivity.class);
+                        Intent intent = new Intent(AdminVenderInfoAndStatisticActivity.this, AdminVenderFollowerListActivity.class);
                         intent.putExtra("Vender", vender);
                         startActivity(intent);
                     }
@@ -229,7 +225,7 @@ public class VenderInfoAndStatisticActivity extends AppCompatActivity {
                 binding.clVenderProfile.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(VenderInfoAndStatisticActivity.this, VenderProfileInfoActivity.class);
+                        Intent intent = new Intent(AdminVenderInfoAndStatisticActivity.this, AdminVenderProfileInfoActivity.class);
                         intent.putExtra("Vender", vender);
                         startActivity(intent);
                     }

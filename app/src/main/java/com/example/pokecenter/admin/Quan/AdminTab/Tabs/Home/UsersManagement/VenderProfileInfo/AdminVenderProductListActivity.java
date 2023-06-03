@@ -19,10 +19,10 @@ import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Vender.Vender;
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.ProductsManagement.ProductStatisticActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.ItemSpacingDecoration;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.OnItemClickListener;
-import com.example.pokecenter.databinding.ActivityVenderProductListBinding;
+import com.example.pokecenter.databinding.ActivityAdminVenderProductListBinding;
 
-public class VenderProductListActivity extends AppCompatActivity {
-    private ActivityVenderProductListBinding binding;
+public class AdminVenderProductListActivity extends AppCompatActivity {
+    private ActivityAdminVenderProductListBinding binding;
     private Vender vender;
     private AdminProductAdapter venderProductAdapter;
     private InputMethodManager inputMethodManager;
@@ -31,7 +31,7 @@ public class VenderProductListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityVenderProductListBinding.inflate(getLayoutInflater());
+        binding = ActivityAdminVenderProductListBinding.inflate(getLayoutInflater());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().setStatusBarColor(getColor(R.color.light_primary));
@@ -58,7 +58,7 @@ public class VenderProductListActivity extends AppCompatActivity {
                 venderProductAdapter.setOnItemClickListener(new OnItemClickListener<AdminProduct>() {
                     @Override
                     public void onItemClick(AdminProduct object, int position) {
-                        Intent intent = new Intent(VenderProductListActivity.this, ProductStatisticActivity.class);
+                        Intent intent = new Intent(AdminVenderProductListActivity.this, ProductStatisticActivity.class);
                         intent.putExtra("Product", object);
                         startActivity(intent);
                     }
@@ -72,12 +72,12 @@ public class VenderProductListActivity extends AppCompatActivity {
 
     public void setUpRecyclerView() {
 
-        venderProductAdapter = new AdminProductAdapter(vender.getProductList(), VenderProductListActivity.this, R.layout.quan_product_item);
+        venderProductAdapter = new AdminProductAdapter(vender.getProductList(), AdminVenderProductListActivity.this, R.layout.quan_product_item);
         //Add spacing to RecyclerView
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.item_spacing);
         ItemSpacingDecoration itemSpacingDecoration = new ItemSpacingDecoration(spacingInPixels);
         binding.rvVenderProductList.addItemDecoration(itemSpacingDecoration);
-        binding.rvVenderProductList.setLayoutManager(new LinearLayoutManager(VenderProductListActivity.this));
+        binding.rvVenderProductList.setLayoutManager(new LinearLayoutManager(AdminVenderProductListActivity.this));
         binding.rvVenderProductList.setAdapter(venderProductAdapter);
     }
     @Override

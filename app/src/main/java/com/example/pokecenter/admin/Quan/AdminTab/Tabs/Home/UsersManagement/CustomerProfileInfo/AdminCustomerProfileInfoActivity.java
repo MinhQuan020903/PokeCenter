@@ -21,8 +21,7 @@ import android.widget.Toast;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer.Customer;
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.VenderProfileInfoActivity;
-import com.example.pokecenter.databinding.ActivityCustomerProfileInfoBinding;
+import com.example.pokecenter.databinding.ActivityAdminCustomerProfileInfoBinding;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,9 +30,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
-public class CustomerProfileInfoActivity extends AppCompatActivity {
+public class AdminCustomerProfileInfoActivity extends AppCompatActivity {
 
-    private ActivityCustomerProfileInfoBinding binding;
+    private ActivityAdminCustomerProfileInfoBinding binding;
     private Customer customer;
     private Dialog confirmationDialog;
     private Dialog adminAuthDialog;
@@ -51,7 +50,7 @@ public class CustomerProfileInfoActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        binding = ActivityCustomerProfileInfoBinding.inflate(getLayoutInflater());
+        binding = ActivityAdminCustomerProfileInfoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         //Get Customer object
@@ -73,7 +72,7 @@ public class CustomerProfileInfoActivity extends AppCompatActivity {
         binding.clCustomerProfileInfoAddresses.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CustomerProfileInfoActivity.this, CustomerProfileInfoAddressesActivity.class);
+                Intent intent = new Intent(AdminCustomerProfileInfoActivity.this, AdminCustomerProfileInfoAddressesActivity.class);
                 intent.putExtra("Customer", customer);
                 startActivity(intent);
             }
@@ -82,7 +81,7 @@ public class CustomerProfileInfoActivity extends AppCompatActivity {
         binding.clCustomerProfileInfoFollowers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CustomerProfileInfoActivity.this, CustomerProfileInfoFollowersActivity.class);
+                Intent intent = new Intent(AdminCustomerProfileInfoActivity.this, AdminCustomerProfileInfoFollowersActivity.class);
                 intent.putExtra("Customer", customer);
                 startActivity(intent);
             }
@@ -93,7 +92,7 @@ public class CustomerProfileInfoActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 //Create Confirmation Dialog
-                confirmationDialog = new Dialog(CustomerProfileInfoActivity.this);
+                confirmationDialog = new Dialog(AdminCustomerProfileInfoActivity.this);
                 confirmationDialog.setContentView(R.layout.quan_dialog_confirm_delete_account);
                 confirmationDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
@@ -116,7 +115,7 @@ public class CustomerProfileInfoActivity extends AppCompatActivity {
                 bAccept.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        adminAuthDialog = new Dialog(CustomerProfileInfoActivity.this);
+                        adminAuthDialog = new Dialog(AdminCustomerProfileInfoActivity.this);
                         adminAuthDialog.setContentView(R.layout.quan_dialog_admin_auth);
                         adminAuthDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
@@ -153,7 +152,7 @@ public class CustomerProfileInfoActivity extends AppCompatActivity {
                                             if (task.isSuccessful()) {
                                                 confirmationDialog.dismiss();
                                                 adminAuthDialog.dismiss();
-                                                Toast.makeText(CustomerProfileInfoActivity.this, "DISABLED SUCCESSFULLY.", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(AdminCustomerProfileInfoActivity.this, "DISABLED SUCCESSFULLY.", Toast.LENGTH_SHORT).show();
 
                                             } else {
                                                 tvAdminAuthFailed.setVisibility(View.VISIBLE);

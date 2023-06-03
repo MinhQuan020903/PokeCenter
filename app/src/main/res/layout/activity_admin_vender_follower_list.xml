@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_secondary"
-    tools:context=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.VenderProductListActivity">
+    tools:context=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderProductListActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvVenderProductList"
+        android:id="@+id/rvVenderFollowerList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"/>

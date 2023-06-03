@@ -14,12 +14,8 @@ import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseFetchProdu
 import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminProduct.AdminProduct;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminProduct.AdminProductReview.AdminProductReview;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminProduct.AdminProductReview.AdminProductReviewAdapter;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.User.UserAdapter;
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.CustomerProfileInfoFollowersActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.ItemSpacingDecoration;
-import com.example.pokecenter.databinding.ActivityAdminProductDetailBinding;
 import com.example.pokecenter.databinding.ActivityAdminProductDetailReviewsBinding;
-import com.example.pokecenter.databinding.ActivityMyProductReviewsBinding;
 
 import java.util.ArrayList;
 

@@ -17,7 +17,6 @@ import android.widget.ArrayAdapter;
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseCallback;
 import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseFetchUser;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Admin.Admin;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer.Customer;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.User;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.UserAdapter;
@@ -208,11 +207,11 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
                         Intent intent = null;
                         switch (user.getRole()) {
                             case 0: {
-                                intent = new Intent(AdminUsersManagementActivity.this, CustomerInfoAndStatisticActivity.class);
+                                intent = new Intent(AdminUsersManagementActivity.this, AdminCustomerInfoAndStatisticActivity.class);
                                 break;
                             }
                             case 1: {
-                                intent = new Intent(AdminUsersManagementActivity.this, VenderInfoAndStatisticActivity.class);
+                                intent = new Intent(AdminUsersManagementActivity.this, AdminVenderInfoAndStatisticActivity.class);
                                 break;
                             }
                         }

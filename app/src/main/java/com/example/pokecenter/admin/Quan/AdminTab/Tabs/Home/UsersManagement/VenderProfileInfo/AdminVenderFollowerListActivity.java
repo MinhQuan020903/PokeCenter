@@ -13,26 +13,20 @@ import android.view.inputmethod.InputMethodManager;
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseCallback;
 import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseFetchUser;
-import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseFetchVender;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminProduct.AdminProductAdapter;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer.Customer;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.User;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.UserAdapter;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Vender.Vender;
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminUsersManagementActivity;
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerInfoAndStatisticActivity;
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.CustomerProfileInfoActivity;
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderInfoAndStatisticActivity;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminCustomerInfoAndStatisticActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.ItemSpacingDecoration;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.OnItemClickListener;
-import com.example.pokecenter.databinding.ActivityVenderFollowerListBinding;
-import com.example.pokecenter.databinding.ActivityVenderProductListBinding;
+import com.example.pokecenter.databinding.ActivityAdminVenderFollowerListBinding;
 
 import java.util.ArrayList;
 
-public class VenderFollowerListActivity extends AppCompatActivity {
+public class AdminVenderFollowerListActivity extends AppCompatActivity {
 
-    private ActivityVenderFollowerListBinding binding;
+    private ActivityAdminVenderFollowerListBinding binding;
     private Vender vender;
     private UserAdapter venderFollowerAdapter;
 
@@ -42,7 +36,7 @@ public class VenderFollowerListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityVenderFollowerListBinding.inflate(getLayoutInflater());
+        binding = ActivityAdminVenderFollowerListBinding.inflate(getLayoutInflater());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().setStatusBarColor(getColor(R.color.light_primary));
@@ -81,7 +75,7 @@ public class VenderFollowerListActivity extends AppCompatActivity {
                 venderFollowerAdapter.setOnItemClickListener(new OnItemClickListener<User>() {
                     @Override
                     public void onItemClick(User user, int position) {
-                        Intent intent = new Intent(VenderFollowerListActivity.this, CustomerInfoAndStatisticActivity.class);
+                        Intent intent = new Intent(AdminVenderFollowerListActivity.this, AdminCustomerInfoAndStatisticActivity.class);
                         intent.putExtra("Vender_Customer", user);
                         startActivity(intent);
                     }
@@ -94,12 +88,12 @@ public class VenderFollowerListActivity extends AppCompatActivity {
 
     public void setUpRecyclerView() {
 
-        venderFollowerAdapter = new UserAdapter(venderFollowerList, VenderFollowerListActivity.this, R.layout.quan_user_item);
+        venderFollowerAdapter = new UserAdapter(venderFollowerList, AdminVenderFollowerListActivity.this, R.layout.quan_user_item);
         //Add spacing to RecyclerView
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.item_spacing);
         ItemSpacingDecoration itemSpacingDecoration = new ItemSpacingDecoration(spacingInPixels);
         binding.rvVenderFollowerList.addItemDecoration(itemSpacingDecoration);
-        binding.rvVenderFollowerList.setLayoutManager(new LinearLayoutManager(VenderFollowerListActivity.this));
+        binding.rvVenderFollowerList.setLayoutManager(new LinearLayoutManager(AdminVenderFollowerListActivity.this));
         binding.rvVenderFollowerList.setAdapter(venderFollowerAdapter);
     }
     @Override
