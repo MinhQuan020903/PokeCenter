@@ -1,6 +1,7 @@
 package com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -8,6 +9,9 @@ import androidx.annotation.NonNull;
 
 import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminProduct.AdminProduct;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminProduct.AdminOption.AdminOption;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminProduct.AdminProductReview.AdminProductReview;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.Order;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.OrderDetail;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -15,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FirebaseFetchProduct {
     private Context context;
@@ -100,6 +105,111 @@ public class FirebaseFetchProduct {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(context, "GET PRODUCT FAILED", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void getProductOrderDetailFromFirebase(AdminProduct product, FirebaseCallback<ArrayList<Order>> firebaseCallback) {
+        ArrayList<AdminProduct> adminProductList = new ArrayList<>();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = firebaseDatabase.getReference("orders");
+
+        ArrayList<Order> orderList = new ArrayList<>();
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                try {
+
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        Order order = new Order();
+                        DataSnapshot orderDetailSnapshot = dataSnapshot.child("details");
+                        try {
+                            ArrayList<OrderDetail> orderDetails = new ArrayList<>();
+                            try {
+                                for (DataSnapshot option : orderDetailSnapshot.getChildren()) {
+                                    //If this order detail's product ID match with product,
+                                    //Get product option and quantity
+                                    if (option.child("productId").getValue(String.class)
+                                            .equals(product.getId())) {
+                                        String productId = option.child("productId").getValue(String.class);
+                                        int quantity = option.child("quantity").getValue(int.class);
+                                        int selectedOption = option.child("selectedOption").getValue(int.class);
+
+                                        //Create a temp object
+                                        OrderDetail orderDetail = new OrderDetail(productId, quantity, selectedOption);
+                                        orderDetails.add(orderDetail);
+
+                                        //Set OrderDetail to Order
+                                        order.setDetails(orderDetails);
+
+                                        try {
+                                            order.setId(dataSnapshot.getKey());
+                                            order.setCreateDate(dataSnapshot.child("createDate").getValue(String.class));
+                                            order.setCustomerId(dataSnapshot.child("customerId").getValue(String.class).replace(",","."));
+                                            order.setTotalAmount(dataSnapshot.child("totalAmount").getValue(int.class));
+                                            order.setVenderId(dataSnapshot.child("venderId").getValue(String.class).replace(",","."));
+                                        } catch (Exception e) {
+                                            Log.d("FirebaseFetchUser", e.toString());
+                                        }
+                                        //Add Order to ArrayList<Order>
+                                        orderList.add(order);
+                                    }
+                                }
+                            } catch (Exception e) {
+                                Log.e("getProductOrderHistoryFromFirebase", e.toString());
+                            }
+
+                        } catch (Exception e) {
+                            Log.e("getProductOrderHistoryFromFirebase", e.toString());
+                        }
+
+                    }
+                } catch (Exception e) {
+                    Log.e("getProductOrderHistoryFromFirebase", e.toString());
+                }
+
+                firebaseCallback.onCallback(orderList);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void getProductReviewsFromFirebase(AdminProduct adminProduct, FirebaseCallback<ArrayList<AdminProductReview>> firebaseCallback) {
+        ArrayList<AdminProductReview> adminProductReviewList = new ArrayList<>();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = firebaseDatabase.getReference("reviewsProduct");
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                try {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        String productId = dataSnapshot.child("productId").getValue(String.class);
+                        if (productId.equals(adminProduct.getId())) {
+                            String id = dataSnapshot.getKey();
+                            String content = dataSnapshot.child("content").getValue(String.class);
+                            String createDate = dataSnapshot.child("createDate").getValue(String.class);
+                            String customerId = dataSnapshot.child("customerId").getValue(String.class);
+                            int rate = dataSnapshot.child("rate").getValue(int.class);
+                            String title = dataSnapshot.child("title").getValue(String.class);
+
+                            AdminProductReview review = new AdminProductReview(id, content, createDate, customerId, productId, rate, title);
+                            adminProductReviewList.add(review);
+                        }
+                    }
+                } catch (Exception e) {
+                    Log.e("getProductReviewsFromFirebase", e.toString());
+                }
+                firebaseCallback.onCallback(adminProductReviewList);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }

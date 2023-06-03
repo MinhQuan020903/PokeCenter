@@ -5,23 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_secondary"
-    tools:context=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.CustomerProfileInfoAddressesActivity">
+    tools:context=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductDetailReviewsActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCustomerAddresses"
+        android:id="@+id/rvProductReviews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent" />
     <LinearLayout
         android:orientation="vertical"
         android:gravity="center_vertical|center_horizontal"
-        android:id="@+id/llCustomerNoAddresses"
+        android:id="@+id/llProductNoReviews"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/quan_icon_address_100"
+            android:src="@drawable/quan_icon_review"
             app:tint="@color/grey" />
         <TextView
             android:layout_width="wrap_content"
@@ -30,6 +30,6 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginTop="30dp"
-            android:text="Customer doesn't have any addresses!"/>
+            android:text="Product doesn't have any reviews!"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

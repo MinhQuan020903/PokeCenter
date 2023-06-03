@@ -17,13 +17,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.pokecenter.R;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer.Customer;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Vender.Vender;
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.CustomerProfileInfoActivity;
-import com.example.pokecenter.databinding.ActivityCustomerProfileInfoBinding;
-import com.example.pokecenter.databinding.ActivityVenderProfileInfoBinding;
+import com.example.pokecenter.databinding.ActivityAdminVenderProfileInfoBinding;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,9 +30,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
-public class VenderProfileInfoActivity extends AppCompatActivity {
+public class AdminVenderProfileInfoActivity extends AppCompatActivity {
 
-    private ActivityVenderProfileInfoBinding binding;
+    private ActivityAdminVenderProfileInfoBinding binding;
     private Vender vender;
     private Dialog confirmationDialog;
     private Dialog adminAuthDialog;
@@ -43,7 +41,7 @@ public class VenderProfileInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityVenderProfileInfoBinding.inflate(getLayoutInflater());
+        binding = ActivityAdminVenderProfileInfoBinding.inflate(getLayoutInflater());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().setStatusBarColor(getColor(R.color.light_primary));
@@ -74,7 +72,7 @@ public class VenderProfileInfoActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 //Create Confirmation Dialog
-                confirmationDialog = new Dialog(VenderProfileInfoActivity.this);
+                confirmationDialog = new Dialog(AdminVenderProfileInfoActivity.this);
                 confirmationDialog.setContentView(R.layout.quan_dialog_confirm_delete_account);
                 confirmationDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
@@ -97,7 +95,7 @@ public class VenderProfileInfoActivity extends AppCompatActivity {
                 bAccept.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        adminAuthDialog = new Dialog(VenderProfileInfoActivity.this);
+                        adminAuthDialog = new Dialog(AdminVenderProfileInfoActivity.this);
                         adminAuthDialog.setContentView(R.layout.quan_dialog_admin_auth);
                         adminAuthDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
@@ -132,6 +130,8 @@ public class VenderProfileInfoActivity extends AppCompatActivity {
                                 FirebaseAuth.getInstance().signInWithCredential(credential)
                                         .addOnCompleteListener(task -> {
                                             if (task.isSuccessful()) {
+                                                Toast.makeText(AdminVenderProfileInfoActivity.this, "DISABLED SUCCESSFULLY.", Toast.LENGTH_SHORT).show();
+
                                                 confirmationDialog.dismiss();
                                                 adminAuthDialog.dismiss();
                                             } else {

@@ -14,10 +14,10 @@ import com.example.pokecenter.R;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer.Customer;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer.CustomerAddressesAdapter;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.ItemSpacingDecoration;
-import com.example.pokecenter.databinding.ActivityCustomerProfileInfoAddressesBinding;
+import com.example.pokecenter.databinding.ActivityAdminCustomerProfileInfoAddressesBinding;
 
-public class CustomerProfileInfoAddressesActivity extends AppCompatActivity {
-    private ActivityCustomerProfileInfoAddressesBinding binding;
+public class AdminCustomerProfileInfoAddressesActivity extends AppCompatActivity {
+    private ActivityAdminCustomerProfileInfoAddressesBinding binding;
     private Customer customer;
     private CustomerAddressesAdapter customerAddressesAdapter;
     private InputMethodManager inputMethodManager;
@@ -25,7 +25,7 @@ public class CustomerProfileInfoAddressesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityCustomerProfileInfoAddressesBinding.inflate(getLayoutInflater());
+        binding = ActivityAdminCustomerProfileInfoAddressesBinding.inflate(getLayoutInflater());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().setStatusBarColor(getColor(R.color.light_primary));
@@ -53,12 +53,12 @@ public class CustomerProfileInfoAddressesActivity extends AppCompatActivity {
 
     public void setUpRecyclerView() {
 
-        customerAddressesAdapter = new CustomerAddressesAdapter(customer.getAddresses(), CustomerProfileInfoAddressesActivity.this, R.layout.quan_address_item);
+        customerAddressesAdapter = new CustomerAddressesAdapter(customer.getAddresses(), AdminCustomerProfileInfoAddressesActivity.this, R.layout.quan_address_item);
         //Add spacing to RecyclerView
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.item_spacing);
         ItemSpacingDecoration itemSpacingDecoration = new ItemSpacingDecoration(spacingInPixels);
         binding.rvCustomerAddresses.addItemDecoration(itemSpacingDecoration);
-        binding.rvCustomerAddresses.setLayoutManager(new LinearLayoutManager(CustomerProfileInfoAddressesActivity.this));
+        binding.rvCustomerAddresses.setLayoutManager(new LinearLayoutManager(AdminCustomerProfileInfoAddressesActivity.this));
         binding.rvCustomerAddresses.setAdapter(customerAddressesAdapter);
     }
     @Override

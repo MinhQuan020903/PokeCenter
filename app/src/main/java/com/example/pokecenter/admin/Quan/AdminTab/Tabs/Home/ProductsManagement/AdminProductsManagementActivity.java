@@ -66,10 +66,6 @@ public class AdminProductsManagementActivity extends AppCompatActivity {
             public void onCallback(ArrayList<AdminProduct> user) {
                 adminProductList = user;
 
-                for(AdminProduct adminProduct : adminProductList) {
-                    System.out.println(adminProduct.toString());
-                }
-
                 //Set up spinner
                 setUpRoleSpinner();
                 //Set up recyclerview for user
@@ -156,8 +152,8 @@ public class AdminProductsManagementActivity extends AppCompatActivity {
                 adminProductAdapter.setOnItemClickListener(new OnItemClickListener<AdminProduct>() {
                     @Override
                     public void onItemClick(AdminProduct object, int position) {
-                        Intent intent = new Intent(AdminProductsManagementActivity.this, ProductInfoAndActivityActivity.class);
-                        intent.putExtra("Product", object);
+                        Intent intent = new Intent(AdminProductsManagementActivity.this, ProductStatisticActivity.class);
+                        intent.putExtra("AdminProduct", object);
                         startActivity(intent);
                     }
                 });

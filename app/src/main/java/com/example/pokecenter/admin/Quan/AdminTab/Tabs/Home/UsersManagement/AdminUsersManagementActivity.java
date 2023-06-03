@@ -17,7 +17,6 @@ import android.widget.ArrayAdapter;
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseCallback;
 import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseFetchUser;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Admin.Admin;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer.Customer;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.User;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.UserAdapter;
@@ -100,12 +99,6 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
                             case 2: {   //View Vender
                                 userAdapter.setUsersList(usersList.stream()
                                         .filter(v -> v instanceof Vender)
-                                        .collect(Collectors.toCollection(ArrayList::new)));
-                                break;
-                            }
-                            case 3: {   //View Vender
-                                userAdapter.setUsersList(usersList.stream()
-                                        .filter(v -> v instanceof Admin)
                                         .collect(Collectors.toCollection(ArrayList::new)));
                                 break;
                             }
@@ -214,15 +207,11 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
                         Intent intent = null;
                         switch (user.getRole()) {
                             case 0: {
-                                intent = new Intent(AdminUsersManagementActivity.this, CustomerInfoAndStatisticActivity.class);
+                                intent = new Intent(AdminUsersManagementActivity.this, AdminCustomerInfoAndStatisticActivity.class);
                                 break;
                             }
                             case 1: {
-                                intent = new Intent(AdminUsersManagementActivity.this, VenderInfoAndStatisticActivity.class);
-                                break;
-                            }
-                            case 2: {
-                                intent = new Intent(AdminUsersManagementActivity.this, AdminInfoAndStatisticActivity.class);
+                                intent = new Intent(AdminUsersManagementActivity.this, AdminVenderInfoAndStatisticActivity.class);
                                 break;
                             }
                         }
@@ -244,7 +233,6 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
         userRoles.add("All");
         userRoles.add("Customer");
         userRoles.add("Vender");
-        userRoles.add("Admin");
 
         userSorts = new ArrayList<>();
         userSorts.add("Ascending");

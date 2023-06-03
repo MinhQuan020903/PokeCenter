@@ -41,6 +41,14 @@ public class FirebaseFetchUser {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = null;
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
+                    //Check role of User
+                    int role = dataSnapshot.child("role").getValue(int.class);
+                    //If role = admin, skip
+                    if (role == 2) {
+                        continue;
+                    }
+
                     //Generate an addressList
                     ArrayList<Address> addressList = null;
                     if (!dataSnapshot.child("addresses").exists()) {
@@ -76,9 +84,7 @@ public class FirebaseFetchUser {
                         }
 
                     }
-
                     //Check role of User
-                    int role = dataSnapshot.child("role").getValue(int.class);
                     switch (role) {
                         case 0: {
                             user = new Customer();
@@ -86,10 +92,6 @@ public class FirebaseFetchUser {
                         }
                         case 1: {
                             user = new Vender();
-                            break;
-                        }
-                        case 2: {
-                            user = new Admin();
                             break;
                         }
                     }

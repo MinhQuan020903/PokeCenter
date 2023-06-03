@@ -14,8 +14,8 @@ import android.widget.ArrayAdapter;
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.Order;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer.Customer;
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.CustomerProfileInfoActivity;
-import com.example.pokecenter.databinding.ActivityCustomerInfoAndStatisticBinding;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoActivity;
+import com.example.pokecenter.databinding.ActivityAdminCustomerInfoAndStatisticBinding;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -35,9 +35,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class CustomerInfoAndStatisticActivity extends AppCompatActivity {
+public class AdminCustomerInfoAndStatisticActivity extends AppCompatActivity {
 
-    private ActivityCustomerInfoAndStatisticBinding binding;
+    private ActivityAdminCustomerInfoAndStatisticBinding binding;
     private ArrayList<String> dates;
     private Customer customer;
     private int orderCount;
@@ -66,11 +66,15 @@ public class CustomerInfoAndStatisticActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        binding = ActivityCustomerInfoAndStatisticBinding.inflate(getLayoutInflater());
+        binding = ActivityAdminCustomerInfoAndStatisticBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         Intent intent = getIntent();
-        customer = (Customer)intent.getSerializableExtra("User");
+        if ((Customer)intent.getSerializableExtra("Vender_Customer") != null) {
+            customer = (Customer)intent.getSerializableExtra("Vender_Customer");
+        } else {
+            customer = (Customer)intent.getSerializableExtra("User");
+        }
 
         //Bind attributes to view
         binding.tvCustomerUsername.setText(customer.getUsername());
@@ -191,7 +195,7 @@ public class CustomerInfoAndStatisticActivity extends AppCompatActivity {
         binding.clCustomerProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CustomerInfoAndStatisticActivity.this, CustomerProfileInfoActivity.class);
+                Intent intent = new Intent(AdminCustomerInfoAndStatisticActivity.this, AdminCustomerProfileInfoActivity.class);
                 intent.putExtra("Customer", customer);
                 startActivity(intent);
             }

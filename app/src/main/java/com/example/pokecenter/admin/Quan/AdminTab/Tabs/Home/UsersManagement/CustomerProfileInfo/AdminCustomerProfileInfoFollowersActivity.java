@@ -16,13 +16,15 @@ import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseFetchUser;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer.Customer;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.User;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.UserAdapter;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminVenderInfoAndStatisticActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.ItemSpacingDecoration;
-import com.example.pokecenter.databinding.ActivityCustomerProfileInfoFollowersBinding;
+import com.example.pokecenter.admin.Quan.AdminTab.Utils.OnItemClickListener;
+import com.example.pokecenter.databinding.ActivityAdminCustomerProfileInfoFollowersBinding;
 
 import java.util.ArrayList;
 
-public class CustomerProfileInfoFollowersActivity extends AppCompatActivity {
-    private ActivityCustomerProfileInfoFollowersBinding binding;
+public class AdminCustomerProfileInfoFollowersActivity extends AppCompatActivity {
+    private ActivityAdminCustomerProfileInfoFollowersBinding binding;
     private Customer customer;
     private UserAdapter userAdapter;
     private ArrayList<User> followerList;
@@ -34,7 +36,7 @@ public class CustomerProfileInfoFollowersActivity extends AppCompatActivity {
 
 
         ///INIT NEW ARRAYLIST!!!
-        binding = ActivityCustomerProfileInfoFollowersBinding.inflate(getLayoutInflater());
+        binding = ActivityAdminCustomerProfileInfoFollowersBinding.inflate(getLayoutInflater());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().setStatusBarColor(getColor(R.color.light_primary));
@@ -78,6 +80,15 @@ public class CustomerProfileInfoFollowersActivity extends AppCompatActivity {
                                 index++;
                             }
                             setUpRecyclerView();
+
+                            userAdapter.setOnItemClickListener(new OnItemClickListener<User>() {
+                                @Override
+                                public void onItemClick(User user, int position) {
+                                    Intent intent = new Intent(AdminCustomerProfileInfoFollowersActivity.this, AdminVenderInfoAndStatisticActivity.class);
+                                    intent.putExtra("Customer_Vender", user);
+                                    startActivity(intent);
+                                }
+                            });
                         }
                     });
 
@@ -90,12 +101,12 @@ public class CustomerProfileInfoFollowersActivity extends AppCompatActivity {
 
     public void setUpRecyclerView() {
 
-        userAdapter = new UserAdapter(followerList, CustomerProfileInfoFollowersActivity.this, R.layout.quan_user_item);
+        userAdapter = new UserAdapter(followerList, AdminCustomerProfileInfoFollowersActivity.this, R.layout.quan_user_item);
         //Add spacing to RecyclerView
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.item_spacing);
         ItemSpacingDecoration itemSpacingDecoration = new ItemSpacingDecoration(spacingInPixels);
         binding.rvCustomerFollowers.addItemDecoration(itemSpacingDecoration);
-        binding.rvCustomerFollowers.setLayoutManager(new LinearLayoutManager(CustomerProfileInfoFollowersActivity.this));
+        binding.rvCustomerFollowers.setLayoutManager(new LinearLayoutManager(AdminCustomerProfileInfoFollowersActivity.this));
         binding.rvCustomerFollowers.setAdapter(userAdapter);
     }
     @Override
