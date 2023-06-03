@@ -5,8 +5,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
@@ -18,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pokecenter.R;
@@ -25,6 +29,7 @@ import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.option.OptionAdapter;
 import com.example.pokecenter.databinding.ActivitySignUpBinding;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
@@ -91,13 +96,43 @@ public class SignUpActivity extends AppCompatActivity {
             customerRole.setBackground(getDrawable(R.drawable.lam_background_outline_secondary_corner_8));
             customerRole.setTypeface(null, Typeface.NORMAL);
 
-            binding.shopNameEditText.setText(binding.fullNameEditText.getText().toString());
+            if (binding.shopNameEditText.getText().toString().isEmpty()) {
+
+                binding.shopNameEditText.setText(binding.fullNameEditText.getText().toString());
+
+                if (!binding.shopNameEditText.getText().toString().isEmpty()) {
+                    binding.clearText.setVisibility(View.VISIBLE);
+                }
+            }
             binding.onlyVenderPart.setVisibility(View.VISIBLE);
 
             role = 1;
         });
 
+        binding.shopNameEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() == 0) {
+                    binding.clearText.setVisibility(View.GONE);
+                } else {
+                    binding.clearText.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        binding.clearText.setOnClickListener(view -> {
+            binding.shopNameEditText.setText("");
+        });
 
         ImageView genderBoy = binding.genderBoy;
         ImageView genderGirl = binding.genderGirl;
@@ -150,7 +185,8 @@ public class SignUpActivity extends AppCompatActivity {
 
                         /* Save User Info */
                         /* Cách 1 */
-                        new FirebaseSupportAccount().addNewAccount(email, username, role, gender);
+                        new FirebaseSupportAccount().addNewAccount(email, username, role, gender, phoneNumber);
+                        new FirebaseSupportAccount().addNewVender(email, shopName);
 
                         /* Cách 2: Using API + new Thread
                         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -224,14 +260,34 @@ public class SignUpActivity extends AppCompatActivity {
             binding.passwordEditText.setError("Password length should not be less than 6");
             isValid = false;
         }
+
+        if (role == 1) {
+            if (shopName.isEmpty()) {
+                binding.shopNameEditText.setError("You have not entered username");
+                isValid = false;
+            }
+
+            if (phoneNumber.isEmpty()) {
+                binding.phoneNumberEditText.setError("You have not entered phone number");
+                return false;
+            }
+
+            if (!Patterns.PHONE.matcher(phoneNumber).matches()) {
+                binding.phoneNumberEditText.setError("Phone number is invalid");
+                isValid = false;
+            }
+        }
+
         return isValid;
     }
 
     private void changeInProgress(boolean inProgress) {
         if (inProgress) {
-            binding.signUpButton.setVisibility(View.INVISIBLE);
+            binding.signUpButton.setVisibility(View.GONE);
+            binding.progressBar.setVisibility(View.VISIBLE);
         } else {
             binding.signUpButton.setVisibility(View.VISIBLE);
+            binding.progressBar.setVisibility(View.GONE);
         }
     }
 

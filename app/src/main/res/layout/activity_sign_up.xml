@@ -66,11 +66,8 @@
             android:imeOptions="actionNext"
             android:hint="Severus Snape"
             android:inputType="text"
-            android:maxLines="1"
             android:padding="14dp"
-            android:singleLine="true"
-            android:textColor="@android:color/black"
-            tools:ignore="VisualLintTextFieldSize" />
+            android:textColor="@android:color/black"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -137,7 +134,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp">
 
-
             <TextView
                 android:id="@+id/customer_role"
                 android:layout_width="160dp"
@@ -175,7 +171,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:layout_marginBottom="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -187,15 +184,39 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/shop_name_edit_text"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/lam_background_white_border_1_corner_8"
-                android:ellipsize="end"
-                android:padding="14dp"
-                android:textColor="@android:color/black"/>
+                android:layout_marginBottom="16dp" >
+
+                <EditText
+                    android:id="@+id/shop_name_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/lam_background_white_border_1_corner_8"
+                    android:ellipsize="end"
+                    android:inputType="text"
+                    android:padding="14dp"
+                    android:textColor="@android:color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/clear_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/lam_close_24_d8d8d8"
+                    android:padding="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="@color/white"
+                    android:visibility="gone"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -211,11 +232,11 @@
                 android:id="@+id/phone_number_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
                 android:background="@drawable/lam_background_white_border_1_corner_8"
                 android:ellipsize="end"
+                android:inputType="text"
                 android:padding="14dp"
-                android:textColor="@android:color/black"/>
+                android:textColor="@android:color/black" />
 
         </LinearLayout>
 
