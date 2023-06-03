@@ -121,7 +121,7 @@ public class VenderInfoAndStatisticActivity extends AppCompatActivity {
                 Date date = new Date();
                 localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-                //Setup Data for LineChart
+                //Setup Data for BarChart
                 orderValues = new ArrayList<>();
                 revenueValues = new ArrayList<>();
 
@@ -130,7 +130,6 @@ public class VenderInfoAndStatisticActivity extends AppCompatActivity {
                     calculateRevenueInRecentDays();
                     showOrderStatistic();
                 }
-
 
                 //Set up for choose date spinner
                 setUpDateSpinner();
