@@ -10,7 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminProduct.AdminProduct;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminProduct.AdminProductReview.AdminProductReviewAdapter;
+import com.example.pokecenter.admin.Quan.AdminTab.Utils.OnItemClickListener;
 
 import org.w3c.dom.Text;
 
@@ -23,6 +25,12 @@ public class AdminOrderAdapter extends RecyclerView.Adapter<AdminOrderAdapter.Vi
     private ArrayList<Order> orderList;
     private Context context;
     private int resource;
+
+    private OnItemClickListener<Order> onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
 
     public void setOrderList(ArrayList<Order> orderList) {
         this.orderList = orderList;
@@ -49,6 +57,18 @@ public class AdminOrderAdapter extends RecyclerView.Adapter<AdminOrderAdapter.Vi
             tvOrderVenderId = itemView.findViewById(R.id.tvOrderVenderId);
             tvOrderCreateDate = itemView.findViewById(R.id.tvOrderCreateDate);
             tvOrderTotalAmount = itemView.findViewById(R.id.tvOrderTotalAmount);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClickListener != null) {
+                        int position = getBindingAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            onItemClickListener.onItemClick(orderList.get(position), position);
+                        }
+                    }
+                }
+            });
         }
     }
 
