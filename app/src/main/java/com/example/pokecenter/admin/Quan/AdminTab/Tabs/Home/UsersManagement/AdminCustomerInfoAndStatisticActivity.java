@@ -181,14 +181,18 @@ public class AdminCustomerInfoAndStatisticActivity extends AppCompatActivity {
         binding.cvCustomerOrderStatistic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showOrderStatistic();
+                if (customer.getOrderHistory() != null && customer.getOrderHistory().size() > 0) {
+                    showOrderStatistic();
+                }
             }
         });
 
         binding.cvCustomerSpendingStatistic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showSpendingStatistic();
+                if (customer.getOrderHistory() != null && customer.getOrderHistory().size() > 0) {
+                    showSpendingStatistic();
+                }
             }
         });
 
