@@ -21,7 +21,9 @@ import com.example.pokecenter.admin.Quan.AdminTab.Utils.ItemSpacingDecoration;
 import com.example.pokecenter.databinding.ActivityAdminOrderDetailBinding;
 import com.example.pokecenter.databinding.ActivityAdminProductDetailBinding;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class AdminOrderDetailActivity extends AppCompatActivity {
 
@@ -53,6 +55,16 @@ public class AdminOrderDetailActivity extends AppCompatActivity {
             public void onCallback(ArrayList<OrderDetail> orderList) {
                 orderDetailList = orderList;
                 setUpRecyclerView();
+
+                binding.tvOrderId.setText(order.getId());
+                binding.tvCustomerId.setText(order.getCustomerId());
+                binding.tvVenderId.setText(order.getVenderId());
+                binding.tvCreateDate.setText(order.getCreateDate());
+
+                NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                // Convert the long value to a currency string
+                String currencyString = currencyFormat.format(order.getTotalAmount());
+                binding.tvOrderTotalAmount.setText(currencyString);
             }
         });
 
