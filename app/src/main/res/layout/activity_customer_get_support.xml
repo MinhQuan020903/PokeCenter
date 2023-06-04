@@ -152,11 +152,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@drawable/lam_background_raised_secondary_corner_8"
+        android:background="@drawable/lam_background_ripple_effect_primary"
         android:paddingVertical="14dp"
         android:gravity="center"
-        android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground">
+        android:clickable="true">
 
         <TextView
             android:layout_width="wrap_content"
