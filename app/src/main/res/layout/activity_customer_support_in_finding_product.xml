@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/support_in_findding_screen"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -34,13 +36,13 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:gravity="center_horizontal"
-            android:text="Suggested name"
+            android:text="Name"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/fullName_edit_text"
+            android:id="@+id/name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -63,7 +65,7 @@
 
 
         <EditText
-            android:id="@+id/current_password"
+            android:id="@+id/desc_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/lam_background_white_border_1_corner_8"
@@ -91,10 +93,12 @@
                 android:layout_weight="1"/>
 
             <ImageButton
+                android:id="@+id/add_image_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/lam_round_add_photo_alternate_32"
-                android:backgroundTint="@color/white"/>
+                android:backgroundTint="@color/white"
+                app:tint="@color/light_primary" />
 
         </LinearLayout>
 
@@ -102,17 +106,17 @@
             android:id="@+id/rcv_additional_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"/>
+            android:layout_marginBottom="16dp"/>
 
         <LinearLayout
+            android:id="@+id/submit_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/lam_background_raised_secondary_corner_8"
+            android:background="@drawable/lam_background_ripple_effect_primary"
             android:paddingVertical="14dp"
             android:gravity="center"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground">
+            android:clickable="true">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -130,6 +134,14 @@
                 android:src="@drawable/lam_send_form"/>
 
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 </ScrollView>

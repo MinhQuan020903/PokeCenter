@@ -10,6 +10,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -207,6 +208,26 @@ public class FirebaseSupportAccount {
                 .build();
 
         client.newCall(request).execute();
+    }
+
+    public boolean checkUserRegisteredForSelling() throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        Request request = new Request.Builder()
+                .url(urlDb + "venders/" + emailWithCurrentUser.replace(".", ",") + ".json")
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+
+            String responseString = response.body().string();
+
+            return responseString.equals("null") ? false : true;
+
+        }
+        return true;
     }
 
 }

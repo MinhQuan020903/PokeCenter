@@ -195,7 +195,6 @@ public class CustomerAccountInfoActivity extends AppCompatActivity {
                     binding.changeAvatarButton.setOnClickListener(view -> {
                         ImagePicker.with(CustomerAccountInfoActivity.this)
                                 .crop()	    			//Crop image(Optional), Check Customization for more option
-                                .galleryOnly()
                                 .createIntent( intent -> {
                                     openSomeActivityForResult(intent);
                                     return Unit.INSTANCE;
