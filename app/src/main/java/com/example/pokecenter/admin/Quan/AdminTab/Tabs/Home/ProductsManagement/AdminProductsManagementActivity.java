@@ -57,7 +57,7 @@ public class AdminProductsManagementActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         //Create a comparator for Vietnamese
-            Collator collator = Collator.getInstance(new Locale("vi"));
+        collator = Collator.getInstance(new Locale("vi"));
 
         adminProductList = new ArrayList<>();
         FirebaseFetchProduct firebaseFetchProduct = new FirebaseFetchProduct(this);
@@ -65,7 +65,6 @@ public class AdminProductsManagementActivity extends AppCompatActivity {
             @Override
             public void onCallback(ArrayList<AdminProduct> user) {
                 adminProductList = user;
-
                 //Set up spinner
                 setUpRoleSpinner();
                 //Set up recyclerview for user
