@@ -196,14 +196,18 @@ public class ProductStatisticActivity extends AppCompatActivity {
                 binding.cvProductOrderStatistic.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        showOrderStatistic();
+                        if (orderList != null && orderList.size() > 0) {
+                            showOrderStatistic();
+                        }
                     }
                 });
 
                 binding.cvProductRevenueStatistic.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        showRevenueStatistic();
+                        if (orderList != null && orderList.size() > 0) {
+                            showRevenueStatistic();
+                        }
                     }
                 });
 

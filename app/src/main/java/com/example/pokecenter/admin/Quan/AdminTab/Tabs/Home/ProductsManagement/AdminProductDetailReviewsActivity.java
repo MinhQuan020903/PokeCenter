@@ -65,7 +65,6 @@ public class AdminProductDetailReviewsActivity extends AppCompatActivity {
     }
 
     public void setUpRecyclerView() {
-
         adminProductReviewAdapter = new AdminProductReviewAdapter(adminProductReviewList, AdminProductDetailReviewsActivity.this, R.layout.quan_product_review_item);
         //Add spacing to RecyclerView
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.item_spacing);
