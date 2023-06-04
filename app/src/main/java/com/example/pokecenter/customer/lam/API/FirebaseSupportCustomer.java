@@ -1170,7 +1170,7 @@ public class FirebaseSupportCustomer {
         RequestBody body = RequestBody.create(jsonData, JSON);
 
         Request request = new Request.Builder()
-                .url(urlDb + "FindingProductSupport.json")
+                .url(urlDb + "findingProductSupport.json")
                 .post(body)
                 .build();
 
