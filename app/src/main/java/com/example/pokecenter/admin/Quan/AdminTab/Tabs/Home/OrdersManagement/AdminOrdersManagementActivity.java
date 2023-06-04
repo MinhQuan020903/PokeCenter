@@ -30,9 +30,12 @@ import com.example.pokecenter.databinding.ActivityAdminOrdersManagementBinding;
 import com.example.pokecenter.databinding.ActivityAdminProductsManagementBinding;
 
 import java.text.Collator;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Locale;
 
 public class AdminOrdersManagementActivity extends AppCompatActivity {
@@ -77,38 +80,82 @@ public class AdminOrdersManagementActivity extends AppCompatActivity {
 
 
                 //Set onitemclick when user choose role filter
-//                binding.spOrderSortByAlphabet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//                    @Override
-//                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                        switch(position) {
-//                            case 0: {   //A-Z
-//                                Collections.sort(orderList, Comparator.comparing(Order::get, collator));
-//                                break;
-//                            }
-//                            case 1: {   //Z-A
-//                                Collections.sort(adminProductList, Comparator.comparing(AdminProduct::getName, collator).reversed());
-//                                break;
-//                            }
-//                        }
-//                        adminProductAdapter.notifyDataSetChanged();
-//                    }
-//
-//                    @Override
-//                    public void onNothingSelected(AdapterView<?> parent) {
-//
-//                    }
-//                });
+                binding.spOrderSortByAlphabet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        switch(position) {
+                            case 0: {   //Oldest -> Newest
+                                Collections.sort(orderList, new Comparator<Order>() {
+                                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm");
+
+                                    @Override
+                                    public int compare(Order o1, Order o2) {
+                                        try {
+                                            Date date1 = dateFormat.parse(o1.getCreateDate());
+                                            Date date2 = dateFormat.parse(o2.getCreateDate());
+                                            assert date1 != null;
+                                            return date1.compareTo(date2);
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        return 0;
+                                    }
+                                });
+                                break;
+                            }
+                            case 1: {   //Z-A
+                                Collections.sort(orderList, new Comparator<Order>() {
+                                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm");
+
+                                    @Override
+                                    public int compare(Order o1, Order o2) {
+                                        try {
+                                            Date date1 = dateFormat.parse(o1.getCreateDate());
+                                            Date date2 = dateFormat.parse(o2.getCreateDate());
+                                            assert date1 != null;
+                                            return date2.compareTo(date1);
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        return 0;
+                                    }
+                                });
+                                break;
+                            }
+                        }
+                        adminOrderAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
 
                 binding.spOrderSortByPrice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         switch(position) {
                             case 0: {   //Ascending by price
-                                Collections.sort(orderList, Comparator.comparing(Order::getCreateDate, collator));
+                                Collections.sort(orderList, new Comparator<Order>() {
+                                    @Override
+                                    public int compare(Order o1, Order o2) {
+                                        Long totalAmount1 = o1.getTotalAmount();
+                                        Long totalAmount2 = o2.getTotalAmount();
+                                        return totalAmount1.compareTo(totalAmount2);
+                                    }
+                                });
                                 break;
                             }
                             case 1: {   //Descending by price
-                                Collections.sort(orderList, Comparator.comparing(Order::getCreateDate, collator).reversed());
+                                Collections.sort(orderList, new Comparator<Order>() {
+                                    @Override
+                                    public int compare(Order o1, Order o2) {
+                                        Long totalAmount1 = o1.getTotalAmount();
+                                        Long totalAmount2 = o2.getTotalAmount();
+                                        return totalAmount2.compareTo(totalAmount1);
+                                    }
+                                });
                                 break;
                             }
                         }
@@ -166,8 +213,8 @@ public class AdminOrdersManagementActivity extends AppCompatActivity {
 
     public void setUpRoleSpinner() {
         orderSortByAlphabet = new ArrayList<>();
-        orderSortByAlphabet.add("A-Z");
-        orderSortByAlphabet.add("Z-A");
+        orderSortByAlphabet.add("Oldest");
+        orderSortByAlphabet.add("Newest");
 
         orderSortByPrice = new ArrayList<>();
         orderSortByPrice.add("Lowest Price");
