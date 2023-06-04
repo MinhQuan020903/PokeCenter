@@ -91,4 +91,20 @@ public class Product implements Serializable {
         return sum.get();
     }
 
+    public int getMinPrice() {
+        int minPrice = options.get(0).getPrice();
+        for (int i = 1; i < options.size(); ++i) {
+            minPrice = Math.min(minPrice, options.get(i).getPrice());
+        }
+        return minPrice;
+    }
+
+    public int getMaxPrice() {
+        int maxPrice = options.get(0).getPrice();
+        for (int i = 1; i < options.size(); ++i) {
+            maxPrice = Math.max(maxPrice, options.get(i).getPrice());
+        }
+        return maxPrice;
+    }
+
 }
