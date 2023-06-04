@@ -1,5 +1,7 @@
 package com.example.pokecenter.customer.lam.API;
 
+import android.net.Uri;
+
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity;
 import com.example.pokecenter.customer.lam.Model.address.Address;
 import com.example.pokecenter.customer.lam.Model.cart.Cart;
@@ -1133,6 +1135,42 @@ public class FirebaseSupportCustomer {
 
         Request request = new Request.Builder()
                 .url(urlDb + "supportTickets.json")
+                .post(body)
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+
+            String responseBody = response.body().string();
+
+            Type type = new TypeToken<Map<String, Object>>(){}.getType();
+            Map<String, Map<String, Object>> responseData = new Gson().fromJson(responseBody, type);
+
+            String id = String.valueOf(responseData.get("name"));
+            return id;
+        }
+
+        return "";
+    }
+
+    public String addNewFindingProductSupport(String name, String desc, List<String> additionalImages) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        Map<String, Object> postData = new HashMap<>();
+        postData.put("customerId", emailWithCurrentUser.replace(".", ","));
+        postData.put("name", name);
+        postData.put("desc", desc);
+        postData.put("additionalImages", additionalImages);
+        postData.put("createDate", outputFormat.format(new Date()));
+        postData.put("status", "Not resolved");
+
+        String jsonData = new Gson().toJson(postData);
+        RequestBody body = RequestBody.create(jsonData, JSON);
+
+        Request request = new Request.Builder()
+                .url(urlDb + "findingProductSupport.json")
                 .post(body)
                 .build();
 

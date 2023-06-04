@@ -76,7 +76,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             if (options.size() == 1) {
                 holder.productPrice.setText(currencyFormatter.format(options.get(0).getPrice()));
             } else {
-                holder.productPrice.setText(currencyFormatter.format(options.get(0).getPrice()) + " - " + currencyFormatter.format(options.get(options.size() - 1).getPrice()));
+                if (product.getMinPrice() == product.getMaxPrice()) {
+                    holder.productPrice.setText(currencyFormatter.format(product.getMinPrice()));
+                } else {
+                    holder.productPrice.setText(currencyFormatter.format(product.getMinPrice()) + " - " + currencyFormatter.format(product.getMaxPrice()));
+                }
             }
         }
     }
