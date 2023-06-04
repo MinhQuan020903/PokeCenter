@@ -180,6 +180,7 @@
         android:layout_height="48dp"
         android:layout_gravity="center_horizontal"
         android:padding="10dp"
+        android:progressTint="@color/light_primary"
         android:visibility="gone"/>
 
 </LinearLayout>

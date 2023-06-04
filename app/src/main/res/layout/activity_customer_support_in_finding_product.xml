@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/support_in_findding_screen"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,13 +36,13 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:gravity="center_horizontal"
-            android:text="Suggested name"
+            android:text="Name"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/fullName_edit_text"
+            android:id="@+id/name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -64,7 +65,7 @@
 
 
         <EditText
-            android:id="@+id/current_password"
+            android:id="@+id/desc_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/lam_background_white_border_1_corner_8"
@@ -108,6 +109,7 @@
             android:layout_marginBottom="16dp"/>
 
         <LinearLayout
+            android:id="@+id/submit_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -132,6 +134,14 @@
                 android:src="@drawable/lam_send_form"/>
 
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 </ScrollView>

@@ -1,7 +1,10 @@
 package com.example.pokecenter.customer.lam.CustomerTab.Profile;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -9,6 +12,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
+import com.example.pokecenter.customer.lam.Authentication.SplashActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.CustomerAccountInfoActivity;
 import com.example.pokecenter.customer.lam.Authentication.SignInActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity;
@@ -40,6 +47,10 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class CustomerProfileFragment extends Fragment {
 
@@ -77,7 +88,46 @@ public class CustomerProfileFragment extends Fragment {
         });
 
         binding.starSelling.setOnClickListener(view -> {
-            startActivity(new Intent(getActivity(), StartSellingActivity.class));
+
+            binding.progressBar.setVisibility(View.VISIBLE);
+
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+
+            executor.execute(() -> {
+
+                boolean isSuccess = true;
+                boolean hasRegistered = false;
+                try {
+                    hasRegistered = new FirebaseSupportAccount().checkUserRegisteredForSelling();
+                } catch (IOException e) {
+                    isSuccess = false;
+                }
+
+                boolean finalIsSuccess = isSuccess;
+                boolean finalHasRegistered = hasRegistered;
+                handler.post(() -> {
+
+                    if (finalIsSuccess) {
+
+                        if (finalHasRegistered) {
+                            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("myPref", MODE_PRIVATE);
+                            sharedPreferences.edit().putInt("role", 1).commit();
+                            startActivity(new Intent(getActivity(), SplashActivity.class));
+                        } else {
+                            startActivity(new Intent(getActivity(), StartSellingActivity.class));
+                        }
+
+                    } else {
+                        Toast.makeText(getActivity(), "Failed to connect server", Toast.LENGTH_SHORT)
+                                .show();
+                    }
+
+                    binding.progressBar.setVisibility(View.INVISIBLE);
+
+                });
+            });
+
         });
 
         binding.support.setOnClickListener(view -> {
