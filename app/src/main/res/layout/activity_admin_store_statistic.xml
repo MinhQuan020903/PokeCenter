@@ -7,7 +7,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".admin.Quan.AdminTab.Tabs.Home.StoreStatistic.AdminStoreStatisticActivity">
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="176dp"
+        android:background="@color/light_primary"
+        android:visibility="visible"/>
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clStoreStatisticMainLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="15dp"
