@@ -127,11 +127,13 @@
         android:id="@+id/review_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:paddingVertical="14dp"
-        android:paddingHorizontal="20dp"
         android:layout_marginBottom="20dp"
-        android:inputType="text" />
+        android:background="@color/white"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="14dp"
+        android:lines="4"
+        android:gravity="top"
+        android:textAlignment="gravity"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

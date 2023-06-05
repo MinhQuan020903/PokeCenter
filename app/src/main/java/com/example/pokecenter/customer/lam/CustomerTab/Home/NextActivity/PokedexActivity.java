@@ -74,8 +74,6 @@ public class PokedexActivity extends AppCompatActivity implements PokemonRecycle
         initIndex = index;
         AddPokemonToRecyclerView();
 
-
-
         rcvGridPokemon.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {

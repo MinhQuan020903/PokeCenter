@@ -10,6 +10,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +51,7 @@ public class FirebaseSupportAccount {
         Response response = client.newCall(request).execute();
     }
 
-    public void addNewAccount(String email, String username, int role, String gender) {
+    public void addNewAccount(String email, String username, int role, String gender, String phoneNumber) {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference usersRef = database.getReference("accounts");
@@ -59,13 +60,46 @@ public class FirebaseSupportAccount {
         user.put("username", username);
         user.put("role", role);
         user.put("gender", gender);
-        user.put("phoneNumber", "");
+        user.put("phoneNumber", phoneNumber);
         user.put("avatar", "https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png");
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         user.put("registrationDate", dateFormat.format(Calendar.getInstance().getTime()));
 
         usersRef.child(email.replace(".", ",")).setValue(user);
+    }
+
+    public void addNewVenderUsingApi(String email, String shopName) throws IOException {
+        Map<String, Object> venderData = new HashMap<>();
+        venderData.put("shopName", shopName);
+        venderData.put("followCount", 0);
+        venderData.put("totalProduct", 0);
+
+        String userJson = new Gson().toJson(venderData);
+
+        OkHttpClient client = new OkHttpClient();
+        RequestBody body = RequestBody.create(userJson, JSON);
+
+        Request request = new Request.Builder()
+                .url(urlDb + "venders/" + email.replace(".", ",") + ".json")
+                .patch(body)
+                .build();
+
+        // send request and get response
+        Response response = client.newCall(request).execute();
+    }
+
+    public void addNewVender(String email, String shopName) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference usersRef = database.getReference("venders");
+
+        Map<String, Object> venderData = new HashMap<>();
+        venderData.put("shopName", shopName);
+        venderData.put("followCount", 0);
+        venderData.put("totalProduct", 0);
+
+
+        usersRef.child(email.replace(".", ",")).setValue(venderData);
     }
 
 
@@ -155,6 +189,45 @@ public class FirebaseSupportAccount {
 
         client.newCall(request).execute();
 
+    }
+
+    public void updateAccountToVender(String phone) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        Map<String, Object> updateData = new HashMap<>();
+        updateData.put("phoneNumber", phone);
+        updateData.put("role", 1);
+
+        String jsonData = new Gson().toJson(updateData);
+
+        RequestBody body = RequestBody.create(jsonData, JSON);
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Request request = new Request.Builder()
+                .url(urlDb + "accounts/" + emailWithCurrentUser.replace(".", ",") + ".json")
+                .patch(body)
+                .build();
+
+        client.newCall(request).execute();
+    }
+
+    public boolean checkUserRegisteredForSelling() throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        Request request = new Request.Builder()
+                .url(urlDb + "venders/" + emailWithCurrentUser.replace(".", ",") + ".json")
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+
+            String responseString = response.body().string();
+
+            return responseString.equals("null") ? false : true;
+
+        }
+        return true;
     }
 
 }

@@ -6,12 +6,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -69,6 +71,11 @@ public class MyProductReviewsActivity extends AppCompatActivity implements Purch
 
         dialog = new BottomSheetDialog(this);
         dialog.setContentView(viewDialog);
+
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        viewDialog.setOnClickListener(view -> {
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        });
 
         ImageButton star1 = viewDialog.findViewById(R.id.star1);
         ImageButton star2 = viewDialog.findViewById(R.id.star2);

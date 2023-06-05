@@ -18,40 +18,55 @@
         android:theme="@style/Theme.PokeCenter"
         tools:targetApi="31">
         <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Home.OrdersManagement.AdminOrderDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductOptionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CustomerSupportInFindingProductActivity"
+            android:exported="false" />
+        <activity
             android:name=".vender.VenderTab.Home.VenderNotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.VenderProfileInfoActivity"
+            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductDetailReviewsActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.VenderFollowerListActivity"
+            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.ProductStatisticActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.VenderProductListActivity"
+            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.CustomerProfileInfoFollowersActivity"
+            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderProfileInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.CustomerProfileInfoAddressesActivity"
+            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderFollowerListActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.CustomerProfileInfoActivity"
+            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderProductListActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.ProductInfoAndActivityActivity"
+            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoFollowersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoAddressesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.ProductStatisticActivity"
             android:exported="false" />
         <activity
             android:name=".vender.VenderTab.Home.Product.VenderProductDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminInfoAndStatisticActivity"
+            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminVenderInfoAndStatisticActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderInfoAndStatisticActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerInfoAndStatisticActivity"
+            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminCustomerInfoAndStatisticActivity"
             android:exported="false" />
         <activity
             android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminUsersManagementActivity"
@@ -77,8 +92,7 @@
             android:exported="false" />
         <activity
             android:name=".vender.VenderTab.Home.VenderStatisticsActivity"
-            android:exported="false" />
-        <!-- <activity -->
+            android:exported="false" /> <!-- <activity -->
         <!-- android:name=".ChatWithUserActivity" -->
         <!-- android:exported="false" -->
         <!-- android:label="@string/title_activity_chat_with_user" -->
@@ -165,6 +179,18 @@
             android:theme="@style/Theme.PokeCenter.NoActionBar" />
         <activity
             android:name=".customer.lam.CustomerTab.Profile.NextActivity.MyProductReviewsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".customer.lam.CustomerTab.Profile.NextActivity.StartSellingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".customer.lam.CustomerTab.Profile.NextActivity.Suport.CustomerSupportActivity"
+            android:exported="false" />
+        <activity
+            android:name=".customer.lam.CustomerTab.Profile.NextActivity.Suport.CustomerSupportInFindingProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".customer.lam.CustomerTab.Profile.NextActivity.Suport.CustomerGetSupportActivity"
             android:exported="false" />
     </application>
 

@@ -139,7 +139,11 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
 
         } else {
-            binding.productPrice.setText(currencyFormatter.format(receiveProduct.getOptions().get(0).getPrice()) + " - " + currencyFormatter.format(receiveProduct.getOptions().get(receiveProduct.getOptions().size() - 1).getPrice()));
+            if (receiveProduct.getMinPrice() == receiveProduct.getMaxPrice()) {
+                binding.productPrice.setText(currencyFormatter.format(receiveProduct.getMinPrice()));
+            } else {
+                binding.productPrice.setText(currencyFormatter.format(receiveProduct.getMinPrice()) + " - " + currencyFormatter.format(receiveProduct.getMaxPrice()));
+            }
         }
 
         /* Set up Droplist down options */

@@ -41,6 +41,14 @@ public class FirebaseFetchUser {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = null;
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
+                    //Check role of User
+                    int role = dataSnapshot.child("role").getValue(int.class);
+                    //If role = admin, skip
+                    if (role == 2) {
+                        continue;
+                    }
+
                     //Generate an addressList
                     ArrayList<Address> addressList = null;
                     if (!dataSnapshot.child("addresses").exists()) {
@@ -76,9 +84,7 @@ public class FirebaseFetchUser {
                         }
 
                     }
-
                     //Check role of User
-                    int role = dataSnapshot.child("role").getValue(int.class);
                     switch (role) {
                         case 0: {
                             user = new Customer();
@@ -86,10 +92,6 @@ public class FirebaseFetchUser {
                         }
                         case 1: {
                             user = new Vender();
-                            break;
-                        }
-                        case 2: {
-                            user = new Admin();
                             break;
                         }
                     }
@@ -136,16 +138,21 @@ public class FirebaseFetchUser {
                             DataSnapshot orderDetailsSnapShot = dataSnapshot.child("details");
                             if (orderDetailsSnapShot.exists()) {
                                 ArrayList<OrderDetail> orderDetails = new ArrayList<>();
-                                for (DataSnapshot orderDetailSnapShot : orderDetailsSnapShot.getChildren()) {
-                                    //Fetch attributes of an OrderDetail object
-                                    String productId = orderDetailSnapShot.child("productId").getValue(String.class);
-                                    int quantity = orderDetailSnapShot.child("quantity").getValue(int.class);
-                                    int selectedOption = orderDetailSnapShot.child("selectedOption").getValue(int.class);
+                                try {
+                                    for (DataSnapshot orderDetailSnapShot : orderDetailsSnapShot.getChildren()) {
+                                        //Fetch attributes of an OrderDetail object
+                                        String productId = orderDetailSnapShot.child("productId").getValue(String.class);
+                                        int quantity = orderDetailSnapShot.child("quantity").getValue(int.class);
+                                        int selectedOption = orderDetailSnapShot.child("selectedOption").getValue(int.class);
 
-                                    //Create a temp object
-                                    OrderDetail orderDetail = new OrderDetail(productId, quantity, selectedOption);
-                                    orderDetails.add(orderDetail);
+                                        //Create a temp object
+                                        OrderDetail orderDetail = new OrderDetail(productId, quantity, selectedOption);
+                                        orderDetails.add(orderDetail);
+                                    }
+                                } catch (Exception e) {
+                                    Log.e("getUserOrderHistory", e.toString());
                                 }
+
                                 assert order != null;
                                 order.setDetails(orderDetails);
                             }

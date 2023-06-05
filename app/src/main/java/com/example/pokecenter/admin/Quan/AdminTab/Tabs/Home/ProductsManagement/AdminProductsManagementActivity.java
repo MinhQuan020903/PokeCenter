@@ -57,7 +57,7 @@ public class AdminProductsManagementActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         //Create a comparator for Vietnamese
-            Collator collator = Collator.getInstance(new Locale("vi"));
+        collator = Collator.getInstance(new Locale("vi"));
 
         adminProductList = new ArrayList<>();
         FirebaseFetchProduct firebaseFetchProduct = new FirebaseFetchProduct(this);
@@ -65,11 +65,6 @@ public class AdminProductsManagementActivity extends AppCompatActivity {
             @Override
             public void onCallback(ArrayList<AdminProduct> user) {
                 adminProductList = user;
-
-                for(AdminProduct adminProduct : adminProductList) {
-                    System.out.println(adminProduct.toString());
-                }
-
                 //Set up spinner
                 setUpRoleSpinner();
                 //Set up recyclerview for user
@@ -156,8 +151,8 @@ public class AdminProductsManagementActivity extends AppCompatActivity {
                 adminProductAdapter.setOnItemClickListener(new OnItemClickListener<AdminProduct>() {
                     @Override
                     public void onItemClick(AdminProduct object, int position) {
-                        Intent intent = new Intent(AdminProductsManagementActivity.this, ProductInfoAndActivityActivity.class);
-                        intent.putExtra("Product", object);
+                        Intent intent = new Intent(AdminProductsManagementActivity.this, ProductStatisticActivity.class);
+                        intent.putExtra("AdminProduct", object);
                         startActivity(intent);
                     }
                 });

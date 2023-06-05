@@ -5,8 +5,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
@@ -18,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pokecenter.R;
@@ -25,6 +29,7 @@ import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.option.OptionAdapter;
 import com.example.pokecenter.databinding.ActivitySignUpBinding;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
@@ -50,6 +55,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         binding.signUpScreen.setOnClickListener(view -> {
@@ -76,6 +82,8 @@ public class SignUpActivity extends AppCompatActivity {
             venderRole.setBackground(getDrawable(R.drawable.lam_background_outline_secondary_corner_8));
             venderRole.setTypeface(null, Typeface.NORMAL);
 
+            binding.onlyVenderPart.setVisibility(View.GONE);
+
             role = 0;
         });
 
@@ -88,7 +96,42 @@ public class SignUpActivity extends AppCompatActivity {
             customerRole.setBackground(getDrawable(R.drawable.lam_background_outline_secondary_corner_8));
             customerRole.setTypeface(null, Typeface.NORMAL);
 
+            if (binding.shopNameEditText.getText().toString().isEmpty()) {
+
+                binding.shopNameEditText.setText(binding.fullNameEditText.getText().toString());
+
+                if (!binding.shopNameEditText.getText().toString().isEmpty()) {
+                    binding.clearText.setVisibility(View.VISIBLE);
+                }
+            }
+            binding.onlyVenderPart.setVisibility(View.VISIBLE);
+
             role = 1;
+        });
+
+        binding.shopNameEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() == 0) {
+                    binding.clearText.setVisibility(View.GONE);
+                } else {
+                    binding.clearText.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        binding.clearText.setOnClickListener(view -> {
+            binding.shopNameEditText.setText("");
         });
 
         ImageView genderBoy = binding.genderBoy;
@@ -112,7 +155,6 @@ public class SignUpActivity extends AppCompatActivity {
 
         });
 
-        setContentView(binding.getRoot());
     }
 
     private void onClickSignUp() {
@@ -120,8 +162,10 @@ public class SignUpActivity extends AppCompatActivity {
         String username = binding.fullNameEditText.getText().toString().trim();
         String email = binding.emailEditText.getText().toString().trim();
         String password = binding.passwordEditText.getText().toString().trim();
+        String shopName = binding.shopNameEditText.getText().toString().trim();
+        String phoneNumber = binding.phoneNumberEditText.getText().toString().trim();
 
-        if (!validateData(email, password)) {
+        if (!validateData(username, email, password, shopName, phoneNumber)) {
             return;
         }
 
@@ -141,7 +185,8 @@ public class SignUpActivity extends AppCompatActivity {
 
                         /* Save User Info */
                         /* Cách 1 */
-                        new FirebaseSupportAccount().addNewAccount(email, username, role, gender);
+                        new FirebaseSupportAccount().addNewAccount(email, username, role, gender, phoneNumber);
+                        new FirebaseSupportAccount().addNewVender(email, shopName);
 
                         /* Cách 2: Using API + new Thread
                         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -188,35 +233,61 @@ public class SignUpActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    boolean validateData(String email, String password) {
+    boolean validateData(String username, String email, String password, String shopName, String phoneNumber) {
+        boolean isValid = true;
 
         /* Check empty */
+        if (username.isEmpty()) {
+            binding.fullNameEditText.setError("You have not entered username");
+            isValid = false;
+        }
+
         if (email.isEmpty()) {
             binding.emailEditText.setError("You have not entered email");
-            return false;
+            isValid = false;
         }
         if (password.isEmpty()) {
             binding.passwordEditText.setError("You have not entered password");
-            return false;
+            isValid = false;
         }
 
         /* Check valid */
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             binding.emailEditText.setError("Email is invalid");
-            return false;
+            isValid = false;
         }
         if (password.length() < 6) {
             binding.passwordEditText.setError("Password length should not be less than 6");
-            return false;
+            isValid = false;
         }
-        return true;
+
+        if (role == 1) {
+            if (shopName.isEmpty()) {
+                binding.shopNameEditText.setError("You have not entered username");
+                isValid = false;
+            }
+
+            if (phoneNumber.isEmpty()) {
+                binding.phoneNumberEditText.setError("You have not entered phone number");
+                return false;
+            }
+
+            if (!Patterns.PHONE.matcher(phoneNumber).matches()) {
+                binding.phoneNumberEditText.setError("Phone number is invalid");
+                isValid = false;
+            }
+        }
+
+        return isValid;
     }
 
     private void changeInProgress(boolean inProgress) {
         if (inProgress) {
-            binding.signUpButton.setVisibility(View.INVISIBLE);
+            binding.signUpButton.setVisibility(View.GONE);
+            binding.progressBar.setVisibility(View.VISIBLE);
         } else {
             binding.signUpButton.setVisibility(View.VISIBLE);
+            binding.progressBar.setVisibility(View.GONE);
         }
     }
 
