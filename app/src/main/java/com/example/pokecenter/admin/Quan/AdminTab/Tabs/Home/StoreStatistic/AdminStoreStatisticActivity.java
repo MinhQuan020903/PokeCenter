@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -34,7 +35,7 @@ public class AdminStoreStatisticActivity extends AppCompatActivity {
 
     private int customerCount;
     private int storeCount;
-    private Long totalRevenue;
+    private long totalRevenue;
 
     private int maxCustomerCount;
     private int maxStoreCount;
@@ -74,8 +75,10 @@ public class AdminStoreStatisticActivity extends AppCompatActivity {
                 for (User user : userList) {
                     if (user instanceof Customer) {
                         customerCount++;
-                        for (Order order : ((Customer) user).getOrderHistory()) {
-                            totalRevenue += (long)(order.getTotalAmount() * 0.03);
+                        if (((Customer) user).getOrderHistory() != null) {
+                            for (Order order : ((Customer) user).getOrderHistory()) {
+                                totalRevenue += (long)(order.getTotalAmount() * 0.03);
+                            }
                         }
                     } else if (user instanceof Vender) {
                         storeCount++;
@@ -94,5 +97,15 @@ public class AdminStoreStatisticActivity extends AppCompatActivity {
         });
 
         setContentView(binding.getRoot());
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null;
     }
 }
