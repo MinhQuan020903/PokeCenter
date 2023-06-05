@@ -85,6 +85,7 @@
             android:exported="false" />
         <activity
             android:name=".vender.VenderTab.Home.Product.AddProductActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="false" />
         <activity
             android:name=".vender.VenderTab.Home.Product.VenderProductActivity"

@@ -37,7 +37,8 @@ import kotlin.Unit;
 
 public class VenderProductActivity extends AppCompatActivity implements PokemonRecyclerViewInterface {
     ActivityVenderProductBinding binding;
-    Vender receiveVender;
+    private static final int ADD_PRODUCT_REQUEST_CODE = 1;
+
     String venderId = FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", ",");
     private RecyclerView rcvProduct;
 
@@ -79,6 +80,27 @@ public class VenderProductActivity extends AppCompatActivity implements PokemonR
             searchProduct(searchText);
         });
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ADD_PRODUCT_REQUEST_CODE && resultCode == RESULT_OK) {
+            // AddProductActivity has finished successfully
+            // Refresh the product list
+            refreshProductList();
+        }
+    }
+    private void refreshProductList() {
+        // Update the product list
+        venderProduct.clear();
+        venderProduct.addAll(ProductData.getListProducts().stream().filter(product -> product.getVenderId().equals(venderId)).collect(Collectors.toList()));
+
+        // Update the adapter
+        productAdapter.notifyDataSetChanged();
+
+        // Update the total product count
+        binding.totalProduct.setText(String.valueOf(venderProduct.size()));
+    }
+
 
     private void searchProduct(String searchText) {
 
@@ -106,7 +128,7 @@ public class VenderProductActivity extends AppCompatActivity implements PokemonR
         venderProduct = ProductData.getListProducts().stream().filter(product -> product.getVenderId().equals(venderId)).collect(Collectors.toList());
 
         productAdapter = new ProductAdapter(this, venderProduct, this);
-        binding.totalProduct.setText(String.valueOf(venderProduct.stream().count()));
+        binding.totalProduct.setText(String.valueOf(productAdapter.getItemCount()));
         rcvProduct.setAdapter(productAdapter);
     }
     public int getNavigationBarHeight() {
@@ -140,7 +162,8 @@ public class VenderProductActivity extends AppCompatActivity implements PokemonR
         int id = item.getItemId();
         if (id == R.id.addButton) {
             Intent intent = new Intent(this, AddProductActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, ADD_PRODUCT_REQUEST_CODE);
+//            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

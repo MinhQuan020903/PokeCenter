@@ -9,7 +9,7 @@ tools:context=".vender.VenderTab.Home.Product.AddProductActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="800dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
@@ -73,8 +73,6 @@ tools:context=".vender.VenderTab.Home.Product.AddProductActivity">
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:textColor="@color/black" />
-
-
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -95,8 +93,6 @@ tools:context=".vender.VenderTab.Home.Product.AddProductActivity">
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:textColor="@color/black" />
-
-
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -104,6 +100,43 @@ tools:context=".vender.VenderTab.Home.Product.AddProductActivity">
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:padding="10dp"
+                android:text="Do you have any specific option?"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioButton1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes" />
+
+                <RadioButton
+                    android:id="@+id/radioButton2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No" />
+
+            </RadioGroup>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/llOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:visibility="invisible">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -121,12 +154,15 @@ tools:context=".vender.VenderTab.Home.Product.AddProductActivity">
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:src="@drawable/lam_baseline_add_24" />
+
         </LinearLayout>
 
         <ScrollView
+            android:id="@+id/svListOptions"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none">
+            android:scrollbars="none"
+            android:visibility="invisible">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcv_grid_options"
@@ -137,7 +173,93 @@ tools:context=".vender.VenderTab.Home.Product.AddProductActivity">
         </ScrollView>
 
     </LinearLayout>
+    <ScrollView
+        android:id="@+id/svNoOption"
+        android:layout_width="match_parent"
+        android:layout_height="335dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:scrollbars="none"
+        android:visibility="invisible">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="12dp"
+        android:hint="Item Price"
+        app:boxBackgroundColor="@color/white"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/black"
+        app:hintTextColor="@color/black">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ItemPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtQuantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="12dp"
+        android:hint="Item Quantity"
+        app:boxBackgroundColor="@color/white"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/black"
+        app:hintTextColor="@color/black">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ItemQuantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <AutoCompleteTextView
+        android:id="@+id/optionPokemon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:textColor="@color/black"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="12dp"
+        android:paddingVertical="16dp"
+        android:paddingHorizontal="20dp"
+        android:hint="Pokemon" />
+    <AutoCompleteTextView
+        android:id="@+id/option_categories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:textColor="@color/black"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="12dp"
+        android:hint="Category"
+        android:paddingVertical="16dp"
+        android:paddingHorizontal="20dp"/>
+        </LinearLayout>
+    </ScrollView>
 <androidx.appcompat.widget.AppCompatButton
     android:id="@+id/UploadBtn"
     android:layout_width="match_parent"

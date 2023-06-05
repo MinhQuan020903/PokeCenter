@@ -89,7 +89,7 @@ public class FirebaseSupportVender {
             pushData.put("price", newProduct.getOptions().get(i).getPrice());
             /* convert pushData to Json string */
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference usersRef = database.getReference("products/" + newProduct.getId().toString() + "/options/");
+            DatabaseReference usersRef = database.getReference("products/" + newProduct.getId() + "/options/");
             usersRef.child(newProduct.getOptions().get(i).getOptionName()).setValue(pushData);
         }
     }

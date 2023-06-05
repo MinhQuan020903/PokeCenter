@@ -26,7 +26,9 @@ private FragmentVenderHomeBinding binding;
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding=FragmentVenderHomeBinding.inflate(inflater, container, false);
+        if(VenderProfileFragment.currentVender.getAvatar()!=null)
         Picasso.get().load(VenderProfileFragment.currentVender.getAvatar()).into(binding.VenderProfileImage);
+        else Picasso.get().load("https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png").into(binding.VenderProfileImage);
         binding.StatisticsFunction.setOnClickListener(view -> {
             Intent intent = new Intent(getActivity(), VenderStatisticsActivity.class);
             startActivity(intent);
