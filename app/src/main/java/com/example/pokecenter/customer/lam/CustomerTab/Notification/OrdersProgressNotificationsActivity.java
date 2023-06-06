@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.pokecenter.R;
@@ -19,18 +18,18 @@ import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.customer.lam.Interface.NotificationRecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.notification.Notification;
 import com.example.pokecenter.customer.lam.Model.notification.NotificationAdapter;
-import com.example.pokecenter.databinding.ActivityFromPokeCenterNotificationsBinding;
+import com.example.pokecenter.databinding.ActivityOrdersProgressNotificationsBinding;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class FromPokeCenterNotificationsActivity extends AppCompatActivity implements NotificationRecyclerViewInterface {
+public class OrdersProgressNotificationsActivity extends AppCompatActivity implements NotificationRecyclerViewInterface {
 
-    private ActivityFromPokeCenterNotificationsBinding binding;
+    private ActivityOrdersProgressNotificationsBinding binding;
 
-    private List<Notification> myNotificationsFromPokeCenter = CustomerNotificationsFragment.myNotificationsFromPokeCenter;
+    private List<Notification> myNotificationsOrders = CustomerNotificationsFragment.myNotificationsOrders;
 
     private NotificationAdapter notificationAdapter;
 
@@ -45,14 +44,13 @@ public class FromPokeCenterNotificationsActivity extends AppCompatActivity imple
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
 
-        getSupportActionBar().setTitle("PokeCenter");
+        getSupportActionBar().setTitle("Orders Notifications");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-        binding = ActivityFromPokeCenterNotificationsBinding.inflate(getLayoutInflater());
+        binding = ActivityOrdersProgressNotificationsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        notificationAdapter = new NotificationAdapter(this, myNotificationsFromPokeCenter, this);
+        notificationAdapter = new NotificationAdapter(this, myNotificationsOrders, this);
         binding.lvNotifications.setAdapter(notificationAdapter);
 
         setUpPopupDialog();
@@ -81,8 +79,7 @@ public class FromPokeCenterNotificationsActivity extends AppCompatActivity imple
 
     @Override
     public void onNotificationItemClick(int position) {
-
-        Notification notification = myNotificationsFromPokeCenter.get(position);
+        Notification notification = myNotificationsOrders.get(position);
 
         TextView title = dialog.findViewById(R.id.notification_title);
         title.setText(notification.getTitle());
@@ -110,7 +107,6 @@ public class FromPokeCenterNotificationsActivity extends AppCompatActivity imple
             notificationAdapter.notifyDataSetChanged();
 
         }
-
     }
 
     @Override

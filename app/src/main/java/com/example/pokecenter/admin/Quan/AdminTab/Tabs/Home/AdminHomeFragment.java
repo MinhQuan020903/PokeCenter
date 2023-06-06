@@ -40,6 +40,8 @@ public class AdminHomeFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentAdminHomeBinding.inflate(inflater, container, false);
 
+
+
         if (currentAccount != null) {
             Picasso.get().load(currentAccount.getAvatar()).into(binding.ivAdminAvatar);
             binding.tvWelcomeAdmin.setText("Welcome, "+ currentAccount.getUsername() + " !");

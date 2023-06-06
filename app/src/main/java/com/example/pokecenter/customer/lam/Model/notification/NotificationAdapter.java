@@ -49,9 +49,13 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
 
             image.setImageDrawable(mContext.getDrawable(R.drawable.lam_budew));
 
-        } else {
+        } else if (notification.getType().equals("fromPokeCenter")) {
 
             image.setImageDrawable(mContext.getDrawable(R.drawable.lam_cubone));
+
+        } else {
+
+            image.setImageDrawable(mContext.getDrawable(R.drawable.lam_shopping_bag_256));
 
         }
 
@@ -62,7 +66,7 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
         content.setText(notification.getContent().replace("\\n", System.getProperty("line.separator")));
 
         TextView sentDate = view.findViewById(R.id.sentDate);
-        sentDate.setText(notification.getSentDate());
+        sentDate.setText(notification.getSentDateString());
 
         ImageView redCircle = view.findViewById(R.id.red_circle);
         if (notification.isRead()) {

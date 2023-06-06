@@ -1,20 +1,24 @@
 package com.example.pokecenter.customer.lam.Model.order;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 public class Order {
 
     private int totalAmount;
-    private String createDateTime;
+    private Date createDateTime;
     private List<DetailOrder> ordersDetail;
+    private String status;
+    private Date deliveryDate;
     private boolean isExpand;
 
-    public Order(int totalAmount, String createDateTime, List<DetailOrder> ordersDetail) {
+    public Order(int totalAmount, Date createDateTime, List<DetailOrder> ordersDetail, String status) {
         this.totalAmount = totalAmount;
         this.createDateTime = createDateTime;
         this.ordersDetail = ordersDetail;
-        this.isExpand = false;
+        this.status = status;
+        isExpand = false;
     }
 
     public int getTotalAmount() {
@@ -25,11 +29,17 @@ public class Order {
         this.totalAmount = totalAmount;
     }
 
-    public String getCreateDateTime() {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm");
+
+    public Date getCreateDateTime() {
         return createDateTime;
     }
 
-    public void setCreateDateTime(String createDateTime) {
+    public String getCreateDateTimeString() {
+        return dateFormat.format(createDateTime);
+    }
+
+    public void setCreateDateTime(Date createDateTime) {
         this.createDateTime = createDateTime;
     }
 
@@ -51,5 +61,21 @@ public class Order {
 
     public void toggleExpand() {
         isExpand = !isExpand;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Date getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(Date deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
 }

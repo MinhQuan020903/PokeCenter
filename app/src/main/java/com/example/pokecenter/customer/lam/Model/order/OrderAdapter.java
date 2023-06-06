@@ -16,9 +16,13 @@ import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.Model.checkout_item.CheckoutProductAdapter;
 import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.customer.lam.Provider.ProductData;
+import com.google.android.material.divider.MaterialDivider;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,6 +32,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     private List<Order> mOrders;
 
     NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm");
 
     public OrderAdapter(Context context, List<Order> orders) {
         this.mContext = context;
@@ -52,7 +57,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
         holder.totalAmount.setText(currencyFormatter.format(order.getTotalAmount()));
 
-        holder.createDateTime.setText(order.getCreateDateTime());
+        holder.createDateTime.setText("Created: " + order.getCreateDateTimeString());
+
+        holder.orderStatus.setText(order.getStatus());
 
         holder.listOrders.removeAllViews();
         order.getOrdersDetail().forEach(detailOrder -> {
@@ -78,6 +85,25 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.arrowIcon.setImageDrawable(mContext.getDrawable(R.drawable.lam_round_keyboard_arrow_down_24));
         holder.expandableLayout.setVisibility(View.GONE);
 
+
+        if (order.getStatus().equals("Delivered")) {
+            holder.operations.setVisibility(View.VISIBLE);
+            holder.divider2.setVisibility(View.VISIBLE);
+
+            holder.orderStatus.setText(order.getStatus() + " - " + dateFormat.format(order.getDeliveryDate()));
+
+            LocalDate localDate = order.getCreateDateTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            holder.informText.setText("Please submit the refund request by " + localDate.plusDays(7).format(formatter));
+
+        } else {
+            holder.operations.setVisibility(View.GONE);
+            holder.divider2.setVisibility(View.GONE);
+            holder.orderStatus.setText(order.getStatus());
+        }
+
+
+
     }
 
     @Override
@@ -92,19 +118,32 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
         private TextView totalAmount;
         private TextView createDateTime;
+        private TextView orderStatus;
         private ImageView arrowIcon;
         private LinearLayout expandableLayout;
         private LinearLayout listOrders;
+
+        private LinearLayout operations;
+        private TextView informText;
+
+        private MaterialDivider divider2;
 
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
 
             totalAmount = itemView.findViewById(R.id.total_amount);
             createDateTime = itemView.findViewById(R.id.createDateTime);
+            orderStatus = itemView.findViewById(R.id.order_status);
+
             arrowIcon = itemView.findViewById(R.id.icon);
 
-            expandableLayout = itemView.findViewById(R.id.expandable_layout);
+            expandableLayout = itemView.findViewById(R.id.expandable_part);
             listOrders = itemView.findViewById(R.id.list_orders);
+
+            operations = itemView.findViewById(R.id.operations);
+            informText = itemView.findViewById(R.id.inform_text);
+
+            divider2 = itemView.findViewById(R.id.divider2);
 
             itemView.setOnClickListener(view -> {
 

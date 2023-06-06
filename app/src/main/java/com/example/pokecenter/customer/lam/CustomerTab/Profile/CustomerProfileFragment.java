@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
 import com.example.pokecenter.customer.lam.Authentication.SplashActivity;
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.CustomerOrdersActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.CustomerAccountInfoActivity;
 import com.example.pokecenter.customer.lam.Authentication.SignInActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity;
@@ -83,8 +84,12 @@ public class CustomerProfileFragment extends Fragment {
             startActivity(new Intent(getActivity(), WishListActivity.class));
         });
 
-        binding.productReviews.setOnClickListener(view -> {
+        binding.purchasedProduct.setOnClickListener(view -> {
             startActivity(new Intent(getActivity(), MyProductReviewsActivity.class));
+        });
+
+        binding.orders.setOnClickListener(view -> {
+            startActivity(new Intent(getActivity(), CustomerOrdersActivity.class));
         });
 
         binding.starSelling.setOnClickListener(view -> {

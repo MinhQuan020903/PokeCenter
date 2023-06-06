@@ -727,16 +727,21 @@ public class FirebaseSupportCustomer {
 
             Type type = new TypeToken<Map<String, Map<String, Object>>>(){}.getType();
             Map<String, Map<String, Object>> fetchedData = new Gson().fromJson(responseString, type);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
             fetchedData.forEach((key, value) -> {
-                fetchedNotifications.add(new Notification(
-                    key,
-                    (String) value.get("title"),
-                    (String) value.get("content"),
-                    (String) value.get("sentDate"),
-                    (String) value.get("type"),
-                    (Boolean) value.get("read")
-                ));
+                try {
+                    fetchedNotifications.add(new Notification(
+                        key,
+                        (String) value.get("title"),
+                        (String) value.get("content"),
+                        dateFormat.parse((String) value.get("sentDate")),
+                        (String) value.get("type"),
+                        (Boolean) value.get("read")
+                    ));
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
             });
 
         }
@@ -910,6 +915,8 @@ public class FirebaseSupportCustomer {
             postData.put("customerId", emailWithCurrentUser.replace(".", ","));
             postData.put("venderId", key);
             postData.put("details", filterList);
+            postData.put("status", "Order placed");
+            postData.put("deliveryDate", "");
 
             String jsonData = new Gson().toJson(postData);
 
@@ -1027,14 +1034,40 @@ public class FirebaseSupportCustomer {
                     ));
                 });
 
-                fetchedOrders.add(new Order(
-                        ((Double) value.get("totalAmount")).intValue(),
-                        (String) value.get("createDate"),
-                        details
-                ));
+                Order order = null;
+                try {
+                    order = new Order(
+                            ((Double) value.get("totalAmount")).intValue(),
+                            outputFormat.parse((String) value.get("createDate")),
+                            details,
+                            (String) value.get("status")
+                    );
+                } catch (ParseException e) {
+
+                }
+
+
+                String stringDeliveryDate = (String) value.get("deliveryDate");
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                if (stringDeliveryDate.isEmpty()) {
+
+                } else {
+
+                    try {
+                        order.setDeliveryDate(dateFormat.parse(stringDeliveryDate));
+                    } catch (ParseException e) {
+
+                    }
+
+                }
+
+                fetchedOrders.add(order);
+
             });
         }
 
+        fetchedOrders.sort(Comparator.comparing(Order::getCreateDateTime).reversed());
         return fetchedOrders;
 
     }

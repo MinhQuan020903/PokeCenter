@@ -149,6 +149,7 @@ public class FirebaseFetchUser {
                                         OrderDetail orderDetail = new OrderDetail(productId, quantity, selectedOption);
                                         orderDetails.add(orderDetail);
                                     }
+
                                 } catch (Exception e) {
                                     Log.e("getUserOrderHistory", e.toString());
                                 }
@@ -187,7 +188,10 @@ public class FirebaseFetchUser {
                                 ((Vender) user).getOrderHistory().add(order);
                             }
                         }
+
                     }
+
+
                 }
                 getCustomerActivityDetail(usersList, firebaseCallback);
             }
@@ -292,6 +296,7 @@ public class FirebaseFetchUser {
                         }
                     }
                 }
+
                 firebaseCallback.onCallback(usersList);
             }
 
