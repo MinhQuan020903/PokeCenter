@@ -260,7 +260,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/content_from_orders"
+                    android:id="@+id/contentOrders"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"

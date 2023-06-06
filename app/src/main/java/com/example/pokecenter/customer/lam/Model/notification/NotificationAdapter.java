@@ -62,7 +62,7 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
         content.setText(notification.getContent().replace("\\n", System.getProperty("line.separator")));
 
         TextView sentDate = view.findViewById(R.id.sentDate);
-        sentDate.setText(notification.getSentDate());
+        sentDate.setText(notification.getSentDateString());
 
         ImageView redCircle = view.findViewById(R.id.red_circle);
         if (notification.isRead()) {

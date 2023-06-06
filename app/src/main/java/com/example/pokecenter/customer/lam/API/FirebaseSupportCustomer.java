@@ -727,16 +727,21 @@ public class FirebaseSupportCustomer {
 
             Type type = new TypeToken<Map<String, Map<String, Object>>>(){}.getType();
             Map<String, Map<String, Object>> fetchedData = new Gson().fromJson(responseString, type);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
             fetchedData.forEach((key, value) -> {
-                fetchedNotifications.add(new Notification(
-                    key,
-                    (String) value.get("title"),
-                    (String) value.get("content"),
-                    (String) value.get("sentDate"),
-                    (String) value.get("type"),
-                    (Boolean) value.get("read")
-                ));
+                try {
+                    fetchedNotifications.add(new Notification(
+                        key,
+                        (String) value.get("title"),
+                        (String) value.get("content"),
+                        dateFormat.parse((String) value.get("sentDate")),
+                        (String) value.get("type"),
+                        (Boolean) value.get("read")
+                    ));
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
             });
 
         }

@@ -90,7 +90,7 @@ public class PromotionNotificationsActivity extends AppCompatActivity implements
         content.setText(notification.getContent().replace("\\n", System.getProperty("line.separator")));
 
         TextView sentDate = dialog.findViewById(R.id.sentDate);
-        sentDate.setText(notification.getSentDate());
+        sentDate.setText(notification.getSentDateString());
 
 
         dialog.show();

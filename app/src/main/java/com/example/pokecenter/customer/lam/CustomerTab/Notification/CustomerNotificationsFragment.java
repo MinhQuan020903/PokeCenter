@@ -30,6 +30,7 @@ import com.example.pokecenter.databinding.FragmentCustomerNotificationsBinding;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -134,6 +135,7 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
                 if (finalIsSuccessful) {
 
                     myNotifications = finalFetchedNotifications;
+                    myNotifications.sort(Comparator.comparing(Notification::getSentDate).reversed());
                     notificationAdapter = new NotificationAdapter(getActivity(), myNotifications, this);
                     lvNotifications.setAdapter(notificationAdapter);
 
@@ -165,7 +167,7 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
                     }
 
                     if (myNotificationsOrders.size() > 0) {
-
+                        binding.contentOrders.setText(myNotificationsOrders.get(0).getContent().replace("\\n", System.getProperty("line.separator")));
                     } else {
                         binding.ordersProgress.setVisibility(View.GONE);
                     }
@@ -251,7 +253,7 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
         content.setText(notification.getContent().replace("\\n", System.getProperty("line.separator")));
 
         TextView sentDate = dialog.findViewById(R.id.sentDate);
-        sentDate.setText(notification.getSentDate());
+        sentDate.setText(notification.getSentDateString());
 
 
         dialog.show();
