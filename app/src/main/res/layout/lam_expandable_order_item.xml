@@ -44,6 +44,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="Date: 09/10/2023 at 12:56"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/black"/>
+
+<!--                <TextView-->
+<!--                    android:id="@+id/total_product"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    tools:text="3 products"-->
+<!--                    android:textSize="16sp"/>-->
+
+                <TextView
+                    android:id="@+id/order_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Successfully delivered"
+                    android:textColor="@color/light_primary"
                     android:textSize="16sp"/>
 
             </LinearLayout>
@@ -57,31 +74,108 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/expandable_layout"
+            android:id="@+id/expandable_part"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="10dp">
+            android:orientation="vertical">
 
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"/>
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"/>
 
             <LinearLayout
                 android:id="@+id/list_orders"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"/>
+                android:orientation="vertical"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="8dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/operations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"/>
+
+            <TextView
+                android:id="@+id/inform_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Please submit the refund request by June 06, 2023."
+                android:layout_marginBottom="8dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/contact_vender"
+                    android:layout_width="160dp"
+                    android:layout_height="56dp"
+                    android:background="@drawable/lam_background_outline_secondary_corner_8"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:text="Contact the seller"
+                    android:textColor="@color/light_secondary"
+                    android:textSize="16sp"
+                    android:paddingHorizontal="16dp"
+                    android:visibility="visible"/>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/reviewButton"
+                    android:layout_width="160dp"
+                    android:layout_height="56dp"
+                    android:background="@drawable/lam_background_outline_secondary_corner_8"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:text="Request for a refund"
+                    android:textColor="@color/light_secondary"
+                    android:textSize="16sp"
+                    android:paddingHorizontal="16dp"
+                    android:visibility="visible"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/confirm_received"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@drawable/lam_background_raised_secondary_corner_8"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:gravity="center"
+                android:text="Confirm received"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:visibility="visible"/>
 
         </LinearLayout>
 
 
 
     </LinearLayout>
-
-
 
 
 </androidx.cardview.widget.CardView>

@@ -49,9 +49,13 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
 
             image.setImageDrawable(mContext.getDrawable(R.drawable.lam_budew));
 
-        } else {
+        } else if (notification.getType().equals("fromPokeCenter")) {
 
             image.setImageDrawable(mContext.getDrawable(R.drawable.lam_cubone));
+
+        } else {
+
+            image.setImageDrawable(mContext.getDrawable(R.drawable.lam_shopping_bag_256));
 
         }
 
