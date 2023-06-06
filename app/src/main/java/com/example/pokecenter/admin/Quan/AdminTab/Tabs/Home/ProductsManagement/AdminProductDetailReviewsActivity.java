@@ -42,6 +42,9 @@ public class AdminProductDetailReviewsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         adminProduct = (AdminProduct)intent.getSerializableExtra("AdminProduct");
 
+        //Set no review LinearLayout invisible by default
+        binding.llProductNoReviews.setVisibility(View.INVISIBLE);
+
         FirebaseFetchProduct firebaseFetchProduct = new FirebaseFetchProduct(this);
         firebaseFetchProduct.getProductReviewsFromFirebase(adminProduct, new FirebaseCallback<ArrayList<AdminProductReview>>() {
             @Override
@@ -52,7 +55,7 @@ public class AdminProductDetailReviewsActivity extends AppCompatActivity {
                     binding.rvProductReviews.setVisibility(View.INVISIBLE);
                     binding.llProductNoReviews.setVisibility(View.VISIBLE);
                 } else {
-                    binding.llProductNoReviews.setVisibility(View.INVISIBLE);
+
                     setUpRecyclerView();
                 }
             }
@@ -62,7 +65,6 @@ public class AdminProductDetailReviewsActivity extends AppCompatActivity {
     }
 
     public void setUpRecyclerView() {
-
         adminProductReviewAdapter = new AdminProductReviewAdapter(adminProductReviewList, AdminProductDetailReviewsActivity.this, R.layout.quan_product_review_item);
         //Add spacing to RecyclerView
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.item_spacing);

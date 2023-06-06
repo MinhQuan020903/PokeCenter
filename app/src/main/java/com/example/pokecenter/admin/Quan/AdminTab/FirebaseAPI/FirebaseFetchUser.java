@@ -138,16 +138,22 @@ public class FirebaseFetchUser {
                             DataSnapshot orderDetailsSnapShot = dataSnapshot.child("details");
                             if (orderDetailsSnapShot.exists()) {
                                 ArrayList<OrderDetail> orderDetails = new ArrayList<>();
-                                for (DataSnapshot orderDetailSnapShot : orderDetailsSnapShot.getChildren()) {
-                                    //Fetch attributes of an OrderDetail object
-                                    String productId = orderDetailSnapShot.child("productId").getValue(String.class);
-                                    int quantity = orderDetailSnapShot.child("quantity").getValue(int.class);
-                                    int selectedOption = orderDetailSnapShot.child("selectedOption").getValue(int.class);
+                                try {
+                                    for (DataSnapshot orderDetailSnapShot : orderDetailsSnapShot.getChildren()) {
+                                        //Fetch attributes of an OrderDetail object
+                                        String productId = orderDetailSnapShot.child("productId").getValue(String.class);
+                                        int quantity = orderDetailSnapShot.child("quantity").getValue(int.class);
+                                        int selectedOption = orderDetailSnapShot.child("selectedOption").getValue(int.class);
 
-                                    //Create a temp object
-                                    OrderDetail orderDetail = new OrderDetail(productId, quantity, selectedOption);
-                                    orderDetails.add(orderDetail);
+                                        //Create a temp object
+                                        OrderDetail orderDetail = new OrderDetail(productId, quantity, selectedOption);
+                                        orderDetails.add(orderDetail);
+                                    }
+
+                                } catch (Exception e) {
+                                    Log.e("getUserOrderHistory", e.toString());
                                 }
+
                                 assert order != null;
                                 order.setDetails(orderDetails);
                             }
@@ -182,7 +188,10 @@ public class FirebaseFetchUser {
                                 ((Vender) user).getOrderHistory().add(order);
                             }
                         }
+
                     }
+
+
                 }
                 getCustomerActivityDetail(usersList, firebaseCallback);
             }
@@ -287,6 +296,7 @@ public class FirebaseFetchUser {
                         }
                     }
                 }
+
                 firebaseCallback.onCallback(usersList);
             }
 

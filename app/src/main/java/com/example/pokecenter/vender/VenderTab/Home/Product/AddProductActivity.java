@@ -39,6 +39,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -148,11 +149,97 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
                 UploadIMages();
             }
         });
+        binding.radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.radioButton1:
+                        binding.svNoOption.setVisibility(View.INVISIBLE);
+                        binding.svListOptions.setVisibility(View.VISIBLE);
+                        binding.llOptions.setVisibility(View.VISIBLE);
+                        break;
+                    case R.id.radioButton2:
+                        binding.svNoOption.setVisibility(View.VISIBLE);
+                        binding.svListOptions.setVisibility(View.INVISIBLE);
+                        binding.llOptions.setVisibility(View.INVISIBLE);
+                        break;
+                }
+            }
+        });
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        for (String poke : allPokeName) {
+            adapter.add(poke);
+        }
+        adapter.add("No");
+        adapter.add("Many");
+        adapter.add("NULL");
+        adapter.add("Don'tKnow");
+        binding.optionPokemon.setAdapter(adapter);
+        binding.optionPokemon.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, optionCategories);
+        binding.optionCategories.setAdapter(categoriesAdapter);
+
+        binding.optionCategories.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String input = s.toString().toLowerCase();
+                List<String> suggestions = new ArrayList<>();
+
+                // Iterate through optionCategories to find matching suggestions
+                for (String category : optionCategories) {
+                    if (category.toLowerCase().startsWith(input)) {
+                        suggestions.add(category);
+                    }
+                }
+
+                // Update the adapter with the new suggestions
+                ArrayAdapter<String> updatedAdapter = new ArrayAdapter<>(AddProductActivity.this, android.R.layout.simple_spinner_item, suggestions);
+                binding.optionCategories.setAdapter(updatedAdapter);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
         setContentView(binding.getRoot());
 
     }
 
     public void AddProduct() {
+        if(binding.radioGroup.getCheckedRadioButtonId()==-1)
+        {
+            Toast.makeText(this, "Please choose your options", Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
+            return;
+        }
+        else if(binding.radioGroup.getCheckedRadioButtonId()==R.id.radioButton2) {
+            myOptions.clear();
+            Option o = new Option("null", "", Integer.parseInt(binding.ItemQuantity.getText().toString()), Integer.parseInt(binding.ItemQuantity.getText().toString()), Integer.parseInt(binding.ItemPrice.getText().toString()));
+            myOptions.add(o);
+            if (!myCategories.contains(binding.optionCategories.getText().toString())) {
+                myCategories.add(binding.optionCategories.getText().toString());
+            }
+            if (!myPokemon.contains(binding.optionPokemon.getText().toString())) {
+                myPokemon.add(binding.optionPokemon.getText().toString());
+            }
+        }
         Product newProduct = new Product(null, binding.ItemName.getText().toString(),
                 binding.ItemDesc.getText().toString(),
                 UrlsList, myOptions,
@@ -169,6 +256,7 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
                 new FirebaseSupportVender().updateTotalProduct(venderProduct.size()+1);
                 new FirebaseSupportVender().updatePokemonAfterAddProduct(newProduct.getId(),myPokemon);
                 new FirebaseSupportVender().updateCategoryAfterAddProduct(newProduct.getId(),myCategories);
+
             } catch (IOException e) {
                 isSuccessful = false;
             }
@@ -179,6 +267,9 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
                     venderProduct.add(newProduct);
                     productAdapter.notifyDataSetChanged();
                     Toast.makeText(this, "Added new Product", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                    setResult(RESULT_OK);
+                    finish();
                 } else {
                     Toast.makeText(this, "Something wrong because connection error", Toast.LENGTH_SHORT).show();
                 }

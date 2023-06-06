@@ -12,12 +12,19 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/main_logo"
+        android:roundIcon="@mipmap/main_logo_round"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.PokeCenter"
         tools:targetApi="31">
 
+        <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Home.OrdersManagement.AdminOrderDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductOptionActivity"
+            android:exported="false" />
         <activity
             android:name=".vender.VenderTab.Home.VenderNotificationActivity"
             android:exported="false" />
@@ -74,6 +81,7 @@
             android:exported="false" />
         <activity
             android:name=".vender.VenderTab.Home.Product.AddProductActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="false" />
         <activity
             android:name=".vender.VenderTab.Home.Product.VenderProductActivity"

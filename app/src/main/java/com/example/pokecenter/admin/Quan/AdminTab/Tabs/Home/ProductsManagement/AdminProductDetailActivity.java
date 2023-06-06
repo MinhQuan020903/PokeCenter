@@ -50,8 +50,8 @@ public class AdminProductDetailActivity extends AppCompatActivity {
         adminProduct = (AdminProduct)intent.getSerializableExtra("AdminProduct");
 
         binding = ActivityAdminProductDetailBinding.inflate(getLayoutInflater());
-
         //Bind views
+        binding.tvProductId.setText(adminProduct.getId());
         Picasso.get().load(adminProduct.getImages().get(0)).into(binding.ivProducImage);
         binding.tvProductName.setText(adminProduct.getName());
         binding.tvProductVenderId.setText(adminProduct.getVenderId());

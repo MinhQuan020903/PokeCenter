@@ -194,14 +194,18 @@ public class AdminVenderInfoAndStatisticActivity extends AppCompatActivity {
                 binding.cvVenderOrderStatistic.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        showOrderStatistic();
+                        if (vender.getOrderHistory() != null && vender.getOrderHistory().size() > 0) {
+                            showOrderStatistic();
+                        }
                     }
                 });
 
                 binding.cvVenderRevenueStatistic.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        showRevenueStatistic();
+                        if (vender.getOrderHistory() != null && vender.getOrderHistory().size() > 0) {
+                            showRevenueStatistic();
+                        }
                     }
                 });
 
