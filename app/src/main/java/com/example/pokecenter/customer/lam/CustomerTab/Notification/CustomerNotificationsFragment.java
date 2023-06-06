@@ -62,6 +62,7 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
 
         myNotificationsPromotion.clear();
         myNotificationsFromPokeCenter.clear();
+        myNotificationsOrders.clear();
         isFirst = true;
 
         binding = FragmentCustomerNotificationsBinding.inflate(inflater, container, false);
@@ -72,6 +73,10 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
 
         binding.fromPokecenter.setOnClickListener(view -> {
             startActivity(new Intent(getActivity(), FromPokeCenterNotificationsActivity.class));
+        });
+
+        binding.ordersProgress.setOnClickListener(view -> {
+            startActivity(new Intent(getActivity(), OrdersProgressNotificationsActivity.class));
         });
 
         /* Set up all notifications */
