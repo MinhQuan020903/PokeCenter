@@ -1,23 +1,20 @@
-package com.example.pokecenter.customer.lam.CustomerTab;
+package com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity;
 
-import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.customer.lam.CustomerActivity;
 import com.example.pokecenter.customer.lam.Model.order.Order;
 import com.example.pokecenter.customer.lam.Model.order.OrderAdapter;
-import com.example.pokecenter.databinding.FragmentCustomerOrdersBinding;
+import com.example.pokecenter.databinding.ActivityCustomerOrdersBinding;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,28 +22,39 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class CustomerOrdersFragment extends Fragment {
+public class CustomerOrdersActivity extends AppCompatActivity {
 
-    private FragmentCustomerOrdersBinding binding;
+    private ActivityCustomerOrdersBinding binding;
     private RecyclerView rcvOrders;
     private OrderAdapter orderAdapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         CustomerActivity.setEnableBottomNavigation(false);
 
-        binding = FragmentCustomerOrdersBinding.inflate(inflater, container, false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().setStatusBarColor(getColor(R.color.light_primary));
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
+        /* Set color to title */
+        getSupportActionBar().setTitle("My Orders");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        binding = ActivityCustomerOrdersBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         rcvOrders = binding.rcvOrders;
         fetchingAndSetupData();
 
-        return binding.getRoot();
     }
 
     private void fetchingAndSetupData() {
 
-        orderAdapter = new OrderAdapter(getActivity(), new ArrayList<>());
+        orderAdapter = new OrderAdapter(this, new ArrayList<>());
         rcvOrders.setAdapter(orderAdapter);
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -90,5 +98,11 @@ public class CustomerOrdersFragment extends Fragment {
             });
         });
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

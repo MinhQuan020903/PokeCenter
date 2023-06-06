@@ -180,6 +180,9 @@
         <activity
             android:name=".customer.lam.CustomerTab.Profile.NextActivity.Suport.CustomerGetSupportActivity"
             android:exported="false" />
+        <activity
+            android:name=".customer.lam.CustomerTab.Profile.NextActivity.CustomerOrdersActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

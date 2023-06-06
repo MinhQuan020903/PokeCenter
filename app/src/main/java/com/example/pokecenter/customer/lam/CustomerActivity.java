@@ -14,7 +14,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.CustomerTab.Chat.CustomerListAllBoxChatFragment;
 import com.example.pokecenter.customer.lam.CustomerTab.Notification.CustomerNotificationsFragment;
-import com.example.pokecenter.customer.lam.CustomerTab.CustomerOrdersFragment;
 import com.example.pokecenter.customer.lam.CustomerTab.Cart.CustomerShoppingCartFragment;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.CustomerHomeFragment;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.CustomerProfileFragment;
