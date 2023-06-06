@@ -18,14 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PokeCenter"
         tools:targetApi="31">
+
         <activity
             android:name=".admin.Quan.AdminTab.Tabs.Home.OrdersManagement.AdminOrderDetailActivity"
             android:exported="false" />
         <activity
             android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductOptionActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CustomerSupportInFindingProductActivity"
             android:exported="false" />
         <activity
             android:name=".vender.VenderTab.Home.VenderNotificationActivity"
@@ -56,9 +54,6 @@
             android:exported="false" />
         <activity
             android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.ProductStatisticActivity"
             android:exported="false" />
         <activity
             android:name=".vender.VenderTab.Home.Product.VenderProductDetailActivity"
@@ -192,6 +187,9 @@
             android:exported="false" />
         <activity
             android:name=".customer.lam.CustomerTab.Profile.NextActivity.Suport.CustomerGetSupportActivity"
+            android:exported="false" />
+        <activity
+            android:name=".customer.lam.CustomerTab.Profile.NextActivity.CustomerOrdersActivity"
             android:exported="false" />
     </application>
 

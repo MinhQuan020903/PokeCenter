@@ -44,6 +44,8 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
 
     public static List<Notification> myNotificationsFromPokeCenter = new ArrayList<>();
 
+    public static List<Notification> myNotificationsOrders = new ArrayList<>();
+
     private ListView lvNotifications;
     private NotificationAdapter notificationAdapter;
 
@@ -136,23 +138,36 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
                     lvNotifications.setAdapter(notificationAdapter);
 
                     myNotifications.forEach(notification -> {
-                        if (notification.getType().equals("promotion")) {
-                            myNotificationsPromotion.add(notification);
-                        } else {
-                            myNotificationsFromPokeCenter.add(notification);
+
+                        switch (notification.getType()) {
+                            case "promotion":
+                                myNotificationsPromotion.add(notification);
+                                break;
+                            case "fromPokeCenter":
+                                myNotificationsFromPokeCenter.add(notification);
+                                break;
+                            case "orders":
+                                myNotificationsOrders.add(notification);
+                                break;
                         }
                     });
 
                     if (myNotificationsPromotion.size() > 0) {
                         binding.contentPromotion.setText(myNotificationsPromotion.get(0).getContent().replace("\\n", System.getProperty("line.separator")));
                     } else {
-
+                        binding.promotion.setVisibility(View.GONE);
                     }
 
                     if (myNotificationsFromPokeCenter.size() > 0) {
                         binding.contentFromPokecenter.setText(myNotificationsFromPokeCenter.get(0).getContent().replace("\\n", System.getProperty("line.separator")));
                     } else {
+                        binding.fromPokecenter.setVisibility(View.GONE);
+                    }
 
+                    if (myNotificationsOrders.size() > 0) {
+
+                    } else {
+                        binding.ordersProgress.setVisibility(View.GONE);
                     }
 
                     updateBadge();
@@ -204,6 +219,22 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
 
         } else {
             binding.unreadFromPokecenter.setVisibility(View.GONE);
+        }
+
+        int countUnreadOrders = 0;
+
+        for (int i = 0 ; i < myNotificationsOrders.size(); ++i) {
+            if (!myNotificationsOrders.get(i).isRead()) {
+                countUnreadOrders++;
+            }
+        }
+
+        if (countUnreadOrders > 0) {
+
+            binding.unreadCountOrders.setText(String.valueOf(countUnreadOrders));
+
+        } else {
+            binding.unreadOrders.setVisibility(View.GONE);
         }
 
     }
