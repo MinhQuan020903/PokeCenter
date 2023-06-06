@@ -85,7 +85,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:background="@drawable/quan_rounded_layout_background"
             android:backgroundTint="@color/light_canvas"
-            android:hint="   Type here..." />
+            android:hint="   Type here..."
+            android:paddingStart="25dp"/>
 
         <Button
             android:id="@+id/bChatSend"

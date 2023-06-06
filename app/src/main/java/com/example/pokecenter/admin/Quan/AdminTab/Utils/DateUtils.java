@@ -79,4 +79,11 @@ public class DateUtils {
             return "Invalid date";
         }
     }
+
+    public static String getCurrentDateTime() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' HH:mm:ss");
+        return currentDateTime.format(formatter);
+    }
+
 }

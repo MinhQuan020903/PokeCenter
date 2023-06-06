@@ -11,12 +11,15 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseFetchChat;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.MessageSender.AdminChatUser;
+import com.example.pokecenter.admin.Quan.AdminTab.Utils.DateUtils;
 import com.example.pokecenter.databinding.ActivityAdminChatBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
+
+import java.util.Date;
 
 public class AdminChatActivity extends AppCompatActivity {
 
@@ -51,6 +54,8 @@ public class AdminChatActivity extends AppCompatActivity {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         currentEmail = firebaseUser.getEmail();
 
+        FirebaseFetchChat firebaseFetchChat = new FirebaseFetchChat(this);
+
 
         //Turn EditText down if click outside EditText
         binding.getRoot().setOnClickListener(new View.OnClickListener() {
@@ -72,23 +77,16 @@ public class AdminChatActivity extends AppCompatActivity {
         binding.bChatSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = binding.etMessage.toString();
+                //Turn down EditText
+                inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+                String message = binding.etMessage.getText().toString();
                 if (!message.equals("")) {
-                    sendMessageToFirebase(
-                            currentEmail,
-                            user.getEmail(),
-                            message
-                    );
+                    firebaseFetchChat.sendMessage(user.getEmail(), message, DateUtils.getCurrentDateTime());
+                    binding.etMessage.setText("");
                 }
             }
         });
         setContentView(binding.getRoot());
-    }
-
-    private void sendMessageToFirebase(String sender, String receiver, String message) {
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-
-
     }
 }
