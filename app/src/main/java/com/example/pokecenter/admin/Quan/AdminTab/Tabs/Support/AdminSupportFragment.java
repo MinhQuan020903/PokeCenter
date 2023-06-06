@@ -58,7 +58,7 @@ public class AdminSupportFragment extends Fragment {
 
         messageSenderAdapter = new MessageSenderAdapter(messageSendersList, context, R.layout.quan_chat_sender_item,0);
         //Add spacing to RecyclerView rvClass
-        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.item_spacing);
+        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.item_spacing_small);
         ItemSpacingDecoration itemSpacingDecoration = new ItemSpacingDecoration(spacingInPixels);
         binding.rvMessageSenders.addItemDecoration(itemSpacingDecoration);
 

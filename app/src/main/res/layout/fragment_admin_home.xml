@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_secondary"
+    android:background="@color/quan_light_green"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/adminHomeFragment"
     tools:context=".admin.Quan.AdminTab.Tabs.Home.AdminHomeFragment">
@@ -12,7 +12,7 @@
         android:id="@+id/clAdminTitle"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.125"
+        app:layout_constraintHeight_percent="0.1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:background="#DA3131"
@@ -44,7 +44,7 @@
         app:layout_constraintTop_toBottomOf="@id/clAdminTitle"
         android:layout_margin="35dp"
         app:shapeAppearanceOverlay="@style/circleImageView"
-        app:strokeColor="@color/dark_primary"
+        app:strokeColor="@color/light_secondary"
         app:strokeWidth="3dp" />
     <TextView
         android:id="@+id/tvWelcomeAdmin"
@@ -52,11 +52,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/light_primary"
         android:elevation="5dp"
         android:fontFamily="@font/exo_2"
         android:text="Welcome ADMIN"
-        android:textColor="#F8CA6D"
+        android:textColor="@color/light_secondary"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textAlignment="center"
@@ -80,7 +79,7 @@
             android:id="@+id/cvAdminStatistic"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:backgroundTint="#86DCD3"
+            android:backgroundTint="@color/light_secondary"
             android:layout_margin="10dp"
             app:cardCornerRadius="10dp"
             app:strokeWidth="2dp"
@@ -110,7 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
-                    android:textColor="@color/light_secondary"
+                    android:textColor="@color/quan_light_yellow"
                     android:text="Statistic"
                     android:fontFamily="@font/exo_2"
                     android:textStyle="bold" />
@@ -123,7 +122,7 @@
             android:layout_height="0dp"
             android:layout_margin="10dp"
             android:background="@drawable/quan_rounded_layout_background"
-            android:backgroundTint="#86DCD3"
+            android:backgroundTint="@color/light_secondary"
             app:cardCornerRadius="10dp"
             app:strokeWidth="2dp"
             app:strokeColor="@color/quan_light_yellow"
@@ -157,7 +156,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:fontFamily="@font/exo_2"
-                    android:textColor="@color/light_secondary"/>
+                    android:textColor="@color/quan_light_yellow"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -166,7 +165,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/quan_rounded_layout_background"
-            android:backgroundTint="#86DCD3"
+            android:backgroundTint="@color/light_secondary"
             android:layout_margin="10dp"
             app:cardCornerRadius="10dp"
             app:strokeWidth="2dp"
@@ -200,7 +199,7 @@
                     android:textSize="16sp"
                     android:text="Users"
                     android:fontFamily="@font/exo_2"
-                    android:textColor="@color/light_secondary"
+                    android:textColor="@color/quan_light_yellow"
                     android:textStyle="bold" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -209,7 +208,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/quan_rounded_layout_background"
-            android:backgroundTint="#86DCD3"
+            android:backgroundTint="@color/light_secondary"
             android:layout_margin="10dp"
             app:cardCornerRadius="10dp"
             app:strokeWidth="2dp"
@@ -241,7 +240,7 @@
                     android:textSize="16sp"
                     android:text="Orders"
                     android:fontFamily="@font/exo_2"
-                    android:textColor="@color/light_secondary"
+                    android:textColor="@color/quan_light_yellow"
                     android:textStyle="bold" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

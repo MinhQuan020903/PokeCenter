@@ -27,5 +27,7 @@
     <color name="quan_light_grey">#BABABA</color>
     <color name="quan_dark_cyan">#3997AC</color>
     <color name="quan_bright_red">#DD2727</color>
+    <color name="quan_very_light_blue">#E1EFF3</color>
+    <color name="quan_light_green">#86DCD3</color>
 
 </resources>

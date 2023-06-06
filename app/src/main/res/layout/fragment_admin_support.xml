@@ -3,100 +3,96 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_primary"
+    android:background="@color/quan_light_green"
     android:id="@+id/adminSupportFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".admin.Quan.AdminTab.Tabs.Support.AdminSupportFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clSenderSearch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:id="@+id/llSenderSearch"
+        android:layout_width="0dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="20dp"
+        android:padding="5dp"
+        android:background="@drawable/quan_rounded_layout_background"
+        android:backgroundTint="#F8CA6D"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-        <LinearLayout
-            android:id="@+id/llSearch"
+        app:layout_constraintWidth_percent="0.95">
+
+        <EditText
+            android:id="@+id/etSenderSearch"
             android:layout_width="0dp"
-            app:layout_constraintWidth_percent="0.7"
-            android:layout_height="62dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:layout_margin="15dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <EditText
-                android:id="@+id/etUserSearch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:ellipsize="end"
-                android:hint="Search in here"
-                android:imeOptions="actionSearch"
-                android:inputType="text"
-                android:maxLines="1"
-                android:padding="16dp"
-                android:singleLine="true"
-                android:textColor="@android:color/black"
-                tools:ignore="VisualLintTextFieldSize" />
-
-            <ImageButton
-                android:id="@+id/bUserSearch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
-                android:layout_marginEnd="8dp"
-                android:backgroundTint="@color/transparent"
-                android:contentDescription="Search Button"
-                android:padding="8dp"
-                android:src="@drawable/lam_baseline_search_32"
-                app:tint="@color/border_shape" />
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            app:layout_constraintWidth_percent="0.22"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/llSearch"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@drawable/quan_spinner_background"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:ellipsize="end"
+            android:hint="Search in here"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="16dp"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            tools:ignore="VisualLintTextFieldSize" />
 
-            <Spinner
-                android:id="@+id/spUserRole"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:gravity="center"
-                android:layout_marginLeft="5dp"
-                android:spinnerMode="dropdown" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:scaleType="centerInside"
-                android:adjustViewBounds="true"
-                android:src="@drawable/ic_dropdown"/>
+        <ImageButton
+            android:id="@+id/bSenderSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="#F8CA6D"
+            android:contentDescription="Search Button"
+            android:padding="8dp"
+            android:src="@drawable/lam_baseline_search_32"
+            app:tint="@color/white" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlChooseUserRole"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.3"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llSenderSearch"
+        android:background="@drawable/quan_spinner_background"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/spUserRole"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:layout_marginLeft="5dp"
+            android:spinnerMode="dropdown" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_dropdown"/>
 
     </RelativeLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMessageSenders"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/clSenderSearch"
-        app:layout_constraintVertical_bias="0.169"/>
+        app:layout_constraintTop_toBottomOf="@+id/rlChooseUserRole" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
