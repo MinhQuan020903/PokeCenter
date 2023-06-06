@@ -33,10 +33,10 @@ public class OrderConfirmedActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.goToOrdersButton.setOnClickListener(view -> {
-            Intent intent = new Intent(this, CustomerActivity.class);
-            intent.putExtra("targetedFragment", R.id.customerOrdersFragment);
-            startActivity(intent);
-            finishAffinity();
+//            Intent intent = new Intent(this, CustomerActivity.class);
+//            intent.putExtra("targetedFragment", R.id.customerOrdersFragment);
+//            startActivity(intent);
+//            finishAffinity();
         });
 
         binding.continueShoppingButton.setOnClickListener(view -> {

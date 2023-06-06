@@ -17,9 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PokeCenter"
         tools:targetApi="31">
-        <activity
-            android:name=".CustomerSupportInFindingProductActivity"
-            android:exported="false" />
+
         <activity
             android:name=".vender.VenderTab.Home.VenderNotificationActivity"
             android:exported="false" />
@@ -49,9 +47,6 @@
             android:exported="false" />
         <activity
             android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.ProductStatisticActivity"
             android:exported="false" />
         <activity
             android:name=".vender.VenderTab.Home.Product.VenderProductDetailActivity"
