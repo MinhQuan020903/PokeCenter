@@ -1,4 +1,4 @@
-package com.example.pokecenter.customer.lam.CustomerTab.Chat;
+package com.example.pokecenter.vender.VenderTab.Chat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,14 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.ProductByPokemonActivity;
+import com.example.pokecenter.customer.lam.Interface.PokemonRecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.account.Account;
-import com.example.pokecenter.databinding.FragmentCustomerListAllBoxChatBinding;
 import com.example.pokecenter.databinding.FragmentVenderChatBinding;
 import com.example.pokecenter.vender.Model.ChatRoom.ChatRoom;
 import com.example.pokecenter.vender.Model.ChatRoom.ChatRoomAdapter;
 import com.example.pokecenter.vender.Model.ChatRoom.ChatRoomInterface;
-import com.example.pokecenter.vender.VenderTab.Chat.ChatRoomActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,13 +25,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 
-public class CustomerListAllBoxChatFragment extends Fragment implements ChatRoomInterface {
-
-    FragmentCustomerListAllBoxChatBinding binding;
-    String currentId= FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", ",");
+public class VenderChatFragment extends Fragment implements ChatRoomInterface {
+    FragmentVenderChatBinding binding;
+    String currentId=FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", ",");
     private RecyclerView rcvChatRoom;
     private ChatRoomAdapter chatRoomAdapter;
 
@@ -41,7 +42,7 @@ public class CustomerListAllBoxChatFragment extends Fragment implements ChatRoom
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentCustomerListAllBoxChatBinding.inflate(inflater, container, false);
+        binding = FragmentVenderChatBinding.inflate(inflater, container, false);
         rcvChatRoom = binding.rcvInboxList;
         chatRoomAdapter = new ChatRoomAdapter(getContext(), this);
 
@@ -53,6 +54,11 @@ public class CustomerListAllBoxChatFragment extends Fragment implements ChatRoom
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         ArrayList<ChatRoom> listChatRoom = new ArrayList<>();
+        Instant currentTimestamp = Instant.now();
+
+        // Get the timestamp in milliseconds
+        long timestampMillis = currentTimestamp.toEpochMilli();
+
         databaseReference.child("chats").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -87,8 +93,8 @@ public class CustomerListAllBoxChatFragment extends Fragment implements ChatRoom
                     });
                     // No need to add the chat room here as it will be added in the onDataChange() method
                 }
-
             }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {

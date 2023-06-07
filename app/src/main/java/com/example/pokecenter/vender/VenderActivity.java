@@ -10,14 +10,14 @@ import android.os.Bundle;
 import com.example.pokecenter.R;
 import com.example.pokecenter.databinding.ActivityVenderBinding;
 import com.example.pokecenter.vender.VenderTab.Home.VenderHomeFragment;
-import com.example.pokecenter.vender.VenderTab.VenderChatFragment;
+import com.example.pokecenter.vender.VenderTab.Chat.VenderChatFragment;
 import com.example.pokecenter.vender.VenderTab.VenderNotificationsFragment;
 import com.example.pokecenter.vender.VenderTab.VenderOrderFragment;
 import com.example.pokecenter.vender.VenderTab.VenderProfileFragment;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class VenderActivity extends AppCompatActivity {
+public class VenderActivity extends AppCompatActivity implements VenderHomeFragment.OnFragmentChangeListener{
 
     private ActivityVenderBinding binding;
 
@@ -71,5 +71,13 @@ public class VenderActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentVender, selectedFragment);
         fragmentTransaction.commit();
+    }
+    @Override
+    public void onFragmentChange(Fragment fragment) {
+        // Replace the current fragment with the new fragment
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentVender, fragment)
+                .commit();
     }
 }

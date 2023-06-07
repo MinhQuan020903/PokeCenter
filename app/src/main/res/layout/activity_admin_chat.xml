@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".vender.VenderTab.Chat.VenderChatFragment">
+    tools:context=".admin.Quan.AdminTab.Tabs.Home.Chat.AdminChatActivity">
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_bar"
         android:layout_width="match_parent"

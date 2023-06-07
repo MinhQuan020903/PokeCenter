@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Ninh Test -->
@@ -17,8 +17,10 @@
         android:roundIcon="@mipmap/main_logo_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PokeCenter"
-        tools:targetApi="31" >
-
+        tools:targetApi="31">
+        <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Home.Chat.AdminChatActivity"
+            android:exported="false" />
         <activity
             android:name=".admin.Quan.AdminTab.Tabs.Home.OrdersManagement.AdminOrderDetailActivity"
             android:exported="false" />
@@ -108,7 +110,7 @@
         <activity
             android:name=".customer.lam.Authentication.SplashActivity"
             android:exported="true"
-            android:theme="@style/Theme.PokeCenter.NoActionBar" >
+            android:theme="@style/Theme.PokeCenter.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -127,6 +129,11 @@
             android:name=".admin.AdminActivity"
             android:exported="false"
             android:theme="@style/Theme.PokeCenter.NoActionBar" />
+        <activity
+            android:name=".vender.VenderTab.Chat.ChatRoomActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PokeCenter.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".customer.lam.CustomerTab.Profile.NextActivity.CustomerAccountInfoActivity"
             android:exported="false" />

@@ -3,6 +3,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.customer.lam.Model.notification.Notification;
 import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.order.DetailOrder;
@@ -423,4 +424,33 @@ public class FirebaseSupportVender {
         }
 
     }
+    public Account fetchingCurrentAccount( String id) throws IOException {
+
+        Account fetchedAccount = new Account();
+
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(urlDb + "accounts/" + id + ".json")
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+
+            String responseBody = response.body().string();
+
+            Type type = new TypeToken<Map<String, Object>>(){}.getType();
+            Map<String, Object> fetchedData = new Gson().fromJson(responseBody, type);
+
+            fetchedAccount.setAvatar((String) fetchedData.get("avatar"));
+            fetchedAccount.setUsername((String) fetchedData.get("username"));
+//            fetchedAccount.setGender((String) fetchedData.get("gender"));
+//            fetchedAccount.setPhoneNumber((String) fetchedData.get("phoneNumber"));
+//            fetchedAccount.setRegistrationDate((String) fetchedData.get("registrationDate"));
+
+        }
+
+        return fetchedAccount;
+    }
+
 }
