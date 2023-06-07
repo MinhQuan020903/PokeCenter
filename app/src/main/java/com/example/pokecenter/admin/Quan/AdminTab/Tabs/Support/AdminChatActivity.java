@@ -46,15 +46,15 @@ public class AdminChatActivity extends AppCompatActivity {
         user = (AdminChatUser)intent.getSerializableExtra("AdminChatUser");
 
         //Bind views of user
-        Picasso.get().load(user.getAvatar()).into(binding.ivUserAvatar);
-        binding.tvUserName.setText(user.getName());
-
-        //Get current account's email
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        currentEmail = firebaseUser.getEmail();
-
-        FirebaseFetchChat firebaseFetchChat = new FirebaseFetchChat(this);
+//        Picasso.get().load(user.getAvatar()).into(binding.ivUserAvatar);
+//        binding.tvUserName.setText(user.getName());
+//
+//        //Get current account's email
+//        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+//        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+//        currentEmail = firebaseUser.getEmail();
+//
+//        FirebaseFetchChat firebaseFetchChat = new FirebaseFetchChat(this);
 
 
         //Turn EditText down if click outside EditText
@@ -64,29 +64,29 @@ public class AdminChatActivity extends AppCompatActivity {
                 inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
             }
         });
-
-        //Close activity when click Back
-        binding.bChatBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        //Send message
-        binding.bChatSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Turn down EditText
-                inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
-
-                String message = binding.etMessage.getText().toString();
-                if (!message.equals("")) {
-                    firebaseFetchChat.sendMessage(user.getEmail(), message, DateUtils.getCurrentDateTime());
-                    binding.etMessage.setText("");
-                }
-            }
-        });
+//
+//        //Close activity when click Back
+//        binding.bChatBack.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
+//
+//        //Send message
+//        binding.bChatSend.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //Turn down EditText
+//                inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+//
+//                String message = binding.etMessage.getText().toString();
+//                if (!message.equals("")) {
+//                    firebaseFetchChat.sendMessage(user.getEmail(), message, DateUtils.getCurrentDateTime());
+//                    binding.etMessage.setText("");
+//                }
+//            }
+//        });
         setContentView(binding.getRoot());
     }
 }

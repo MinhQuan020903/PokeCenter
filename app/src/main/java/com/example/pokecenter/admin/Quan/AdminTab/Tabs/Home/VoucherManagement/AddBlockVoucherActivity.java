@@ -11,6 +11,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -156,11 +157,22 @@ public class AddBlockVoucherActivity extends AppCompatActivity {
                 Window window = adminAuthDialog.getWindow();
                 window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
                 window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                window.getDecorView().setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        // Check if the touch event is an ACTION_DOWN event
+                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                            // Hide the keyboard
+                            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                            return true;
+                        }
+                        return false;
+                    }
+                });
 
                 TextView tvAdminAuthFailed = adminAuthDialog.findViewById(R.id.tvAdminAuthFailed);
                 tvAdminAuthFailed.setVisibility(View.INVISIBLE);
-
-
 
                 adminAuthDialog.show();
 
