@@ -92,9 +92,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
             holder.orderStatus.setText(order.getStatus() + " - " + dateFormat.format(order.getDeliveryDate()));
 
-            LocalDate localDate = order.getCreateDateTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate localDate = order.getDeliveryDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            holder.informText.setText("Please submit the refund request by " + localDate.plusDays(7).format(formatter));
+            holder.informText.setText("Please submit the refund request by " + localDate.plusDays(6).format(formatter));
 
         } else {
             holder.operations.setVisibility(View.GONE);

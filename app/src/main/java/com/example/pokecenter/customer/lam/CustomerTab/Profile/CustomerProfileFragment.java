@@ -89,7 +89,9 @@ public class CustomerProfileFragment extends Fragment {
         });
 
         binding.orders.setOnClickListener(view -> {
-            startActivity(new Intent(getActivity(), CustomerOrdersActivity.class));
+            Intent intent = new Intent(getActivity(), CustomerOrdersActivity.class);
+            intent.putExtra("from", "CustomerProfileFragment");
+            startActivity(intent);
         });
 
         binding.starSelling.setOnClickListener(view -> {
