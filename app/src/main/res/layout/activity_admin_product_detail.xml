@@ -206,7 +206,7 @@
                     android:text="...."
                     android:textColor="@color/white"
                     android:textSize="16sp"
-                    android:maxLines="7"
+                    android:maxLines="4"
                     android:maxEms="15"
                     android:ellipsize="end"
                     app:layout_constraintStart_toStartOf="parent"

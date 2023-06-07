@@ -16,6 +16,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -33,11 +34,10 @@ public class FirebaseFetchProduct {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef = firebaseDatabase.getReference("products");
 
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.limitToFirst(20).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-
                     AdminProduct adminProduct = new AdminProduct();
                     //Fetch ArrayList<AdminOption> options
                     ArrayList<AdminOption> options = null;
@@ -58,7 +58,7 @@ public class FirebaseFetchProduct {
                                 options.add(adminOption);
                             }
                         } catch (Exception e) {
-                                Log.d("FirebaseFetchProduct", e.toString());
+                            Log.d("FirebaseFetchProduct", e.toString());
                         }
 
                     }
@@ -108,6 +108,7 @@ public class FirebaseFetchProduct {
             }
         });
     }
+
 
     public void getProductOrderDetailFromFirebase(AdminProduct product, FirebaseCallback<ArrayList<Order>> firebaseCallback) {
         ArrayList<AdminProduct> adminProductList = new ArrayList<>();
@@ -183,23 +184,21 @@ public class FirebaseFetchProduct {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef = firebaseDatabase.getReference("reviewsProduct");
 
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        Query query = myRef.orderByChild("productId").equalTo(adminProduct.getId());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        String productId = dataSnapshot.child("productId").getValue(String.class);
-                        if (productId.equals(adminProduct.getId())) {
-                            String id = dataSnapshot.getKey();
-                            String content = dataSnapshot.child("content").getValue(String.class);
-                            String createDate = dataSnapshot.child("createDate").getValue(String.class);
-                            String customerId = dataSnapshot.child("customerId").getValue(String.class);
-                            int rate = dataSnapshot.child("rate").getValue(int.class);
-                            String title = dataSnapshot.child("title").getValue(String.class);
+                        String id = dataSnapshot.getKey();
+                        String content = dataSnapshot.child("content").getValue(String.class);
+                        String createDate = dataSnapshot.child("createDate").getValue(String.class);
+                        String customerId = dataSnapshot.child("customerId").getValue(String.class);
+                        int rate = dataSnapshot.child("rate").getValue(int.class);
+                        String title = dataSnapshot.child("title").getValue(String.class);
 
-                            AdminProductReview review = new AdminProductReview(id, content, createDate, customerId, productId, rate, title);
-                            adminProductReviewList.add(review);
-                        }
+                        AdminProductReview review = new AdminProductReview(id, content, createDate, customerId, adminProduct.getId(), rate, title);
+                        adminProductReviewList.add(review);
                     }
                 } catch (Exception e) {
                     Log.e("getProductReviewsFromFirebase", e.toString());
@@ -209,7 +208,7 @@ public class FirebaseFetchProduct {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                // Handle onCancelled if needed
             }
         });
     }

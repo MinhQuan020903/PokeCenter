@@ -19,6 +19,18 @@
         android:theme="@style/Theme.PokeCenter"
         tools:targetApi="31">
         <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Home.VoucherManagement.AdminVoucherManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Home.VoucherManagement.AddBlockVoucherActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Support.AdminChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Home.OrdersManagement.AdminOrderDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".admin.Quan.AdminTab.Tabs.Home.Chat.AdminChatActivity"
             android:exported="false" />
         <activity

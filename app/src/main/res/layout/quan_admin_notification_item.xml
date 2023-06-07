@@ -7,7 +7,6 @@
     android:orientation="horizontal"
     android:gravity="top"
     android:paddingVertical="20dp"
-    android:layout_margin="15dp"
     android:foreground="?android:attr/selectableItemBackground">
 
     <com.google.android.material.imageview.ShapeableImageView
