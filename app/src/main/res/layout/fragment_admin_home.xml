@@ -68,7 +68,7 @@
         android:id="@+id/clAdminFeatures"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="15dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:elevation="5dp"
@@ -239,6 +239,50 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:text="Orders"
+                    android:fontFamily="@font/exo_2"
+                    android:textColor="@color/quan_light_yellow"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cvAdminBlockVouchers"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/quan_rounded_layout_background"
+            android:backgroundTint="@color/light_secondary"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="10dp"
+            app:strokeWidth="2dp"
+            app:strokeColor="@color/quan_light_yellow"
+            app:cardElevation="5dp"
+            app:layout_constraintWidth_percent="0.45"
+            app:layout_constraintDimensionRatio="1.5:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cvAdminUsers">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="5dp"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:id="@+id/ivAdminBlockVouchers"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/quan_icon_voucher"
+                    app:tint="@color/quan_light_yellow"/>
+
+                <TextView
+                    android:id="@+id/tvAdminBlockVouchers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Block Vouchers"
                     android:fontFamily="@font/exo_2"
                     android:textColor="@color/quan_light_yellow"
                     android:textStyle="bold" />

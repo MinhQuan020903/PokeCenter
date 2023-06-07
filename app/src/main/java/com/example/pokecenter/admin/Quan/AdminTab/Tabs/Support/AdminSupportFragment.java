@@ -208,7 +208,7 @@ public class AdminSupportFragment extends Fragment implements View.OnTouchListen
     private void setUpRecyclerView() {
         adminChatUserAdapter = new AdminChatUserAdapter(context, R.layout.quan_admin_chat_user_item , chatUsers);
         //Add spacing to RecyclerView
-        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.item_spacing);
+        int spacingInPixels = getActivity().getResources().getDimensionPixelSize(R.dimen.item_spacing);
         ItemSpacingDecoration itemSpacingDecoration = new ItemSpacingDecoration(spacingInPixels);
         binding.rvMessageSenders.addItemDecoration(itemSpacingDecoration);
         binding.rvMessageSenders.setLayoutManager(new LinearLayoutManager(context));
