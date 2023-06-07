@@ -1,14 +1,18 @@
 package com.example.pokecenter.customer.lam.Model.notification;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Notification {
     private String id;
     private String title;
     private String content;
-    private String sentDate;
+    private Date sentDate;
     private String type;
     private boolean read;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
-    public Notification(String id, String title, String content, String sentDate, String type, boolean read) {
+    public Notification(String id, String title, String content, Date sentDate, String type, boolean read) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -41,11 +45,13 @@ public class Notification {
         this.content = content;
     }
 
-    public String getSentDate() {
+    public String getSentDateString() {
+        return dateFormat.format(sentDate);
+    }
+    public Date getSentDate() {
         return sentDate;
     }
-
-    public void setSentDate(String sentDate) {
+    public void setSentDate(Date sentDate) {
         this.sentDate = sentDate;
     }
 

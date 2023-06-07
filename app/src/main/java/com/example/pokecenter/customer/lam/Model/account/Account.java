@@ -9,10 +9,18 @@ public class Account implements Serializable {
     private String gender;
     private String phoneNumber;
     private String registrationDate;
+    private int role;
+    private String id;
 
     public Account() {
     }
+    public Account(String avatar, String username, int role, String id) {
+        this.id = id;
+        this.avatar = avatar;
+        this.username = username;
+        this.role = role;
 
+    }
     public Account(String avatar, String username, String gender, String phoneNumber, String registrationDate) {
         this.avatar = avatar;
         this.username = username;
@@ -59,5 +67,21 @@ public class Account implements Serializable {
 
     public void setRegistrationDate(String registrationDate) {
         this.registrationDate = registrationDate;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
 }

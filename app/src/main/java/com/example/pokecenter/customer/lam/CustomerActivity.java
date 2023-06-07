@@ -12,8 +12,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.CustomerTab.Chat.CustomerListAllBoxChatFragment;
 import com.example.pokecenter.customer.lam.CustomerTab.Notification.CustomerNotificationsFragment;
-import com.example.pokecenter.customer.lam.CustomerTab.CustomerOrdersFragment;
 import com.example.pokecenter.customer.lam.CustomerTab.Cart.CustomerShoppingCartFragment;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.CustomerHomeFragment;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.CustomerProfileFragment;
@@ -40,7 +40,7 @@ public class CustomerActivity extends AppCompatActivity {
         customerBottomNavigationView = binding.bottomNavView;
 
         Fragment home = new CustomerHomeFragment();
-        Fragment orders = new CustomerOrdersFragment();
+        Fragment chat = new CustomerListAllBoxChatFragment();
         Fragment notifications = new CustomerNotificationsFragment();
 
         Fragment profile = new CustomerProfileFragment();
@@ -51,8 +51,8 @@ public class CustomerActivity extends AppCompatActivity {
                 case R.id.customerHomeFragment:
                     replaceFragment(home);
                     break;
-                case R.id.customerOrdersFragment:
-                    replaceFragment(orders);
+                case R.id.customerChatFragment:
+                    replaceFragment(chat);
                     break;
                 case R.id.customerNotificationsFragment:
                     replaceFragment(notifications);

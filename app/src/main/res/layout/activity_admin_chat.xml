@@ -1,112 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".admin.Quan.AdminTab.Tabs.Support.AdminChatActivity">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clSenderAvatar"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".admin.Quan.AdminTab.Tabs.Home.Chat.AdminChatActivity">
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_bar"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/light_primary">
+        android:layout_height="60dp"
+        android:background="@drawable/bg_white_rounded"
+        app:iconifiedByDefault="false"
+        app:queryHint="Who are you finding ..."
+        app:searchIcon="@drawable/baseline_search_24"
+        app:submitBackground="@drawable/bg_white_rounded" />
 
-        <Button
-            android:id="@+id/bChatBack"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            app:layout_constraintWidth_percent="0.125"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            style="@style/Widget.Material3.Button.IconButton"
-            app:icon="@drawable/quan_icon_back"
-            app:iconTint="@color/white"
-            app:strokeWidth="0dp" />
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="0dp"
-            app:layout_constraintWidth_percent="0.85"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toEndOf="@id/bChatBack">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/ivUserAvatar"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@null"
-                android:scaleType="centerCrop"
-                android:src="@drawable/lam_totoro"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.615"
-                app:layout_constraintWidth_percent="0.135"
-                app:shapeAppearanceOverlay="@style/circleImageView" />
-
-            <TextView
-                android:id="@+id/tvUserName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:text="Demola Andreas"
-                android:fontFamily="@font/exo_2"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                app:layout_constraintStart_toEndOf="@id/ivUserAvatar"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-            
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clSendMessage"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvInboxList"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@color/quan_very_light_blue">
-        
-        <EditText
-            android:id="@+id/etMessage"
-            android:layout_width="0dp"
-            app:layout_constraintWidth_percent="0.8"
-            android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.7"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@drawable/quan_rounded_layout_background"
-            android:backgroundTint="@color/light_canvas"
-            android:hint="   Type here..."
-            android:paddingStart="25dp"/>
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        />
 
-        <Button
-            android:id="@+id/bChatSend"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintWidth_percent="0.15"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintStart_toEndOf="@id/etMessage"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            style="@style/Widget.Material3.Button.IconButton"
-            android:backgroundTint="@color/light_primary"
-            app:icon="@drawable/quan_icon_send"
-            app:iconTint="@color/white"
-            android:elevation="1dp"
-            app:iconPadding="0dp"
-            app:iconGravity="textStart" />
+</LinearLayout>
 
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>

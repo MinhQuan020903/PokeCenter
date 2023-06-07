@@ -30,6 +30,7 @@ import com.example.pokecenter.databinding.FragmentCustomerNotificationsBinding;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -43,6 +44,8 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
     public static List<Notification> myNotificationsPromotion = new ArrayList<>();
 
     public static List<Notification> myNotificationsFromPokeCenter = new ArrayList<>();
+
+    public static List<Notification> myNotificationsOrders = new ArrayList<>();
 
     private ListView lvNotifications;
     private NotificationAdapter notificationAdapter;
@@ -59,6 +62,7 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
 
         myNotificationsPromotion.clear();
         myNotificationsFromPokeCenter.clear();
+        myNotificationsOrders.clear();
         isFirst = true;
 
         binding = FragmentCustomerNotificationsBinding.inflate(inflater, container, false);
@@ -69,6 +73,10 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
 
         binding.fromPokecenter.setOnClickListener(view -> {
             startActivity(new Intent(getActivity(), FromPokeCenterNotificationsActivity.class));
+        });
+
+        binding.ordersProgress.setOnClickListener(view -> {
+            startActivity(new Intent(getActivity(), OrdersProgressNotificationsActivity.class));
         });
 
         /* Set up all notifications */
@@ -132,27 +140,41 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
                 if (finalIsSuccessful) {
 
                     myNotifications = finalFetchedNotifications;
+                    myNotifications.sort(Comparator.comparing(Notification::getSentDate).reversed());
                     notificationAdapter = new NotificationAdapter(getActivity(), myNotifications, this);
                     lvNotifications.setAdapter(notificationAdapter);
 
                     myNotifications.forEach(notification -> {
-                        if (notification.getType().equals("promotion")) {
-                            myNotificationsPromotion.add(notification);
-                        } else {
-                            myNotificationsFromPokeCenter.add(notification);
+
+                        switch (notification.getType()) {
+                            case "promotion":
+                                myNotificationsPromotion.add(notification);
+                                break;
+                            case "fromPokeCenter":
+                                myNotificationsFromPokeCenter.add(notification);
+                                break;
+                            case "orders":
+                                myNotificationsOrders.add(notification);
+                                break;
                         }
                     });
 
                     if (myNotificationsPromotion.size() > 0) {
                         binding.contentPromotion.setText(myNotificationsPromotion.get(0).getContent().replace("\\n", System.getProperty("line.separator")));
                     } else {
-
+                        binding.promotion.setVisibility(View.GONE);
                     }
 
                     if (myNotificationsFromPokeCenter.size() > 0) {
                         binding.contentFromPokecenter.setText(myNotificationsFromPokeCenter.get(0).getContent().replace("\\n", System.getProperty("line.separator")));
                     } else {
+                        binding.fromPokecenter.setVisibility(View.GONE);
+                    }
 
+                    if (myNotificationsOrders.size() > 0) {
+                        binding.contentOrders.setText(myNotificationsOrders.get(0).getContent().replace("\\n", System.getProperty("line.separator")));
+                    } else {
+                        binding.ordersProgress.setVisibility(View.GONE);
                     }
 
                     updateBadge();
@@ -206,6 +228,22 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
             binding.unreadFromPokecenter.setVisibility(View.GONE);
         }
 
+        int countUnreadOrders = 0;
+
+        for (int i = 0 ; i < myNotificationsOrders.size(); ++i) {
+            if (!myNotificationsOrders.get(i).isRead()) {
+                countUnreadOrders++;
+            }
+        }
+
+        if (countUnreadOrders > 0) {
+
+            binding.unreadCountOrders.setText(String.valueOf(countUnreadOrders));
+
+        } else {
+            binding.unreadOrders.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -220,7 +258,7 @@ public class CustomerNotificationsFragment extends Fragment implements Notificat
         content.setText(notification.getContent().replace("\\n", System.getProperty("line.separator")));
 
         TextView sentDate = dialog.findViewById(R.id.sentDate);
-        sentDate.setText(notification.getSentDate());
+        sentDate.setText(notification.getSentDateString());
 
 
         dialog.show();

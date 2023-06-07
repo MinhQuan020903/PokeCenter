@@ -10,6 +10,7 @@ import android.view.Window;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.CustomerActivity;
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.CustomerOrdersActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity;
 import com.example.pokecenter.databinding.ActivityOrderConfirmedBinding;
 
@@ -33,9 +34,10 @@ public class OrderConfirmedActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.goToOrdersButton.setOnClickListener(view -> {
-            Intent intent = new Intent(this, CustomerActivity.class);
-            intent.putExtra("targetedFragment", R.id.customerOrdersFragment);
+            Intent intent = new Intent(this, CustomerOrdersActivity.class);
+            intent.putExtra("from", "OrderConfirmedActivity");
             startActivity(intent);
+
             finishAffinity();
         });
 
