@@ -77,6 +77,8 @@ public class AdminHomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), AdminVoucherManagementActivity.class));
+            }
+        });
         binding.cvAdminChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
