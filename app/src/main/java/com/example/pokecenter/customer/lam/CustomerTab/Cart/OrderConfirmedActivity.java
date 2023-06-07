@@ -35,7 +35,9 @@ public class OrderConfirmedActivity extends AppCompatActivity {
 
         binding.goToOrdersButton.setOnClickListener(view -> {
             Intent intent = new Intent(this, CustomerOrdersActivity.class);
+            intent.putExtra("from", "OrderConfirmedActivity");
             startActivity(intent);
+
             finishAffinity();
         });
 

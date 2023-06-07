@@ -3,6 +3,7 @@ package com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -102,6 +103,11 @@ public class CustomerOrdersActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
+
+        if (getIntent().getStringExtra("from").equals("OrderConfirmedActivity")) {
+            startActivity(new Intent(this, CustomerActivity.class));
+        }
+
         finish();
         return true;
     }
