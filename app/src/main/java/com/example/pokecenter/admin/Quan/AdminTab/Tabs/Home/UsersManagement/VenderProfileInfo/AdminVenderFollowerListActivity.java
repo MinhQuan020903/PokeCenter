@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseCallback;
 import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseFetchUser;
+import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseFetchVender;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.Customer.Customer;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.User;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.User.UserAdapter;
@@ -53,23 +54,13 @@ public class AdminVenderFollowerListActivity extends AppCompatActivity {
 
         venderFollowerList = new ArrayList<>();
 
-        FirebaseFetchUser firebaseFetchUser = new FirebaseFetchUser(this);
-        firebaseFetchUser.getUsersListFromFirebase(new FirebaseCallback<ArrayList<User>>() {
-
+        FirebaseFetchVender firebaseFetchVender = new FirebaseFetchVender(this);
+        firebaseFetchVender.getFollowingListFromFirebase(vender, new FirebaseCallback<ArrayList<User>>() {
             @Override
             public void onCallback(ArrayList<User> user) {
-                for (User u : user) {
-                    if (u instanceof Customer) {
-                        if (((Customer) u).getFollowing() != null ) {
-                            for (String email : ((Customer) u).getFollowing()) {
-                                if (email.equals(vender.getEmail())) {
 
-                                    venderFollowerList.add(u);
-                                }
-                            }
-                        }
-                    }
-                }
+                venderFollowerList = user;
+
                 setUpRecyclerView();
 
                 venderFollowerAdapter.setOnItemClickListener(new OnItemClickListener<User>() {

@@ -19,9 +19,16 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 
 public class FirebaseFetchUser {
 
@@ -31,17 +38,18 @@ public class FirebaseFetchUser {
         this.context = context;
     }
 
-    public void getUsersListFromFirebase(final FirebaseCallback firebaseCallback) {
-        ArrayList<User> usersList = new ArrayList<>();
+    public void getUsersListFromFirebase(final FirebaseCallback<ArrayList<User>> firebaseCallback) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef = firebaseDatabase.getReference("accounts");
 
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        Query query = myRef.orderByChild("registrationDate").limitToLast(20); // Query to limit to 20 most recent users
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<User> usersList = new ArrayList<>(); // Create a new usersList here
                 User user = null;
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-
                     //Check role of User
                     int role = dataSnapshot.child("role").getValue(int.class);
                     //If role = admin, skip
@@ -114,6 +122,32 @@ public class FirebaseFetchUser {
                         usersList.add(user);
                     }
                 }
+
+                // Sorting usersList by registration date in descending order
+                Collections.sort(usersList, new Comparator<User>() {
+                    @Override
+                    public int compare(User user1, User user2) {
+                        String date1 = user1.getRegistrationDate();
+                        String date2 = user2.getRegistrationDate();
+                        // Assuming date format is "dd-mm-yyyy"
+                        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                        try {
+                            Date regDate1 = dateFormat.parse(date1);
+                            Date regDate2 = dateFormat.parse(date2);
+                            // Reverse order for descending sorting
+                            return regDate2.compareTo(regDate1);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        return 0;
+                    }
+                });
+
+                // Truncate usersList to contain only the 20 most recent users
+                if (usersList.size() > 20) {
+                    usersList = new ArrayList<>(usersList.subList(0, 20));
+                }
+
                 getUserOrderHistory(usersList, firebaseCallback);
             }
 
@@ -123,6 +157,7 @@ public class FirebaseFetchUser {
             }
         });
     }
+
 
     public void getUserOrderHistory(ArrayList<User> usersList, FirebaseCallback firebaseCallback) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();

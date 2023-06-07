@@ -18,6 +18,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
@@ -61,14 +62,20 @@ public class FirebaseFetchVoucher {
         Random random = new Random();
 
         ArrayList<AdminVoucher> voucherList = new ArrayList<>(blockVoucher.getCurrentQuantity());
-        for (int i = 0; i < blockVoucher.getCurrentQuantity(); i++)  {
-            AdminVoucher voucher = new AdminVoucher(
-                    blockVoucherKey,
-                    blockVoucher.getName() + random.nextInt(100000000),
-                    true
-            );
+        HashSet<String> generatedCodes = new HashSet<>(); // Keep track of generated codes
+
+        for (int i = 0; i < blockVoucher.getCurrentQuantity(); i++) {
+            String code;
+            do {
+                code = blockVoucher.getName() + random.nextInt(100000000);
+            } while (generatedCodes.contains(code)); // Generate a new code if it already exists
+
+            generatedCodes.add(code); // Add the generated code to the set of generated codes
+
+            AdminVoucher voucher = new AdminVoucher(blockVoucherKey, code, true);
             voucherList.add(voucher);
         }
+
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference voucherRef = database.getReference("vouchers");
