@@ -128,6 +128,11 @@
             android:exported="false"
             android:theme="@style/Theme.PokeCenter.NoActionBar" />
         <activity
+            android:name=".vender.VenderTab.Chat.ChatRoomActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PokeCenter.NoActionBar"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
             android:name=".customer.lam.CustomerTab.Profile.NextActivity.CustomerAccountInfoActivity"
             android:exported="false" />
         <activity

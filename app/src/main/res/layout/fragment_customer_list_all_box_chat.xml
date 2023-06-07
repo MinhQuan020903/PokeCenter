@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".customer.lam.CustomerTab.Chat.CustomerListAllBoxChatFragment">
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/bg_white_rounded"
+        app:iconifiedByDefault="false"
+        app:queryHint="Who are you finding ..."
+        app:searchIcon="@drawable/baseline_search_24"
+        app:submitBackground="@drawable/bg_white_rounded" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvInboxList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        />
 
-</FrameLayout>
+</LinearLayout>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="110dp">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/chat_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp"
+        android:padding="8dp"
+        android:background="@color/transparent"
+        tools:ignore="MissingConstraints">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profileImageInChatItem"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="11dp"
+                app:shapeAppearanceOverlay="@style/circle"
+                app:strokeWidth="@dimen/cardview_default_elevation"
+                app:srcCompat="@drawable/lam_cubone"/>
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/tvRecipientName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:gravity="center_vertical"
+                    android:textSize="25dp"
+                    android:text="BamBoo Shop"
+                    android:textColor="@color/black"
+                     />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp">
+                    <TextView
+                        android:id="@+id/tvLastMessage"
+                        android:layout_width="200dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:textSize="15dp"
+                        android:text="Hello"
+                        android:maxWidth="200dp"
+                        android:maxLines="1"
+                        />
+
+                    <TextView
+                        android:id="@+id/tvLastMessageTimestamp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="5:02PM"
+                        android:textSize="15dp"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
