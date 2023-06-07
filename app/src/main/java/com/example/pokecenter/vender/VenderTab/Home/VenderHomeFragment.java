@@ -11,11 +11,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.databinding.FragmentVenderHomeBinding;
+import com.example.pokecenter.vender.Model.Chat.Message;
+import com.example.pokecenter.vender.Model.ChatRoom.ChatRoom;
 import com.example.pokecenter.vender.VenderTab.VenderNotificationsFragment;
 import com.example.pokecenter.vender.VenderTab.VenderProfileFragment;
 import com.example.pokecenter.vender.VenderTab.Home.Product.VenderProductActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class VenderHomeFragment extends Fragment {
     private FragmentVenderHomeBinding binding;
@@ -24,7 +38,8 @@ public class VenderHomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
     private OnFragmentChangeListener fragmentChangeListener;
-
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    List<Account> accounts = new ArrayList<>();
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -40,10 +55,11 @@ public class VenderHomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding=FragmentVenderHomeBinding.inflate(inflater, container, false);
-        if(VenderProfileFragment.currentVender.getAvatar()!=null)
-        Picasso.get().load(VenderProfileFragment.currentVender.getAvatar()).into(binding.VenderProfileImage);
-        else Picasso.get().load("https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png").into(binding.VenderProfileImage);
+        binding = FragmentVenderHomeBinding.inflate(inflater, container, false);
+        if (VenderProfileFragment.currentVender.getAvatar() != null)
+            Picasso.get().load(VenderProfileFragment.currentVender.getAvatar()).into(binding.VenderProfileImage);
+        else
+            Picasso.get().load("https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png").into(binding.VenderProfileImage);
         binding.StatisticsFunction.setOnClickListener(view -> {
             Intent intent = new Intent(getActivity(), VenderStatisticsActivity.class);
             startActivity(intent);
@@ -57,6 +73,47 @@ public class VenderHomeFragment extends Fragment {
 //            Intent intent = new Intent(getActivity(), VenderNotificationActivity.class);
 //            startActivity(intent);
         });
+//        databaseReference.child("accounts").addListenerForSingleValueEvent(new ValueEventListener() {
+//                                                                               @Override
+//                                                                               public void onDataChange(DataSnapshot dataSnapshot) {
+//                                                                                   accounts.clear();
+//                                                                                   for (DataSnapshot accountSnapshot : dataSnapshot.getChildren()) {
+//                                                                                       String keyId = accountSnapshot.getKey();
+//                                                                                       if (keyId.equals("doquan020903@gmail,com")) continue;
+//                                                                                       String avatar = accountSnapshot.child("avatar").getValue(String.class);
+//                                                                                       String username = accountSnapshot.child("username").getValue(String.class);
+//                                                                                       int role = accountSnapshot.child("role").getValue(Integer.class);
+//
+//                                                                                       Account newAccount = new Account(avatar, username, role, keyId);
+//                                                                                       newAccount.setRegistrationDate(accountSnapshot.child("registrationDate").getValue(String.class));
+//                                                                                       accounts.add(newAccount);
+//                                                                                   }
+//                                                                               }
+//
+//                                                                               @Override
+//                                                                               public void onCancelled(@NonNull DatabaseError error) {
+//
+//                                                                               }
+//                                                                           });
+//        binding.chatFunction.setOnClickListener(view -> {
+//                    for (Account a : accounts) {
+//                        long timestamp = 0;
+//                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+//                        try {
+//                            Date date = dateFormat.parse(a.getRegistrationDate());
+//                            timestamp = date.getTime();
+//                        } catch (ParseException e) {
+//                            e.printStackTrace();
+//                        }
+//                        String roomId = "doquan020903@gmail,com" + a.getId();
+//                        Message MessageObject = new Message("doquan020903@gmail,com", "Cảm ơn bạn đã sử dụng ứng dụng PokeCenter", timestamp);
+//                        databaseReference.child("chats").child(roomId).child("messages").push().setValue(MessageObject);
+//                        databaseReference.child("chats").child(roomId).child("lastMessage").setValue(MessageObject.getMessageText());
+//                        databaseReference.child("chats").child(roomId).child("lastMessageTimeStamp").setValue(MessageObject.getSendingTime());
+//                        databaseReference.child("chats").child(roomId).child("senderId").setValue("doquan020903@gmail,com");
+//                    }
+//                }
+//        );
         return binding.getRoot();
     }
     @Override

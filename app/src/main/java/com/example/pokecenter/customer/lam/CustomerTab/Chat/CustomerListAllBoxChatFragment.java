@@ -50,36 +50,52 @@ public class CustomerListAllBoxChatFragment extends Fragment implements ChatRoom
         rcvChatRoom.setAdapter(chatRoomAdapter);
 
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("accounts");
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         ArrayList<ChatRoom> listChatRoom = new ArrayList<>();
-        Instant currentTimestamp = Instant.now();
-
-        // Get the timestamp in milliseconds
-        long timestampMillis = currentTimestamp.toEpochMilli();
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("chats").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                listChatRoom.clear();
-                for (DataSnapshot accountSnapshot : dataSnapshot.getChildren()) {
-                    String keyId = accountSnapshot.getKey();
-                    String avatar = accountSnapshot.child("avatar").getValue(String.class);
-                    String username = accountSnapshot.child("username").getValue(String.class);
-                    int role = accountSnapshot.child("role").getValue(Integer.class);
-                    if(role == 0)continue;
-                    if(keyId.equals(currentId))continue;
-                    Account newAccount = new Account(avatar,username,role,keyId);
-                    ChatRoom chatRoom = new ChatRoom(null,keyId,newAccount,"",timestampMillis);
-                    listChatRoom.add(chatRoom);
+                for (DataSnapshot chatSnapshot : dataSnapshot.getChildren()) {
+                    if (!chatSnapshot.getKey().contains(currentId)) {
+                        continue; // Skip to the next iteration if the chat snapshot doesn't contain the current ID
+                    }
+                    ChatRoom chatRoom = new ChatRoom();
+                    chatRoom.setId(chatSnapshot.getKey());
+                    chatRoom.setSenderId(chatSnapshot.child("senderId").getValue(String.class));
+                    chatRoom.setLastMessage(chatSnapshot.child("lastMessage").getValue(String.class));
+                    chatRoom.setLastMessageTimeStamp(chatSnapshot.child("lastMessageTimeStamp").getValue(Long.class));
+
+                    String id = chatSnapshot.getKey().replaceAll(currentId, "");
+                    databaseReference.child("accounts").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            String avatar = dataSnapshot.child("avatar").getValue(String.class);
+                            String username = dataSnapshot.child("username").getValue(String.class);
+                            int role = dataSnapshot.child("role").getValue(Integer.class);
+                            chatRoom.setSenderAccount(new Account(avatar, username, role, id));
+
+                            // After setting the sender account, add the chat room to the list
+                            listChatRoom.add(chatRoom);
+                            chatRoomAdapter.addData(listChatRoom);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Handle any errors that occur during the query
+                        }
+                    });
+                    // No need to add the chat room here as it will be added in the onDataChange() method
                 }
-                chatRoomAdapter.addData(listChatRoom);
+
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                System.out.println("Data fetching cancelled: " + databaseError.getMessage());
+                // Handle any errors that occur during the query
             }
         });
+
         return binding.getRoot();
     }
 

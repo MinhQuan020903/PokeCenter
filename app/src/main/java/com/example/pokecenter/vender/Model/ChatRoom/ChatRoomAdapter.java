@@ -58,7 +58,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
         if ( ib.getLastMessage()==null){
             ib.setLastMessage("Các bạn đã được kết nối với nhau.");
         }
-        else if(!Objects.equals(currentUserUID, ib.getSenderId())) {
+        else if(currentUserUID.equals(ib.getSenderId())) {
             String tt = ib.getLastMessage();
             ib.setLastMessage( "You: " + tt);
         }

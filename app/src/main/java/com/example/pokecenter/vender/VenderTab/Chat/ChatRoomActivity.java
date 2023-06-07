@@ -57,7 +57,8 @@ public class ChatRoomActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         rcvMessage.setLayoutManager(linearLayoutManager);
         rcvMessage.setAdapter(messageAdapter);
-        if(senderAccount.getId() == "doquan020903@gmail,com" || currentId == "doquan020903@gmail,com") roomId = currentId + senderAccount.getId();
+        if(senderAccount.getId().equals( "doquan020903@gmail,com"))roomId = senderAccount.getId() + currentId;
+        else if(currentId.equals( "doquan020903@gmail,com")) roomId = currentId + senderAccount.getId();
         else if(senderAccount.getRole() == 0) roomId = senderAccount.getId() + currentId;
         else roomId = currentId + senderAccount.getId();
 

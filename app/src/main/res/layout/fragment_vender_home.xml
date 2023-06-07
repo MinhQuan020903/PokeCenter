@@ -296,6 +296,7 @@ tools:context=".vender.VenderTab.Home.VenderHomeFragment">
                         android:layout_gravity="center"
                         android:background="#00000000">
                         <ImageView
+                            android:id="@+id/chat_function"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:src="@drawable/ninh_chat_function"

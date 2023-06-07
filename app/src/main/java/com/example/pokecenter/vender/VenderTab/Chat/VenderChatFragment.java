@@ -72,49 +72,29 @@ public class VenderChatFragment extends Fragment implements ChatRoomInterface {
                     chatRoom.setLastMessage(chatSnapshot.child("lastMessage").getValue(String.class));
                     chatRoom.setLastMessageTimeStamp(chatSnapshot.child("lastMessageTimeStamp").getValue(Long.class));
 
-                    int index = chatSnapshot.getKey().indexOf(currentId);
-                    if (index != -1) {
-                        String id = chatSnapshot.getKey().substring(0, index);
-                        databaseReference.child("accounts").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                String avatar = dataSnapshot.child("avatar").getValue(String.class);
-                                String username = dataSnapshot.child("username").getValue(String.class);
-                                int role = dataSnapshot.child("role").getValue(Integer.class);
-                                chatRoom.setSenderAccount(new Account(avatar, username, role, id));
+                    String id = chatSnapshot.getKey().replaceAll(currentId, "");
+                    databaseReference.child("accounts").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            String avatar = dataSnapshot.child("avatar").getValue(String.class);
+                            String username = dataSnapshot.child("username").getValue(String.class);
+                            int role = dataSnapshot.child("role").getValue(Integer.class);
+                            chatRoom.setSenderAccount(new Account(avatar, username, role, id));
 
-                                // After setting the sender account, add the chat room to the list
-                                listChatRoom.add(chatRoom);
-                                chatRoomAdapter.addData(listChatRoom);
-                            }
+                            // After setting the sender account, add the chat room to the list
+                            listChatRoom.add(chatRoom);
+                            chatRoomAdapter.addData(listChatRoom);
+                        }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                // Handle any errors that occur during the query
-                            }
-                        });
-                        // No need to add the chat room here as it will be added in the onDataChange() method
-                    }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Handle any errors that occur during the query
+                        }
+                    });
+                    // No need to add the chat room here as it will be added in the onDataChange() method
                 }
-
-                // Add admin chat room if not already present
-                Account admin = new Account("https://firebasestorage.googleapis.com/v0/b/pokecenter-ae954.appspot.com/o/avatar%2Fdoquan020903%40gmail%2Ccom?alt=media&token=b61840b5-5df2-42a2-a2b4-f512cf181e89",
-                        "Admin App", 2, "doquan020903@gmail,com");
-                admin.setRegistrationDate("15-05-2023");
-                long timestamp = 0;
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-                try {
-                    Date date = dateFormat.parse(admin.getRegistrationDate());
-                    timestamp = date.getTime();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                ChatRoom adminChat = new ChatRoom("1", "", admin, null, timestamp);
-                if (!listChatRoom.contains(adminChat)) {
-                    listChatRoom.add(adminChat);
-                }
-                chatRoomAdapter.addData(listChatRoom);
             }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
