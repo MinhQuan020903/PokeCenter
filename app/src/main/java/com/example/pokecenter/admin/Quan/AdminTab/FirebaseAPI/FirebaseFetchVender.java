@@ -168,7 +168,7 @@ public class FirebaseFetchVender {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     final int totalFollowing = (int) snapshot.getChildrenCount();
-                     processedCount = 0;
+                    processedCount = 0;
                     ChildEventListener childEventListener = new ChildEventListener() {
                         @Override
                         public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String previousChildName) {
@@ -179,6 +179,9 @@ public class FirebaseFetchVender {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if (dataSnapshot.exists()) {
+                                        if (processedCount + 1 == totalFollowing) {
+                                            firebaseCallback.onCallback(followingList);
+                                        }
                                         try {
                                             User user = new User();
                                             // Check role of User
@@ -242,10 +245,6 @@ public class FirebaseFetchVender {
                                     }
 
                                     processedCount++;
-                                    if (processedCount == totalFollowing) {
-                                        firebaseCallback.onCallback(followingList);
-
-                                    }
                                 }
 
                                 @Override
@@ -278,7 +277,8 @@ public class FirebaseFetchVender {
 
                     snapshot.getRef().addChildEventListener(childEventListener);
                 } else {
-
+                    // Handle case where no matching children exist
+                    firebaseCallback.onCallback(followingList);
                 }
             }
 

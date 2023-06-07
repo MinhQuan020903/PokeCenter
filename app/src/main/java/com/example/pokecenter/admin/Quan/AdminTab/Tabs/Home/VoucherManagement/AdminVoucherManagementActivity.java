@@ -1,6 +1,7 @@
 package com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.VoucherManagement;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Build;
@@ -8,7 +9,14 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseCallback;
 import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseFetchUser;
+import com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI.FirebaseFetchVoucher;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminBlockVoucher.AdminBlockVoucher;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminBlockVoucher.AdminBlockVoucherAdapter;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.User.UserAdapter;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderFollowerListActivity;
+import com.example.pokecenter.admin.Quan.AdminTab.Utils.ItemSpacingDecoration;
 import com.example.pokecenter.databinding.ActivityAdminVoucherManagementBinding;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -17,6 +25,8 @@ import java.util.ArrayList;
 
 public class AdminVoucherManagementActivity extends AppCompatActivity {
 
+    private ArrayList<AdminBlockVoucher> blockVouchers;
+    private AdminBlockVoucherAdapter adminBlockVoucherAdapter;
     private ActivityAdminVoucherManagementBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +40,19 @@ public class AdminVoucherManagementActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Block Vouchers");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = firebaseDatabase.getReference("accounts");
 
-        binding.progressBar.setVisibility(View.INVISIBLE);
+        blockVouchers = new ArrayList<>();
 
-//        usersList = new ArrayList<>();
-//
-//        FirebaseFetchUser firebaseFetchUser = new FirebaseFetchUser(this);
+        FirebaseFetchVoucher firebaseFetchVoucher = new FirebaseFetchVoucher(this);
+        firebaseFetchVoucher.getBlockVoucherList(new FirebaseCallback<ArrayList<AdminBlockVoucher>>() {
+            @Override
+            public void onCallback(ArrayList<AdminBlockVoucher> blockVouchers1) {
+                blockVouchers = blockVouchers1;
+                setUpRecyclerView();
+
+                binding.progressBar.setVisibility(View.INVISIBLE);
+            }
+        });
 
         binding.ivAddVoucherBlock.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +63,17 @@ public class AdminVoucherManagementActivity extends AppCompatActivity {
         });
 
         setContentView(binding.getRoot());
+    }
+
+    public void setUpRecyclerView() {
+
+        adminBlockVoucherAdapter = new AdminBlockVoucherAdapter(blockVouchers,  R.layout.quan_block_voucher_item, AdminVoucherManagementActivity.this);
+        //Add spacing to RecyclerView
+        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.item_spacing);
+        ItemSpacingDecoration itemSpacingDecoration = new ItemSpacingDecoration(spacingInPixels);
+        binding.rvVoucherBlock.addItemDecoration(itemSpacingDecoration);
+        binding.rvVoucherBlock.setLayoutManager(new LinearLayoutManager(AdminVoucherManagementActivity.this));
+        binding.rvVoucherBlock.setAdapter(adminBlockVoucherAdapter);
     }
 
     @Override

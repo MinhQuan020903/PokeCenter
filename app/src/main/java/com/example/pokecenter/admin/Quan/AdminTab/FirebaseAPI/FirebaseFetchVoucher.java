@@ -2,12 +2,15 @@ package com.example.pokecenter.admin.Quan.AdminTab.FirebaseAPI;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminBlockVoucher.AdminBlockVoucher;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminBlockVoucher.AdminVoucher;
 import com.example.pokecenter.admin.Quan.AdminTab.Model.MessageSender.Message;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.Order;
+import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.OrderDetail;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -24,7 +27,6 @@ import java.util.concurrent.CompletableFuture;
 
 public class FirebaseFetchVoucher {
     private Context context;
-    private String blockVoucherKey;
 
     public FirebaseFetchVoucher(Context context) {
         this.context = context;
@@ -37,15 +39,15 @@ public class FirebaseFetchVoucher {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 DatabaseReference blockVoucherRef = ref.push();
-                blockVoucherKey = ref.getKey();
                 blockVoucherRef.setValue(blockVoucher)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-                                addNewVoucherFromBlock(blockVoucherKey, blockVoucher, firebaseCallback);
+                                blockVoucher.setId(blockVoucherRef.getKey());
+                                Toast.makeText(context, "Add new BlockVoucher successfully!", Toast.LENGTH_SHORT).show();
+                                addNewVoucherFromBlock(blockVoucher, firebaseCallback);
                             }
                         });
-                addNewVoucherFromBlock(blockVoucherKey, blockVoucher, firebaseCallback);
             }
 
             @Override
@@ -56,8 +58,7 @@ public class FirebaseFetchVoucher {
 
     }
 
-    public void addNewVoucherFromBlock(String blockVoucherKey, AdminBlockVoucher blockVoucher, FirebaseCallback<Boolean> firebaseCallback) {
-
+    public void addNewVoucherFromBlock(AdminBlockVoucher blockVoucher, FirebaseCallback<Boolean> firebaseCallback) {
 
         Random random = new Random();
 
@@ -72,7 +73,7 @@ public class FirebaseFetchVoucher {
 
             generatedCodes.add(code); // Add the generated code to the set of generated codes
 
-            AdminVoucher voucher = new AdminVoucher(blockVoucherKey, code, true);
+            AdminVoucher voucher = new AdminVoucher(blockVoucher.getId(), code, true);
             voucherList.add(voucher);
         }
 
@@ -95,5 +96,46 @@ public class FirebaseFetchVoucher {
         }
 
         pushVouchersFuture.join();
+        firebaseCallback.onCallback(true);
+    }
+
+    public void getBlockVoucherList(FirebaseCallback<ArrayList<AdminBlockVoucher>> firebaseCallback) {
+        ArrayList<AdminBlockVoucher> blockVouchers = new ArrayList<>();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = firebaseDatabase.getReference("blockVoucher");
+
+        Query query = myRef.orderByChild("value").limitToLast(20);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                try {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        AdminBlockVoucher blockVoucher = new AdminBlockVoucher();
+                        try {
+                            blockVoucher.setId(dataSnapshot.getKey());
+                            blockVoucher.setName(dataSnapshot.child("name").getValue(String.class));
+                            blockVoucher.setStartDate(dataSnapshot.child("startDate").getValue(String.class));
+                            blockVoucher.setEndDate(dataSnapshot.child("endDate").getValue(String.class));
+                            blockVoucher.setCurrentQuantity(dataSnapshot.child("currentQuantity").getValue(int.class));
+                            blockVoucher.setValue(dataSnapshot.child("value").getValue(int.class));
+                        } catch (Exception e) {
+                            Log.d("FirebaseFetchUser", e.toString());
+                        }
+
+                        // Add to orderList
+                        blockVouchers.add(blockVoucher);
+                    }
+                } catch (Exception e) {
+                    Log.e("getOrderListFromFirebase", e.toString());
+                }
+                // On callback
+                firebaseCallback.onCallback(blockVouchers);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle onCancelled if needed
+            }
+        });
     }
 }

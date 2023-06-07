@@ -3,11 +3,15 @@ package com.example.pokecenter.admin.Quan.AdminTab.Model.AdminBlockVoucher;
 import java.io.Serializable;
 
 public class AdminBlockVoucher implements Serializable {
+    private String id;
     private String name;
     private int currentQuantity;
     private String startDate;
     private String endDate;
     private int value;
+
+    public AdminBlockVoucher() {
+    }
 
     public AdminBlockVoucher(String name, int currentQuantity, String startDate, String endDate, int value) {
         this.name = name;
@@ -17,6 +21,13 @@ public class AdminBlockVoucher implements Serializable {
         this.value = value;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

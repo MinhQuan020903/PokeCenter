@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -63,6 +64,12 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
+        binding.getRoot().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+            }
+        });
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef = firebaseDatabase.getReference("accounts");
@@ -220,10 +227,49 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
                     }
                 });
 
+
                 binding.progressBar.setVisibility(View.INVISIBLE);
             }
 
 
+        });
+
+        binding.bUsersManagementSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (binding.etUsersManagementSearch.getText().toString().contains("@")) {
+                    firebaseFetchUser.getUserByEmail(binding.etUsersManagementSearch.getText().toString(), new FirebaseCallback<User>() {
+                        @Override
+                        public void onCallback(User user) {
+                            ArrayList<User> users = new ArrayList<>();
+                            users.add(user);
+                            setUpRecyclerView();
+                            userAdapter.setUsersList(users);
+                            userAdapter.notifyDataSetChanged();
+                            binding.progressBar.setVisibility(View.INVISIBLE);
+                            userAdapter.setOnItemClickListener(new OnItemClickListener<User>() {
+                                @Override
+                                public void onItemClick(User user, int position) {
+                                    Intent intent = null;
+                                    switch (user.getRole()) {
+                                        case 0: {
+                                            intent = new Intent(AdminUsersManagementActivity.this, AdminCustomerInfoAndStatisticActivity.class);
+                                            break;
+                                        }
+                                        case 1: {
+                                            intent = new Intent(AdminUsersManagementActivity.this, AdminVenderInfoAndStatisticActivity.class);
+                                            break;
+                                        }
+                                    }
+                                    intent.putExtra("User", user);
+                                    startActivity(intent);
+                                }
+                            });
+
+                        }
+                    });
+                }
+            }
         });
 
     }
