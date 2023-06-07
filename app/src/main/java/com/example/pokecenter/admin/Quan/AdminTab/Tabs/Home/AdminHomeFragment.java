@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.Chat.AdminChatActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.OrdersManagement.AdminOrdersManagementActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductsManagementActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.StoreStatistic.AdminStoreStatisticActivity;
@@ -69,6 +70,12 @@ public class AdminHomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), AdminUsersManagementActivity.class));
+            }
+        });
+        binding.cvAdminChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), AdminChatActivity.class));
             }
         });
         return binding.getRoot();
