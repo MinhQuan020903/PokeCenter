@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.CustomerProfileFragment;
 import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.databinding.FragmentCustomerListAllBoxChatBinding;
 import com.example.pokecenter.databinding.FragmentVenderChatBinding;
@@ -25,6 +26,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -42,6 +44,9 @@ public class CustomerListAllBoxChatFragment extends Fragment implements ChatRoom
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentCustomerListAllBoxChatBinding.inflate(inflater, container, false);
+
+        Picasso.get().load(CustomerProfileFragment.currentAccount.getAvatar()).into(binding.avatarImage);
+
         rcvChatRoom = binding.rcvInboxList;
         chatRoomAdapter = new ChatRoomAdapter(getContext(), this);
 
@@ -78,6 +83,7 @@ public class CustomerListAllBoxChatFragment extends Fragment implements ChatRoom
                             // After setting the sender account, add the chat room to the list
                             listChatRoom.add(chatRoom);
                             chatRoomAdapter.addData(listChatRoom);
+
                         }
 
                         @Override
@@ -87,6 +93,8 @@ public class CustomerListAllBoxChatFragment extends Fragment implements ChatRoom
                     });
                     // No need to add the chat room here as it will be added in the onDataChange() method
                 }
+
+                binding.progressBar.setVisibility(View.INVISIBLE);
 
             }
 
