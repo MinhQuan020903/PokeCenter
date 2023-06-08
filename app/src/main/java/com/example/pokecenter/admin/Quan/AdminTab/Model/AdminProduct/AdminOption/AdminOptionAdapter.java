@@ -56,8 +56,6 @@ public class AdminOptionAdapter extends RecyclerView.Adapter<AdminOptionAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         AdminOption option = adminOptionList.get(position);
-        Log.e("POS", String.valueOf(position) + " " + adminOptionList.size());
-        Log.e("option", option.getId() + ", position=" + position);
         holder.tvProductOptionName.setText(option.getId());
         holder.tvProductOptionCurrentQuantity.setText(String.valueOf(option.getCurrentQuantity()));
         Picasso.get().load(option.getOptionImage()).into(holder.ivProductOptionImage);

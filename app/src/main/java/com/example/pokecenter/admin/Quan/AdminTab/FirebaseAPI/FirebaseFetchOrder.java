@@ -12,6 +12,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -29,7 +30,8 @@ public class FirebaseFetchOrder {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef = firebaseDatabase.getReference("orders");
 
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        Query query = myRef.orderByChild("totalAmount").limitToLast(20);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
@@ -38,19 +40,19 @@ public class FirebaseFetchOrder {
                         try {
                             order.setId(dataSnapshot.getKey());
                             order.setCreateDate(dataSnapshot.child("createDate").getValue(String.class));
-                            order.setCustomerId(dataSnapshot.child("customerId").getValue(String.class).replace(",","."));
+                            order.setCustomerId(dataSnapshot.child("customerId").getValue(String.class).replace(",", "."));
                             order.setTotalAmount(dataSnapshot.child("totalAmount").getValue(int.class));
-                            order.setVenderId(dataSnapshot.child("venderId").getValue(String.class).replace(",","."));
+                            order.setVenderId(dataSnapshot.child("venderId").getValue(String.class).replace(",", "."));
                         } catch (Exception e) {
                             Log.d("FirebaseFetchUser", e.toString());
                         }
-                        //Fetch Order data
+                        // Fetch Order data
                         try {
                             DataSnapshot orderDetailsSnapShot = dataSnapshot.child("details");
                             if (orderDetailsSnapShot.exists()) {
                                 ArrayList<OrderDetail> orderDetails = new ArrayList<>();
                                 for (DataSnapshot orderDetailSnapShot : orderDetailsSnapShot.getChildren()) {
-                                    //Fetch attributes of an OrderDetail object
+                                    // Fetch attributes of an OrderDetail object
                                     String productId = orderDetailSnapShot.child("productId").getValue(String.class);
                                     int quantity = orderDetailSnapShot.child("quantity").getValue(int.class);
                                     int selectedOption = orderDetailSnapShot.child("selectedOption").getValue(int.class);
@@ -60,26 +62,27 @@ public class FirebaseFetchOrder {
                                 }
                                 order.setDetails(orderDetails);
                             }
-                        }  catch (Exception e) {
+                        } catch (Exception e) {
                             Log.d("FirebaseFetchUser", e.toString());
                         }
 
-                        //Add to orderList
+                        // Add to orderList
                         orderList.add(order);
                     }
                 } catch (Exception e) {
                     Log.e("getOrderListFromFirebase", e.toString());
                 }
-                //On callback
+                // On callback
                 firebaseCallback.onCallback(orderList);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                // Handle onCancelled if needed
             }
         });
     }
+
 
     public void getOrderDetailFromFirebase(Order order, FirebaseCallback<ArrayList<OrderDetail>> firebaseCallback) {
         ArrayList<OrderDetail> orderDetailList = order.getDetails();
@@ -88,37 +91,37 @@ public class FirebaseFetchOrder {
         AtomicInteger fetchedOrderDetails = new AtomicInteger(0);
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = firebaseDatabase.getReference("products");
 
         for (OrderDetail orderDetail : orderDetailList) {
-            String productId = orderDetail.getProductId();
-            int selectedOption = orderDetail.getSelectedOption();
+            DatabaseReference myRef = firebaseDatabase.getReference("products");
+            Query query = myRef.orderByKey().equalTo(orderDetail.getProductId());
 
-            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     try {
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            if (dataSnapshot.getKey().equals(productId)) {
-                                String productName = dataSnapshot.child("name").getValue(String.class);
-                                int index = 0;
-                                for (DataSnapshot detailSnapshot : dataSnapshot.child("options").getChildren()) {
-                                    if (index == selectedOption) {
-                                        String selectedOptionName = detailSnapshot.getKey();
-                                        String selectedOptionImage = detailSnapshot.child("optionImage").getValue(String.class);
-                                        if (selectedOptionImage.equals("")) {
-                                            Log.e("IMAGENULL", selectedOptionImage);
-                                            // Get the first image of the product
-                                            selectedOptionImage = dataSnapshot.child("images").child("0").getValue(String.class);
-                                            Log.e("IMAGENULL", selectedOptionImage);
-                                        }
-                                        Long selectedOptionPrice = detailSnapshot.child("price").getValue(Long.class);
-                                        OrderDetail updatedOrderDetail = new OrderDetail(selectedOptionImage, productName, productId, orderDetail.getQuantity(), selectedOption, selectedOptionName, selectedOptionPrice);
-                                        updatedOrderDetailList.add(updatedOrderDetail);
-                                        break;
+                            String productId = dataSnapshot.getKey();
+                            String productName = dataSnapshot.child("name").getValue(String.class);
+                            DataSnapshot optionsSnapshot = dataSnapshot.child("options");
+                            int selectedOption = orderDetail.getSelectedOption();
+                            int index = 0;
+                            for (DataSnapshot detailSnapshot : optionsSnapshot.getChildren()) {
+                                if (index == selectedOption) {
+                                    String selectedOptionName = detailSnapshot.getKey();
+                                    String selectedOptionImage = detailSnapshot.child("optionImage").getValue(String.class);
+                                    if (selectedOptionImage.equals("")) {
+                                        Log.e("IMAGENULL", selectedOptionImage);
+                                        // Get the first image of the product
+                                        selectedOptionImage = dataSnapshot.child("images").child("0").getValue(String.class);
+                                        Log.e("IMAGENULL", selectedOptionImage);
                                     }
-                                    index++;
+                                    Long selectedOptionPrice = detailSnapshot.child("price").getValue(Long.class);
+                                    OrderDetail updatedOrderDetail = new OrderDetail(selectedOptionImage, productName, productId, orderDetail.getQuantity(), selectedOption, selectedOptionName, selectedOptionPrice);
+                                    updatedOrderDetailList.add(updatedOrderDetail);
+                                    break;
                                 }
+                                index++;
                             }
                         }
                     } catch (Exception e) {
@@ -145,6 +148,7 @@ public class FirebaseFetchOrder {
             });
         }
     }
+
 
 
 }

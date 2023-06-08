@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.CustomerProfileFragment;
 import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.databinding.FragmentCustomerListAllBoxChatBinding;
 import com.example.pokecenter.databinding.FragmentVenderChatBinding;
@@ -28,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -47,6 +49,9 @@ public class CustomerListAllBoxChatFragment extends Fragment implements ChatRoom
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentCustomerListAllBoxChatBinding.inflate(inflater, container, false);
+
+        Picasso.get().load(CustomerProfileFragment.currentAccount.getAvatar()).into(binding.avatarImage);
+
         rcvChatRoom = binding.rcvInboxList;
         chatRoomAdapter = new ChatRoomAdapter(getContext(), this);
 
@@ -100,7 +105,7 @@ public class CustomerListAllBoxChatFragment extends Fragment implements ChatRoom
 //                // Handle any errors that occur during the query
 //            }
 //        });
-        Set<String> addedChatRoomKeys = new HashSet<>();
+Set<String> addedChatRoomKeys = new HashSet<>();
         ChildEventListener chatroomListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
@@ -208,7 +213,6 @@ public class CustomerListAllBoxChatFragment extends Fragment implements ChatRoom
 
             // Other overridden methods (onChildMoved, onCancelled) can be left empty or implemented if needed
         };
-
         // Attach the listener to the "chats" node in the database
         databaseReference.child("chats").addChildEventListener(chatroomListener);
 

@@ -24,7 +24,7 @@
                 android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rostam Sadiqi"
+                tools:text="Rostam Sadiqi"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:textColor="@color/black"

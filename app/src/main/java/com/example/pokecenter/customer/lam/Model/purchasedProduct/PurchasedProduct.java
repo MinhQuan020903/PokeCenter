@@ -8,6 +8,9 @@ public class PurchasedProduct implements Serializable {
     private String purchasedDate;
     private int selectedOption;
 
+    public PurchasedProduct() {
+    }
+
     public PurchasedProduct(String productId, boolean reviewed, String purchasedDate, int selectedOption) {
         this.productId = productId;
         this.reviewed = reviewed;
