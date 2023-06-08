@@ -133,7 +133,7 @@
             android:name=".vender.VenderTab.Chat.ChatRoomActivity"
             android:exported="false"
             android:theme="@style/Theme.PokeCenter.NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".customer.lam.CustomerTab.Profile.NextActivity.CustomerAccountInfoActivity"
             android:exported="false" />

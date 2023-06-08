@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.customer.lam.Interface.PokemonRecyclerViewInterface;
+import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
 import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.customer.lam.Model.product.ProductAdapter;
@@ -28,6 +29,7 @@ import com.example.pokecenter.customer.lam.Model.vender.Vender;
 import com.example.pokecenter.customer.lam.Provider.FollowData;
 import com.example.pokecenter.customer.lam.Provider.ProductData;
 import com.example.pokecenter.databinding.ActivityVenderInformationBinding;
+import com.example.pokecenter.vender.VenderTab.Chat.ChatRoomActivity;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
