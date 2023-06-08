@@ -1037,6 +1037,7 @@ public class FirebaseSupportCustomer {
                 Order order = null;
                 try {
                     order = new Order(
+                            key,
                             ((Double) value.get("totalAmount")).intValue(),
                             outputFormat.parse((String) value.get("createDate")),
                             details,
@@ -1246,6 +1247,23 @@ public class FirebaseSupportCustomer {
             return responseData;
         }
         return null;
+    }
+
+    public void ConfirmReceived(String orderId) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        Map<String, Object> patchData = new HashMap<>();
+        patchData.put("status", "Delivery completed");
+
+        String jsonData = new Gson().toJson(patchData);
+        RequestBody body = RequestBody.create(jsonData, JSON);
+
+        Request request = new Request.Builder()
+                .url(urlDb + "orders/" + orderId + ".json")
+                .patch(body)
+                .build();
+
+        Response response = client.newCall(request).execute();
     }
 
 }

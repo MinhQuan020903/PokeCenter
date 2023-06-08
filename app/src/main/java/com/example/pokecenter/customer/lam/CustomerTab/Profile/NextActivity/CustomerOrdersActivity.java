@@ -13,6 +13,7 @@ import android.view.View;
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.customer.lam.CustomerActivity;
+import com.example.pokecenter.customer.lam.Interface.OrderRecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.order.Order;
 import com.example.pokecenter.customer.lam.Model.order.OrderAdapter;
 import com.example.pokecenter.databinding.ActivityCustomerOrdersBinding;
@@ -23,9 +24,10 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class CustomerOrdersActivity extends AppCompatActivity {
+public class CustomerOrdersActivity extends AppCompatActivity implements OrderRecyclerViewInterface {
 
     private ActivityCustomerOrdersBinding binding;
+    private List<Order> myOrders;
     private RecyclerView rcvOrders;
     private OrderAdapter orderAdapter;
 
@@ -55,7 +57,7 @@ public class CustomerOrdersActivity extends AppCompatActivity {
 
     private void fetchingAndSetupData() {
 
-        orderAdapter = new OrderAdapter(this, new ArrayList<>());
+        orderAdapter = new OrderAdapter(this, new ArrayList<>(), this);
         rcvOrders.setAdapter(orderAdapter);
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -63,25 +65,23 @@ public class CustomerOrdersActivity extends AppCompatActivity {
 
         executor.execute(() -> {
 
-            List<Order> fetchedOrders = new ArrayList<>();
             boolean isSuccess = true;
 
             try {
-                fetchedOrders = new FirebaseSupportCustomer().fetchingOrdersData();
+                myOrders = new FirebaseSupportCustomer().fetchingOrdersData();
             } catch (IOException e) {
                 isSuccess = false;
             }
 
             boolean finalIsSuccess = isSuccess;
-            List<Order> finalFetchedOrders = fetchedOrders;
             handler.post(() -> {
 
                 if (finalIsSuccess) {
 
-                    if (finalFetchedOrders.size() > 0) {
+                    if (myOrders.size() > 0) {
 
                         binding.informText.setVisibility(View.INVISIBLE);
-                        orderAdapter.setData(finalFetchedOrders);
+                        orderAdapter.setData(myOrders);
 
                     } else {
                         binding.rcvOrders.setVisibility(View.INVISIBLE);
@@ -110,5 +110,21 @@ public class CustomerOrdersActivity extends AppCompatActivity {
 
         finish();
         return true;
+    }
+
+    @Override
+    public void onContactSellerClick(int position) {
+
+    }
+
+    @Override
+    public void onRequestRefundClick(int position) {
+
+    }
+
+    @Override
+    public void onConfirmReceivedClick(int position) {
+
+
     }
 }
