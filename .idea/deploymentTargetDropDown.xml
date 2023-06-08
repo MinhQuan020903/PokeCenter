@@ -3,13 +3,7 @@
   <component name="deploymentTargetDropDown">
     <runningDeviceTargetSelectedWithDropDown>
       <Target>
-        <type value="RUNNING_DEVICE_TARGET" />
-        <deviceKey>
-          <Key>
-            <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="$USER_HOME$/.android/avd/Pixel_4_API_29.avd" />
-          </Key>
-        </deviceKey>
+        <type value="QUICK_BOOT_TARGET" />
       </Target>
     </runningDeviceTargetSelectedWithDropDown>
     <timeTargetWasSelectedWithDropDown value="2023-06-08T10:13:16.323831Z" />

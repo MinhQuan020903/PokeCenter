@@ -64,10 +64,7 @@ public class ChatRoomActivity extends AppCompatActivity {
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
         messageReference = FirebaseDatabase.getInstance().getReference("chats");
-        Instant currentTimestamp = Instant.now();
 
-        // Get the timestamp in milliseconds
-        long timestampMillis = currentTimestamp.toEpochMilli();
 //        databaseReference.child("chats").child(roomId).child("messages").addListenerForSingleValueEvent(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(DataSnapshot dataSnapshot) {
@@ -89,7 +86,11 @@ public class ChatRoomActivity extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
                 Message message = dataSnapshot.getValue(Message.class);
                 messageList.add(message);
-                messageAdapter.notifyDataSetChanged();
+                if(messageList.size()>0) {
+                    messageAdapter.notifyItemRangeInserted(messageList.size(),messageList.size());
+                    messageAdapter.notifyDataSetChanged();
+                    binding.RclMessageList.smoothScrollToPosition(messageList.size()-1);
+                }
             }
 
             @Override
@@ -115,11 +116,15 @@ public class ChatRoomActivity extends AppCompatActivity {
         });
         
         binding.cvBtnSend.setOnClickListener(view -> {
+            Instant currentTimestamp = Instant.now();
+            // Get the timestamp in milliseconds
+            long timestampMillis = currentTimestamp.toEpochMilli();
             Message MessageObject = new Message(currentId,binding.etMessage.getText().toString(),timestampMillis);
             databaseReference.child("chats").child(roomId).child("messages").push().setValue(MessageObject);
             databaseReference.child("chats").child(roomId).child("lastMessage").setValue(MessageObject.getMessageText());
             databaseReference.child("chats").child(roomId).child("lastMessageTimeStamp").setValue(MessageObject.getSendingTime());
             databaseReference.child("chats").child(roomId).child("senderId").setValue(currentId);
+            databaseReference.child("chats").child(roomId).child("id").setValue(roomId);
             binding.etMessage.setText("");
             //messageList.add(MessageObject);
             //messageAdapter.notifyDataSetChanged();
