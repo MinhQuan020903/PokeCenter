@@ -10,10 +10,13 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pokecenter.R;
@@ -130,6 +133,22 @@ public class SearchProductByCategoryActivity extends AppCompatActivity implement
                 if (editable.length() == 0) {
                     productAdapter.setData(products);
                 }
+            }
+        });
+
+        binding.searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+
+                    String searchText = binding.searchBar.getText().toString();
+                    if (!searchText.isEmpty()) {
+                        List<Product> filterProducts = products.stream().filter(product -> product.getName().toLowerCase().contains(searchText.toLowerCase())).collect(Collectors.toList());
+                        productAdapter.setData(filterProducts);
+                    }
+                    return true;
+                }
+                return false;
             }
         });
 
