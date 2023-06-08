@@ -58,34 +58,34 @@ public class AdminSupportFragment extends Fragment implements View.OnTouchListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentAdminSupportBinding.inflate(inflater, container, false);
-
-        context = container.getContext();
-
-        FirebaseFetchChat firebaseFetchChat = new FirebaseFetchChat(context);
-        firebaseFetchChat.getChatUserListFromFirebase(new FirebaseCallback<ArrayList<AdminChatUser>>() {
-            @Override
-            public void onCallback(ArrayList<AdminChatUser> user) {
-                chatUsers = user;
-
-                setUpSpinner();
-
-                setUpRecyclerView();
-
-                adminChatUserAdapter.setOnItemClickListener(new OnItemClickListener<AdminChatUser>() {
-
-
-                    @Override
-                    public void onItemClick(AdminChatUser user, int position) {
-
-                        //Set hasSeen states of this user's messages to true
-                        firebaseFetchChat.updateHasSeenStateForMessage(user.getEmail());
-                        Intent intent = new Intent(getActivity(), AdminChatActivity.class);
-                        intent.putExtra("AdminChatUser", user);
-                        startActivity(intent);
-                    }
-                });
-            }
-        });
+//
+//        context = container.getContext();
+//
+//        FirebaseFetchChat firebaseFetchChat = new FirebaseFetchChat(context);
+//        firebaseFetchChat.getChatUserListFromFirebase(new FirebaseCallback<ArrayList<AdminChatUser>>() {
+//            @Override
+//            public void onCallback(ArrayList<AdminChatUser> user) {
+//                chatUsers = user;
+//
+//                setUpSpinner();
+//
+//                setUpRecyclerView();
+//
+//                adminChatUserAdapter.setOnItemClickListener(new OnItemClickListener<AdminChatUser>() {
+//
+//
+//                    @Override
+//                    public void onItemClick(AdminChatUser user, int position) {
+//
+//                        //Set hasSeen states of this user's messages to true
+//                        firebaseFetchChat.updateHasSeenStateForMessage(user.getEmail());
+//                        Intent intent = new Intent(getActivity(), AdminChatActivity.class);
+//                        intent.putExtra("AdminChatUser", user);
+//                        startActivity(intent);
+//                    }
+//                });
+//            }
+//        });
 
         binding.spUserRole.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

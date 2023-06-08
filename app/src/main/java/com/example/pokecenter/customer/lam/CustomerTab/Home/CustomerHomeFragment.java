@@ -144,6 +144,10 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
         });
 
         rcvProduct = binding.rcvGridProduct;
+
+        ViewGroup.LayoutParams layoutParams = rcvProduct.getLayoutParams();
+        layoutParams.height = 700 * 2;
+
         productAdapter = new ProductAdapter(getActivity(), this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         rcvProduct.setLayoutManager(gridLayoutManager);

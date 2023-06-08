@@ -24,6 +24,10 @@ import com.example.pokecenter.vender.Model.VenderOrder.VenderOrder;
 import com.example.pokecenter.vender.Provider.OrderData;
 import com.example.pokecenter.vender.VenderTab.VenderProfileFragment;
 import com.example.pokecenter.vender.VenderActivity;
+import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.DoubleBounce;
+import com.github.ybq.android.spinkit.style.FoldingCube;
+import com.github.ybq.android.spinkit.style.RotatingCircle;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -54,6 +58,9 @@ public class SplashActivity extends AppCompatActivity {
         if (FirebaseAuth.getInstance().getCurrentUser() != null && role == 0) {
             WishListData.fetchDataFromSever();
         }
+
+        Sprite foldingCube = new FoldingCube();
+        binding.progressBar.setIndeterminateDrawable(foldingCube);
 
         //Create a Timer for the progress bar to run
         Timer timer = new Timer();

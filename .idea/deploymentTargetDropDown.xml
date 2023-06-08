@@ -4,8 +4,14 @@
     <targetSelectedWithDropDown>
       <Target>
         <type value="QUICK_BOOT_TARGET" />
+        <deviceKey>
+          <Key>
+            <type value="VIRTUAL_DEVICE_PATH" />
+            <value value="D:\Android\Android_SDK_HOME\.android\avd\Pixel_6_API_29.avd" />
+          </Key>
+        </deviceKey>
       </Target>
     </targetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2023-06-07T19:09:27.752907300Z" />
+    <timeTargetWasSelectedWithDropDown value="2023-06-08T10:48:20.764978500Z" />
   </component>
 </project>
