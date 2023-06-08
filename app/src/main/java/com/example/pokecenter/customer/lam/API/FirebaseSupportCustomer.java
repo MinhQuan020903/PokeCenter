@@ -1223,4 +1223,29 @@ public class FirebaseSupportCustomer {
         return "";
     }
 
+    public Map<String, List<String>> fetchingAllCategory() throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(urlDb + "category.json")
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+
+            String responseBody = response.body().string();
+
+            if (responseBody.equals("null")) {
+                return null;
+            }
+
+            Type type = new TypeToken<Map<String, List<String>>>(){}.getType();
+            Map<String, List<String>> responseData = new Gson().fromJson(responseBody, type);
+
+            return responseData;
+        }
+        return null;
+    }
+
 }
