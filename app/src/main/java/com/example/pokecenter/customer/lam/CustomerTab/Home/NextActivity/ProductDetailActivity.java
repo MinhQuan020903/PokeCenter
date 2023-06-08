@@ -39,6 +39,7 @@ import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.customer.lam.CustomerActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Cart.CheckoutActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.WishListActivity;
+import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.customer.lam.Model.cart.Cart;
 import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.product.Product;
@@ -48,6 +49,7 @@ import com.example.pokecenter.customer.lam.Model.vender.Vender;
 import com.example.pokecenter.customer.lam.Provider.WishListData;
 import com.example.pokecenter.customer.lam.SliderAdapter;
 import com.example.pokecenter.databinding.ActivityProductDetailBinding;
+import com.example.pokecenter.vender.VenderTab.Chat.ChatRoomActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
@@ -296,7 +298,12 @@ public class ProductDetailActivity extends AppCompatActivity {
         /* ----------------- */
 
         binding.productDesc.setText(receiveProduct.getDesc().replace("\\n", System.getProperty("line.separator")));
-
+        binding.chatNow.setOnClickListener(view -> {
+            Account senderAccount = new Account(fetchedVender.getAvatar(),fetchedVender.getShopName(),1,fetchedVender.getVenderId());
+            Intent intent = new Intent(this, ChatRoomActivity.class);
+            intent.putExtra("senderAccount", senderAccount);
+            startActivity(intent);
+        });
         /*
         setup snack bar
         setUpSnackbar() phải để sau setContentView

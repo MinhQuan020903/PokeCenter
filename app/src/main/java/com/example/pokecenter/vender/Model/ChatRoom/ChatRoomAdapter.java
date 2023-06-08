@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
@@ -68,8 +69,9 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
             holder.tvLastMessageTimestamp.setText(getLastMessageTimeStampFormat(ib.getLastMessageTimeStamp()));
     }
     public void addData(ArrayList<ChatRoom> t) {
-        this.list.clear();
-        this.list.addAll(t);
+        list.clear();
+        t.sort(Comparator.comparing(ChatRoom::getLastMessageTimeStamp).reversed());
+        list.addAll(t);
         notifyDataSetChanged();
     }
     @Override
