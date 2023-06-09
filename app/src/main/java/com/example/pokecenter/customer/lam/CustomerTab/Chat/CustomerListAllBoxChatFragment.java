@@ -109,6 +109,9 @@ public class CustomerListAllBoxChatFragment extends Fragment implements ChatRoom
         ChildEventListener chatroomListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
+
+                binding.progressBar.setVisibility(View.VISIBLE);
+
                 String chatRoomKey = dataSnapshot.getKey();
 
                 // Step 2: Check if the chat room key is already in the set
@@ -134,6 +137,8 @@ public class CustomerListAllBoxChatFragment extends Fragment implements ChatRoom
                         // After setting the sender account, add the chat room to the list
                         listChatRoom.add(chatRoom);
                         chatRoomAdapter.addData(listChatRoom);
+
+                        binding.progressBar.setVisibility(View.INVISIBLE);
                     }
 
                     @Override
@@ -142,6 +147,7 @@ public class CustomerListAllBoxChatFragment extends Fragment implements ChatRoom
                     }
                 });
                 addedChatRoomKeys.add(chatRoomKey);
+
             }
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildKey) {
@@ -176,6 +182,7 @@ public class CustomerListAllBoxChatFragment extends Fragment implements ChatRoom
                         String avatar = dataSnapshot.child("avatar").getValue(String.class);
                         String username = dataSnapshot.child("username").getValue(String.class);
                         int role = dataSnapshot.child("role").getValue(Integer.class);
+
                         updatedChatRoom.setSenderAccount(new Account(avatar, username, role, id));
                         listChatRoom.set(finalChatRoomIndex, updatedChatRoom);
                         chatRoomAdapter.addData(listChatRoom);

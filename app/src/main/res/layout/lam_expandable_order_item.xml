@@ -143,7 +143,7 @@
                     android:layout_weight="1"/>
 
                 <TextView
-                    android:id="@+id/reviewButton"
+                    android:id="@+id/request_refund"
                     android:layout_width="160dp"
                     android:layout_height="56dp"
                     android:background="@drawable/lam_background_outline_secondary_corner_8"
@@ -170,6 +170,14 @@
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:visibility="visible"/>
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:paddingVertical="8dp"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone"/>
 
         </LinearLayout>
 

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Order {
+    private String id;
 
     private int totalAmount;
     private Date createDateTime;
@@ -13,12 +14,21 @@ public class Order {
     private Date deliveryDate;
     private boolean isExpand;
 
-    public Order(int totalAmount, Date createDateTime, List<DetailOrder> ordersDetail, String status) {
+    public Order(String id, int totalAmount, Date createDateTime, List<DetailOrder> ordersDetail, String status) {
+        this.id = id;
         this.totalAmount = totalAmount;
         this.createDateTime = createDateTime;
         this.ordersDetail = ordersDetail;
         this.status = status;
         isExpand = false;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public int getTotalAmount() {

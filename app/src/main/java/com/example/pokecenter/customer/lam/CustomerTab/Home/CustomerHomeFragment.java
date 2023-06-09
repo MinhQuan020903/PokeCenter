@@ -25,6 +25,7 @@ import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.Pokedex
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.ProductByPokemonActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.ProductDetailActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.SearchProductActivity;
+import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.SearchProductByCategoryActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.TrendingProductsActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.CustomerProfileFragment;
 import com.example.pokecenter.customer.lam.Interface.PokemonRecyclerViewInterface;
@@ -146,7 +147,7 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
         rcvProduct = binding.rcvGridProduct;
 
         ViewGroup.LayoutParams layoutParams = rcvProduct.getLayoutParams();
-        layoutParams.height = 700 * 2;
+        layoutParams.height = 732 * 2;
 
         productAdapter = new ProductAdapter(getActivity(), this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
@@ -157,6 +158,11 @@ public class CustomerHomeFragment extends Fragment implements PokemonRecyclerVie
         rcvProduct.setAdapter(productAdapter);
 
         setTrendingProducts();
+
+        binding.viewAllCategory.setOnClickListener(view -> {
+            startActivity(new Intent(getActivity(), SearchProductByCategoryActivity.class));
+        });
+
 
         return binding.getRoot();
     }
