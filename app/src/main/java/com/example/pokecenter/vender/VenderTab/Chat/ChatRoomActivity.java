@@ -6,8 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
 
+import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.databinding.ActivityAddProductBinding;
 import com.example.pokecenter.databinding.ActivityChatRoomBinding;
@@ -42,6 +46,15 @@ public class ChatRoomActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Window window = getWindow();
+            // change StatusBarColor
+            window.setStatusBarColor(getColor(R.color.white));
+            // change color of icons in status bar
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
         binding = ActivityChatRoomBinding.inflate(getLayoutInflater());
         senderAccount = (Account)getIntent().getSerializableExtra("senderAccount");
 

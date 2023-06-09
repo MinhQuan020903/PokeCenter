@@ -1,23 +1,27 @@
 package com.example.pokecenter.customer.lam.Model.order;
 
 import android.content.Context;
-import android.graphics.Typeface;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
-import com.example.pokecenter.customer.lam.Model.checkout_item.CheckoutProductAdapter;
+import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
+import com.example.pokecenter.customer.lam.Interface.OrderRecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.customer.lam.Provider.ProductData;
 import com.google.android.material.divider.MaterialDivider;
 
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -25,18 +29,22 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
 
     private Context mContext;
     private List<Order> mOrders;
+    private OrderRecyclerViewInterface orderRecyclerViewInterface;
 
     NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm");
 
-    public OrderAdapter(Context context, List<Order> orders) {
+    public OrderAdapter(Context context, List<Order> orders, OrderRecyclerViewInterface orderRecyclerViewInterface) {
         this.mContext = context;
         this.mOrders = orders;
+        this.orderRecyclerViewInterface = orderRecyclerViewInterface;
     }
 
     public void setData(List<Order> orders) {
@@ -48,7 +56,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     @Override
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lam_expandable_order_item, parent, false);
-        return new OrderViewHolder(view);
+        return new OrderViewHolder(view, orderRecyclerViewInterface);
     }
 
     @Override
@@ -88,7 +96,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
         if (order.getStatus().equals("Delivered")) {
             holder.operations.setVisibility(View.VISIBLE);
-            holder.divider2.setVisibility(View.VISIBLE);
 
             holder.orderStatus.setText(order.getStatus() + " - " + dateFormat.format(order.getDeliveryDate()));
 
@@ -98,7 +105,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
         } else {
             holder.operations.setVisibility(View.GONE);
-            holder.divider2.setVisibility(View.GONE);
             holder.orderStatus.setText(order.getStatus());
         }
 
@@ -126,9 +132,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         private LinearLayout operations;
         private TextView informText;
 
-        private MaterialDivider divider2;
+        private TextView contactVender;
+        private TextView requestRefund;
+        private TextView confirmReceived;
 
-        public OrderViewHolder(@NonNull View itemView) {
+        private ProgressBar progressBar;
+
+
+        public OrderViewHolder(@NonNull View itemView, OrderRecyclerViewInterface orderRecyclerViewInterface) {
             super(itemView);
 
             totalAmount = itemView.findViewById(R.id.total_amount);
@@ -143,7 +154,61 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             operations = itemView.findViewById(R.id.operations);
             informText = itemView.findViewById(R.id.inform_text);
 
-            divider2 = itemView.findViewById(R.id.divider2);
+            contactVender = itemView.findViewById(R.id.contact_vender);
+            requestRefund = itemView.findViewById(R.id.request_refund);;
+            confirmReceived = itemView.findViewById(R.id.confirm_received);
+
+            progressBar = itemView.findViewById(R.id.progress_bar);
+
+            contactVender.setOnClickListener(view -> {
+                int pos = getAbsoluteAdapterPosition();
+                orderRecyclerViewInterface.onContactSellerClick(pos);
+            });
+
+            requestRefund.setOnClickListener(view -> {
+                int pos = getAbsoluteAdapterPosition();
+                orderRecyclerViewInterface.onRequestRefundClick(pos);
+            });
+
+            confirmReceived.setOnClickListener(view -> {
+
+                confirmReceived.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+
+                int pos = getAbsoluteAdapterPosition();
+                Order order = mOrders.get(pos);
+
+                ExecutorService executor = Executors.newSingleThreadExecutor();
+                Handler handler = new Handler(Looper.getMainLooper());
+
+                executor.execute(() -> {
+
+                    boolean isSuccess = true;
+
+                    try {
+                        new FirebaseSupportCustomer().ConfirmReceived(order.getId());
+                    } catch (IOException e) {
+                        isSuccess = false;
+                    }
+
+                    boolean finalIsSuccess = isSuccess;
+                    handler.post(() -> {
+
+                        if (finalIsSuccess) {
+
+                            operations.setVisibility(View.GONE);
+                            order.setStatus("Delivery completed");
+
+                            notifyItemChanged(pos);
+
+                        } else {
+                            confirmReceived.setVisibility(View.VISIBLE);
+                        }
+
+                        progressBar.setVisibility(View.GONE);
+                    });
+                });
+            });
 
             itemView.setOnClickListener(view -> {
 
