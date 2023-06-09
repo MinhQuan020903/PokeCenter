@@ -3,224 +3,219 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Ninh Test -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+ <uses-permission android:name="android.permission.INTERNET" />
+ <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Ninh Test -->
+ <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+ <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-    <application
-        android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/main_logo"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/main_logo_round"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.PokeCenter"
-        tools:targetApi="31">
+ <application
+     android:allowBackup="true"
+     android:dataExtractionRules="@xml/data_extraction_rules"
+     android:fullBackupContent="@xml/backup_rules"
+     android:icon="@mipmap/main_logo"
+     android:label="@string/app_name"
+     android:roundIcon="@mipmap/main_logo_round"
+     android:supportsRtl="true"
+     android:theme="@style/Theme.PokeCenter"
+     tools:targetApi="31">
+  <activity
+      android:name=".vender.VenderTab.Home.Parcel.ParcelMainActivity"
+      android:exported="false" />
+<!--  <activity-->
+<!--      android:name=".AdminAddProductToTrendingActivity"-->
+<!--      android:exported="false" />-->
+  <activity
+      android:name=".admin.Quan.AdminTab.Tabs.Home.VoucherManagement.AdminVoucherManagementActivity"
+      android:exported="false" />
+  <activity
+      android:name=".admin.Quan.AdminTab.Tabs.Home.VoucherManagement.AddBlockVoucherActivity"
+      android:exported="false" />
+  <activity
+      android:name=".admin.Quan.AdminTab.Tabs.Support.AdminChatActivity"
+      android:exported="false" />
+  <activity
+      android:name=".admin.Quan.AdminTab.Tabs.Home.OrdersManagement.AdminOrderDetailActivity"
+      android:exported="false" />
+  <activity
+      android:name=".admin.Quan.AdminTab.Tabs.Home.Chat.AdminChatActivity"
+      android:exported="false" />
+  <activity
+      android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductOptionActivity"
+      android:exported="false" />
+  <activity
+      android:name=".vender.VenderTab.Home.VenderNotificationActivity"
+      android:exported="false" />
+  <activity
+      android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductDetailReviewsActivity"
+      android:exported="false" />
+  <activity
+      android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.ProductStatisticActivity"
+      android:exported="false" />
+  <activity
+      android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductDetailActivity"
+      android:exported="false" />
+  <activity
+      android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderProfileInfoActivity"
+      android:exported="false" />
+  <activity
+      android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderFollowerListActivity"
+      android:exported="false" />
+  <activity
+      android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderProductListActivity"
+      android:exported="false" />
+  <activity
+      android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoFollowersActivity"
+      android:exported="false" />
+  <activity
+      android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoAddressesActivity"
+      android:exported="false" />
+  <activity
+      android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoActivity"
+      android:exported="false" />
+  <activity
+      android:name=".vender.VenderTab.Home.Product.VenderProductDetailActivity"
+      android:exported="false" />
+  <activity
+      android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminVenderInfoAndStatisticActivity"
+      android:exported="false" />
+  <activity
+      android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminCustomerInfoAndStatisticActivity"
+      android:exported="false" />
+  <activity
+      android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminUsersManagementActivity"
+      android:exported="false" />
+  <activity
+      android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductsManagementActivity"
+      android:exported="false" />
+  <activity
+      android:name=".admin.Quan.AdminTab.Tabs.Home.OrdersManagement.AdminOrdersManagementActivity"
+      android:exported="false" />
+  <activity
+      android:name=".admin.Quan.AdminTab.Tabs.Home.StoreStatistic.AdminStoreStatisticActivity"
+      android:exported="false" />
+  <activity
+      android:name=".admin.Quan.AdminTab.Tabs.Profile.AdminAccountInfoActivity"
+      android:exported="false" />
+  <activity
+      android:name=".vender.VenderTab.Home.Product.AddProductActivity"
+      android:exported="false"
+      android:windowSoftInputMode="adjustPan" />
+  <activity
+      android:name=".vender.VenderTab.Home.Product.VenderProductActivity"
+      android:exported="false" />
+  <activity
+      android:name=".vender.VenderTab.Home.VenderStatisticsActivity"
+      android:exported="false" /> <!-- <activity -->
+  <!-- android:name=".ChatWithUserActivity" -->
+  <!-- android:exported="false" -->
+  <!-- android:label="@string/title_activity_chat_with_user" -->
+  <!-- android:theme="@style/Theme.PokeCenter.NoActionBar" /> -->
+  <activity
+      android:name=".customer.lam.Authentication.ForgotPasswordActivity"
+      android:exported="false"
+      android:theme="@style/Theme.PokeCenter.NoActionBar" />
+  <activity
+      android:name=".customer.lam.Authentication.SignUpActivity"
+      android:exported="false"
+      android:theme="@style/Theme.PokeCenter.NoActionBar" />
+  <activity
+      android:name=".customer.lam.Authentication.SignInActivity"
+      android:exported="false"
+      android:theme="@style/Theme.PokeCenter.NoActionBar" />
+  <activity
+      android:name=".customer.lam.Authentication.SplashActivity"
+      android:exported="true"
+      android:theme="@style/Theme.PokeCenter.NoActionBar">
+   <intent-filter>
+    <action android:name="android.intent.action.MAIN" />
 
-        <activity
-            android:name=".AdminAddProductToTrendingActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.VoucherManagement.AdminVoucherManagementActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.VoucherManagement.AddBlockVoucherActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Support.AdminChatActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.OrdersManagement.AdminOrderDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.Chat.AdminChatActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.OrdersManagement.AdminOrderDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductOptionActivity"
-            android:exported="false" />
-        <activity
-            android:name=".vender.VenderTab.Home.VenderNotificationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductDetailReviewsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.ProductStatisticActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderProfileInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderFollowerListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderProductListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoFollowersActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoAddressesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".vender.VenderTab.Home.Product.VenderProductDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminVenderInfoAndStatisticActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminCustomerInfoAndStatisticActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminUsersManagementActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductsManagementActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.OrdersManagement.AdminOrdersManagementActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.StoreStatistic.AdminStoreStatisticActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Profile.AdminAccountInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".vender.VenderTab.Home.Product.AddProductActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".vender.VenderTab.Home.Product.VenderProductActivity"
-            android:exported="false" />
-        <activity
-            android:name=".vender.VenderTab.Home.VenderStatisticsActivity"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".ChatWithUserActivity" -->
-        <!-- android:exported="false" -->
-        <!-- android:label="@string/title_activity_chat_with_user" -->
-        <!-- android:theme="@style/Theme.PokeCenter.NoActionBar" /> -->
-        <activity
-            android:name=".customer.lam.Authentication.ForgotPasswordActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PokeCenter.NoActionBar" />
-        <activity
-            android:name=".customer.lam.Authentication.SignUpActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PokeCenter.NoActionBar" />
-        <activity
-            android:name=".customer.lam.Authentication.SignInActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PokeCenter.NoActionBar" />
-        <activity
-            android:name=".customer.lam.Authentication.SplashActivity"
-            android:exported="true"
-            android:theme="@style/Theme.PokeCenter.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".customer.lam.CustomerActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PokeCenter.NoActionBar" />
-        <activity
-            android:name=".vender.VenderActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PokeCenter.NoActionBar" />
-        <activity
-            android:name=".admin.AdminActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PokeCenter.NoActionBar" />
-        <activity
-            android:name=".vender.VenderTab.Chat.ChatRoomActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PokeCenter.NoActionBar"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".customer.lam.CustomerTab.Profile.NextActivity.CustomerAccountInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".customer.lam.CustomerTab.Home.NextActivity.SearchProductActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PokeCenter.NoActionBar" />
-        <activity
-            android:name=".customer.lam.CustomerTab.Home.NextActivity.TrendingProductsActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PokeCenter.NoActionBar" />
-        <activity
-            android:name=".customer.lam.CustomerTab.Home.NextActivity.PokedexActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PokeCenter.NoActionBar" />
-        <activity
-            android:name=".customer.lam.CustomerTab.Home.NextActivity.ProductByPokemonActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PokeCenter.NoActionBar" />
-        <activity
-            android:name=".customer.lam.CustomerTab.Home.NextActivity.ProductDetailActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PokeCenter.NoActionBar" />
-        <activity
-            android:name=".customer.lam.CustomerTab.Cart.CheckoutActivity"
-            android:exported="false" />
-        <activity
-            android:name=".customer.lam.CustomerTab.Home.NextActivity.VenderInformationActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PokeCenter.NoActionBar" />
-        <activity
-            android:name=".customer.lam.CustomerTab.Profile.NextActivity.WishListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".customer.lam.CustomerTab.Notification.PromotionNotificationsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".customer.lam.CustomerTab.Notification.FromPokeCenterNotificationsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".customer.lam.CustomerTab.Cart.OrderConfirmedActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PokeCenter.NoActionBar" />
-        <activity
-            android:name=".customer.lam.CustomerTab.Profile.NextActivity.MyProductReviewsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".customer.lam.CustomerTab.Profile.NextActivity.StartSellingActivity"
-            android:exported="false" />
-        <activity
-            android:name=".customer.lam.CustomerTab.Profile.NextActivity.Suport.CustomerSupportActivity"
-            android:exported="false" />
-        <activity
-            android:name=".customer.lam.CustomerTab.Profile.NextActivity.Suport.CustomerSupportInFindingProductActivity"
-            android:exported="false" />
-        <activity
-            android:name=".customer.lam.CustomerTab.Profile.NextActivity.Suport.CustomerGetSupportActivity"
-            android:exported="false" />
-        <activity
-            android:name=".customer.lam.CustomerTab.Profile.NextActivity.CustomerOrdersActivity"
-            android:exported="false" />
-        <activity
-            android:name=".customer.lam.CustomerTab.Notification.OrdersProgressNotificationsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".customer.lam.CustomerTab.Home.NextActivity.SearchProductByCategoryActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PokeCenter.NoActionBar" />
-    </application>
+    <category android:name="android.intent.category.LAUNCHER" />
+   </intent-filter>
+  </activity>
+  <activity
+      android:name=".customer.lam.CustomerActivity"
+      android:exported="false"
+      android:theme="@style/Theme.PokeCenter.NoActionBar" />
+  <activity
+      android:name=".vender.VenderActivity"
+      android:exported="false"
+      android:theme="@style/Theme.PokeCenter.NoActionBar" />
+  <activity
+      android:name=".admin.AdminActivity"
+      android:exported="false"
+      android:theme="@style/Theme.PokeCenter.NoActionBar" />
+  <activity
+      android:name=".vender.VenderTab.Chat.ChatRoomActivity"
+      android:exported="false"
+      android:theme="@style/Theme.PokeCenter.NoActionBar"
+      android:windowSoftInputMode="adjustResize" />
+  <activity
+      android:name=".customer.lam.CustomerTab.Profile.NextActivity.CustomerAccountInfoActivity"
+      android:exported="false" />
+  <activity
+      android:name=".customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity"
+      android:exported="false" />
+  <activity
+      android:name=".customer.lam.CustomerTab.Home.NextActivity.SearchProductActivity"
+      android:exported="false"
+      android:theme="@style/Theme.PokeCenter.NoActionBar" />
+  <activity
+      android:name=".customer.lam.CustomerTab.Home.NextActivity.TrendingProductsActivity"
+      android:exported="false"
+      android:theme="@style/Theme.PokeCenter.NoActionBar" />
+  <activity
+      android:name=".customer.lam.CustomerTab.Home.NextActivity.PokedexActivity"
+      android:exported="false"
+      android:theme="@style/Theme.PokeCenter.NoActionBar" />
+  <activity
+      android:name=".customer.lam.CustomerTab.Home.NextActivity.ProductByPokemonActivity"
+      android:exported="false"
+      android:theme="@style/Theme.PokeCenter.NoActionBar" />
+  <activity
+      android:name=".customer.lam.CustomerTab.Home.NextActivity.ProductDetailActivity"
+      android:exported="false"
+      android:theme="@style/Theme.PokeCenter.NoActionBar" />
+  <activity
+      android:name=".customer.lam.CustomerTab.Cart.CheckoutActivity"
+      android:exported="false" />
+  <activity
+      android:name=".customer.lam.CustomerTab.Home.NextActivity.VenderInformationActivity"
+      android:exported="false"
+      android:theme="@style/Theme.PokeCenter.NoActionBar" />
+  <activity
+      android:name=".customer.lam.CustomerTab.Profile.NextActivity.WishListActivity"
+      android:exported="false" />
+  <activity
+      android:name=".customer.lam.CustomerTab.Notification.PromotionNotificationsActivity"
+      android:exported="false" />
+  <activity
+      android:name=".customer.lam.CustomerTab.Notification.FromPokeCenterNotificationsActivity"
+      android:exported="false" />
+  <activity
+      android:name=".customer.lam.CustomerTab.Cart.OrderConfirmedActivity"
+      android:exported="false"
+      android:theme="@style/Theme.PokeCenter.NoActionBar" />
+  <activity
+      android:name=".customer.lam.CustomerTab.Profile.NextActivity.MyProductReviewsActivity"
+      android:exported="false" />
+  <activity
+      android:name=".customer.lam.CustomerTab.Profile.NextActivity.StartSellingActivity"
+      android:exported="false" />
+  <activity
+      android:name=".customer.lam.CustomerTab.Profile.NextActivity.Suport.CustomerSupportActivity"
+      android:exported="false" />
+  <activity
+      android:name=".customer.lam.CustomerTab.Profile.NextActivity.Suport.CustomerSupportInFindingProductActivity"
+      android:exported="false" />
+  <activity
+      android:name=".customer.lam.CustomerTab.Profile.NextActivity.Suport.CustomerGetSupportActivity"
+      android:exported="false" />
+  <activity
+      android:name=".customer.lam.CustomerTab.Profile.NextActivity.CustomerOrdersActivity"
+      android:exported="false" />
+  <activity
+      android:name=".customer.lam.CustomerTab.Notification.OrdersProgressNotificationsActivity"
+      android:exported="false" />
+ </application>
 
 </manifest>

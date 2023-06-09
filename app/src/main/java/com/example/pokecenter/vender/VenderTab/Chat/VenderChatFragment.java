@@ -14,12 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.ProductByPokemonActivity;
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.CustomerProfileFragment;
 import com.example.pokecenter.customer.lam.Interface.PokemonRecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.databinding.FragmentVenderChatBinding;
 import com.example.pokecenter.vender.Model.ChatRoom.ChatRoom;
 import com.example.pokecenter.vender.Model.ChatRoom.ChatRoomAdapter;
 import com.example.pokecenter.vender.Model.ChatRoom.ChatRoomInterface;
+import com.example.pokecenter.vender.VenderTab.VenderProfileFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -27,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,6 +51,8 @@ public class VenderChatFragment extends Fragment implements ChatRoomInterface {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentVenderChatBinding.inflate(inflater, container, false);
+        Picasso.get().load(VenderProfileFragment.currentVender.getAvatar()).into(binding.avatarImage);
+        binding.progressBar.setVisibility(View.INVISIBLE);
         rcvChatRoom = binding.rcvInboxList;
         chatRoomAdapter = new ChatRoomAdapter(getContext(), this);
 
@@ -111,8 +116,8 @@ public class VenderChatFragment extends Fragment implements ChatRoomInterface {
 
         ChildEventListener chatroomListener = new ChildEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
-                String chatRoomKey = dataSnapshot.getKey();
+            public void onChildAdded(DataSnapshot dataSnapshot1, String previousChildKey) {
+                String chatRoomKey = dataSnapshot1.getKey();
 
                 // Step 2: Check if the chat room key is already in the set
                 if (addedChatRoomKeys.contains(chatRoomKey)) {
@@ -123,8 +128,8 @@ public class VenderChatFragment extends Fragment implements ChatRoomInterface {
                     return; // Skip to the next iteration if the chat snapshot doesn't contain the current ID
                 }
                 // Handle new chatroom added
-                ChatRoom chatRoom = dataSnapshot.getValue(ChatRoom.class);
-
+                ChatRoom chatRoom = dataSnapshot1.getValue(ChatRoom.class);
+                chatRoom.getId();
                 String id = chatRoomKey.replaceAll(currentId, "");
                 databaseReference.child("accounts").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -133,10 +138,11 @@ public class VenderChatFragment extends Fragment implements ChatRoomInterface {
                         String username = dataSnapshot.child("username").getValue(String.class);
                         int role = dataSnapshot.child("role").getValue(Integer.class);
                         chatRoom.setSenderAccount(new Account(avatar, username, role, id));
-
+                        chatRoom.getId();
                         // After setting the sender account, add the chat room to the list
                         listChatRoom.add(chatRoom);
                         chatRoomAdapter.addData(listChatRoom);
+                        addedChatRoomKeys.add(chatRoomKey);
                     }
 
                     @Override
@@ -144,11 +150,11 @@ public class VenderChatFragment extends Fragment implements ChatRoomInterface {
                         // Handle any errors that occur during the query
                     }
                 });
-                addedChatRoomKeys.add(chatRoomKey);
+
             }
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildKey) {
-                String chatRoomKey = dataSnapshot.getKey();
+            public void onChildChanged(DataSnapshot dataSnapshot1, String previousChildKey) {
+                String chatRoomKey = dataSnapshot1.getKey();
 
                 if (!chatRoomKey.contains(currentId)) {
                     return; // Skip to the next iteration if the chat snapshot doesn't contain the current ID
@@ -170,7 +176,7 @@ public class VenderChatFragment extends Fragment implements ChatRoomInterface {
                 }
 
                 // Handle chatroom changed
-                ChatRoom updatedChatRoom = dataSnapshot.getValue(ChatRoom.class);
+                ChatRoom updatedChatRoom = dataSnapshot1.getValue(ChatRoom.class);
                 String id = chatRoomKey.replaceAll(currentId, "");
                 int finalChatRoomIndex = chatRoomIndex;
                 databaseReference.child("accounts").child(id).addListenerForSingleValueEvent(new ValueEventListener() {

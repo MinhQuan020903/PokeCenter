@@ -151,11 +151,11 @@ tools:context=".vender.VenderTab.Home.VenderHomeFragment">
                     xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_weight="1"
                     app:cardCornerRadius="0dp"
                     app:cardElevation="0dp"
                     android:layout_width="130dp"
                     android:layout_height="130dp"
-                    android:layout_weight="1"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true">
 
@@ -167,6 +167,7 @@ tools:context=".vender.VenderTab.Home.VenderHomeFragment">
                         android:layout_gravity="center"
                         android:background="#00000000">
                         <ImageView
+                            android:id="@+id/parcel_function"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:src="@drawable/ninh_parcel_function"
@@ -336,6 +337,7 @@ tools:context=".vender.VenderTab.Home.VenderHomeFragment">
                         android:layout_gravity="center"
                         android:background="#00000000">
                         <ImageView
+                            android:id="@+id/voucher_function"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:src="@drawable/ninh_voucher_function"

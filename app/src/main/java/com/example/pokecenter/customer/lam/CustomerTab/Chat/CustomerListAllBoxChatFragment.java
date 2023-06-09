@@ -59,7 +59,7 @@ public class CustomerListAllBoxChatFragment extends Fragment implements ChatRoom
         rcvChatRoom.setLayoutManager(linearLayoutManager);
         rcvChatRoom.setAdapter(chatRoomAdapter);
 
-
+        binding.progressBar.setVisibility(View.INVISIBLE);
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         ArrayList<ChatRoom> listChatRoom = new ArrayList<>();

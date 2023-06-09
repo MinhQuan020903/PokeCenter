@@ -48,7 +48,9 @@ public class AdminChatActivity extends AppCompatActivity implements ChatRoomInte
             getWindow().setStatusBarColor(getColor(R.color.light_primary));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
-
+        getSupportActionBar().setTitle("Chats");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setContentView(binding.getRoot());
         binding = ActivityAdminChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -231,5 +233,10 @@ public class AdminChatActivity extends AppCompatActivity implements ChatRoomInte
             intent.putExtra("senderAccount", c.getSenderAccount());
             startActivity(intent);
         }
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

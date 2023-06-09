@@ -29,9 +29,13 @@ import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.option.OptionAdapter;
 import com.example.pokecenter.databinding.ActivitySignUpBinding;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
+import com.example.pokecenter.vender.Model.Chat.Message;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.time.Instant;
 import java.util.List;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -187,6 +191,18 @@ public class SignUpActivity extends AppCompatActivity {
                         /* Cách 1 */
                         new FirebaseSupportAccount().addNewAccount(email, username, role, gender, phoneNumber);
                         new FirebaseSupportAccount().addNewVender(email, shopName);
+
+                        // Khời tạo tin nhắn của admin
+                        Instant currentTimestamp = Instant.now();
+                        // Get the timestamp in milliseconds
+                        long timestampMillis = currentTimestamp.toEpochMilli();
+                        String roomId = "doquan020903@gmail,com" + email.replace(".", ",");
+                        Message MessageObject = new Message("doquan020903@gmail,com", "Cảm ơn bạn đã sử dụng ứng dụng PokeCenter", timestampMillis);
+                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                        databaseReference.child("chats").child(roomId).child("messages").push().setValue(MessageObject);
+                        databaseReference.child("chats").child(roomId).child("lastMessage").setValue(MessageObject.getMessageText());
+                        databaseReference.child("chats").child(roomId).child("lastMessageTimeStamp").setValue(MessageObject.getSendingTime());
+                        databaseReference.child("chats").child(roomId).child("senderId").setValue("doquan020903@gmail,com");
 
                         /* Cách 2: Using API + new Thread
                         ExecutorService executor = Executors.newSingleThreadExecutor();
