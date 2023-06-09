@@ -15,6 +15,8 @@ import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.databinding.FragmentVenderHomeBinding;
 import com.example.pokecenter.vender.Model.Chat.Message;
 import com.example.pokecenter.vender.Model.ChatRoom.ChatRoom;
+import com.example.pokecenter.vender.VenderTab.Chat.VenderChatFragment;
+import com.example.pokecenter.vender.VenderTab.Home.Parcel.ParcelMainActivity;
 import com.example.pokecenter.vender.VenderTab.VenderNotificationsFragment;
 import com.example.pokecenter.vender.VenderTab.VenderProfileFragment;
 import com.example.pokecenter.vender.VenderTab.Home.Product.VenderProductActivity;
@@ -70,7 +72,16 @@ public class VenderHomeFragment extends Fragment {
         });
         binding.NotificationFunction.setOnClickListener(view -> {
             fragmentChangeListener.onFragmentChange(new VenderNotificationsFragment());
-//            Intent intent = new Intent(getActivity(), VenderNotificationActivity.class);
+        });
+        binding.chatFunction.setOnClickListener(view -> {
+            fragmentChangeListener.onFragmentChange(new VenderChatFragment());
+        });
+        binding.parcelFunction.setOnClickListener(view -> {
+            Intent intent = new Intent(getActivity(), ParcelMainActivity.class);
+            startActivity(intent);
+        });
+        binding.voucherFunction.setOnClickListener(view -> {
+//            Intent intent = new Intent(getActivity(), ParcelMainActivity.class);
 //            startActivity(intent);
         });
 //        databaseReference.child("accounts").addListenerForSingleValueEvent(new ValueEventListener() {

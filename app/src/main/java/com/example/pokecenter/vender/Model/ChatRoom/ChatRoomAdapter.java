@@ -31,7 +31,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRoomViewHolder> {
-    Account currentAccount;
     private Context mContext;
     private ArrayList<ChatRoom> list = new ArrayList<>();
 
@@ -130,23 +129,6 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
             formattedTime = dateFormat.format(new Date(timeStamp));
         }
         return formattedTime;
-    }
-    private void fetchingAndSetupData(String id) {
-
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
-
-        executor.execute(() -> {
-
-            Account fetchedAccountInfo = null;
-            boolean isSuccessful = true;
-
-            try {
-                currentAccount = new FirebaseSupportVender().fetchingCurrentAccount(id);
-            } catch (IOException e) {
-                isSuccessful = false;
-            }
-        });
     }
 }
 

@@ -59,7 +59,7 @@ public class CustomerListAllBoxChatFragment extends Fragment implements ChatRoom
         rcvChatRoom.setLayoutManager(linearLayoutManager);
         rcvChatRoom.setAdapter(chatRoomAdapter);
 
-
+        binding.progressBar.setVisibility(View.INVISIBLE);
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         ArrayList<ChatRoom> listChatRoom = new ArrayList<>();
@@ -105,7 +105,7 @@ public class CustomerListAllBoxChatFragment extends Fragment implements ChatRoom
 //                // Handle any errors that occur during the query
 //            }
 //        });
-Set<String> addedChatRoomKeys = new HashSet<>();
+        Set<String> addedChatRoomKeys = new HashSet<>();
         ChildEventListener chatroomListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
