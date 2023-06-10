@@ -19,13 +19,15 @@
         android:id="@+id/inform_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="You don't have any invoices yet."
-        android:layout_marginHorizontal="60dp"
+        android:text="You don't have any orders yet."
         android:textSize="20sp"
+        android:layout_marginHorizontal="60dp"
+        android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="invisible"/>
 
     <ProgressBar
         android:id="@+id/progress_bar"
