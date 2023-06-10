@@ -36,7 +36,7 @@
         android:id="@+id/clAdminProfile"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.72"
+        app:layout_constraintHeight_percent="0.8"
         android:layout_margin="15dp"
         android:background="@drawable/quan_rounded_layout_background"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -34,6 +34,10 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
     private Context mContext;
     private ArrayList<ChatRoom> list = new ArrayList<>();
 
+    public void setList(ArrayList<ChatRoom> list) {
+        this.list = list;
+    }
+
     private final ChatRoomInterface chatRoomInterface;
 
     public ChatRoomAdapter(Context context, ChatRoomInterface chatRoomInterface) {
@@ -60,7 +64,10 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
         }
         else if(currentUserUID.equals(ib.getSenderId())) {
             String tt = ib.getLastMessage();
-            ib.setLastMessage( "You: " + tt);
+            //Check for duplicate "You: " at the start of tvLastMessage
+            if (!ib.getLastMessage().startsWith("You: ")) {
+                ib.setLastMessage( "You: " + tt);
+            }
         }
             holder.tvRecipientName.setText(ib.getSenderAccount().getUsername());
             holder.tvLastMessage.setText(ib.getLastMessage());

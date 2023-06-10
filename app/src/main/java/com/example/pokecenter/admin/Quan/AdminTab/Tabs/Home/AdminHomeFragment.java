@@ -13,6 +13,7 @@ import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.Chat.AdminChatActivi
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.OrdersManagement.AdminOrdersManagementActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductsManagementActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.StoreStatistic.AdminStoreStatisticActivity;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.Supports.AdminSupportSelectionActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminUsersManagementActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.VoucherManagement.AdminVoucherManagementActivity;
 import com.example.pokecenter.customer.lam.Model.account.Account;
@@ -83,6 +84,12 @@ public class AdminHomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), AdminChatActivity.class));
+            }
+        });
+        binding.cvAdminSupports.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), AdminSupportSelectionActivity.class));
             }
         });
         return binding.getRoot();

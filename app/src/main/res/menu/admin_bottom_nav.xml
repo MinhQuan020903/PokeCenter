@@ -7,7 +7,7 @@
         android:icon="@drawable/lam_baseline_home_24"/>
 
     <item android:id="@+id/adminSupportFragment"
-        android:title="Support"
+        android:title="Chat"
         android:icon="@drawable/lam_baseline_support_agent_24" />
 
     <item android:id="@+id/adminNotificationFragment"
