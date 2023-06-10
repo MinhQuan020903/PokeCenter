@@ -7,15 +7,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.AdminHomeFragment;
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Notification.AdminNotificationFragment;
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Profile.AdminAccountInfoActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Profile.AdminProfileFragment;
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Support.AdminSupportFragment;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.Chat.AdminSupportFragment;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
 import com.example.pokecenter.customer.lam.Model.account.Account;
-import com.example.pokecenter.databinding.ActivityAdminBinding;
 
-import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,11 +21,10 @@ import android.view.View;
 import android.view.Window;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.databinding.ActivityAdminBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;

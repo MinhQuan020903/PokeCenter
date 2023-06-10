@@ -6,10 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.Model.account.Account;
@@ -142,6 +145,7 @@ public class ChatRoomActivity extends AppCompatActivity {
             //messageList.add(MessageObject);
             //messageAdapter.notifyDataSetChanged();
         });
+
         
         setContentView(binding.getRoot());
     }
