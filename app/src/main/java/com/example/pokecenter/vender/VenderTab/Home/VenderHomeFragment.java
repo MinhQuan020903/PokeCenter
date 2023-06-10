@@ -40,8 +40,7 @@ public class VenderHomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
     private OnFragmentChangeListener fragmentChangeListener;
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-    List<Account> accounts = new ArrayList<>();
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -81,8 +80,7 @@ public class VenderHomeFragment extends Fragment {
             startActivity(intent);
         });
         binding.voucherFunction.setOnClickListener(view -> {
-//            Intent intent = new Intent(getActivity(), ParcelMainActivity.class);
-//            startActivity(intent);
+
         });
 //        databaseReference.child("accounts").addListenerForSingleValueEvent(new ValueEventListener() {
 //                                                                               @Override

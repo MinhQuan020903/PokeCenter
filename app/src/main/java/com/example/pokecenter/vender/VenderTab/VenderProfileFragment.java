@@ -26,7 +26,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminVenderInfoAndStatisticActivity;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderFollowerListActivity;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
+import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.customer.lam.Authentication.SignInActivity;
 import com.example.pokecenter.customer.lam.Authentication.SplashActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.CustomerAccountInfoActivity;
@@ -41,6 +44,8 @@ import com.example.pokecenter.customer.lam.Provider.FollowData;
 import com.example.pokecenter.customer.lam.Provider.WishListData;
 import com.example.pokecenter.databinding.FragmentCustomerProfileBinding;
 import com.example.pokecenter.databinding.FragmentVenderProfileBinding;
+import com.example.pokecenter.vender.API.FirebaseSupportVender;
+import com.example.pokecenter.vender.Model.Vender.Vender;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -49,22 +54,40 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.protobuf.StringValue;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class VenderProfileFragment extends Fragment {
-FragmentVenderProfileBinding binding;
+    FragmentVenderProfileBinding binding;
     public static Account currentVender;
+
+    Vender vender;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentVenderProfileBinding.inflate(inflater, container, false);
-        binding.username.setText(currentVender.getUsername());
+
+        fetchingAndSetUpVenderInfo(FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", ","));
         Picasso.get().load(currentVender.getAvatar()).into(binding.customerAvatar);
+        binding.followText.setOnClickListener(view -> {
+            Intent intent = new Intent(getActivity(), AdminVenderFollowerListActivity.class);
+            intent.putExtra("Vender", vender);
+            startActivity(intent);
+
+        });
+
 
         binding.accountInformationItem.setOnClickListener(view -> {
             startActivity(new Intent(getActivity(), CustomerAccountInfoActivity.class));
@@ -218,7 +241,44 @@ FragmentVenderProfileBinding binding;
                 });
 
     }
+    private void fetchingAndSetUpVenderInfo(String venderId) {
 
+        binding.progressBar.setVisibility(View.VISIBLE);
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+
+        // Convert the long value to a currency string
+
+        executor.execute(() -> {
+
+            Vender vender = null;
+            boolean isSuccessful = true;
+            try {
+                vender = new FirebaseSupportVender().fetchingVenderById(venderId);
+            } catch (IOException e) {
+                isSuccessful = false;
+            }
+
+            Vender finalVender = vender;
+            boolean finalIsSuccessful = isSuccessful;
+
+            handler.post(() -> {
+                if (finalIsSuccessful) {
+                    binding.username.setText(finalVender.getShopName());
+                    binding.followers.setText(String.valueOf(finalVender.getFollowCount()));
+                    String currencyString = currencyFormat.format(finalVender.getRevenue());
+                    binding.money.setText(currencyString);
+                }
+                binding.progressBar.setVisibility(View.INVISIBLE);
+
+            });
+        });
+
+
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();

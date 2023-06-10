@@ -9,6 +9,7 @@ import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.order.DetailOrder;
 import com.example.pokecenter.customer.lam.Model.order.Order;
 import com.example.pokecenter.customer.lam.Model.product.Product;
+import com.example.pokecenter.vender.Model.Vender.Vender;
 import com.example.pokecenter.vender.Model.VenderOrder.VenderDetailOrder;
 import com.example.pokecenter.vender.Model.VenderOrder.VenderOrder;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -453,6 +454,32 @@ public class FirebaseSupportVender {
 
         return fetchedAccount;
     }
+    public Vender fetchingVenderById(String venderId) throws IOException {
+        Vender fetchedVender = new Vender();
 
+        fetchedVender.setVenderId(venderId);
+
+        OkHttpClient client = new OkHttpClient();
+        Request request1 = new Request.Builder()
+                .url(urlDb + "venders/" + venderId + ".json")
+                .build();
+
+        Response response1 = client.newCall(request1).execute();
+
+        if (response1.isSuccessful()) {
+            String responseString = response1.body().string();
+
+            Type type = new TypeToken<Map<String, Object>>(){}.getType();
+            Map<String, Object> fetchedVenderData = new Gson().fromJson(responseString, type);
+            fetchedVender.setShopName((String) fetchedVenderData.get("shopName"));
+            fetchedVender.setFollowCount(((Double) fetchedVenderData.get("followCount")).intValue());
+            fetchedVender.setRevenue(((Double) fetchedVenderData.get("revenue")).intValue());
+
+        } else {
+            return null;
+        }
+
+        return fetchedVender;
+    }
 
 }
