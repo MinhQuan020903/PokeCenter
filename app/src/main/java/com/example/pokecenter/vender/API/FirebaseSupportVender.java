@@ -26,8 +26,11 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -451,6 +454,112 @@ public class FirebaseSupportVender {
         }
 
         return fetchedAccount;
+    }
+
+    SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm");
+    public List<Order> fetchingOrdersWithStatus(String status) throws IOException {
+
+        List<Order> fetchedOrders = new ArrayList<>();
+
+        OkHttpClient client = new OkHttpClient();
+
+        // Construct the URL for the Firebase Realtime Database endpoint
+        HttpUrl.Builder urlBuilder = HttpUrl.parse("https://pokecenter-ae954-default-rtdb.firebaseio.com/orders.json").newBuilder();
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        urlBuilder.addQueryParameter("orderBy", "\"venderId\"")
+                .addQueryParameter("equalTo", "\"" + emailWithCurrentUser.replace(".", ",") + "\"");
+
+//        urlBuilder.addQueryParameter("orderBy", "\"status\"")
+//                .addQueryParameter("equalTo", "\"" + status + "\"");
+
+        String url = urlBuilder.build().toString();
+
+        // Create an HTTP GET request
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+            String responseString = response.body().string();
+
+            if (responseString.equals("null")) {
+                return new ArrayList<>();
+            }
+
+            Type type = new TypeToken<Map<String, Map<String, Object>>>(){}.getType();
+            Map<String, Map<String, Object>> fetchedData = new Gson().fromJson(responseString, type);
+
+            fetchedData.forEach((key, value) -> {
+
+                List<Map<String, Object>> detailOrderData = (List<Map<String, Object>>) value.get("details");
+
+                List<DetailOrder> details = new ArrayList<>();
+                detailOrderData.forEach(detailOrder -> {
+                    details.add(new DetailOrder(
+                            (String) detailOrder.get("productId"),
+                            ((Double) detailOrder.get("selectedOption")).intValue(),
+                            ((Double) detailOrder.get("quantity")).intValue()
+                    ));
+                });
+
+                Order order = null;
+                try {
+                    order = new Order(
+                            key,
+                            ((Double) value.get("totalAmount")).intValue(),
+                            outputFormat.parse((String) value.get("createDate")),
+                            details,
+                            (String) value.get("status")
+                    );
+                } catch (ParseException e) {
+
+                }
+
+
+                String stringDeliveryDate = (String) value.get("deliveryDate");
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                if (stringDeliveryDate.isEmpty()) {
+
+                } else {
+
+                    try {
+                        order.setDeliveryDate(dateFormat.parse(stringDeliveryDate));
+                    } catch (ParseException e) {
+
+                    }
+
+                }
+
+                fetchedOrders.add(order);
+
+            });
+        }
+
+        fetchedOrders.removeIf(order -> !order.getStatus().equals(status));
+        fetchedOrders.sort(Comparator.comparing(Order::getCreateDateTime).reversed());
+        return fetchedOrders;
+
+    }
+
+    public void ChangeOrderStatus(String orderId, String status) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        Map<String, Object> patchData = new HashMap<>();
+        patchData.put("status", status);
+
+        String jsonData = new Gson().toJson(patchData);
+        RequestBody body = RequestBody.create(jsonData, JSON);
+
+        Request request = new Request.Builder()
+                .url(urlDb + "orders/" + orderId + ".json")
+                .patch(body)
+                .build();
+
+        Response response = client.newCall(request).execute();
     }
 
 }
