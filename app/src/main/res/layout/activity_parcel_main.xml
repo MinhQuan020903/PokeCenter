@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".vender.VenderTab.Home.Parcel.ParcelMainActivity">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clAdminFeatures"
@@ -13,10 +12,11 @@
         android:elevation="5dp">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/receiveOrder"
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/receiveOrder"
+
             android:layout_height="0dp"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -56,7 +56,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/PackOrder"
+            android:id="@+id/packagedOrder"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="20dp"
@@ -87,7 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/exo_2"
-                    android:text="Pack Order"
+                    android:text="Packaged Order"
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -143,7 +143,7 @@
             app:layout_constraintDimensionRatio="1.5:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/CompleteOrder"
-            app:layout_constraintTop_toBottomOf="@+id/PackOrder"
+            app:layout_constraintTop_toBottomOf="@+id/packagedOrder"
             app:layout_constraintWidth_percent="0.45">
 
             <LinearLayout
