@@ -27,8 +27,9 @@
              android:name=".admin.Quan.AdminTab.Tabs.Home.Supports.AdminSupportSelectionActivity"
              android:exported="false" />
          <activity
-              android:name=".customer.lam.CustomerTab.Home.NextActivity.SearchProductByCategoryActivity"
-              android:exported="false" />
+             android:name=".customer.lam.CustomerTab.Home.NextActivity.SearchProductByCategoryActivity"
+             android:exported="false"
+             android:theme="@style/Theme.PokeCenter.NoActionBar"/>
          <activity
               android:name=".vender.VenderTab.Home.Parcel.PackagedOrdersActivity"
               android:exported="false" />
