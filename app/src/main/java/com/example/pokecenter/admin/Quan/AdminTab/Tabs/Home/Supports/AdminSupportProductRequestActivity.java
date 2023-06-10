@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -22,6 +23,7 @@ import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminRequest.AdminReques
 import com.example.pokecenter.admin.Quan.AdminTab.Model.Order.Order;
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.VoucherManagement.AdminVoucherManagementActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.ItemSpacingDecoration;
+import com.example.pokecenter.admin.Quan.AdminTab.Utils.OnItemClickListener;
 import com.example.pokecenter.databinding.ActivityAdminSupportProductRequestBinding;
 
 import java.text.ParseException;
@@ -61,6 +63,15 @@ public class AdminSupportProductRequestActivity extends AppCompatActivity {
                 setUpRecyclerView();
                 setUpRoleSpinner();
                 binding.progressBar.setVisibility(View.INVISIBLE);
+
+                requestAdapter.setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(Object object, int position) {
+                        Intent intent  = new Intent(AdminSupportProductRequestActivity.this, AdminResponseToRequestActivity.class);
+                        intent.putExtra("AdminRequest", (AdminRequest)object);
+                        startActivity(intent);
+                    }
+                });
 
                 binding.spRequestSortByDate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
