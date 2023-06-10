@@ -6,16 +6,34 @@
     android:gravity="center_vertical"
     tools:layout_marginHorizontal="32dp">
 
-    <TextView
-        android:id="@+id/product_name"
-        android:layout_width="220dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Skateboard Twister"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:paddingEnd="16dp"/>
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/product_name"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            tools:text="Skateboard Twister"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:paddingEnd="16dp"/>
+
+        <TextView
+            android:id="@+id/selectedOption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Sleeping - Bulbasaur"
+            android:layout_marginEnd="10dp"
+            android:background="#E8E8E8"
+            android:paddingVertical="2dp"
+            android:paddingHorizontal="8dp"/>
+
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/quantity"

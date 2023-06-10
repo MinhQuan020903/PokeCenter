@@ -56,14 +56,11 @@ public class PokeApiFetcher {
             return fetchedPokemon;
 
         } catch (ProtocolException ex) {
-            throw new RuntimeException(ex);
         } catch (MalformedURLException ex) {
-            throw new RuntimeException(ex);
         } catch (JSONException ex) {
-            throw new RuntimeException(ex);
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
         }
+        return null;
     }
 
     public static Pokemon fetchPokemonByName(String name) {
@@ -104,15 +101,11 @@ public class PokeApiFetcher {
             return fetchedPokemon;
 
         } catch (ProtocolException ex) {
-            throw new RuntimeException(ex);
         } catch (MalformedURLException ex) {
-            throw new RuntimeException(ex);
         } catch (JSONException ex) {
-            throw new RuntimeException(ex);
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
         }
-
+        return null;
     }
 
     public static Pokemon fetchPokemonById(int id) {
@@ -151,14 +144,11 @@ public class PokeApiFetcher {
             return fetchedPokemon;
 
         } catch (ProtocolException ex) {
-            throw new RuntimeException(ex);
         } catch (MalformedURLException ex) {
-            throw new RuntimeException(ex);
         } catch (JSONException ex) {
-            throw new RuntimeException(ex);
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
         }
+        return null;
     }
 
     public static String[] allPokeName = {
