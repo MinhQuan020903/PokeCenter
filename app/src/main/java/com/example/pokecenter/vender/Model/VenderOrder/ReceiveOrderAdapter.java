@@ -88,7 +88,9 @@ public class ReceiveOrderAdapter extends RecyclerView.Adapter<ReceiveOrderAdapte
 
         });
 
-        holder.expandableLayout.setVisibility(View.GONE);
+        if (order.getStatus().contains("Packaged")) {
+            holder.packaged.setVisibility(View.GONE);
+        }
 
     }
 
@@ -139,12 +141,14 @@ public class ReceiveOrderAdapter extends RecyclerView.Adapter<ReceiveOrderAdapte
                 ExecutorService executor = Executors.newSingleThreadExecutor();
                 Handler handler = new Handler(Looper.getMainLooper());
 
+                String newStatus = "Packaged - " + dateFormat.format(new Date());
+
                 executor.execute(() -> {
 
                     boolean isSuccess = true;
 
                     try {
-                        new FirebaseSupportVender().ChangeOrderStatus(order.getId(), "Packaged - " + dateFormat.format(new Date()));
+                        new FirebaseSupportVender().ChangeOrderStatus(order.getId(), newStatus);
                     } catch (IOException e) {
                         isSuccess = false;
                     }
@@ -152,6 +156,8 @@ public class ReceiveOrderAdapter extends RecyclerView.Adapter<ReceiveOrderAdapte
                     boolean finalIsSuccess = isSuccess;
                     handler.post(() -> {
                         if (finalIsSuccess) {
+
+                            order.setStatus(newStatus);
 
                             mOrders.remove(pos);
                             notifyItemRemoved(pos);

@@ -534,13 +534,14 @@ public class FirebaseSupportVender {
 
                 }
 
+                order.setExpand(true);
                 fetchedOrders.add(order);
 
             });
         }
 
-        fetchedOrders.removeIf(order -> !order.getStatus().equals(status));
-        fetchedOrders.sort(Comparator.comparing(Order::getCreateDateTime).reversed());
+        fetchedOrders.removeIf(order -> !order.getStatus().contains(status));
+        fetchedOrders.sort(Comparator.comparing(Order::getCreateDateTime));
         return fetchedOrders;
 
     }

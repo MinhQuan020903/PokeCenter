@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.Model.order.Order;
 import com.example.pokecenter.databinding.ActivityParcelMainBinding;
+
+import java.util.List;
 
 public class ParcelMainActivity extends AppCompatActivity {
     ActivityParcelMainBinding binding;
@@ -28,6 +31,10 @@ public class ParcelMainActivity extends AppCompatActivity {
 
         binding.receiveOrder.setOnClickListener(view -> {
             startActivity(new Intent(this, ReceiveOrderActivity.class));
+        });
+
+        binding.packagedOrder.setOnClickListener(view -> {
+            startActivity(new Intent(this, PackagedOrdersActivity.class));
         });
     }
     @Override
