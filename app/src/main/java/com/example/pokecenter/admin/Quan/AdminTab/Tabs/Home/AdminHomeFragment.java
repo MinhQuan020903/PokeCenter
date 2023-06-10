@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.Chat.AdminChatActivity;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Chat.AdminChatActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.OrdersManagement.AdminOrdersManagementActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductsManagementActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.StoreStatistic.AdminStoreStatisticActivity;

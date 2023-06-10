@@ -52,7 +52,7 @@
               android:name=".admin.Quan.AdminTab.Tabs.Home.OrdersManagement.AdminOrderDetailActivity"
               android:exported="false" />
          <activity
-              android:name=".admin.Quan.AdminTab.Tabs.Home.Chat.AdminChatActivity"
+              android:name=".admin.Quan.AdminTab.Tabs.Chat.AdminChatActivity"
               android:exported="false" />
          <activity
               android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductOptionActivity"

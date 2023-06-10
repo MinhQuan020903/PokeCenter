@@ -1,4 +1,4 @@
-package com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.Chat;
+package com.example.pokecenter.admin.Quan.AdminTab.Tabs.Chat;
 
 import static androidx.core.content.ContextCompat.getSystemService;
 
