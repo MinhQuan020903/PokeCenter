@@ -1,4 +1,4 @@
-package com.example.pokecenter.vender.VenderTab;
+package com.example.pokecenter.vender.VenderTab.Home.Profile;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -106,6 +106,9 @@ public class VenderProfileFragment extends Fragment {
 
         });
 
+        binding.followText.setOnClickListener(view -> {
+            startActivity(new Intent(getActivity(), VenderFollowersActivity.class));
+        });
         binding.support.setOnClickListener(view -> {
             startActivity(new Intent(getActivity(), CustomerSupportActivity.class));
         });

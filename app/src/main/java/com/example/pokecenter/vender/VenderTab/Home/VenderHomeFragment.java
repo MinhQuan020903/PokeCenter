@@ -11,27 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.databinding.FragmentVenderHomeBinding;
-import com.example.pokecenter.vender.Model.Chat.Message;
-import com.example.pokecenter.vender.Model.ChatRoom.ChatRoom;
 import com.example.pokecenter.vender.VenderTab.Chat.VenderChatFragment;
 import com.example.pokecenter.vender.VenderTab.Home.Parcel.ParcelMainActivity;
 import com.example.pokecenter.vender.VenderTab.VenderNotificationsFragment;
-import com.example.pokecenter.vender.VenderTab.VenderProfileFragment;
+import com.example.pokecenter.vender.VenderTab.Home.Profile.VenderProfileFragment;
 import com.example.pokecenter.vender.VenderTab.Home.Product.VenderProductActivity;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class VenderHomeFragment extends Fragment {
     private FragmentVenderHomeBinding binding;

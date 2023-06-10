@@ -91,6 +91,9 @@ public class ReceiveOrderAdapter extends RecyclerView.Adapter<ReceiveOrderAdapte
         if (order.getStatus().contains("Packaged")) {
             holder.packaged.setVisibility(View.GONE);
         }
+        if (order.getStatus().contains("Delivery completed")) {
+            holder.packaged.setVisibility(View.GONE);
+        }
 
     }
 
