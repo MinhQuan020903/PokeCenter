@@ -58,7 +58,6 @@ public class VenderProductActivity extends AppCompatActivity implements PokemonR
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         binding.outbox.setPadding(0, 0, 0, getNavigationBarHeight());
-        binding.totalProduct.setText(String.valueOf(productAdapter.getItemCount()));
 
 
         setUpVenderProductRcv(venderId);
@@ -97,8 +96,6 @@ public class VenderProductActivity extends AppCompatActivity implements PokemonR
         // Update the adapter
         productAdapter.notifyDataSetChanged();
 
-        // Update the total product count
-        binding.totalProduct.setText(String.valueOf(productAdapter.getItemCount()));
     }
 
 
