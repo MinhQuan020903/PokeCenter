@@ -57,7 +57,10 @@ import java.util.stream.Collectors;
 
 public class AdminSupportFragment extends Fragment implements View.OnTouchListener, ChatRoomInterface {
 
+    private ArrayList<ChatRoom> listChatRoom;
+    private ArrayList<String> userRoles;
     private Context context;
+
     private FragmentAdminSupportBinding binding;
     String currentId= FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", ",");
     private RecyclerView rcvChatRoom;
@@ -88,9 +91,13 @@ public class AdminSupportFragment extends Fragment implements View.OnTouchListen
         rcvChatRoom.setLayoutManager(linearLayoutManager);
         rcvChatRoom.setAdapter(chatRoomAdapter);
 
+
+        binding.progressBar.setVisibility(View.VISIBLE);
+        setUpRoleSpinner();
+
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
-        ArrayList<ChatRoom> listChatRoom = new ArrayList<>();
+        listChatRoom = new ArrayList<>();
         Instant currentTimestamp = Instant.now();
 
         long timestampMillis = currentTimestamp.toEpochMilli();
@@ -125,6 +132,8 @@ public class AdminSupportFragment extends Fragment implements View.OnTouchListen
                         listChatRoom.add(chatRoom);
                         chatRoomAdapter.addData(listChatRoom);
                         addedChatRoomKeys.add(chatRoomKey);
+                        binding.progressBar.setVisibility(View.INVISIBLE);
+
                     }
 
                     @Override
@@ -205,6 +214,45 @@ public class AdminSupportFragment extends Fragment implements View.OnTouchListen
             // Other overridden methods (onChildMoved, onCancelled) can be left empty or implemented if needed
         };
 
+        binding.etSenderSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Not used in this case
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String searchQuery = s.toString().toLowerCase();
+                //Get position of role spinner
+                int role = binding.spUserRole.getSelectedItemPosition();
+
+                ArrayList<ChatRoom> filteredList = new ArrayList<>();
+                for (ChatRoom chatRoom : listChatRoom) {
+                    String userName = chatRoom.getSenderAccount().getUsername().toLowerCase();
+
+                    //If selected role in spinner is "All"
+                    if (role == 0) {
+                        if (userName.contains(searchQuery)) {
+                            filteredList.add(chatRoom);
+                        }
+                    } else {    //If selected role in spinner is "Customer", "Vender" or "Admin"
+                        if (userName.contains(searchQuery) && chatRoom.getSenderAccount().getRole() == role - 1) {
+                            filteredList.add(chatRoom);
+                        }
+                    }
+
+                }
+                chatRoomAdapter.setList(filteredList);
+                chatRoomAdapter.notifyDataSetChanged();
+            }
+
+            // user types in email
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         // Attach the listener to the "chats" node in the database
         databaseReference.child("chats").addChildEventListener(chatroomListener);
 
@@ -218,6 +266,18 @@ public class AdminSupportFragment extends Fragment implements View.OnTouchListen
             intent.putExtra("senderAccount", c.getSenderAccount());
             startActivity(intent);
         }
+    }
+
+    public void setUpRoleSpinner() {
+        userRoles = new ArrayList<>();
+        userRoles.add("All");
+        userRoles.add("Customer");
+        userRoles.add("Vender");
+
+        //Init UserRoleSpinner
+        ArrayAdapter userRoleSpinner = new ArrayAdapter<>(getContext(), R.layout.quan_sender_role_spinner_item, userRoles);
+        binding.spUserRole.setAdapter(userRoleSpinner);
+
     }
 
     @Override
