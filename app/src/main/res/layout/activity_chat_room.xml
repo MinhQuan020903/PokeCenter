@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/headerLayout"
-        android:background="@color/white"
+        android:background="@color/quan_bright_cyan"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:elevation="4dp">
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.1"
+        android:elevation="4dp"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:clickable="true"
             android:id="@+id/btnBack"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:layout_centerVertical="true"
             android:src="@drawable/lam_round_arrow_back_secondary_24" />
 
@@ -26,13 +28,13 @@
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="90dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_toEndOf="@id/profileImage"
+            android:fontFamily="@font/exo_2"
             android:gravity="center"
             android:text="Bamboo shop"
-            android:textSize="24dp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
+            android:textSize="22dp"
             android:textStyle="bold" />
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -41,7 +43,6 @@
             android:layout_height="50dp"
             android:layout_toEndOf="@id/btnBack"
             android:layout_centerVertical="true"
-            android:layout_marginStart="12dp"
             android:scaleType="centerCrop"
             app:shapeAppearanceOverlay="@style/circle"
             app:srcCompat="@drawable/lam_cubone"
@@ -49,65 +50,79 @@
     </RelativeLayout>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cvMessages"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/actionLayout"
-        android:layout_below="@id/headerLayout"
-        android:layout_marginBottom="-20dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.78"
+        android:padding="5dp"
         app:cardElevation="0dp"
+        android:background="@color/quan_very_light_blue"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout"
         app:cardCornerRadius="20dp">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RclMessageList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:overScrollMode="never"
             android:clipToPadding="false"
-            android:padding="20dp" />
+            android:overScrollMode="never"
+            android:paddingVertical="10dp"/>
     </androidx.cardview.widget.CardView>
 
-    <RelativeLayout
-        android:background="@color/white"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/actionLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="20dp">
+        android:background="@color/quan_very_light_blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.12">
 
         <EditText
             android:id="@+id/etMessage"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_percent="0.75"
+            app:layout_constraintHeight_percent="0.65"
             android:background="@drawable/ninh_background_chat_input"
-            android:backgroundTint="#C0C0C0"
+            android:backgroundTint="@color/light_canvas"
             android:hint="Type a message"
             android:imeOptions="actionDone"
             android:importantForAutofill="no"
             android:inputType="text"
             android:paddingStart="20dp"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <FrameLayout
             android:id="@+id/cvBtnSend"
-            app:cardElevation="0dp"
-            android:layout_toEndOf="@id/etMessage"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_percent="0.13"
+            app:layout_constraintDimensionRatio="1:1"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
-            android:clickable="true"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_toEndOf="@id/etMessage"
+            android:backgroundTint="@color/light_primary"
             android:background="@drawable/ninh_background_chat_input"
-            app:cardCornerRadius="30dp">
+            android:clickable="true"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="0dp"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
                 android:padding="4dp"
-                android:src="@drawable/paper_plane_solid"/>
+                app:tint="@color/white"
+                android:src="@drawable/paper_plane_solid" />
         </FrameLayout>
-    </RelativeLayout>
-</RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
