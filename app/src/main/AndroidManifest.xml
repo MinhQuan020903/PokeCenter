@@ -34,9 +34,6 @@
       android:name=".admin.Quan.AdminTab.Tabs.Home.VoucherManagement.AddBlockVoucherActivity"
       android:exported="false" />
   <activity
-      android:name=".admin.Quan.AdminTab.Tabs.Support.AdminChatActivity"
-      android:exported="false" />
-  <activity
       android:name=".admin.Quan.AdminTab.Tabs.Home.OrdersManagement.AdminOrderDetailActivity"
       android:exported="false" />
   <activity

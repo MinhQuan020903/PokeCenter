@@ -6,7 +6,7 @@
     android:background="@color/quan_light_green"
     android:id="@+id/adminSupportFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".admin.Quan.AdminTab.Tabs.Support.AdminSupportFragment">
+    tools:context=".admin.Quan.AdminTab.Tabs.Home.Chat.AdminSupportFragment">
 
     <LinearLayout
         android:id="@+id/llSenderSearch"
