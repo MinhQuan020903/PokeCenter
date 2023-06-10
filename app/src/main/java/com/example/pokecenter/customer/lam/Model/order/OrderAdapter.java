@@ -84,7 +84,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             Product product = ProductData.fetchedProducts.get(detailOrder.getProductId());
             productName.setText(product.getName());
 
-            selectedOption.setText(product.getOptions().get(detailOrder.getSelectedOption()).getOptionName());
+            String selectedOptionName = product.getOptions().get(detailOrder.getSelectedOption()).getOptionName();
+            if (selectedOptionName.equals("null")) {
+                selectedOption.setVisibility(View.GONE);
+            } else {
+                selectedOption.setText(selectedOptionName);
+            }
 
             quantity.setText(String.valueOf(detailOrder.getQuantity()));
             price.setText(currencyFormatter.format(product.getOptions().get(detailOrder.getSelectedOption()).getPrice()));
