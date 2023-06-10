@@ -9,14 +9,23 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.customer.lam.CustomerActivity;
 import com.example.pokecenter.customer.lam.Interface.OrderRecyclerViewInterface;
+import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.customer.lam.Model.order.Order;
 import com.example.pokecenter.customer.lam.Model.order.OrderAdapter;
 import com.example.pokecenter.databinding.ActivityCustomerOrdersBinding;
+import com.example.pokecenter.vender.API.FirebaseSupportVender;
+import com.example.pokecenter.vender.VenderTab.Chat.ChatRoomActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -114,8 +123,10 @@ public class CustomerOrdersActivity extends AppCompatActivity implements OrderRe
 
     @Override
     public void onContactSellerClick(int position) {
-
+        String orderId = myOrders.get(position).getId();
+        Contact(orderId);
     }
+
 
     @Override
     public void onRequestRefundClick(int position) {
@@ -126,5 +137,46 @@ public class CustomerOrdersActivity extends AppCompatActivity implements OrderRe
     public void onConfirmReceivedClick(int position) {
 
 
+    }
+    void Contact (String orderId){
+        DatabaseReference ordersRef = FirebaseDatabase.getInstance().getReference("orders").child(orderId);
+        ordersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String venderId = dataSnapshot.child("venderId").getValue(String.class);
+
+                    DatabaseReference venderRef = FirebaseDatabase.getInstance().getReference("accounts").child(venderId);
+                    venderRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                Account vender = dataSnapshot.getValue(Account.class);
+                                vender.setId(venderId);
+                                if (vender != null) {
+                                    Intent intent = new Intent(getApplicationContext(), ChatRoomActivity.class);
+                                    intent.putExtra("senderAccount", vender);
+                                    startActivity(intent);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Error occurred while retrieving the data
+                            String errorMessage = databaseError.getMessage();
+                            // Handle the error accordingly
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Error occurred while retrieving the data
+                String errorMessage = databaseError.getMessage();
+                // Handle the error accordingly
+            }
+        });
     }
 }
