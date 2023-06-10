@@ -19,6 +19,9 @@
      android:theme="@style/Theme.PokeCenter"
      tools:targetApi="31">
   <activity
+      android:name=".customer.lam.CustomerTab.Home.NextActivity.SearchProductByCategoryActivity"
+      android:exported="false" />
+  <activity
       android:name=".vender.VenderTab.Home.Parcel.ParcelMainActivity"
       android:exported="false" />
 <!--  <activity-->

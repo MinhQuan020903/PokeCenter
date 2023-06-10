@@ -447,10 +447,12 @@ public class FirebaseSupportVender {
 //            fetchedAccount.setGender((String) fetchedData.get("gender"));
 //            fetchedAccount.setPhoneNumber((String) fetchedData.get("phoneNumber"));
 //            fetchedAccount.setRegistrationDate((String) fetchedData.get("registrationDate"));
-
+            fetchedAccount.setId(id);
+            fetchedAccount.setRole((Integer) fetchedData.get("role"));
         }
 
         return fetchedAccount;
     }
+
 
 }
