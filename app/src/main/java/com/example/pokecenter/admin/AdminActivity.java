@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.AdminHomeFragment;
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Notification.AdminNotificationFragment;
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Profile.AdminProfileFragment;
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.Chat.AdminSupportFragment;
+import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Chat.AdminSupportFragment;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
 import com.example.pokecenter.customer.lam.Model.account.Account;
 

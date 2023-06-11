@@ -12,6 +12,9 @@ public class Notification {
     private boolean read;
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
+    public Notification() {
+    }
+
     public Notification(String id, String title, String content, Date sentDate, String type, boolean read) {
         this.id = id;
         this.title = title;

@@ -1,11 +1,16 @@
 package com.example.pokecenter.admin.Quan.AdminTab.Utils;
 
+import android.text.format.DateFormat;
+
 import com.example.pokecenter.admin.Quan.AdminTab.Model.MessageSender.Message;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DateUtils {
     public static Message getLatestMessage(ArrayList<Message> messageList) {
@@ -86,4 +91,26 @@ public class DateUtils {
         return currentDateTime.format(formatter);
     }
 
+    public static Date getCurrentDate() {
+        // Create a Date object representing the current date and time
+        Date currentDate = new Date();
+
+        // Create a SimpleDateFormat object with the desired format
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+        try {
+            // Parse the formatted date string back to a Date object
+            String formattedDate = dateFormat.format(currentDate);
+            return dateFormat.parse(formattedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    public static String getCurrentDateString() {
+        Date currentDate = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        return formatter.format(currentDate);
+    }
 }

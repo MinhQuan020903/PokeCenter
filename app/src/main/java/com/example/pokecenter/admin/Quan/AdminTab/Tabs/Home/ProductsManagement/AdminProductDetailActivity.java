@@ -152,7 +152,6 @@ public class AdminProductDetailActivity extends AppCompatActivity {
                 bCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        confirmationDialog.dismiss();
                         adminAuthDialog.dismiss();
                     }
                 });
