@@ -8,8 +8,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +34,12 @@ import com.example.pokecenter.admin.Quan.AdminTab.Model.AdminRequest.ImageAdapte
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductDetailActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.VoucherManagement.AddBlockVoucherActivity;
 import com.example.pokecenter.admin.Quan.AdminTab.Utils.ItemSpacingDecoration;
+import com.example.pokecenter.admin.Quan.AdminTab.Utils.JavaMailUtils;
 import com.example.pokecenter.databinding.ActivityAdminResponseToRequestBinding;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -116,31 +123,7 @@ public class AdminResponseToRequestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                adminAuthDialog = new Dialog(AdminResponseToRequestActivity.this);
-                adminAuthDialog.setContentView(R.layout.quan_dialog_admin_auth);
-                adminAuthDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-                Window window = adminAuthDialog.getWindow();
-                window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-                window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                window.getDecorView().setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        // Check if the touch event is an ACTION_DOWN event
-                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                            // Hide the keyboard
-                            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                            return true;
-                        }
-                        return false;
-                    }
-                });
-
-                TextView tvAdminAuthFailed = adminAuthDialog.findViewById(R.id.tvAdminAuthFailed);
-                tvAdminAuthFailed.setVisibility(View.INVISIBLE);
-
-                adminAuthDialog.show();
+                setUpAdminAuthDialog();
 
                 EditText etAdminAuthPassword = adminAuthDialog.findViewById(R.id.etAdminAuthPassword);
                 Button bCancel = adminAuthDialog.findViewById(R.id.bAuthCancel);
@@ -158,27 +141,73 @@ public class AdminResponseToRequestActivity extends AppCompatActivity {
                         String password = etAdminAuthPassword.getText().toString();
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), password);
-                        FirebaseAuth.getInstance().signInWithCredential(credential)
-                                .addOnCompleteListener(task -> {
-                                    if (task.isSuccessful()) {
+                        FirebaseAuth.getInstance().signInWithCredential(credential).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                            @Override
+                            public void onSuccess(AuthResult authResult) {
+                                JavaMailUtils.sendResponseEmail(
+                                        request.getCustomerId().replace(",","."),
+                                        user.getEmail(),
+                                        //Don't Change this Password!
+                                        "gxgevgsfjtwwsfrb",
+                                        true
+                                );
+                                adminAuthDialog.dismiss();
+                                Toast.makeText(AdminResponseToRequestActivity.this, "Send Response Email Succesfully!", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Authentication failed
+                                Log.e("FirebaseAuth", "Authentication failed: " + e.getMessage());
+                            }
+                        });
+                    }
+                });
+            }
+        });
 
-                                        FirebaseFetchRequest firebaseFetchRequest = new FirebaseFetchRequest(AdminResponseToRequestActivity.this);
-                                        firebaseFetchRequest.pushResponse(request.getId(), binding.etResponse.getText().toString(), true
-                                                , new FirebaseCallback<Boolean>() {
-                                                    @Override
-                                                    public void onCallback(Boolean done) {
+        binding.bDisapprove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                                                        if (done) {
-                                                            Toast.makeText(AdminResponseToRequestActivity.this, "Finish sending response!", Toast.LENGTH_SHORT).show();
-                                                        } else {
-                                                            Toast.makeText(AdminResponseToRequestActivity.this, "Sending response failed!", Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    }
-                                                });
+                setUpAdminAuthDialog();
+
+                EditText etAdminAuthPassword = adminAuthDialog.findViewById(R.id.etAdminAuthPassword);
+                Button bCancel = adminAuthDialog.findViewById(R.id.bAuthCancel);
+                Button bAccept = adminAuthDialog.findViewById(R.id.bAuthAccept);
+
+                bCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        adminAuthDialog.dismiss();
+                    }
+                });
+                bAccept.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String password = etAdminAuthPassword.getText().toString();
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), password);
+                        FirebaseAuth.getInstance().signInWithCredential(credential).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                    @Override
+                                    public void onSuccess(AuthResult authResult) {
+                                        JavaMailUtils.sendResponseEmail(
+                                                request.getCustomerId().replace(",","."),
+                                                user.getEmail(),
+                                                //Don't Change this Password!
+                                                "gxgevgsfjtwwsfrb",
+                                                false
+                                        );
                                         adminAuthDialog.dismiss();
-
-                                    } else {
-                                        tvAdminAuthFailed.setVisibility(View.VISIBLE);
+                                        Toast.makeText(AdminResponseToRequestActivity.this, "Send Response Email Succesfully!", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        // Authentication failed
+                                        Log.e("FirebaseAuth", "Authentication failed: " + e.getMessage());
                                     }
                                 });
                     }
@@ -199,6 +228,33 @@ public class AdminResponseToRequestActivity extends AppCompatActivity {
         binding.rvAdditionalImages.setAdapter(imageAdapter);
     }
 
+    public void setUpAdminAuthDialog() {
+        adminAuthDialog = new Dialog(AdminResponseToRequestActivity.this);
+        adminAuthDialog.setContentView(R.layout.quan_dialog_admin_auth);
+        adminAuthDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        Window window = adminAuthDialog.getWindow();
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        window.getDecorView().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Check if the touch event is an ACTION_DOWN event
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    // Hide the keyboard
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        TextView tvAdminAuthFailed = adminAuthDialog.findViewById(R.id.tvAdminAuthFailed);
+        tvAdminAuthFailed.setVisibility(View.INVISIBLE);
+
+        adminAuthDialog.show();
+    }
     public boolean onSupportNavigateUp() {
         finish();
         return true;
