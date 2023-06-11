@@ -1198,7 +1198,7 @@ public class FirebaseSupportCustomer {
         postData.put("desc", desc);
         postData.put("additionalImages", additionalImages);
         postData.put("createDate", outputFormat.format(new Date()));
-        postData.put("status", "Not resolved");
+        postData.put("status", "Pending");
 
         String jsonData = new Gson().toJson(postData);
         RequestBody body = RequestBody.create(jsonData, JSON);

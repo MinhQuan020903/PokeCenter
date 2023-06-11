@@ -154,7 +154,7 @@ public class AdminResponseToRequestActivity extends AppCompatActivity {
                                 );
                                 //Update status of request on Firebase
                                 FirebaseFetchRequest firebaseFetchRequest = new FirebaseFetchRequest(AdminResponseToRequestActivity.this);
-                                firebaseFetchRequest.pushResponse(request.getId(), true, new FirebaseCallback<Boolean>() {
+                                firebaseFetchRequest.pushResponse(request, true, new FirebaseCallback<Boolean>() {
                                     @Override
                                     public void onCallback(Boolean user) {
                                         Toast.makeText(AdminResponseToRequestActivity.this, "Send Response Email Succesfully!", Toast.LENGTH_SHORT).show();
@@ -212,7 +212,7 @@ public class AdminResponseToRequestActivity extends AppCompatActivity {
 
                                         //Update status of request on Firebase
                                         FirebaseFetchRequest firebaseFetchRequest = new FirebaseFetchRequest(AdminResponseToRequestActivity.this);
-                                        firebaseFetchRequest.pushResponse(request.getId(), false, new FirebaseCallback<Boolean>() {
+                                        firebaseFetchRequest.pushResponse(request, false, new FirebaseCallback<Boolean>() {
                                             @Override
                                             public void onCallback(Boolean user) {
                                                 Toast.makeText(AdminResponseToRequestActivity.this, "Send Response Email Succesfully!", Toast.LENGTH_SHORT).show();

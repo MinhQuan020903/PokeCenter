@@ -104,7 +104,7 @@ public class AdminRequestAdapter extends RecyclerView.Adapter<AdminRequestAdapte
                     holder.rbRequestResolved.setChecked(true);
                     break;
                 }
-                case "Resolving" : {
+                case "Pending" : {
                     holder.rbRequestResolving.setChecked(true);
                     break;
                 }

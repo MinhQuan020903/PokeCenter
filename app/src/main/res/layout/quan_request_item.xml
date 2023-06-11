@@ -127,7 +127,7 @@
                 android:enabled="false"
                 android:buttonTint="@color/white"
                 android:gravity="center_vertical"
-                android:text="Resolving"
+                android:text="Pending"
                 android:textColor="@color/white" />
         </RadioGroup>
 

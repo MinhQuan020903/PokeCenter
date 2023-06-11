@@ -221,23 +221,24 @@
             app:layout_constraintTop_toBottomOf="@+id/rvAdditionalImages"
             android:layout_marginTop="100dp"
             android:orientation="horizontal">
+
             <Button
                 android:id="@+id/bApprove"
-                android:layout_width="150dp"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:textSize="16sp"
+                android:layout_marginStart="16dp"
                 android:backgroundTint="@color/purple_500"
-                android:text="Approve"/>
+                android:text="Resolve"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/bDisapprove"
-                android:layout_width="150dp"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/quan_bright_red"
-                android:text="Disapprove"
+                android:text="Not Resolved"
                 android:textSize="16sp"
                 android:layout_marginEnd="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
