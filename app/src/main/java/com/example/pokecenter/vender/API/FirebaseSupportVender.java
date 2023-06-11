@@ -27,7 +27,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -619,29 +618,31 @@ public class FirebaseSupportVender {
     }
     public String getTokenWithEmail(@NonNull String email) throws IOException {
 
-//        FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference usersRef = database.getReference("accounts");
-//
-//        Map<String, Object> user = new HashMap<>();
-//        user.put("token", "tin xau trai");
-//
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference usersRef = database.getReference("accounts/" + email.replace(".", ","));
+
+        Map<String, Object> user = new HashMap<>();
+        user.put("token", "tin non");
+
 //        usersRef.child(email.replace(".", ",")).setValue(user);
 
-        String token = "";
+        usersRef.updateChildren(user);
 
-        OkHttpClient client = new OkHttpClient();
+//        String token = "";
+//
+//        OkHttpClient client = new OkHttpClient();
+//
+//        Request request = new Request.Builder()
+//                .url(urlDb + "accounts/" + email.replace(".", ",") + "/.json")
+//                .build();
+//        Response response = client.newCall(request).execute();
+//
+//        if (response.isSuccessful()) {
+//            token = response.body().string();
+//        }
 
-        Request request = new Request.Builder()
-                .url(urlDb + "accounts/" + email.replace(".", ",") + ".json")
-                .build();
-        Response response = client.newCall(request).execute();
-
-        if (response.isSuccessful()) {
-            token = response.body().string();
-        }
 
 
-
-        return token;
+        return "1";
     }
 }
