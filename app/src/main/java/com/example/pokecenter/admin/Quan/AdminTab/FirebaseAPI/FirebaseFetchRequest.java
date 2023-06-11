@@ -57,7 +57,7 @@ public class FirebaseFetchRequest {
         });
     }
 
-    public void pushResponse(String id, String response, Boolean isApproved, FirebaseCallback<Boolean> firebaseCallback) {
+    public void pushResponse(String id, Boolean isApproved, FirebaseCallback<Boolean> firebaseCallback) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("findingProductSupport");
 
@@ -70,7 +70,6 @@ public class FirebaseFetchRequest {
                     DatabaseReference nodeRef = snapshot.getRef();
 
                     HashMap<String, Object> updates = new HashMap<>();
-                    updates.put("response", response);
                     updates.put("status", isApproved ? "Resolved" : "Not resolved");
 
                     // Update the node with the new response and status

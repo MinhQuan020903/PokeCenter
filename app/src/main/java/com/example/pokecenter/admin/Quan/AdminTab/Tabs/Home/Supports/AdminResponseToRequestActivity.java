@@ -145,14 +145,22 @@ public class AdminResponseToRequestActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(AuthResult authResult) {
                                 JavaMailUtils.sendResponseEmail(
+                                        //Send email to customer
                                         request.getCustomerId().replace(",","."),
                                         user.getEmail(),
                                         //Don't Change this Password!
                                         "gxgevgsfjtwwsfrb",
                                         true
                                 );
+                                //Update status of request on Firebase
+                                FirebaseFetchRequest firebaseFetchRequest = new FirebaseFetchRequest(AdminResponseToRequestActivity.this);
+                                firebaseFetchRequest.pushResponse(request.getId(), true, new FirebaseCallback<Boolean>() {
+                                    @Override
+                                    public void onCallback(Boolean user) {
+                                        Toast.makeText(AdminResponseToRequestActivity.this, "Send Response Email Succesfully!", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                                 adminAuthDialog.dismiss();
-                                Toast.makeText(AdminResponseToRequestActivity.this, "Send Response Email Succesfully!", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -192,6 +200,8 @@ public class AdminResponseToRequestActivity extends AppCompatActivity {
                         FirebaseAuth.getInstance().signInWithCredential(credential).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                     @Override
                                     public void onSuccess(AuthResult authResult) {
+
+                                        //Send email to customer
                                         JavaMailUtils.sendResponseEmail(
                                                 request.getCustomerId().replace(",","."),
                                                 user.getEmail(),
@@ -199,8 +209,16 @@ public class AdminResponseToRequestActivity extends AppCompatActivity {
                                                 "gxgevgsfjtwwsfrb",
                                                 false
                                         );
+
+                                        //Update status of request on Firebase
+                                        FirebaseFetchRequest firebaseFetchRequest = new FirebaseFetchRequest(AdminResponseToRequestActivity.this);
+                                        firebaseFetchRequest.pushResponse(request.getId(), false, new FirebaseCallback<Boolean>() {
+                                            @Override
+                                            public void onCallback(Boolean user) {
+                                                Toast.makeText(AdminResponseToRequestActivity.this, "Send Response Email Succesfully!", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                                         adminAuthDialog.dismiss();
-                                        Toast.makeText(AdminResponseToRequestActivity.this, "Send Response Email Succesfully!", Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {

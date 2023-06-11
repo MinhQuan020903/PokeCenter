@@ -3,7 +3,6 @@ plugins {
     id 'androidx.navigation.safeargs'
     id 'com.google.gms.google-services'
 }
-
 android {
     namespace 'com.example.pokecenter'
     compileSdk 33
@@ -76,6 +75,4 @@ dependencies {
     //Mail
     implementation 'com.sun.mail:android-mail:1.6.7'
     implementation 'com.sun.mail:android-activation:1.6.7'
-
-
 }
