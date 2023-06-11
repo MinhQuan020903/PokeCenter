@@ -1,16 +1,16 @@
 package com.example.pokecenter.vender;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.os.Bundle;
-
 import com.example.pokecenter.R;
 import com.example.pokecenter.databinding.ActivityVenderBinding;
-import com.example.pokecenter.vender.VenderTab.Home.VenderHomeFragment;
 import com.example.pokecenter.vender.VenderTab.Chat.VenderChatFragment;
+import com.example.pokecenter.vender.VenderTab.Home.VenderHomeFragment;
 import com.example.pokecenter.vender.VenderTab.VenderNotificationsFragment;
 import com.example.pokecenter.vender.VenderTab.VenderOrderFragment;
 import com.example.pokecenter.vender.VenderTab.VenderProfileFragment;
@@ -70,6 +70,7 @@ public class VenderActivity extends AppCompatActivity implements VenderHomeFragm
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentVender, selectedFragment);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
     @Override
