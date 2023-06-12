@@ -11,7 +11,7 @@ import android.widget.ArrayAdapter;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseCallback;
-import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseFetchProduct;
+import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseSupportProduct;
 import com.example.pokecenter.admin.AdminTab.Model.AdminProduct.AdminOption.AdminOption;
 import com.example.pokecenter.admin.AdminTab.Model.AdminProduct.AdminProduct;
 import com.example.pokecenter.admin.AdminTab.Model.Order.Order;
@@ -73,8 +73,8 @@ public class ProductStatisticActivity extends AppCompatActivity {
         Intent intent = getIntent();
         adminProduct = (AdminProduct)intent.getSerializableExtra("AdminProduct");
 
-        FirebaseFetchProduct firebaseFetchProduct = new FirebaseFetchProduct(this);
-        firebaseFetchProduct.getProductOrderDetailFromFirebase(adminProduct, new FirebaseCallback<ArrayList<Order>>() {
+        FirebaseSupportProduct firebaseSupportProduct = new FirebaseSupportProduct(this);
+        firebaseSupportProduct.getProductOrderDetailFromFirebase(adminProduct, new FirebaseCallback<ArrayList<Order>>() {
             @Override
             public void onCallback(ArrayList<Order> orders) {
                 orderList = orders;

@@ -12,7 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseCallback;
-import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseFetchVender;
+import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseSupportVender;
 import com.example.pokecenter.admin.AdminTab.Model.AdminProduct.AdminProductAdapter;
 import com.example.pokecenter.admin.AdminTab.Model.User.Vender.Vender;
 import com.example.pokecenter.admin.AdminTab.Tabs.Home.ProductsManagement.ProductStatisticActivity;
@@ -46,8 +46,8 @@ public class AdminVenderProductListActivity extends AppCompatActivity {
         Intent intent = getIntent();
         vender = (Vender) intent.getSerializableExtra("Vender");
 
-        FirebaseFetchVender firebaseFetchVender = new FirebaseFetchVender(this);
-        firebaseFetchVender.getProductListFromFirebase(vender, new FirebaseCallback<Vender>() {
+        FirebaseSupportVender firebaseSupportVender = new FirebaseSupportVender(this);
+        firebaseSupportVender.getProductListFromFirebase(vender, new FirebaseCallback<Vender>() {
             @Override
             public void onCallback(Vender user) {
                 vender = user;

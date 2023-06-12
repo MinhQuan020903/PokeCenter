@@ -16,7 +16,7 @@ import android.widget.ArrayAdapter;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseCallback;
-import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseFetchRequest;
+import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseSupportRequest;
 import com.example.pokecenter.admin.AdminTab.Model.AdminRequest.AdminRequest;
 import com.example.pokecenter.admin.AdminTab.Model.AdminRequest.AdminRequestAdapter;
 import com.example.pokecenter.admin.AdminTab.Utils.ItemSpacingDecoration;
@@ -52,8 +52,8 @@ public class AdminSupportProductRequestActivity extends AppCompatActivity {
 
         binding = ActivityAdminSupportProductRequestBinding.inflate(getLayoutInflater());
 
-        FirebaseFetchRequest firebaseFetchRequest = new FirebaseFetchRequest(this);
-        firebaseFetchRequest.getRequestList(new FirebaseCallback<ArrayList<AdminRequest>>() {
+        FirebaseSupportRequest firebaseSupportRequest = new FirebaseSupportRequest(this);
+        firebaseSupportRequest.getRequestList(new FirebaseCallback<ArrayList<AdminRequest>>() {
             @Override
             public void onCallback(ArrayList<AdminRequest> list) {
                 requestList = list;

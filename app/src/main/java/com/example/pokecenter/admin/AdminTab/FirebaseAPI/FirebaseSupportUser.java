@@ -29,12 +29,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 
-public class FirebaseFetchUser {
+public class FirebaseSupportUser {
 
     private User user;
     private String email;
     private Context context;
-    public FirebaseFetchUser(Context context) {
+    public FirebaseSupportUser(Context context) {
         this.context = context;
     }
 

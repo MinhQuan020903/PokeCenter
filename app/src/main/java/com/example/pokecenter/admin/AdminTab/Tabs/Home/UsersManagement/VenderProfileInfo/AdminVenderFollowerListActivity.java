@@ -12,7 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseCallback;
-import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseFetchVender;
+import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseSupportVender;
 import com.example.pokecenter.admin.AdminTab.Model.User.User;
 import com.example.pokecenter.admin.AdminTab.Model.User.Vender.Vender;
 import com.example.pokecenter.admin.AdminTab.Tabs.Home.UsersManagement.AdminCustomerInfoAndStatisticActivity;
@@ -52,8 +52,8 @@ public class AdminVenderFollowerListActivity extends AppCompatActivity {
 
         venderFollowerList = new ArrayList<>();
 
-        FirebaseFetchVender firebaseFetchVender = new FirebaseFetchVender(this);
-        firebaseFetchVender.getFollowingListFromFirebase(vender, new FirebaseCallback<ArrayList<User>>() {
+        FirebaseSupportVender firebaseSupportVender = new FirebaseSupportVender(this);
+        firebaseSupportVender.getFollowingListFromFirebase(vender, new FirebaseCallback<ArrayList<User>>() {
             @Override
             public void onCallback(ArrayList<User> user) {
 

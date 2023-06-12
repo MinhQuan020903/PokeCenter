@@ -10,7 +10,7 @@ import android.os.Looper;
 import android.view.View;
 
 import com.example.pokecenter.R;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.User.User;
+import com.example.pokecenter.admin.AdminTab.Model.User.User;
 import com.example.pokecenter.customer.lam.Model.order.Order;
 import com.example.pokecenter.databinding.ActivityPackagedOrdersBinding;
 import com.example.pokecenter.databinding.ActivityVenderFollowersBinding;

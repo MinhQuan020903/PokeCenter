@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseCallback;
-import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseFetchVoucher;
+import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseSupportVoucher;
 import com.example.pokecenter.admin.AdminTab.Model.AdminBlockVoucher.AdminBlockVoucher;
 import com.example.pokecenter.databinding.ActivityAddBlockVoucherBinding;
 import com.google.firebase.auth.AuthCredential;
@@ -40,7 +40,7 @@ public class AddBlockVoucherActivity extends AppCompatActivity {
 
     private ActivityAddBlockVoucherBinding binding;
     private Dialog adminAuthDialog;
-    private FirebaseFetchVoucher firebaseFetchVoucher;
+    private FirebaseSupportVoucher firebaseSupportVoucher;
     private InputMethodManager inputMethodManager;
     private LocalDate localDate;
 
@@ -59,7 +59,7 @@ public class AddBlockVoucherActivity extends AppCompatActivity {
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         binding = ActivityAddBlockVoucherBinding.inflate(getLayoutInflater());
 
-        firebaseFetchVoucher = new FirebaseFetchVoucher(this);
+        firebaseSupportVoucher = new FirebaseSupportVoucher(this);
 
         //Get current date
         //Determine current day
@@ -191,7 +191,7 @@ public class AddBlockVoucherActivity extends AppCompatActivity {
                                 .addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
 
-                                        firebaseFetchVoucher.addNewBlockVoucher(blockVoucher, new FirebaseCallback<Boolean>() {
+                                        firebaseSupportVoucher.addNewBlockVoucher(blockVoucher, new FirebaseCallback<Boolean>() {
                                             @Override
                                             public void onCallback(Boolean done) {
                                                 Toast.makeText(AddBlockVoucherActivity.this, "Add new block voucher successfully.", Toast.LENGTH_SHORT).show();

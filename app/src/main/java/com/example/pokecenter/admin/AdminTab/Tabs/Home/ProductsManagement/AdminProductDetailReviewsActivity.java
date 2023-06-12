@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.pokecenter.R;
-import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseFetchProduct;
+import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseSupportProduct;
 import com.example.pokecenter.admin.AdminTab.Model.AdminProduct.AdminProductReview.AdminProductReview;
 import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseCallback;
 import com.example.pokecenter.admin.AdminTab.Model.AdminProduct.AdminProduct;
@@ -45,8 +45,8 @@ public class AdminProductDetailReviewsActivity extends AppCompatActivity {
         //Set no review LinearLayout invisible by default
         binding.llProductNoReviews.setVisibility(View.INVISIBLE);
 
-        FirebaseFetchProduct firebaseFetchProduct = new FirebaseFetchProduct(this);
-        firebaseFetchProduct.getProductReviewsFromFirebase(adminProduct, new FirebaseCallback<ArrayList<AdminProductReview>>() {
+        FirebaseSupportProduct firebaseSupportProduct = new FirebaseSupportProduct(this);
+        firebaseSupportProduct.getProductReviewsFromFirebase(adminProduct, new FirebaseCallback<ArrayList<AdminProductReview>>() {
             @Override
             public void onCallback(ArrayList<AdminProductReview> reviewList) {
                 adminProductReviewList = reviewList;

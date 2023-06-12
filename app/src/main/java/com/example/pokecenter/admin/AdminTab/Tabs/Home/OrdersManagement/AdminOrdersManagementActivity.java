@@ -14,7 +14,7 @@ import android.widget.ArrayAdapter;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseCallback;
-import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseFetchOrder;
+import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseSupportOrder;
 import com.example.pokecenter.admin.AdminTab.Model.Order.AdminOrderAdapter;
 import com.example.pokecenter.admin.AdminTab.Model.Order.Order;
 import com.example.pokecenter.admin.AdminTab.Utils.ItemSpacingDecoration;
@@ -57,8 +57,8 @@ public class AdminOrdersManagementActivity extends AppCompatActivity {
 
         orderList = new ArrayList<>();
 
-        FirebaseFetchOrder firebaseFetchOrder = new FirebaseFetchOrder(this);
-        firebaseFetchOrder.getOrderListFromFirebase(new FirebaseCallback<ArrayList<Order>>() {
+        FirebaseSupportOrder firebaseSupportOrder = new FirebaseSupportOrder(this);
+        firebaseSupportOrder.getOrderListFromFirebase(new FirebaseCallback<ArrayList<Order>>() {
             @Override
             public void onCallback(ArrayList<Order> orders) {
                 orderList = orders;
