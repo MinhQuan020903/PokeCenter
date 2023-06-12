@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".admin.Quan.AdminTab.Tabs.Home.Supports.AdminSupportCustomerActivity">
+    tools:context=".admin.AdminTab.Tabs.Home.Supports.AdminSupportCustomerActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

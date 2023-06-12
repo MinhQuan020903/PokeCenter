@@ -6,7 +6,7 @@
     android:background="@color/light_primary"
     android:id="@+id/adminNotificationFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".admin.Quan.AdminTab.Tabs.Notification.AdminNotificationFragment">
+    tools:context=".admin.AdminTab.Tabs.Notification.AdminNotificationFragment">
 
         <TextView
             android:id="@+id/tvAdminNotificationLabel"

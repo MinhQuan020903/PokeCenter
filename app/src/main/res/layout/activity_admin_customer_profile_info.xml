@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/light_secondary"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoActivity">
+    tools:context=".admin.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clCustomerProfileInfo"
