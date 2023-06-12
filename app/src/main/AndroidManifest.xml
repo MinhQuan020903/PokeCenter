@@ -48,6 +48,7 @@
             android:exported="false" />
         <activity
             android:name=".admin.Quan.AdminTab.Tabs.Home.Supports.AdminSupportSelectionActivity"
+            android:exported="false" />
         <activity
             android:name=".vender.VenderTab.Home.Profile.VenderFollowersActivity"
             android:exported="false" />
