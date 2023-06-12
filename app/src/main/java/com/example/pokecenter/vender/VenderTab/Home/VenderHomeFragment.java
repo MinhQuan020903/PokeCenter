@@ -16,14 +16,12 @@ import androidx.fragment.app.Fragment;
 
 import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.databinding.FragmentVenderHomeBinding;
-import com.example.pokecenter.vender.VenderTab.Chat.VenderChatFragment;
-import com.example.pokecenter.vender.VenderTab.Home.Parcel.ParcelMainActivity;
 import com.example.pokecenter.vender.VenderTab.VenderNotificationsFragment;
 import com.example.pokecenter.vender.VenderTab.Home.Profile.VenderProfileFragment;
 import com.example.pokecenter.vender.VenderTab.Home.Product.VenderProductActivity;
-import com.example.pokecenter.vender.VenderTab.VenderProfileFragment;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -79,6 +77,9 @@ public class VenderHomeFragment extends Fragment {
         });
         binding.voucherFunction.setOnClickListener(view -> {
 
+//            fragmentChangeListener.onFragmentChange(new VenderNotificationsFragment());
+            Intent intent = new Intent(getActivity(), VenderNotificationActivity.class);
+            startActivity(intent);
         });
 
         return binding.getRoot();
