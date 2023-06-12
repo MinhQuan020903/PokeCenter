@@ -197,17 +197,25 @@ public class VenderStatisticsActivity extends AppCompatActivity {
     }
 
     private void showOrderStatistic() {
-
+        binding.progressBar.setVisibility(View.INVISIBLE);
         binding.barChart.getAxisLeft().setAxisMinimum(0);
         binding.barChart.getAxisLeft().setAxisMaximum(maxOrderCount * 3);
 
         BarData data = new BarData(barDataSetOrder);
-        binding.barChart.setData(data);
-        binding.barChart.invalidate();
-
+        if(data.getEntryCount()<1)
+            binding.barChart.setVisibility(View.GONE);
+        else {
+            binding.barChart.setData(data);
+            binding.barChart.invalidate();
+        }
         PieData pieData = new PieData(pieDataSetOrder);
-        binding.pieChart.setData(pieData);
-        binding.pieChart.invalidate();
+
+        if(pieData.getEntryCount()<1) {
+            binding.pieChart.setVisibility(View.GONE);
+        }else{
+            binding.pieChart.setData(pieData);
+            binding.pieChart.invalidate();
+        }
 
     }
 
@@ -217,16 +225,24 @@ public class VenderStatisticsActivity extends AppCompatActivity {
         binding.barChart.getAxisLeft().setAxisMaximum(maxSpendingCount * 2);
 
         BarData data = new BarData(barDataSetSpending);
-        binding.barChart.setData(data);
-        binding.barChart.invalidate();
-
+        if(data.getEntryCount()<1)
+            binding.barChart.setVisibility(View.GONE);
+        else {
+            binding.barChart.setData(data);
+            binding.barChart.invalidate();
+        }
         PieData pieData = new PieData(pieDataSetSpending);
-        binding.pieChart.setData(pieData);
-        binding.pieChart.invalidate();
+
+        if(pieData.getEntryCount()<1) {
+            binding.pieChart.setVisibility(View.GONE);
+        }else{
+            binding.pieChart.setData(pieData);
+            binding.pieChart.invalidate();
+        }
     }
 
     private void calculateSpendingInRecentDays() {
-
+        binding.progressBar.setVisibility(View.VISIBLE);
         orderValues.clear();
         spendingValues.clear();
         orderValuesPie.clear();
@@ -377,7 +393,7 @@ public class VenderStatisticsActivity extends AppCompatActivity {
     }
 
     private void calculateSpendingInCurrentMonth() {
-
+        binding.progressBar.setVisibility(View.VISIBLE);
         orderValues.clear();
         spendingValues.clear();
         orderValuesPie.clear();
@@ -515,7 +531,7 @@ public class VenderStatisticsActivity extends AppCompatActivity {
 
 
     private void calculateSpendingInCurrentYear() {
-
+        binding.progressBar.setVisibility(View.VISIBLE);
         orderValues.clear();
         spendingValues.clear();
         orderValuesPie.clear();
