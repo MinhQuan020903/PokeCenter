@@ -144,7 +144,7 @@ public class AdminResponseToRequestActivity extends AppCompatActivity {
                         FirebaseAuth.getInstance().signInWithCredential(credential).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                             @Override
                             public void onSuccess(AuthResult authResult) {
-                                JavaMailUtils.sendResponseEmail(
+                                JavaMailUtils.sendResponseEmailToCustomer(
                                         //Send email to customer
                                         request.getCustomerId().replace(",","."),
                                         user.getEmail(),
@@ -202,7 +202,7 @@ public class AdminResponseToRequestActivity extends AppCompatActivity {
                                     public void onSuccess(AuthResult authResult) {
 
                                         //Send email to customer
-                                        JavaMailUtils.sendResponseEmail(
+                                        JavaMailUtils.sendResponseEmailToCustomer(
                                                 request.getCustomerId().replace(",","."),
                                                 user.getEmail(),
                                                 //Don't Change this Password!

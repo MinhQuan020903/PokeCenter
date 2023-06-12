@@ -30,6 +30,6 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginTop="30dp"
-            android:text="Customer doesn't have any followers!"/>
+            android:text="Customer doesn't follow any store!"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

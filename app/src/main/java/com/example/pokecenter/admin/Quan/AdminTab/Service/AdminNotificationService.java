@@ -26,6 +26,9 @@ public class AdminNotificationService extends FirebaseMessagingService {
 
     private Class<?> targetActivity;
 
+    public AdminNotificationService() {
+    }
+
     public AdminNotificationService(Class<?> targetActivity) {
         this.targetActivity = targetActivity;
     }
