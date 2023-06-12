@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/quan_light_green"
-    tools:context=".admin.Quan.AdminTab.Tabs.Profile.AdminAccountInfoActivity">
+    tools:context=".admin.AdminTab.Tabs.Profile.AdminAccountInfoActivity">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -6,7 +6,7 @@
     android:background="@color/quan_light_green"
     android:id="@+id/adminProfileFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".admin.Quan.AdminTab.Tabs.Profile.AdminProfileFragment">
+    tools:context=".admin.AdminTab.Tabs.Profile.AdminProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clAdminTitle"

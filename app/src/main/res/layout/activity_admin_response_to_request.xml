@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/light_primary"
-        tools:context=".admin.Quan.AdminTab.Tabs.Home.Supports.AdminResponseToRequestActivity">
+        tools:context=".admin.AdminTab.Tabs.Home.Supports.AdminResponseToRequestActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clResolveMain"
