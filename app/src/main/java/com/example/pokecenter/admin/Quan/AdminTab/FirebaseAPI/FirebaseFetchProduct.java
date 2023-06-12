@@ -34,7 +34,7 @@ public class FirebaseFetchProduct {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef = firebaseDatabase.getReference("products");
 
-        myRef.limitToFirst(20).addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.limitToFirst(50).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
@@ -48,7 +48,10 @@ public class FirebaseFetchProduct {
                             for (DataSnapshot optionSnapShot : optionsSnapShot.getChildren()) {
                                 //Fetch attributes of an AdminOption object
                                 String id = optionSnapShot.getKey();
-                                Long cost = optionSnapShot.child("cost").getValue(Long.class);
+                                Long cost = 0L;
+                                if (optionSnapShot.child("cost").exists()) {
+                                    cost = optionSnapShot.child("cost").getValue(Long.class);
+                                }
                                 int currentQuantity = optionSnapShot.child("currentQuantity").getValue(int.class);
                                 int inputQuantity = optionSnapShot.child("inputQuantity").getValue(int.class);
                                 String optionImage = optionSnapShot.child("optionImage").getValue(String.class);

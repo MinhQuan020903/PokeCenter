@@ -30,7 +30,7 @@ public class FirebaseFetchOrder {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef = firebaseDatabase.getReference("orders");
 
-        Query query = myRef.orderByChild("totalAmount").limitToLast(20);
+        Query query = myRef.orderByChild("totalAmount").limitToLast(50);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

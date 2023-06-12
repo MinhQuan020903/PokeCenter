@@ -97,7 +97,12 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
                             minPrice = currentPrice;
                         }
                     }
-                    priceRange = minPrice + " đ .. to .." + maxPrice + " đ";
+                    if (minPrice < maxPrice) {
+                        priceRange = minPrice + " đ .. to .." + maxPrice + " đ";
+                    }
+                    else {
+                        priceRange = String.valueOf(adminProduct.getOptions().get(0).getPrice()) + " đ";
+                    }
                 }
                 else {
                     priceRange = String.valueOf(adminProduct.getOptions().get(0).getPrice()) + " đ";

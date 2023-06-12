@@ -35,7 +35,7 @@ public class FirebaseFetchRequest {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef = firebaseDatabase.getReference("findingProductSupport");
 
-        Query query = myRef.orderByChild("createDate").limitToLast(20); // Query to limit to 20 most recent users
+        Query query = myRef.orderByChild("createDate").limitToLast(50); // Query to limit to 20 most recent users
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

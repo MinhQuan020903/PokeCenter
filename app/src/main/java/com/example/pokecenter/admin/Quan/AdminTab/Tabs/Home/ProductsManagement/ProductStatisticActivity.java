@@ -110,8 +110,12 @@ public class ProductStatisticActivity extends AppCompatActivity {
                             int amount = orderDetail.getQuantity();
                             //Get price of selected option
                             int selectedOption = orderDetail.getSelectedOption();
-                            long price = adminProduct.getOptions().get(selectedOption).getPrice();
-                            totalRevenue += price * amount;
+                            try {
+                                long price = adminProduct.getOptions().get(selectedOption).getPrice();
+                                totalRevenue += price * amount;
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }

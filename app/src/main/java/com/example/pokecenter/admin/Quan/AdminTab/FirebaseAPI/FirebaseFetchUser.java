@@ -43,7 +43,7 @@ public class FirebaseFetchUser {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef = firebaseDatabase.getReference("accounts");
 
-        Query query = myRef.orderByChild("registrationDate").limitToLast(20); // Query to limit to 20 most recent users
+        Query query = myRef.orderByChild("registrationDate").limitToLast(50); // Query to limit to 20 most recent users
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
