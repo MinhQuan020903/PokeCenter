@@ -77,12 +77,17 @@ public class ReceiveOrderAdapter extends RecyclerView.Adapter<ReceiveOrderAdapte
             Product product = ProductData.fetchedProducts.get(detailOrder.getProductId());
             productName.setText(product.getName());
 
-            selectedOption.setText(product.getOptions().get(detailOrder.getSelectedOption()).getOptionName());
+            String selectedOptionName = product.getOptions().get(detailOrder.getSelectedOption()).getOptionName();
+            if (selectedOptionName.equals("null")) {
+                selectedOption.setVisibility(View.GONE);
+            } else {
+                selectedOption.setText(selectedOptionName);
+            }
 
             quantity.setText(String.valueOf(detailOrder.getQuantity()));
             price.setText(currencyFormatter.format(product.getOptions().get(detailOrder.getSelectedOption()).getPrice()));
 
-            detailItemView.setPadding(0, 0, 0, 20);
+            detailItemView.setPadding(0, 0, 0, 24);
 
             holder.listOrders.addView(detailItemView);
 

@@ -99,8 +99,8 @@
                 android:layout_gravity="center">
                 <ImageView
                     android:id="@+id/ivAdminStatistic"
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
                     android:src="@drawable/quan_icon_statistic"
                     android:scaleType="fitCenter"
                     app:tint="@color/quan_light_yellow" />
@@ -142,7 +142,7 @@
 
                 <ImageView
                     android:id="@+id/ivAdminProducts"
-                    android:layout_width="65dp"
+                    android:layout_width="55dp"
                     android:layout_height="65dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/quan_icon_products"
@@ -186,8 +186,8 @@
 
                 <ImageView
                     android:id="@+id/ivAdminUsers"
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/quan_icon_users"
                     app:tint="@color/quan_light_yellow"/>
@@ -269,7 +269,7 @@
                 android:layout_gravity="center">
                 <ImageView
                     android:id="@+id/ivAdminOrders"
-                    android:layout_width="65dp"
+                    android:layout_width="55dp"
                     android:layout_height="65dp"
                     android:src="@drawable/quan_icon_orders"
                     android:scaleType="fitCenter"
@@ -312,8 +312,8 @@
 
                 <ImageView
                     android:id="@+id/ivAdminBlockVouchers"
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
+                    android:layout_width="55dp"
+                    android:layout_height="65dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/quan_icon_voucher"
                     app:tint="@color/quan_light_yellow"/>
@@ -324,6 +324,50 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:text="Block Vouchers"
+                    android:fontFamily="@font/exo_2"
+                    android:textColor="@color/quan_light_yellow"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cvAdminSupports"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/quan_rounded_layout_background"
+            android:backgroundTint="@color/light_secondary"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="10dp"
+            app:strokeWidth="2dp"
+            app:strokeColor="@color/quan_light_yellow"
+            app:cardElevation="5dp"
+            app:layout_constraintWidth_percent="0.45"
+            app:layout_constraintDimensionRatio="1.5:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cvAdminOrders">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="5dp"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:id="@+id/ivAdminSupports"
+                    android:layout_width="55dp"
+                    android:layout_height="65dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/quan_icon_admin_support"
+                    app:tint="@color/quan_light_yellow"/>
+
+                <TextView
+                    android:id="@+id/tvAdminSupports"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Supports"
                     android:fontFamily="@font/exo_2"
                     android:textColor="@color/quan_light_yellow"
                     android:textStyle="bold" />
