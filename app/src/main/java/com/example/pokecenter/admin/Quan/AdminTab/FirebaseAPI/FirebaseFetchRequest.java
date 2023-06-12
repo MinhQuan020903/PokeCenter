@@ -138,7 +138,12 @@ public class FirebaseFetchRequest {
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
-                                    firebaseCallback.onCallback(true);
+                                    //If resolved, sent notifications for venders
+                                    if (isApproved) {
+                                        pushRequestNotificationForVenders(request, firebaseCallback);
+                                    } else {
+                                        firebaseCallback.onCallback(true);
+                                    }
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -150,6 +155,67 @@ public class FirebaseFetchRequest {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                firebaseCallback.onCallback(false);
+            }
+        });
+    }
+
+    public void pushRequestNotificationForVenders(AdminRequest request, FirebaseCallback<Boolean> firebaseCallback) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("venders");
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot notificationSnapshot : snapshot.getChildren()) {
+                    try {
+                        //Create notication node if there isn't exist one
+                        if (!notificationSnapshot.hasChild("notifications")) {
+                            DatabaseReference newNotificationRef = ref.child(notificationSnapshot.getKey()).child("notifications");
+                            newNotificationRef.setValue("notifications");
+                        }
+
+
+                        //Set details of notification
+                        String title = "PokéCenter's Response for Customer Product Request";
+                        String content = " Dear " + notificationSnapshot.getKey().replace(",", ".") +  ", \n"
+                                + "Recently, we've received a new product request from customers!"
+                                + " you have the resource for this product, please contact admin for further details."
+                                + "Thank you for your support.\n"
+                                +"PokéCenter.";
+
+
+                        HashMap<String, Object> notificationNode = new HashMap<>();
+                        notificationNode.put("content", content);
+                        notificationNode.put("read", false);
+                        notificationNode.put("sentDate", DateUtils.getCurrentDateString());
+                        notificationNode.put("title", title);
+                        notificationNode.put("type", "fromPokeCenter");
+
+                        DatabaseReference notificationRef = ref.child(notificationSnapshot.getKey()).child("notifications").push();
+
+                        notificationRef.setValue(notificationNode)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        firebaseCallback.onCallback(true);
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        firebaseCallback.onCallback(false);
+                                    }
+                                });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
             }
 
             @Override

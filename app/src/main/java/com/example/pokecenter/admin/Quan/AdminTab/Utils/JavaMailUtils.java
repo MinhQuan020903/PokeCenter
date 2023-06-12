@@ -15,7 +15,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class JavaMailUtils {
-    public static void sendResponseEmail
+    public static void sendResponseEmailToCustomer
             (
              String receiverEmail,
              String currentEmail,
