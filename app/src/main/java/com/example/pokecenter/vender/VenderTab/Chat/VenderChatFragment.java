@@ -13,15 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.pokecenter.customer.lam.CustomerTab.Home.NextActivity.ProductByPokemonActivity;
-import com.example.pokecenter.customer.lam.CustomerTab.Profile.CustomerProfileFragment;
-import com.example.pokecenter.customer.lam.Interface.PokemonRecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.databinding.FragmentVenderChatBinding;
 import com.example.pokecenter.vender.Model.ChatRoom.ChatRoom;
 import com.example.pokecenter.vender.Model.ChatRoom.ChatRoomAdapter;
 import com.example.pokecenter.vender.Model.ChatRoom.ChatRoomInterface;
-import com.example.pokecenter.vender.VenderTab.VenderProfileFragment;
+import com.example.pokecenter.vender.VenderTab.Home.Profile.VenderProfileFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -31,11 +28,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 

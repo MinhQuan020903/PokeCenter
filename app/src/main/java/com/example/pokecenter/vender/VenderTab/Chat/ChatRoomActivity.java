@@ -6,29 +6,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.Model.account.Account;
-import com.example.pokecenter.databinding.ActivityAddProductBinding;
 import com.example.pokecenter.databinding.ActivityChatRoomBinding;
 import com.example.pokecenter.vender.Model.Chat.Message;
 import com.example.pokecenter.vender.Model.Chat.MessageAdapter;
-import com.example.pokecenter.vender.Model.ChatRoom.ChatRoom;
-import com.example.pokecenter.vender.VenderTab.VenderProfileFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.time.Instant;
