@@ -1,6 +1,10 @@
 package com.example.pokecenter.vender.VenderTab.Home;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -35,8 +39,8 @@ public class VenderNotificationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityVenderNotificationBinding.inflate(getLayoutInflater());
+        
 
         getWindow().setStatusBarColor(getColor(R.color.light_primary));
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
