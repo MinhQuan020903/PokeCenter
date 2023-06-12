@@ -16,7 +16,7 @@ import android.widget.ArrayAdapter;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseCallback;
-import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseFetchUser;
+import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseSupportUser;
 import com.example.pokecenter.admin.AdminTab.Model.User.Customer.Customer;
 import com.example.pokecenter.admin.AdminTab.Model.User.User;
 import com.example.pokecenter.admin.AdminTab.Model.User.UserAdapter;
@@ -75,9 +75,9 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
 
         usersList = new ArrayList<>();
 
-        FirebaseFetchUser firebaseFetchUser = new FirebaseFetchUser(this);
+        FirebaseSupportUser firebaseSupportUser = new FirebaseSupportUser(this);
 
-        firebaseFetchUser.getUsersListFromFirebase(new FirebaseCallback<ArrayList<User>>() {
+        firebaseSupportUser.getUsersListFromFirebase(new FirebaseCallback<ArrayList<User>>() {
             @Override
             public void onCallback(ArrayList<User> users) {
                 usersList = users;
@@ -237,7 +237,7 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (binding.etUsersManagementSearch.getText().toString().contains("@")) {
-                    firebaseFetchUser.getUserByEmail(binding.etUsersManagementSearch.getText().toString(), new FirebaseCallback<User>() {
+                    firebaseSupportUser.getUserByEmail(binding.etUsersManagementSearch.getText().toString(), new FirebaseCallback<User>() {
                         @Override
                         public void onCallback(User user) {
                             ArrayList<User> users = new ArrayList<>();

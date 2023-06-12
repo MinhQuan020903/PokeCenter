@@ -20,10 +20,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class FirebaseFetchProduct {
+public class FirebaseSupportProduct {
     private Context context;
 
-    public FirebaseFetchProduct(Context context) {
+    public FirebaseSupportProduct(Context context) {
         this.context = context;
     }
 

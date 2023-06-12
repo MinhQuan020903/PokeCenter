@@ -16,7 +16,7 @@ import android.widget.ArrayAdapter;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseCallback;
-import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseFetchProduct;
+import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseSupportProduct;
 import com.example.pokecenter.admin.AdminTab.Model.AdminProduct.AdminProduct;
 import com.example.pokecenter.admin.AdminTab.Model.AdminProduct.AdminProductAdapter;
 import com.example.pokecenter.admin.AdminTab.Utils.ItemSpacingDecoration;
@@ -60,8 +60,8 @@ public class AdminProductsManagementActivity extends AppCompatActivity {
         collator = Collator.getInstance(new Locale("vi"));
 
         adminProductList = new ArrayList<>();
-        FirebaseFetchProduct firebaseFetchProduct = new FirebaseFetchProduct(this);
-        firebaseFetchProduct.getProductListFromFirebase(new FirebaseCallback<ArrayList<AdminProduct>>() {
+        FirebaseSupportProduct firebaseSupportProduct = new FirebaseSupportProduct(this);
+        firebaseSupportProduct.getProductListFromFirebase(new FirebaseCallback<ArrayList<AdminProduct>>() {
             @Override
             public void onCallback(ArrayList<AdminProduct> user) {
                 adminProductList = user;

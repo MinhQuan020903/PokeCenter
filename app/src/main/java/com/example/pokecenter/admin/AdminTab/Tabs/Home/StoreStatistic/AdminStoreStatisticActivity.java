@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseCallback;
-import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseFetchUser;
+import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseSupportUser;
 import com.example.pokecenter.admin.AdminTab.Model.Order.Order;
 import com.example.pokecenter.admin.AdminTab.Model.User.Customer.Customer;
 import com.example.pokecenter.admin.AdminTab.Model.User.User;
@@ -82,8 +82,8 @@ public class AdminStoreStatisticActivity extends AppCompatActivity {
         orderList = new ArrayList<>();
 
         //Fetch user data
-        FirebaseFetchUser firebaseFetchUser = new FirebaseFetchUser(this);
-        firebaseFetchUser.getUsersListFromFirebase(new FirebaseCallback<ArrayList<User>>() {
+        FirebaseSupportUser firebaseSupportUser = new FirebaseSupportUser(this);
+        firebaseSupportUser.getUsersListFromFirebase(new FirebaseCallback<ArrayList<User>>() {
             @Override
             public void onCallback(ArrayList<User> users) {
                 userList = users;

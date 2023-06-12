@@ -12,7 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseCallback;
-import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseFetchUser;
+import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseSupportUser;
 import com.example.pokecenter.admin.AdminTab.Model.User.Customer.Customer;
 import com.example.pokecenter.admin.AdminTab.Model.User.User;
 import com.example.pokecenter.admin.AdminTab.Model.User.UserAdapter;
@@ -56,8 +56,8 @@ public class AdminCustomerProfileInfoFollowersActivity extends AppCompatActivity
 
         //Get ArrayList<String> followerEmailList from Firebase
         String customerFirebaseEmail = customer.getEmail().replace(".", ",");
-        FirebaseFetchUser firebaseFetchUser = new FirebaseFetchUser(this);
-        firebaseFetchUser.getCustomerFollowers(customerFirebaseEmail, new FirebaseCallback<ArrayList<String>>() {
+        FirebaseSupportUser firebaseSupportUser = new FirebaseSupportUser(this);
+        firebaseSupportUser.getCustomerFollowers(customerFirebaseEmail, new FirebaseCallback<ArrayList<String>>() {
             @Override
             public void onCallback(ArrayList<String> user) {
                 followerEmailList = user;
@@ -66,7 +66,7 @@ public class AdminCustomerProfileInfoFollowersActivity extends AppCompatActivity
                     binding.llCustomerNoFollowers.setVisibility(View.VISIBLE);
                 } else {
                     followerList = new ArrayList<>();
-                    firebaseFetchUser.getUsersListFromFirebase(new FirebaseCallback<ArrayList<User>>() {
+                    firebaseSupportUser.getUsersListFromFirebase(new FirebaseCallback<ArrayList<User>>() {
                         @Override
                         public void onCallback(ArrayList<User> user) {
                             int index = 0;

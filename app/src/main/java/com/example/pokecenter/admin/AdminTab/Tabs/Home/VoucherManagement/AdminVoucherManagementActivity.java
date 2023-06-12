@@ -11,7 +11,7 @@ import android.view.View;
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.AdminTab.Utils.ItemSpacingDecoration;
 import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseCallback;
-import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseFetchVoucher;
+import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseSupportVoucher;
 import com.example.pokecenter.admin.AdminTab.Model.AdminBlockVoucher.AdminBlockVoucher;
 import com.example.pokecenter.admin.AdminTab.Model.AdminBlockVoucher.AdminBlockVoucherAdapter;
 import com.example.pokecenter.databinding.ActivityAdminVoucherManagementBinding;
@@ -38,8 +38,8 @@ public class AdminVoucherManagementActivity extends AppCompatActivity {
 
         blockVouchers = new ArrayList<>();
 
-        FirebaseFetchVoucher firebaseFetchVoucher = new FirebaseFetchVoucher(this);
-        firebaseFetchVoucher.getBlockVoucherList(new FirebaseCallback<ArrayList<AdminBlockVoucher>>() {
+        FirebaseSupportVoucher firebaseSupportVoucher = new FirebaseSupportVoucher(this);
+        firebaseSupportVoucher.getBlockVoucherList(new FirebaseCallback<ArrayList<AdminBlockVoucher>>() {
             @Override
             public void onCallback(ArrayList<AdminBlockVoucher> blockVouchers1) {
                 blockVouchers = blockVouchers1;

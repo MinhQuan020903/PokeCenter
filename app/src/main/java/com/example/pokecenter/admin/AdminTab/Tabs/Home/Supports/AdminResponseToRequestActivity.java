@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseCallback;
-import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseFetchRequest;
+import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseSupportRequest;
 import com.example.pokecenter.admin.AdminTab.Model.AdminRequest.AdminRequest;
 import com.example.pokecenter.admin.AdminTab.Model.AdminRequest.ImageAdapter;
 import com.example.pokecenter.admin.AdminTab.Utils.ItemSpacingDecoration;
@@ -144,8 +144,8 @@ public class AdminResponseToRequestActivity extends AppCompatActivity {
                                         true
                                 );
                                 //Update status of request on Firebase
-                                FirebaseFetchRequest firebaseFetchRequest = new FirebaseFetchRequest(AdminResponseToRequestActivity.this);
-                                firebaseFetchRequest.pushResponse(request, true, new FirebaseCallback<Boolean>() {
+                                FirebaseSupportRequest firebaseSupportRequest = new FirebaseSupportRequest(AdminResponseToRequestActivity.this);
+                                firebaseSupportRequest.pushResponse(request, true, new FirebaseCallback<Boolean>() {
                                     @Override
                                     public void onCallback(Boolean user) {
                                         Toast.makeText(AdminResponseToRequestActivity.this, "Send Response Email Succesfully!", Toast.LENGTH_SHORT).show();
@@ -202,8 +202,8 @@ public class AdminResponseToRequestActivity extends AppCompatActivity {
                                         );
 
                                         //Update status of request on Firebase
-                                        FirebaseFetchRequest firebaseFetchRequest = new FirebaseFetchRequest(AdminResponseToRequestActivity.this);
-                                        firebaseFetchRequest.pushResponse(request, false, new FirebaseCallback<Boolean>() {
+                                        FirebaseSupportRequest firebaseSupportRequest = new FirebaseSupportRequest(AdminResponseToRequestActivity.this);
+                                        firebaseSupportRequest.pushResponse(request, false, new FirebaseCallback<Boolean>() {
                                             @Override
                                             public void onCallback(Boolean user) {
                                                 Toast.makeText(AdminResponseToRequestActivity.this, "Send Response Email Succesfully!", Toast.LENGTH_SHORT).show();

@@ -21,10 +21,10 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
-public class FirebaseFetchVoucher {
+public class FirebaseSupportVoucher {
     private Context context;
 
-    public FirebaseFetchVoucher(Context context) {
+    public FirebaseSupportVoucher(Context context) {
         this.context = context;
     }
 

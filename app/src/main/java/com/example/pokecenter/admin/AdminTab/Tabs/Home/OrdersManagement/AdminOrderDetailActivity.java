@@ -14,7 +14,7 @@ import com.example.pokecenter.admin.AdminTab.Model.Order.AdminOrderDetailAdapter
 import com.example.pokecenter.admin.AdminTab.Model.Order.Order;
 import com.example.pokecenter.admin.AdminTab.Model.Order.OrderDetail;
 import com.example.pokecenter.admin.AdminTab.Utils.ItemSpacingDecoration;
-import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseFetchOrder;
+import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseSupportOrder;
 import com.example.pokecenter.databinding.ActivityAdminOrderDetailBinding;
 
 import java.text.NumberFormat;
@@ -45,8 +45,8 @@ public class AdminOrderDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         order = (Order) intent.getSerializableExtra("Order");
 
-        FirebaseFetchOrder firebaseFetchOrder = new FirebaseFetchOrder(this);
-        firebaseFetchOrder.getOrderDetailFromFirebase(order, new FirebaseCallback<ArrayList<OrderDetail>>() {
+        FirebaseSupportOrder firebaseSupportOrder = new FirebaseSupportOrder(this);
+        firebaseSupportOrder.getOrderDetailFromFirebase(order, new FirebaseCallback<ArrayList<OrderDetail>>() {
             @Override
             public void onCallback(ArrayList<OrderDetail> orderList) {
                 orderDetailList = orderList;

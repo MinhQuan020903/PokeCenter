@@ -21,13 +21,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class FirebaseFetchVender {
+public class FirebaseSupportVender {
     private Context context;
     private int processedCount;
     private ArrayList<User> followingList;
 
 
-    public FirebaseFetchVender(Context context) {
+    public FirebaseSupportVender(Context context) {
         this.context = context;
     }
 

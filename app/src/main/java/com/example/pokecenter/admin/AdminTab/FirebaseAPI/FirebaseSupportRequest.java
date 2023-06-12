@@ -21,11 +21,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class FirebaseFetchRequest {
+public class FirebaseSupportRequest {
     private Context context;
     private ArrayList<AdminRequest> requestList;
 
-    public FirebaseFetchRequest(Context context) {
+    public FirebaseSupportRequest(Context context) {
         this.context = context;
     }
 

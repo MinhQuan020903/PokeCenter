@@ -17,10 +17,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class FirebaseFetchOrder {
+public class FirebaseSupportOrder {
     public Context context;
 
-    public FirebaseFetchOrder(Context context) {
+    public FirebaseSupportOrder(Context context) {
         this.context = context;
     }
 

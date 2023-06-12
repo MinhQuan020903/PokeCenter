@@ -15,7 +15,7 @@ import com.example.pokecenter.R;
 import com.example.pokecenter.admin.AdminTab.Model.Order.Order;
 import com.example.pokecenter.admin.AdminTab.Model.User.Vender.Vender;
 import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseCallback;
-import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseFetchVender;
+import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseSupportVender;
 import com.example.pokecenter.admin.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderFollowerListActivity;
 import com.example.pokecenter.admin.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderProductListActivity;
 import com.example.pokecenter.admin.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderProfileInfoActivity;
@@ -78,8 +78,8 @@ public class AdminVenderInfoAndStatisticActivity extends AppCompatActivity {
             vender = (Vender)intent.getSerializableExtra("User");
         }
 
-        FirebaseFetchVender firebaseFetchVender = new FirebaseFetchVender(this);
-        firebaseFetchVender.getVenderDetailFromFirebase(vender, new FirebaseCallback<Vender>() {
+        FirebaseSupportVender firebaseSupportVender = new FirebaseSupportVender(this);
+        firebaseSupportVender.getVenderDetailFromFirebase(vender, new FirebaseCallback<Vender>() {
             @Override
             public void onCallback(Vender user) {
 
