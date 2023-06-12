@@ -1,11 +1,9 @@
 package com.example.pokecenter.admin.AdminTab.Service;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.ComponentCallbacks;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -24,6 +22,9 @@ public class AdminNotificationService extends FirebaseMessagingService {
     private static final String TAG = "AdminNotificationService";
     private static final int CUSTOMER_REQUEST_RESPONSE_ID = 1106;
 
+    public AdminNotificationService() {
+        //Something
+    }
     private Class<?> targetActivity;
 
     public AdminNotificationService() {

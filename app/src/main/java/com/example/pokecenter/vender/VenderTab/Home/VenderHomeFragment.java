@@ -11,13 +11,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
+import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.databinding.FragmentVenderHomeBinding;
 import com.example.pokecenter.vender.VenderTab.Chat.VenderChatFragment;
 import com.example.pokecenter.vender.VenderTab.Home.Parcel.ParcelMainActivity;
 import com.example.pokecenter.vender.VenderTab.VenderNotificationsFragment;
 import com.example.pokecenter.vender.VenderTab.Home.Profile.VenderProfileFragment;
 import com.example.pokecenter.vender.VenderTab.Home.Product.VenderProductActivity;
+import com.example.pokecenter.vender.VenderTab.VenderProfileFragment;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class VenderHomeFragment extends Fragment {
     private FragmentVenderHomeBinding binding;
@@ -56,7 +66,9 @@ public class VenderHomeFragment extends Fragment {
             startActivity(intent);
         });
         binding.NotificationFunction.setOnClickListener(view -> {
-            fragmentChangeListener.onFragmentChange(new VenderNotificationsFragment());
+//            fragmentChangeListener.onFragmentChange(new VenderNotificationsFragment());
+            Intent intent = new Intent(getActivity(), VenderNotificationActivity.class);
+            startActivity(intent);
         });
         binding.chatFunction.setOnClickListener(view -> {
             fragmentChangeListener.onFragmentChange(new VenderChatFragment());
