@@ -27,7 +27,7 @@ import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.customer.lam.Provider.WishListData;
 import com.example.pokecenter.databinding.ActivitySignInBinding;
 import com.example.pokecenter.vender.VenderActivity;
-import com.example.pokecenter.vender.VenderTab.VenderProfileFragment;
+import com.example.pokecenter.vender.VenderTab.Home.Profile.VenderProfileFragment;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.IOException;

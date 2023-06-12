@@ -13,7 +13,7 @@ import com.example.pokecenter.vender.VenderTab.Home.VenderHomeFragment;
 import com.example.pokecenter.vender.VenderTab.Chat.VenderChatFragment;
 import com.example.pokecenter.vender.VenderTab.VenderNotificationsFragment;
 import com.example.pokecenter.vender.VenderTab.VenderOrderFragment;
-import com.example.pokecenter.vender.VenderTab.VenderProfileFragment;
+import com.example.pokecenter.vender.VenderTab.Home.Profile.VenderProfileFragment;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 

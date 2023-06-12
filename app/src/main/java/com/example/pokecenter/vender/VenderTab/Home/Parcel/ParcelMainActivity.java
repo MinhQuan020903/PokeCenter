@@ -36,6 +36,9 @@ public class ParcelMainActivity extends AppCompatActivity {
         binding.packagedOrder.setOnClickListener(view -> {
             startActivity(new Intent(this, PackagedOrdersActivity.class));
         });
+        binding.CompleteOrder.setOnClickListener(view -> {
+            startActivity(new Intent(this, CompletedOrderActivity.class));
+        });
     }
     @Override
     public boolean onSupportNavigateUp() {
