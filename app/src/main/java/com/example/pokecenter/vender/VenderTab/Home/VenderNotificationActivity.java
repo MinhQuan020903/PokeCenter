@@ -24,7 +24,6 @@ import java.io.IOException;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 public class VenderNotificationActivity extends AppCompatActivity {
@@ -37,6 +36,7 @@ public class VenderNotificationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         binding = ActivityVenderNotificationBinding.inflate(getLayoutInflater());
+        
 
         getWindow().setStatusBarColor(getColor(R.color.light_primary));
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
@@ -81,6 +81,15 @@ public class VenderNotificationActivity extends AppCompatActivity {
                         token );
 
                 sendNotification(notification);
+            }
+        });
+
+        // Notify in app
+        binding.btnNotifyInApp.setOnClickListener(view -> {
+            try {
+                String token = new FirebaseSupportVender().getTokenWithEmail("ngoctin0809@gmail.com");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         });
 
