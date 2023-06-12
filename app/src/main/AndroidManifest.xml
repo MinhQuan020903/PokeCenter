@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Ninh Test -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -18,6 +17,37 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PokeCenter"
         tools:targetApi="31">
+        <service
+            android:name=".admin.Quan.AdminTab.Service.AdminNotificationService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+            <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
+             See README(https://goo.gl/l4GJaQ) for more. -->
+            <meta-data
+                android:name="com.google.firebase.messaging.default_notification_icon"
+                android:resource="@mipmap/main_logo_round" />
+            <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
+                 notification message. See README(https://goo.gl/6BKBk7) for more. -->
+            <meta-data
+                android:name="com.google.firebase.messaging.default_notification_color"
+                android:resource="@color/quan_light_green" />
+            <meta-data
+                android:name="com.google.firebase.messaging.default_notification_channel_id"
+                android:value="@string/customer_product_request_response_channel_id" />
+        </service>
+        <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Home.Supports.AdminResponseToRequestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Home.Supports.AdminSupportProductRequestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Home.Supports.AdminSupportCustomerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.Quan.AdminTab.Tabs.Home.Supports.AdminSupportSelectionActivity"
         <activity
             android:name=".vender.VenderTab.Home.Profile.VenderFollowersActivity"
             android:exported="false" />
@@ -48,7 +78,7 @@
             android:name=".admin.Quan.AdminTab.Tabs.Home.OrdersManagement.AdminOrderDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.Chat.AdminChatActivity"
+            android:name=".admin.Quan.AdminTab.Tabs.Chat.AdminChatActivity"
             android:exported="false" />
         <activity
             android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductOptionActivity"

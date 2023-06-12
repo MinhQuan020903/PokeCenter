@@ -1,30 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/quan_light_green"
-    android:id="@+id/adminSupportFragment"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".admin.Quan.AdminTab.Tabs.Chat.AdminSupportFragment">
-
+    android:background="@color/light_secondary"
+    android:elevation="5dp"
+    tools:context=".admin.Quan.AdminTab.Tabs.Home.Supports.AdminSupportProductRequestActivity">
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="176dp"
+        android:background="@color/light_primary"
+        android:visibility="visible"/>
     <LinearLayout
-        android:id="@+id/llSenderSearch"
+        android:id="@+id/llRequestSearch"
         android:layout_width="0dp"
         android:layout_height="62dp"
-        android:layout_marginTop="20dp"
+        android:layout_margin="20dp"
         android:padding="5dp"
         android:background="@drawable/quan_rounded_layout_background"
         android:backgroundTint="#F8CA6D"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.95">
 
         <EditText
-            android:id="@+id/etSenderSearch"
+            android:id="@+id/etRequestSearch"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -40,7 +47,7 @@
             tools:ignore="VisualLintTextFieldSize" />
 
         <ImageButton
-            android:id="@+id/bSenderSearch"
+            android:id="@+id/bRequestSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="4dp"
@@ -54,24 +61,25 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/rlChooseUserRole"
+        android:id="@+id/rlRequestSortByDate"
         android:layout_width="0dp"
         app:layout_constraintWidth_percent="0.3"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="10dp"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:backgroundTint="#F8CA6D"
+        app:layout_constraintTop_toBottomOf="@id/llRequestSearch"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llSenderSearch"
         android:background="@drawable/quan_spinner_background"
         android:orientation="horizontal">
 
         <Spinner
-            android:id="@+id/spUserRole"
+            android:id="@+id/spRequestSortByDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
-            android:background="@android:color/transparent"
+            android:background="#F8CA6D"
             android:gravity="center"
             android:layout_marginLeft="5dp"
             android:spinnerMode="dropdown" />
@@ -84,29 +92,17 @@
             android:scaleType="centerInside"
             android:adjustViewBounds="true"
             android:src="@drawable/ic_dropdown"/>
-
     </RelativeLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvProductsManagement"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.8"
-        android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@+id/rlChooseUserRole">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvMessageSenders"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingHorizontal="176dp"
-            android:background="@color/quan_light_green"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="visible"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rlRequestSortByDate"
+        app:layout_constraintVertical_bias="0.169"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

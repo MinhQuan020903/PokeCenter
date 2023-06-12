@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/quan_light_green"
+    tools:context=".admin.Quan.AdminTab.Tabs.Home.Supports.AdminSupportSelectionActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clAdminTitle"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="#DA3131"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:clickable="true"
+            android:id="@+id/btnBack"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_centerVertical="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:tint="@color/quan_light_yellow"
+            android:src="@drawable/lam_round_arrow_back_secondary_24" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CHOOSE SUPPORT FEATURE"
+            android:padding="10dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/exo_2"
+            android:textColor="@color/dark_primary"
+            android:backgroundTint="@color/dark_primary"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvAdminRequestProduct"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:backgroundTint="@color/light_secondary"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:cardCornerRadius="10dp"
+        app:strokeWidth="2dp"
+        app:strokeColor="@color/quan_light_yellow"
+        app:cardElevation="5dp"
+        app:layout_constraintWidth_percent="0.45"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clAdminTitle">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="5dp"
+            android:layout_gravity="center">
+            <ImageView
+                android:id="@+id/ivAdminRequestProduct"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:src="@drawable/quan_icon_product"
+                android:scaleType="fitCenter"
+                app:tint="@color/quan_light_yellow" />
+            <TextView
+                android:id="@+id/tvAdminRequestProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/quan_light_yellow"
+                android:text="Product Requests"
+                android:fontFamily="@font/exo_2"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvAdminSupportCustomer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:backgroundTint="@color/light_secondary"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="10dp"
+        app:strokeWidth="2dp"
+        app:strokeColor="@color/quan_light_yellow"
+        app:cardElevation="5dp"
+        app:layout_constraintWidth_percent="0.45"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cvAdminRequestProduct">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="5dp"
+            android:layout_gravity="center">
+            <ImageView
+                android:id="@+id/ivAdminStatistic"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:src="@drawable/quan_icon_person"
+                android:scaleType="fitCenter"
+                app:tint="@color/quan_light_yellow" />
+            <TextView
+                android:id="@+id/tvAdminStatistic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/quan_light_yellow"
+                android:text="Support Customer"
+                android:fontFamily="@font/exo_2"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
