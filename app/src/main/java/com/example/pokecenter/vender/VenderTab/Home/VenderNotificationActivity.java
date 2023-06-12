@@ -1,6 +1,10 @@
 package com.example.pokecenter.vender.VenderTab.Home;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.Provider.ProductData;
 import com.example.pokecenter.databinding.ActivityVenderNotificationBinding;
 import com.example.pokecenter.vender.API.FirebaseSupportVender;
 import com.example.pokecenter.vender.Model.Notification.NotificationData;
@@ -82,15 +87,6 @@ public class VenderNotificationActivity extends AppCompatActivity {
                         token );
 
                 sendNotification(notification);
-            }
-        });
-
-        // Notify in app
-        binding.btnNotifyInApp.setOnClickListener(view -> {
-            try {
-                String token = new FirebaseSupportVender().getTokenWithEmail("ngoctin0809@gmail.com");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
         });
 

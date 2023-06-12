@@ -618,33 +618,4 @@ public class FirebaseSupportVender {
 //            token = response.body().string();
 //        }
     }
-    public String getTokenWithEmail(@NonNull String email) throws IOException {
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference usersRef = database.getReference("accounts/" + email.replace(".", ","));
-
-        Map<String, Object> user = new HashMap<>();
-        user.put("token", "tin non");
-
-//        usersRef.child(email.replace(".", ",")).setValue(user);
-
-        usersRef.updateChildren(user);
-
-//        String token = "";
-//
-//        OkHttpClient client = new OkHttpClient();
-//
-//        Request request = new Request.Builder()
-//                .url(urlDb + "accounts/" + email.replace(".", ",") + "/.json")
-//                .build();
-//        Response response = client.newCall(request).execute();
-//
-//        if (response.isSuccessful()) {
-//            token = response.body().string();
-//        }
-
-
-
-        return "1";
-    }
 }
