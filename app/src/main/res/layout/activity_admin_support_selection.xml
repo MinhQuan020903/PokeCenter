@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/quan_light_green"
-    tools:context=".admin.Quan.AdminTab.Tabs.Home.Supports.AdminSupportSelectionActivity">
+    tools:context=".admin.AdminTab.Tabs.Home.Supports.AdminSupportSelectionActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clAdminTitle"

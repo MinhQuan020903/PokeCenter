@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_secondary"
-    tools:context=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoAddressesActivity">
+    tools:context=".admin.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoAddressesActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCustomerFollowers"
@@ -30,6 +30,6 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginTop="30dp"
-            android:text="Customer doesn't have any followers!"/>
+            android:text="Customer doesn't follow any store!"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/light_secondary"
     android:padding="10dp"
-    tools:context=".admin.Quan.AdminTab.Tabs.Home.OrdersManagement.AdminOrderDetailActivity">
+    tools:context=".admin.AdminTab.Tabs.Home.OrdersManagement.AdminOrderDetailActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clAdminOrderDetail"

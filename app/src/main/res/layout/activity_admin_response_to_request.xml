@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/light_primary"
-        tools:context=".admin.Quan.AdminTab.Tabs.Home.Supports.AdminResponseToRequestActivity">
+        tools:context=".admin.AdminTab.Tabs.Home.Supports.AdminResponseToRequestActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clResolveMain"
@@ -238,7 +238,7 @@
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/quan_bright_red"
-                android:text="Not Resolved"
+                android:text="Not Resolve"
                 android:textSize="16sp"
                 android:layout_marginEnd="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"

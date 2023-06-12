@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_secondary"
-    tools:context=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductOptionActivity">
+    tools:context=".admin.AdminTab.Tabs.Home.ProductsManagement.AdminProductOptionActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAdminProductOption"
