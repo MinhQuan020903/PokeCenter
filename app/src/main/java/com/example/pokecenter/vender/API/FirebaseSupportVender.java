@@ -1,7 +1,6 @@
 package com.example.pokecenter.vender.API;
 
 import androidx.annotation.NonNull;
-import androidx.core.net.ParseException;
 
 import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.customer.lam.Model.option.Option;
@@ -26,7 +25,6 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -540,7 +538,6 @@ public class FirebaseSupportVender {
                             details,
                             (String) value.get("status")
                     );
-                } catch (ParseException e) {
 
                 } catch (java.text.ParseException e) {
                     throw new RuntimeException(e);
@@ -556,8 +553,6 @@ public class FirebaseSupportVender {
 
                     try {
                         order.setDeliveryDate(dateFormat.parse(stringDeliveryDate));
-                    } catch (ParseException e) {
-
                     } catch (java.text.ParseException e) {
                         throw new RuntimeException(e);
                     }
@@ -618,31 +613,5 @@ public class FirebaseSupportVender {
 //        if (response.isSuccessful()) {
 //            token = response.body().string();
 //        }
-    }
-    public String getTokenWithEmail(@NonNull String email) throws IOException {
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference usersRef = database.getReference("vendors/" + email.replace(".", ","));
-
-        Map<String, Object> user = new HashMap<>();
-        user.put("token", "tin non");
-
-//        usersRef.child(email.replace(".", ",")).setValue(user);
-
-        usersRef.updateChildren(user);
-
-//        String token = "";
-//
-//        OkHttpClient client = new OkHttpClient();
-//
-//        Request request = new Request.Builder()
-//                .url(urlDb + "accounts/" + email.replace(".", ",") + "/.json")
-//                .build();
-//        Response response = client.newCall(request).execute();
-//
-//        if (response.isSuccessful()) {
-//            token = response.body().string();
-//        }
-        return "1";
     }
 }

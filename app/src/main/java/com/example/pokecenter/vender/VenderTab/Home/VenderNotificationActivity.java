@@ -2,12 +2,6 @@ package com.example.pokecenter.vender.VenderTab.Home;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.view.View;
-
-import android.content.Context;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -90,6 +84,44 @@ public class VenderNotificationActivity extends AppCompatActivity {
                 sendNotification(notification);
             }
         });
+
+        // Notify in app
+        binding.btnNotifyInApp.setOnClickListener(view -> {
+            try {
+                 new FirebaseSupportVender()
+                         .updateRegistrationToken(FirebaseAuth.getInstance().getCurrentUser().getEmail(),
+                                token);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        binding.btnNotifyInLockscreen.setOnClickListener(view -> {
+            if (!token.isEmpty()) {
+                PushNotification notification = new PushNotification(
+                        new NotificationData("Tín đẹp trai", "Tín đẹp trai đã gởi thông báo cho bạn", "orders", false, "12-06-2022"),
+                        token );
+
+                sendNotification(notification);
+            }
+        });
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("TAG", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        //Get new FCM registration token
+                        token = task.getResult();
+
+                        //Log and toast
+                        Log.e("TAG", token);
+                    }
+                });
 
         // Notify in app
         binding.btnNotifyInApp.setOnClickListener(view -> {
