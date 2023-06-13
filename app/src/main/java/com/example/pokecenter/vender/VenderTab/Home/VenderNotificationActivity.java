@@ -47,7 +47,7 @@ public class VenderNotificationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         binding = ActivityVenderNotificationBinding.inflate(getLayoutInflater());
-        
+
 
         getWindow().setStatusBarColor(getColor(R.color.light_primary));
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
@@ -98,9 +98,21 @@ public class VenderNotificationActivity extends AppCompatActivity {
         // Notify in app
         binding.btnNotifyInApp.setOnClickListener(view -> {
             try {
-                String token = new FirebaseSupportVender().getTokenWithEmail("ngoctin0809@gmail.com");
+                 new FirebaseSupportVender()
+                         .updateRegistrationToken(FirebaseAuth.getInstance().getCurrentUser().getEmail(),
+                                token);
             } catch (IOException e) {
                 throw new RuntimeException(e);
+            }
+        });
+
+        binding.btnNotifyInLockscreen.setOnClickListener(view -> {
+            if (!token.isEmpty()) {
+                PushNotification notification = new PushNotification(
+                        new NotificationData("Tín đẹp trai", "Tín đẹp trai đã gởi thông báo cho bạn", "orders", false, "12-06-2022"),
+                        token );
+
+                sendNotification(notification);
             }
         });
 
