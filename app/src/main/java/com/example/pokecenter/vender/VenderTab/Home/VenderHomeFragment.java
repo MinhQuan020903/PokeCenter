@@ -3,6 +3,10 @@ package com.example.pokecenter.vender.VenderTab.Home;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,12 +65,9 @@ public class VenderHomeFragment extends Fragment {
             startActivity(intent);
         });
         binding.NotificationFunction.setOnClickListener(view -> {
-//            fragmentChangeListener.onFragmentChange(new VenderNotificationsFragment());
-            Intent intent = new Intent(getActivity(), VenderNotificationActivity.class);
-            startActivity(intent);
-        });
-        binding.chatFunction.setOnClickListener(view -> {
-            fragmentChangeListener.onFragmentChange(new VenderChatFragment());
+            fragmentChangeListener.onFragmentChange(new VenderNotificationsFragment());
+//            Intent intent = new Intent(getActivity(), VenderNotificationActivity.class);
+//            startActivity(intent);
         });
         binding.parcelFunction.setOnClickListener(view -> {
             Intent intent = new Intent(getActivity(), ParcelMainActivity.class);
