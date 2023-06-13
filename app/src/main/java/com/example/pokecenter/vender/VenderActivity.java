@@ -1,5 +1,10 @@
 package com.example.pokecenter.vender;
 
+import static com.example.pokecenter.vender.Service.PokeCenterFirebaseMessagingService.CHANNEL_ID;
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,17 +15,15 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.pokecenter.R;
 import com.example.pokecenter.databinding.ActivityVenderBinding;
 import com.example.pokecenter.vender.VenderTab.Chat.VenderChatFragment;
+import com.example.pokecenter.vender.VenderTab.Home.Profile.VenderProfileFragment;
 import com.example.pokecenter.vender.VenderTab.Home.VenderHomeFragment;
 import com.example.pokecenter.vender.VenderTab.VenderNotificationsFragment;
 import com.example.pokecenter.vender.VenderTab.VenderOrderFragment;
-import com.example.pokecenter.vender.VenderTab.Home.Profile.VenderProfileFragment;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class VenderActivity extends AppCompatActivity implements VenderHomeFragment.OnFragmentChangeListener{
-
     private ActivityVenderBinding binding;
-
     private int selectedFragment = R.id.venderHomeNav;
     public static BottomNavigationView venderBottomNavigationView;
 
@@ -36,6 +39,10 @@ public class VenderActivity extends AppCompatActivity implements VenderHomeFragm
         BadgeDrawable badgeDrawable = venderBottomNavigationView.getOrCreateBadge(R.id.venderNotificationNav);
         badgeDrawable.setVisible(true);
         badgeDrawable.setNumber(4);
+
+        //Create channel notification
+        createChannelNotification();
+
         // Move between fragments
         venderBottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
@@ -80,5 +87,15 @@ public class VenderActivity extends AppCompatActivity implements VenderHomeFragm
                 .beginTransaction()
                 .replace(R.id.fragmentVender, fragment)
                 .commit();
+    }
+
+    private void createChannelNotification() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Push Notification",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }
