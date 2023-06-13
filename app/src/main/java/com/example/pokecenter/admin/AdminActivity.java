@@ -62,7 +62,6 @@ public class AdminActivity extends AppCompatActivity {
 
         Fragment home = new AdminHomeFragment(currentAccount);
         Fragment support = new AdminSupportFragment();
-        Fragment notification = new AdminNotificationFragment();
         Fragment profile = new AdminProfileFragment(currentAccount);
 
         // Move between fragments
@@ -73,9 +72,6 @@ public class AdminActivity extends AppCompatActivity {
                     break;
                 case R.id.adminSupportFragment:
                     replaceFragment(support);
-                    break;
-                case R.id.adminNotificationFragment:
-                    replaceFragment(notification);
                     break;
                 case R.id.adminProfileFragment:
                     replaceFragment(profile);
