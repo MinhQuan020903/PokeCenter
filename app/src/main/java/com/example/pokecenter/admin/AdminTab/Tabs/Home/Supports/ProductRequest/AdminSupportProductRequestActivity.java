@@ -1,4 +1,4 @@
-package com.example.pokecenter.admin.AdminTab.Tabs.Home.Supports;
+package com.example.pokecenter.admin.AdminTab.Tabs.Home.Supports.ProductRequest;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;

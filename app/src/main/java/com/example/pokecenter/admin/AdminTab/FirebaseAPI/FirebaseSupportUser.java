@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.pokecenter.admin.AdminTab.Model.AdminSupportTicket.AdminSupportTicket;
 import com.example.pokecenter.admin.AdminTab.Model.Order.Order;
 import com.example.pokecenter.admin.AdminTab.Model.Order.OrderDetail;
 import com.example.pokecenter.admin.AdminTab.Model.User.Customer.Customer;
@@ -25,6 +26,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -634,5 +636,53 @@ public class FirebaseSupportUser {
         });
     }
 
+    public void getUserSupportTicketList(FirebaseCallback<ArrayList<AdminSupportTicket>> firebaseCallback) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = firebaseDatabase.getReference("supportTickets");
+
+        ArrayList<AdminSupportTicket> supportTickets = new ArrayList<>();
+        // Get the current year
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+
+        Query query = myRef.orderByChild("createDate");
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot supportTicketSnapshot : snapshot.getChildren()) {
+                    try {
+
+                        String createDate = supportTicketSnapshot.child("createDate").getValue(String.class);
+
+                        // Parse the createDate string to check if it belongs to the current year
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm");
+                        Date date = dateFormat.parse(createDate);
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(date);
+                        if (cal.get(Calendar.YEAR) == currentYear) {
+                            AdminSupportTicket supportTicket = new AdminSupportTicket();
+                            supportTicket.setId(supportTicketSnapshot.getKey());
+                            supportTicket.setContactMethod(supportTicketSnapshot.child("contactMethod").getValue(String.class));
+                            supportTicket.setCreateDate(createDate);
+                            supportTicket.setCustomerId(supportTicketSnapshot.child("customerId").getValue(String.class));
+                            supportTicket.setDesc(supportTicketSnapshot.child("desc").getValue(String.class));
+                            supportTicket.setProblemName(supportTicketSnapshot.child("problemName").getValue(String.class));
+                            supportTicket.setStatus(supportTicketSnapshot.child("status").getValue(String.class));
+
+                            supportTickets.add(supportTicket);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                firebaseCallback.onCallback(supportTickets);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/light_secondary"
     android:elevation="5dp"
-    tools:context=".admin.AdminTab.Tabs.Home.Supports.AdminSupportProductRequestActivity">
+    tools:context=".admin.AdminTab.Tabs.Home.Supports.ProductRequest.AdminSupportProductRequestActivity">
     <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="match_parent"
