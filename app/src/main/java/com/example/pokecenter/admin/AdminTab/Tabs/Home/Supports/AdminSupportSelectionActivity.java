@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 
+import com.example.pokecenter.admin.AdminTab.Tabs.Home.Supports.ProductRequest.AdminSupportProductRequestActivity;
+import com.example.pokecenter.admin.AdminTab.Tabs.Home.Supports.SupportTicket.AdminSupportCustomerActivity;
 import com.example.pokecenter.databinding.ActivityAdminSupportSelectionBinding;
 
 public class AdminSupportSelectionActivity extends AppCompatActivity {

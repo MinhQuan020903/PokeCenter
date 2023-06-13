@@ -64,7 +64,7 @@ public class FirebaseSupportRequest {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("findingProductSupport");
 
-        Query query = ref.orderByChild(request.getId());
+        Query query = ref.orderByKey().equalTo(request.getId());
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

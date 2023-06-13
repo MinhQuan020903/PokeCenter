@@ -6,14 +6,21 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.pokecenter.admin.AdminTab.Model.AdminRequest.AdminRequest;
+import com.example.pokecenter.admin.AdminTab.Model.AdminSupportTicket.AdminSupportTicket;
 import com.example.pokecenter.admin.AdminTab.Model.Order.Order;
 import com.example.pokecenter.admin.AdminTab.Model.Order.OrderDetail;
 import com.example.pokecenter.admin.AdminTab.Model.User.Customer.Customer;
 import com.example.pokecenter.admin.AdminTab.Model.User.User;
 import com.example.pokecenter.admin.AdminTab.Model.User.Vender.Vender;
+import com.example.pokecenter.admin.AdminTab.Utils.DateUtils;
 import com.example.pokecenter.customer.lam.Model.address.Address;
 import com.example.pokecenter.customer.lam.Model.cart.Cart;
 import com.example.pokecenter.customer.lam.Model.purchasedProduct.PurchasedProduct;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,9 +32,11 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 
 public class FirebaseSupportUser {
 
@@ -634,5 +643,142 @@ public class FirebaseSupportUser {
         });
     }
 
+    public void getUserSupportTicketList(FirebaseCallback<ArrayList<AdminSupportTicket>> firebaseCallback) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = firebaseDatabase.getReference("supportTickets");
+
+        ArrayList<AdminSupportTicket> supportTickets = new ArrayList<>();
+        // Get the current year
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+
+        Query query = myRef.orderByChild("createDate");
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot supportTicketSnapshot : snapshot.getChildren()) {
+                    try {
+
+                        String createDate = supportTicketSnapshot.child("createDate").getValue(String.class);
+
+                        // Parse the createDate string to check if it belongs to the current year
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm");
+                        Date date = dateFormat.parse(createDate);
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(date);
+                        if (cal.get(Calendar.YEAR) == currentYear) {
+                            AdminSupportTicket supportTicket = new AdminSupportTicket();
+                            supportTicket.setId(supportTicketSnapshot.getKey());
+                            supportTicket.setContactMethod(supportTicketSnapshot.child("contactMethod").getValue(String.class));
+                            supportTicket.setCreateDate(createDate);
+                            supportTicket.setCustomerId(supportTicketSnapshot.child("customerId").getValue(String.class));
+                            supportTicket.setDesc(supportTicketSnapshot.child("desc").getValue(String.class));
+                            supportTicket.setProblemName(supportTicketSnapshot.child("problemName").getValue(String.class));
+                            supportTicket.setStatus(supportTicketSnapshot.child("status").getValue(String.class));
+
+                            supportTickets.add(supportTicket);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                firebaseCallback.onCallback(supportTickets);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void pushResponseToUserSupportTicket(AdminSupportTicket ticket, Boolean isApproved, String response, FirebaseCallback<Boolean> firebaseCallback) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("supportTickets");
+
+        Query query = ref.orderByKey().equalTo(ticket.getId());
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                try {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        DatabaseReference nodeRef = snapshot.getRef();
+
+                        HashMap<String, Object> updates = new HashMap<>();
+                        updates.put("status", isApproved ? "Resolved" : "Not resolved");
+
+                        // Update the node with the new response and status
+                        nodeRef.updateChildren(updates)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            // Update successful
+                                            pushResponseNotificationForUserSupportTicket(ticket, response, firebaseCallback);
+                                        } else {
+                                            // Update failed
+                                            firebaseCallback.onCallback(false);
+                                        }
+                                    }
+                                });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle the error
+                firebaseCallback.onCallback(false);
+            }
+        });
+    }
+    public void pushResponseNotificationForUserSupportTicket(AdminSupportTicket ticket, String response, FirebaseCallback<Boolean> firebaseCallback) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("customers").child(ticket.getCustomerId().replace(".",",")).child("notifications");
+        String title = "PokéCenter's Response for Customer Support Ticket";
+        String content = response;
+
+        HashMap<String, Object> notificationNode = new HashMap<>();
+        notificationNode.put("content", content);
+        notificationNode.put("read", false);
+        notificationNode.put("sentDate", DateUtils.getCurrentDateString());
+        notificationNode.put("title", title);
+        notificationNode.put("type", "fromPokeCenter");
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                try {
+                    DatabaseReference notificationRef = ref.push();
+                    notificationRef.setValue(notificationNode)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    //If resolved, sent notifications for venders
+                                    firebaseCallback.onCallback(true);
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    firebaseCallback.onCallback(false);
+                                }
+                            });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                firebaseCallback.onCallback(false);
+            }
+        });
+
+    }
 
 }

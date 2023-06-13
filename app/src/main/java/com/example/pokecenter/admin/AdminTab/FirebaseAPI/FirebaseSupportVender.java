@@ -26,7 +26,6 @@ public class FirebaseSupportVender {
     private int processedCount;
     private ArrayList<User> followingList;
 
-
     public FirebaseSupportVender(Context context) {
         this.context = context;
     }
@@ -271,6 +270,4 @@ public class FirebaseSupportVender {
             }
         });
     }
-
-
 }
