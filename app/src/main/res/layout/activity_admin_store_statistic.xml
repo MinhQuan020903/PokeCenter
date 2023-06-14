@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_secondary"
+    android:background="@color/quan_light_green"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".admin.AdminTab.Tabs.Home.StoreStatistic.AdminStoreStatisticActivity">
 
@@ -20,10 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="15dp"
-        android:elevation="5dp"
         android:background="@drawable/quan_rounded_layout_background"
-        android:backgroundTint="@color/quan_light_green"
-        android:padding="16dp">
+        android:backgroundTint="@color/quan_light_green">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clStoreStatistic"

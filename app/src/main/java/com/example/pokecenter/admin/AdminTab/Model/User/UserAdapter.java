@@ -1,5 +1,6 @@
 package com.example.pokecenter.admin.AdminTab.Model.User;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
@@ -75,6 +77,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         return new ViewHolder(v);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = usersList.get(position);
@@ -91,7 +94,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 }
 
                 String role = (user.getRole() == 0) ? "Customer" : (user.getRole() == 1) ? "Vender" : "Admin";
+                int color = (user.getRole() == 0) ? ContextCompat.getColor(context, R.color.quan_light_yellow)
+                        : (user.getRole() == 1) ? ContextCompat.getColor(context, R.color.quan_green)
+                        : ContextCompat.getColor(context, R.color.quan_bright_red);
                 holder.tvUserRole.setText(role);
+                holder.tvUserRole.setTextColor(color);
             } catch (Exception e) {
                 e.printStackTrace();
             }

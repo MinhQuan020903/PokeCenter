@@ -14,7 +14,7 @@
         android:layout_margin="15dp"
         android:elevation="5dp"
         android:background="@drawable/quan_rounded_layout_background"
-        android:backgroundTint="@color/quan_light_green"
+        android:backgroundTint="@color/teal_200"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
