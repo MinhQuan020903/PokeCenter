@@ -39,6 +39,7 @@ import java.util.Date;
 public class AdminSupportCustomerActivity extends AppCompatActivity {
     private ActivityAdminSupportCustomerBinding binding;
     private ArrayList<AdminSupportTicket> supportTickets;
+    private ArrayList<AdminSupportTicket> filteredList;
     private ArrayList<String> ticketSortByDate;
     private AdminSupportTicketAdapter adminSupportTicketAdapter;
     private InputMethodManager inputMethodManager;
@@ -84,9 +85,17 @@ public class AdminSupportCustomerActivity extends AppCompatActivity {
                 binding.spTicketSortByDate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        binding.getRoot().clearFocus();
+
+                        ArrayList<AdminSupportTicket> sortedList;
+                        if (filteredList != null) {
+                            sortedList = new ArrayList<>(filteredList);
+                        } else {
+                            sortedList = new ArrayList<>(supportTickets);
+                        }
                         switch(position) {
                             case 0: {   //Oldest -> Newest
-                                Collections.sort(supportTickets, new Comparator<AdminSupportTicket>() {
+                                Collections.sort(sortedList, new Comparator<AdminSupportTicket>() {
                                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm");
 
                                     @Override
@@ -105,7 +114,7 @@ public class AdminSupportCustomerActivity extends AppCompatActivity {
                                 break;
                             }
                             case 1: {   //Z-A
-                                Collections.sort(supportTickets, new Comparator<AdminSupportTicket>() {
+                                Collections.sort(sortedList, new Comparator<AdminSupportTicket>() {
                                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm");
 
                                     @Override
@@ -124,6 +133,7 @@ public class AdminSupportCustomerActivity extends AppCompatActivity {
                                 break;
                             }
                         }
+                        adminSupportTicketAdapter.setSupportTickets(sortedList);
                         adminSupportTicketAdapter.notifyDataSetChanged();
                     }
 
@@ -144,7 +154,7 @@ public class AdminSupportCustomerActivity extends AppCompatActivity {
                         String searchQuery = s.toString().toLowerCase();
                         //Get position of role spinner
 
-                        ArrayList<AdminSupportTicket> filteredList = new ArrayList<>();
+                        filteredList = new ArrayList<>();
                         for (AdminSupportTicket ticket : supportTickets) {
                             String customerId = ticket.getCustomerId().toLowerCase();
                             if (customerId.contains(searchQuery)) {
@@ -159,6 +169,15 @@ public class AdminSupportCustomerActivity extends AppCompatActivity {
                     public void afterTextChanged(Editable s) {
                     }
 
+                });
+
+                binding.getRoot().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                        binding.etSupportSearch.clearFocus();
+                        binding.spTicketSortByDate.clearFocus();
+                    }
                 });
             }
         });
