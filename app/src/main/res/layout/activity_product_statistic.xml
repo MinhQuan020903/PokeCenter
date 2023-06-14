@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_secondary"
+    android:background="@color/quan_light_green"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".admin.AdminTab.Tabs.Home.ProductsManagement.ProductStatisticActivity">
 
@@ -40,7 +40,6 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:padding="2dp"
-                    android:src="@drawable/lam_totoro"
                     app:shapeAppearanceOverlay="@style/corner8ImageView"
                     app:strokeColor="@color/quan_light_yellow"
                     android:scaleType="centerCrop"
@@ -51,7 +50,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clProductHeading"
             android:layout_width="0dp"
-            app:layout_constraintWidth_percent="0.65"
+            app:layout_constraintWidth_percent="0.67"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:padding="10dp"
@@ -68,18 +67,21 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textStyle="bold"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textColor="@color/white"
-                android:text="Pokemon"/>
+                android:text=""
+                android:fontFamily="@font/exo_2"/>
             <TextView
                 android:id="@+id/tvProductVenderId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/tvProductName"
                 app:layout_constraintStart_toStartOf="parent"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@color/white"
-                android:text="PokeCenter"/>
+                android:text=""
+                android:maxEms="20"
+                android:fontFamily="@font/exo_2"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
@@ -99,11 +101,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="15dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/quan_rounded_layout_background"
         android:backgroundTint="@color/quan_light_green"
-        android:elevation="5dp"
         android:padding="12dp"
         app:layout_constraintHeight_percent="0.8"
         app:layout_constraintStart_toStartOf="parent"
@@ -150,6 +150,7 @@
                         android:layout_gravity="center_horizontal"
                         android:text="Quantity"
                         android:textColor="@color/white"
+                        android:fontFamily="@font/exo_2"
                         android:textSize="10sp"
                         android:textStyle="bold" />
 
@@ -158,8 +159,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="5"
+                        android:text=""
                         android:textColor="@color/white"
+                        android:fontFamily="@font/exo_2"
                         android:textSize="15sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -210,6 +212,7 @@
                         android:layout_gravity="center_horizontal"
                         android:text="Orders"
                         android:textColor="@color/white"
+                        android:fontFamily="@font/exo_2"
                         android:textSize="10sp"
                         android:textStyle="bold" />
 
@@ -218,7 +221,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="5"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -268,6 +271,7 @@
                         android:layout_gravity="center_horizontal"
                         android:text="Option"
                         android:textColor="@color/white"
+                        android:fontFamily="@font/exo_2"
                         android:textSize="10sp"
                         android:textStyle="bold" />
 
@@ -276,7 +280,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="5"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -329,6 +333,7 @@
                         android:gravity="center"
                         android:text="Total Revenue"
                         android:textColor="@color/white"
+                        android:fontFamily="@font/exo_2"
                         android:textSize="10sp"
                         android:textStyle="bold" />
 
@@ -337,7 +342,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="1.000.000.000đ"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="15sp"
                         android:textStyle="bold" />

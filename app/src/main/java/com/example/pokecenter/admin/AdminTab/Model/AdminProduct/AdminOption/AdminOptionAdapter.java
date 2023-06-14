@@ -58,7 +58,7 @@ public class AdminOptionAdapter extends RecyclerView.Adapter<AdminOptionAdapter.
         if (option != null) {
             try {
                 holder.tvProductOptionName.setText(option.getId());
-                holder.tvProductOptionCurrentQuantity.setText(String.valueOf(option.getCurrentQuantity()));
+                holder.tvProductOptionCurrentQuantity.setText("Quantity: " + String.valueOf(option.getCurrentQuantity()));
                 Picasso.get().load(option.getOptionImage()).into(holder.ivProductOptionImage);
 
                 NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));

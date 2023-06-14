@@ -38,6 +38,7 @@
             android:background="@color/white"
             android:ellipsize="end"
             android:hint="Search in here"
+            android:fontFamily="@font/exo_2"
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:maxLines="1"
