@@ -64,7 +64,13 @@ public class AdminOrderDetailAdapter extends  RecyclerView.Adapter<AdminOrderDet
         if (orderDetail != null) {
             Picasso.get().load(orderDetail.getSelectedOptionImage()).into(holder.ivOrderDetailImage);
             holder.tvOrderDetailName.setText(orderDetail.getProductName());
-            holder.tvOrderDetailOption.setText(orderDetail.getSelectedOptionName());
+
+            if (orderDetail.getSelectedOptionName() == null || orderDetail.getSelectedOptionName().equals("null")) {
+                holder.tvOrderDetailOption.setText("Default");
+            } else {
+                holder.tvOrderDetailOption.setText(orderDetail.getSelectedOptionName());
+            }
+
             holder.tvOrderDetailQuantityLabel.setText("Amount: ");
             holder.tvOrderDetailQuantity.setText(String.valueOf(orderDetail.getQuantity()));
             holder.tvOrderDetailTotalAmountLabel.setText("Total: ");

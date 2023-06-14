@@ -16,7 +16,9 @@ import com.example.pokecenter.admin.AdminTab.Utils.OnItemClickListener;
 import com.squareup.picasso.Picasso;
 
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapter.ViewHolder> {
 
@@ -84,6 +86,7 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
 
             //Get product price range
             String priceRange = "___";
+            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
             if (adminProduct.getOptions().size() > 0) {
 
                 if (adminProduct.getOptions().size() > 1) { //If there're many options, find max and min price
@@ -98,14 +101,21 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
                         }
                     }
                     if (minPrice < maxPrice) {
-                        priceRange = minPrice + " đ .. to .." + maxPrice + " đ";
+                        String minPriceString = currencyFormat.format(minPrice);
+                        String maxPriceString = currencyFormat.format(maxPrice);
+                        priceRange = minPriceString + " ... " + maxPriceString;
                     }
                     else {
-                        priceRange = String.valueOf(adminProduct.getOptions().get(0).getPrice()) + " đ";
+                        // Convert the long value to a currency string
+                        String currencyString = currencyFormat.format(adminProduct.getOptions().get(0).getPrice());
+                        priceRange = currencyString;
                     }
                 }
                 else {
-                    priceRange = String.valueOf(adminProduct.getOptions().get(0).getPrice()) + " đ";
+
+                    // Convert the long value to a currency string
+                    String currencyString = currencyFormat.format(adminProduct.getOptions().get(0).getPrice());
+                    priceRange = currencyString;
                 }
             }
 

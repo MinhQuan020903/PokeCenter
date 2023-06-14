@@ -32,34 +32,37 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clAdminProfile"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.8"
-        android:layout_margin="15dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:background="@drawable/quan_rounded_layout_background"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.7"
+        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/clAdminTitle">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clAdminProfileImage"
-            android:layout_marginTop="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/clAdminProfileInformation">
+            app:layout_constraintTop_toTopOf="parent">
+
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/ivAdminProfileAvatar"
@@ -73,13 +76,15 @@
             </FrameLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clAdminProfileInformation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="15dp"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
+            android:paddingBottom="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clAdminProfileImage">
@@ -91,15 +96,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
+
                 <TextView
                     android:id="@+id/tvInformation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/exo_2"
                     android:text="Your Information"
                     android:textColor="@color/white"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    android:fontFamily="@font/exo_2"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -109,9 +115,9 @@
                     style="@style/Widget.Material3.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/exo_2"
                     android:paddingEnd="0dp"
                     android:text="Change"
-                    android:fontFamily="@font/exo_2"
                     android:textColor="@color/light_primary"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -125,6 +131,7 @@
                 android:id="@+id/clAdminUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/clChangeInformation">
@@ -133,8 +140,8 @@
                     android:id="@+id/tvAdminUsernameLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Full name"
                     android:fontFamily="@font/exo_2"
+                    android:text="Full name"
                     android:textColor="@color/grey"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -146,9 +153,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/quan_rounded_layout_background"
+                    android:fontFamily="@font/exo_2"
                     android:padding="8dp"
                     android:text="Username1"
-                    android:fontFamily="@font/exo_2"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -170,8 +177,8 @@
                     android:id="@+id/tvAdminPhoneLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Phone number"
                     android:fontFamily="@font/exo_2"
+                    android:text="Phone number"
                     android:textColor="@color/grey"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -183,9 +190,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/quan_rounded_layout_background"
+                    android:fontFamily="@font/exo_2"
                     android:padding="8dp"
                     android:text="012345678"
-                    android:fontFamily="@font/exo_2"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -206,8 +213,8 @@
                     android:id="@+id/tvAdminEmailLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Email"
                     android:fontFamily="@font/exo_2"
+                    android:text="Email"
                     android:textColor="@color/grey"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -219,40 +226,33 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/quan_rounded_layout_background"
+                    android:fontFamily="@font/exo_2"
                     android:padding="8dp"
                     android:text="user@gmail.com"
                     android:textColor="@color/white"
                     android:textSize="18sp"
-                    android:fontFamily="@font/exo_2"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvAdminEmailLabel" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
-            android:id="@+id/bAdminLogout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:backgroundTint="@android:color/holo_red_light"
-            android:text="Logout"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:fontFamily="@font/exo_2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/clAdminProfileInformation"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/bAdminLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:backgroundTint="@android:color/holo_red_light"
+        android:fontFamily="@font/exo_2"
+        android:text="Logout"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <ProgressBar
         android:id="@+id/pbAdminProfile"
@@ -261,7 +261,6 @@
         android:paddingHorizontal="176dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/white"
+        android:background="@color/quan_light_green"
         android:visibility="visible"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
