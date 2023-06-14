@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/light_primary"
+        android:background="@color/quan_light_green"
         tools:context=".admin.AdminTab.Tabs.Home.Supports.ProductRequest.AdminResponseToRequestActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -70,6 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/quan_rounded_layout_background"
+                    android:backgroundTint="@color/quan_dim_green"
                     android:padding="8dp"
                     android:fontFamily="@font/exo_2"
                     android:textColor="@color/white"
@@ -81,7 +82,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clCreateDate"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                app:layout_constraintWidth_percent="0.47"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -104,8 +106,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/quan_rounded_layout_background"
+                    android:backgroundTint="@color/quan_dim_green"
                     android:padding="8dp"
-                    android:text="31/12/2023 at 17:26"
+                    android:text=""
                     android:fontFamily="@font/exo_2"
                     android:textColor="@color/white"
                     android:textSize="18sp"
@@ -117,7 +120,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clName"
                 android:layout_width="0dp"
-                app:layout_constraintWidth_percent="0.5"
+                app:layout_constraintWidth_percent="0.47"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -140,6 +143,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/quan_rounded_layout_background"
+                    android:backgroundTint="@color/quan_dim_green"
                     android:padding="8dp"
                     android:maxLines="1"
                     android:ellipsize="end"
@@ -176,8 +180,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/quan_rounded_layout_background"
+                    android:backgroundTint="@color/quan_dim_green"
                     android:padding="8dp"
-                    android:text="31/12/2023 at 17:26"
+                    android:text=""
                     android:fontFamily="@font/exo_2"
                     android:textColor="@color/white"
                     android:textSize="18sp"
@@ -230,6 +235,7 @@
                 android:backgroundTint="@color/purple_500"
                 android:text="Resolve"
                 android:textSize="16sp"
+                android:fontFamily="@font/exo_2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -240,6 +246,7 @@
                 android:backgroundTint="@color/quan_bright_red"
                 android:text="Not Resolve"
                 android:textSize="16sp"
+                android:fontFamily="@font/exo_2"
                 android:layout_marginEnd="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

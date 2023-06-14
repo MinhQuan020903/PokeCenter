@@ -46,7 +46,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String imageUrl = imageList.get(position);
         if (imageUrl != null) {
-            Picasso.get().load(imageUrl).into(holder.ivImageItem);
+            try {
+                Picasso.get().load(imageUrl).into(holder.ivImageItem);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

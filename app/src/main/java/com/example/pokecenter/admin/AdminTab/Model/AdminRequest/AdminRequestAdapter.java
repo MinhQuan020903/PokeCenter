@@ -83,28 +83,32 @@ public class AdminRequestAdapter extends RecyclerView.Adapter<AdminRequestAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         AdminRequest request = requestList.get(position);
         if (request != null) {
-            holder.tvRequestId.setText(request.getId());
-            if (request.getCustomerId().contains(",")) {
-                holder.tvCustomerId.setText(request.getCustomerId().replace(",", "."));
-            } else {
-                holder.tvCustomerId.setText(request.getCustomerId());
+            try {
+                holder.tvRequestId.setText(request.getId());
+                if (request.getCustomerId().contains(",")) {
+                    holder.tvCustomerId.setText(request.getCustomerId().replace(",", "."));
+                } else {
+                    holder.tvCustomerId.setText(request.getCustomerId());
 
-            }
+                }
 
-            holder.tvCreateDate.setText(request.getCreateDate());
-            switch (request.getStatus()) {
-                case "Not resolved" : {
-                    holder.rbRequestNotResolved.setChecked(true);
-                    break;
+                holder.tvCreateDate.setText(request.getCreateDate());
+                switch (request.getStatus()) {
+                    case "Not resolved" : {
+                        holder.rbRequestNotResolved.setChecked(true);
+                        break;
+                    }
+                    case "Resolved" : {
+                        holder.rbRequestResolved.setChecked(true);
+                        break;
+                    }
+                    case "Pending" : {
+                        holder.rbRequestResolving.setChecked(true);
+                        break;
+                    }
                 }
-                case "Resolved" : {
-                    holder.rbRequestResolved.setChecked(true);
-                    break;
-                }
-                case "Pending" : {
-                    holder.rbRequestResolving.setChecked(true);
-                    break;
-                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

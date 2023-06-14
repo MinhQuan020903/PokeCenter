@@ -1,6 +1,7 @@
 package com.example.pokecenter.admin.AdminTab.Tabs.Home.Supports.SupportTicket;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.Dialog;
@@ -55,9 +56,15 @@ public class AdminResponseToSupportTicketActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getWindow().setStatusBarColor(getColor(R.color.light_primary));
+            getWindow().setStatusBarColor(getColor(R.color.quan_light_green));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
+
+        //Change ActionBar color
+        int colorResource = R.color.quan_light_green;
+        int color = ContextCompat.getColor(this, colorResource);
+        String hexColor = "#" + Integer.toHexString(color).substring(2); // Removing the alpha value
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(hexColor)));
         getSupportActionBar().setTitle("Support Ticket Details");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

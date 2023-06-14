@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_secondary"
+    android:background="@color/quan_light_green"
     android:padding="10dp"
     tools:context=".admin.AdminTab.Tabs.Home.OrdersManagement.AdminOrderDetailActivity">
 
@@ -34,6 +34,7 @@
                 android:text="Order ID"
                 android:textColor="@color/grey"
                 android:textSize="14sp"
+                android:fontFamily="@font/exo_2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,10 +44,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/quan_rounded_layout_background"
+                android:backgroundTint="@color/quan_light_cyan"
                 android:padding="8dp"
-                android:text="Username1"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="14sp"
+                android:fontFamily="@font/exo_2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvOrderIdLabel" />
 
@@ -69,6 +72,7 @@
                 android:text="Customer ID"
                 android:textColor="@color/grey"
                 android:textSize="14sp"
+                android:fontFamily="@font/exo_2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -78,10 +82,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/quan_rounded_layout_background"
+                android:backgroundTint="@color/quan_light_cyan"
                 android:padding="8dp"
-                android:text="012345678"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="14sp"
+                android:fontFamily="@font/exo_2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCustomerIdLabel" />
 
@@ -103,6 +109,7 @@
                 android:text="Vender ID"
                 android:textColor="@color/grey"
                 android:textSize="14sp"
+                android:fontFamily="@font/exo_2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -112,8 +119,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/quan_rounded_layout_background"
+                android:backgroundTint="@color/quan_light_cyan"
+                android:fontFamily="@font/exo_2"
                 android:padding="8dp"
-                android:text="user@gmail.com"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -136,6 +145,7 @@
                 android:text="Create Date:"
                 android:textColor="@color/grey"
                 android:textSize="14sp"
+                android:fontFamily="@font/exo_2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -145,8 +155,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/quan_rounded_layout_background"
+                android:backgroundTint="@color/quan_light_cyan"
+                android:fontFamily="@font/exo_2"
                 android:padding="8dp"
-                android:text="user@gmail.com"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -171,6 +183,7 @@
             android:layout_height="wrap_content"
             android:text="Order Details"
             android:textStyle="bold"
+            android:fontFamily="@font/exo_2"
             android:textColor="@color/quan_light_grey"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -200,9 +213,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TOTAL: "
-            android:textColor="@color/grey"
+            android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="24sp"
+            android:fontFamily="@font/exo_2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -212,11 +226,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="10000000000D"
+            android:text=""
             android:textColor="@color/quan_light_yellow"
             android:textSize="24sp"
+            android:fontFamily="@font/exo_2"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

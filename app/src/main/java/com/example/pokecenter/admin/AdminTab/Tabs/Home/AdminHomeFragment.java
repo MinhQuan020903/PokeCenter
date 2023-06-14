@@ -47,7 +47,7 @@ public class AdminHomeFragment extends Fragment {
 
         if (currentAccount != null) {
             Picasso.get().load(currentAccount.getAvatar()).into(binding.ivAdminAvatar);
-            binding.tvWelcomeAdmin.setText("Welcome, "+ currentAccount.getUsername() + " !");
+            binding.tvWelcomeAdmin.setText("Welcome, "+ currentAccount.getUsername() + "!");
         }
 
         binding.cvAdminStatistic.setOnClickListener(new View.OnClickListener() {

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_secondary"
+    android:background="@color/quan_light_green"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".admin.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderProfileInfoActivity">
 
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/quan_rounded_layout_background"
-        android:backgroundTint="@color/quan_bright_cyan"
+        android:backgroundTint="@color/teal_200"
         android:layout_margin="15dp"
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -45,7 +45,6 @@
                     android:layout_width="125dp"
                     android:layout_height="125dp"
                     android:padding="2dp"
-                    android:src="@drawable/lam_totoro"
                     android:scaleType="centerCrop"
                     app:shapeAppearanceOverlay="@style/circleImageView"
                     app:strokeColor="@color/quan_light_yellow"
@@ -56,11 +55,12 @@
                 android:id="@+id/tvVenderProfileInfoName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Do Mai Minh Quan"
+                android:text=""
                 android:textColor="@color/white"
                 android:layout_marginTop="15dp"
                 android:textSize="24sp"
                 android:textStyle="bold"
+                android:fontFamily="@font/exo_2"
                 android:layout_gravity="center_horizontal"
                 app:layout_constraintTop_toBottomOf="@id/ivVenderProfileInfoAvatar" />
         </LinearLayout>
@@ -91,6 +91,7 @@
                     android:layout_height="wrap_content"
                     android:text="Email"
                     android:textColor="@color/grey"
+                    android:fontFamily="@font/exo_2"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -101,8 +102,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/quan_rounded_layout_background"
+                    android:backgroundTint="@color/quan_light_cyan"
                     android:padding="8dp"
-                    android:text="user@gmail.com"
+                    android:text=""
+                    android:fontFamily="@font/exo_2"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -127,6 +130,7 @@
                     android:text="Phone number"
                     android:textColor="@color/grey"
                     android:textSize="16sp"
+                    android:fontFamily="@font/exo_2"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -136,8 +140,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/quan_rounded_layout_background"
+                    android:backgroundTint="@color/quan_light_cyan"
                     android:padding="8dp"
-                    android:text="12345678"
+                    android:text=""
+                    android:fontFamily="@font/exo_2"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -160,6 +166,7 @@
                     android:text="Registration Date"
                     android:textColor="@color/grey"
                     android:textSize="16sp"
+                    android:fontFamily="@font/exo_2"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -169,10 +176,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/quan_rounded_layout_background"
+                    android:backgroundTint="@color/quan_light_cyan"
                     android:padding="8dp"
-                    android:text="31/12/2024"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="18sp"
+                    android:fontFamily="@font/exo_2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvVenderProfileInfoRegistrationDateLabel"
@@ -198,6 +207,7 @@
                     android:buttonTint="@color/white"
                     android:gravity="center_vertical"
                     android:text="Male"
+                    android:fontFamily="@font/exo_2"
                     android:textColor="@color/white" />
 
                 <RadioButton
@@ -209,6 +219,7 @@
                     android:buttonTint="@color/white"
                     android:gravity="center_vertical"
                     android:text="Female"
+                    android:fontFamily="@font/exo_2"
                     android:textColor="@color/white" />
             </RadioGroup>
 
@@ -226,6 +237,7 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp"
+            android:fontFamily="@font/exo_2"
             app:icon="@drawable/lam_baseline_person_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -29,8 +29,8 @@
                 android:layout_height="wrap_content"
                 android:text="ID: "
                 android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="@color/quan_light_grey"
+                android:fontFamily="@font/exo_2"
+                android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,6 +44,7 @@
                 android:textColor="@color/white"
                 android:ellipsize="end"
                 android:maxEms="13"
+                android:fontFamily="@font/exo_2"
                 app:layout_constraintStart_toEndOf="@id/tvOrderIdLabel"
                 android:maxLines="2"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -54,8 +55,8 @@
                 android:layout_height="wrap_content"
                 android:text="Name: "
                 android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="@color/quan_light_grey"
+                android:fontFamily="@font/exo_2"
+                android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvBlockVoucherId" />
 
@@ -67,6 +68,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
+                android:fontFamily="@font/exo_2"
                 app:layout_constraintStart_toEndOf="@+id/tvOrderCustomerIdLabel"
                 app:layout_constraintTop_toBottomOf="@id/tvBlockVoucherId" />
 
@@ -77,8 +79,8 @@
                 android:layout_height="wrap_content"
                 android:text="Start date: "
                 android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="@color/quan_light_grey"
+                android:fontFamily="@font/exo_2"
+                android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvBlockVoucherName" />
 
@@ -90,6 +92,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
+                android:fontFamily="@font/exo_2"
                 app:layout_constraintStart_toEndOf="@+id/tvOrderVenderIdLabel"
                 app:layout_constraintTop_toBottomOf="@id/tvBlockVoucherName" />
 
@@ -100,8 +103,8 @@
                 android:layout_height="wrap_content"
                 android:text="End date: "
                 android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="@color/quan_light_grey"
+                android:fontFamily="@font/exo_2"
+                android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvBlockVoucherStartDate" />
 
@@ -113,6 +116,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
+                android:fontFamily="@font/exo_2"
                 app:layout_constraintStart_toEndOf="@+id/tvOrderCreateDateLabel"
                 app:layout_constraintTop_toBottomOf="@id/tvBlockVoucherStartDate" />
 
@@ -123,8 +127,8 @@
             android:layout_height="wrap_content"
             android:text="Quantity: "
             android:textSize="14sp"
-            android:textStyle="bold"
-            android:textColor="@color/quan_light_grey"
+            android:fontFamily="@font/exo_2"
+            android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvBlockVoucherEndDate" />
 
@@ -136,7 +140,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
-
+                android:fontFamily="@font/exo_2"
                 app:layout_constraintStart_toEndOf="@+id/tvOrderTotalAmountLabel"
                 app:layout_constraintTop_toBottomOf="@id/tvBlockVoucherEndDate" />
 
@@ -146,9 +150,10 @@
                 app:layout_constraintWidth_percent="0.25"
                 android:layout_height="wrap_content"
                 android:text="Value: "
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/quan_light_grey"
+                android:fontFamily="@font/exo_2"
+                android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvBlockVoucherCurrentQuantity" />
 
@@ -157,10 +162,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="__________"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/quan_light_yellow"
-
+                android:fontFamily="@font/exo_2"
                 app:layout_constraintStart_toEndOf="@+id/tvOrderTotalAmountLabel"
                 app:layout_constraintTop_toBottomOf="@id/tvBlockVoucherCurrentQuantity" />
         </androidx.constraintlayout.widget.ConstraintLayout>

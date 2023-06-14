@@ -29,8 +29,8 @@
                     android:layout_height="wrap_content"
                     android:text="Order ID: "
                     android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/quan_light_grey"
+                    android:fontFamily="@font/exo_2"
+                    android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,8 +39,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="__________"
-                    android:textSize="14sp"
+                    android:textSize="14dp"
                     android:textStyle="bold"
+                    android:fontFamily="@font/exo_2"
                     android:textColor="@color/white"
                     android:ellipsize="end"
                     android:maxEms="13"
@@ -54,8 +55,8 @@
                     android:layout_height="wrap_content"
                     android:text="Customer ID: "
                     android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/quan_light_grey"
+                    android:fontFamily="@font/exo_2"
+                    android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvOrderId" />
 
@@ -66,6 +67,7 @@
                     android:text="__________"
                     android:textSize="14sp"
                     android:textStyle="bold"
+                    android:fontFamily="@font/exo_2"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toEndOf="@+id/tvOrderCustomerIdLabel"
                     app:layout_constraintTop_toBottomOf="@id/tvOrderId" />
@@ -77,8 +79,8 @@
                     android:layout_height="wrap_content"
                     android:text="Vender ID: "
                     android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/quan_light_grey"
+                    android:fontFamily="@font/exo_2"
+                    android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvOrderCustomerId" />
 
@@ -89,6 +91,7 @@
                     android:text="__________"
                     android:textSize="14sp"
                     android:textStyle="bold"
+                    android:fontFamily="@font/exo_2"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toEndOf="@+id/tvOrderVenderIdLabel"
                     app:layout_constraintTop_toBottomOf="@id/tvOrderCustomerId" />
@@ -100,8 +103,8 @@
                     android:layout_height="wrap_content"
                     android:text="Create Date: "
                     android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/quan_light_grey"
+                    android:fontFamily="@font/exo_2"
+                    android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvOrderVenderId" />
 
@@ -112,6 +115,7 @@
                     android:text="__________"
                     android:textSize="14sp"
                     android:textStyle="bold"
+                    android:fontFamily="@font/exo_2"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toEndOf="@+id/tvOrderCreateDateLabel"
                     app:layout_constraintTop_toBottomOf="@id/tvOrderVenderId" />
@@ -122,9 +126,10 @@
                     app:layout_constraintWidth_percent="0.25"
                     android:layout_height="wrap_content"
                     android:text="Total: "
-                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:textColor="@color/quan_light_grey"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/exo_2"
+                    android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvOrderCreateDate" />
 
@@ -133,8 +138,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="__________"
-                    android:textSize="14sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
+                    android:fontFamily="@font/exo_2"
                     android:textColor="@color/quan_light_yellow"
 
                     app:layout_constraintStart_toEndOf="@+id/tvOrderTotalAmountLabel"

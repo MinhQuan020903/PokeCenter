@@ -79,15 +79,19 @@ public class AdminOrderAdapter extends RecyclerView.Adapter<AdminOrderAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Order order = orderList.get(position);
         if (order != null) {
-            holder.tvOrderId.setText(order.getId());
-            holder.tvOrderCustomerId.setText(order.getCustomerId());
-            holder.tvOrderVenderId.setText(order.getVenderId());
-            holder.tvOrderCreateDate.setText(order.getCreateDate());
+            try {
+                holder.tvOrderId.setText(order.getId());
+                holder.tvOrderCustomerId.setText(order.getCustomerId());
+                holder.tvOrderVenderId.setText(order.getVenderId());
+                holder.tvOrderCreateDate.setText(order.getCreateDate());
 
-            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-            // Convert the long value to a currency string
-            String currencyString = currencyFormat.format(order.getTotalAmount());
-            holder.tvOrderTotalAmount.setText(currencyString);
+                NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                // Convert the long value to a currency string
+                String currencyString = currencyFormat.format(order.getTotalAmount());
+                holder.tvOrderTotalAmount.setText(currencyString);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

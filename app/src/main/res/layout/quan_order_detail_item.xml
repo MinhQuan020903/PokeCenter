@@ -49,7 +49,8 @@
                     android:maxLines="2"
                     android:ellipsize="end"
                     android:textStyle="bold"
-                    android:textColor="@color/black"
+                    android:fontFamily="@font/exo_2"
+                    android:textColor="@color/white"
                     android:textSize="14sp"/>
 
             </LinearLayout>
@@ -72,6 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="Sleeping - Bulbasaur"
+                    android:fontFamily="@font/exo_2"
                     android:layout_marginEnd="10dp"/>
 
             </LinearLayout>
@@ -85,16 +87,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="Amount: "
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
+                    android:fontFamily="@font/exo_2"
                     android:layout_marginBottom="4dp"/>
                 <TextView
                     android:id="@+id/tvOrderDetailQuantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="3"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
+                    android:fontFamily="@font/exo_2"
                     android:layout_marginBottom="4dp"/>
             </LinearLayout>
 
@@ -106,9 +110,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="Total: "
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
-                    android:layout_marginBottom="4dp"/>
+                    android:fontFamily="@font/exo_2"
+                    android:layout_marginBottom="4dp"
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:id="@+id/tvOrderDetailTotalAmount"
@@ -117,6 +123,8 @@
                     tools:text="174.000 đ"
                     android:textColor="@color/quan_light_yellow"
                     android:textStyle="bold"
+                    android:fontFamily="@font/exo_2"
+                    android:textSize="16sp"
                     android:layout_marginBottom="4dp"/>
             </LinearLayout>
 

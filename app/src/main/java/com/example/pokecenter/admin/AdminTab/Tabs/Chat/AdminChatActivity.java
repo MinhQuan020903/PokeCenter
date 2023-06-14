@@ -3,10 +3,13 @@ package com.example.pokecenter.admin.AdminTab.Tabs.Chat;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -45,9 +48,15 @@ public class AdminChatActivity extends AppCompatActivity implements ChatRoomInte
         super.onCreate(savedInstanceState);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getWindow().setStatusBarColor(getColor(R.color.light_primary));
+            getWindow().setStatusBarColor(getColor(R.color.quan_light_green));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
+
+        //Change ActionBar color
+        int colorResource = R.color.quan_light_green;
+        int color = ContextCompat.getColor(this, colorResource);
+        String hexColor = "#" + Integer.toHexString(color).substring(2); // Removing the alpha value
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(hexColor)));
         getSupportActionBar().setTitle("Chats");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(binding.getRoot());

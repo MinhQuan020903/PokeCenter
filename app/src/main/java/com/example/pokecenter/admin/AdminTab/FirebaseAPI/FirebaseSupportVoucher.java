@@ -30,27 +30,33 @@ public class FirebaseSupportVoucher {
 
     public void addNewBlockVoucher(AdminBlockVoucher blockVoucher, FirebaseCallback<Boolean> firebaseCallback) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("blockVoucher");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                DatabaseReference blockVoucherRef = ref.push();
-                blockVoucherRef.setValue(blockVoucher)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                blockVoucher.setId(blockVoucherRef.getKey());
-                                Toast.makeText(context, "Add new BlockVoucher successfully!", Toast.LENGTH_SHORT).show();
-                                addNewVoucherFromBlock(blockVoucher, firebaseCallback);
-                            }
-                        });
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+        try {
+            DatabaseReference ref = database.getReference("blockVoucher");
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    DatabaseReference blockVoucherRef = ref.push();
+                    blockVoucherRef.setValue(blockVoucher)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    blockVoucher.setId(blockVoucherRef.getKey());
+                                    Toast.makeText(context, "Add new BlockVoucher successfully!", Toast.LENGTH_SHORT).show();
+                                    addNewVoucherFromBlock(blockVoucher, firebaseCallback);
+                                }
+                            });
+                }
 
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -75,63 +81,73 @@ public class FirebaseSupportVoucher {
 
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference voucherRef = database.getReference("vouchers");
 
-        CompletableFuture<Void> pushVouchersFuture = new CompletableFuture<>();
+        try {
+            DatabaseReference voucherRef = database.getReference("vouchers");
 
-        for (AdminVoucher voucher : voucherList) {
-            DatabaseReference ref = voucherRef.push();
-            ref.setValue(voucher)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
+            CompletableFuture<Void> pushVouchersFuture = new CompletableFuture<>();
 
-                        }
-                    }
-        );
+            for (AdminVoucher voucher : voucherList) {
+                DatabaseReference ref = voucherRef.push();
+                ref.setValue(voucher)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                  @Override
+                                                  public void onSuccess(Void unused) {
+
+                                                  }
+                                              }
+                        );
+            }
+
+            pushVouchersFuture.join();
+            firebaseCallback.onCallback(true);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        pushVouchersFuture.join();
-        firebaseCallback.onCallback(true);
     }
 
     public void getBlockVoucherList(FirebaseCallback<ArrayList<AdminBlockVoucher>> firebaseCallback) {
         ArrayList<AdminBlockVoucher> blockVouchers = new ArrayList<>();
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = firebaseDatabase.getReference("blockVoucher");
 
-        Query query = myRef.orderByChild("value").limitToLast(20);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                try {
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        AdminBlockVoucher blockVoucher = new AdminBlockVoucher();
-                        try {
-                            blockVoucher.setId(dataSnapshot.getKey());
-                            blockVoucher.setName(dataSnapshot.child("name").getValue(String.class));
-                            blockVoucher.setStartDate(dataSnapshot.child("startDate").getValue(String.class));
-                            blockVoucher.setEndDate(dataSnapshot.child("endDate").getValue(String.class));
-                            blockVoucher.setCurrentQuantity(dataSnapshot.child("currentQuantity").getValue(int.class));
-                            blockVoucher.setValue(dataSnapshot.child("value").getValue(int.class));
-                        } catch (Exception e) {
-                            Log.d("FirebaseFetchUser", e.toString());
+        try {
+            DatabaseReference myRef = firebaseDatabase.getReference("blockVoucher");
+
+            Query query = myRef.orderByChild("value").limitToLast(20);
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    try {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            AdminBlockVoucher blockVoucher = new AdminBlockVoucher();
+                            try {
+                                blockVoucher.setId(dataSnapshot.getKey());
+                                blockVoucher.setName(dataSnapshot.child("name").getValue(String.class));
+                                blockVoucher.setStartDate(dataSnapshot.child("startDate").getValue(String.class));
+                                blockVoucher.setEndDate(dataSnapshot.child("endDate").getValue(String.class));
+                                blockVoucher.setCurrentQuantity(dataSnapshot.child("currentQuantity").getValue(int.class));
+                                blockVoucher.setValue(dataSnapshot.child("value").getValue(int.class));
+                            } catch (Exception e) {
+                                Log.d("FirebaseFetchUser", e.toString());
+                            }
+
+                            // Add to orderList
+                            blockVouchers.add(blockVoucher);
                         }
-
-                        // Add to orderList
-                        blockVouchers.add(blockVoucher);
+                    } catch (Exception e) {
+                        Log.e("getOrderListFromFirebase", e.toString());
                     }
-                } catch (Exception e) {
-                    Log.e("getOrderListFromFirebase", e.toString());
+                    // On callback
+                    firebaseCallback.onCallback(blockVouchers);
                 }
-                // On callback
-                firebaseCallback.onCallback(blockVouchers);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Handle onCancelled if needed
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    // Handle onCancelled if needed
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

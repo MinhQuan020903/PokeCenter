@@ -22,12 +22,15 @@ import android.widget.Toast;
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
 import com.example.pokecenter.customer.lam.Authentication.SignInActivity;
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.CustomerAccountInfoActivity;
 import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.databinding.ActivityAdminAccountInfoBinding;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
@@ -35,6 +38,8 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import kotlin.Unit;
 
 public class AdminAccountInfoActivity extends AppCompatActivity {
 
@@ -52,6 +57,7 @@ public class AdminAccountInfoActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(getColor(R.color.light_primary));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
+        getSupportActionBar().hide();
         binding = ActivityAdminAccountInfoBinding.inflate(getLayoutInflater());
 
         Intent intent = getIntent();
@@ -60,6 +66,8 @@ public class AdminAccountInfoActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Change Account Information");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        mStorageRef = FirebaseStorage.getInstance().getReference("avatar");
 
         Picasso.get().load(currentAccount.getAvatar()).into(binding.ivAdminProfileAvatar);
 
@@ -79,8 +87,26 @@ public class AdminAccountInfoActivity extends AppCompatActivity {
             updateAccountInfoToServer();
         });
 
+
+        binding.ibAdminChangeAvatar.setOnClickListener(view -> {
+            ImagePicker.with(AdminAccountInfoActivity.this)
+                    .crop()	    			//Crop image(Optional), Check Customization for more option
+                    .createIntent( avatarIntent -> {
+                        openGetImageActivityForResult(avatarIntent);
+                        return Unit.INSTANCE;
+                    });
+
+        });
+
         binding.bAdminCancelChange.setOnClickListener(view -> {
             onSupportNavigateUp();
+        });
+
+        binding.btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSupportNavigateUp();
+            }
         });
     }
 
@@ -144,6 +170,7 @@ public class AdminAccountInfoActivity extends AppCompatActivity {
                 }
             });
     private void updateAvatar() {
+
         String currentEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         if (mImageUri != null) {
             StorageReference fileRef = mStorageRef.child(currentEmail.replace(".", ","));

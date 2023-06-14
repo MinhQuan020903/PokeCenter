@@ -1,5 +1,6 @@
 package com.example.pokecenter.admin.AdminTab.Tabs.Chat;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,9 +18,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.admin.AdminTab.Model.User.Customer.Customer;
+import com.example.pokecenter.admin.AdminTab.Model.User.User;
+import com.example.pokecenter.admin.AdminTab.Model.User.Vender.Vender;
 import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.databinding.FragmentAdminSupportBinding;
 import com.example.pokecenter.vender.Model.ChatRoom.ChatRoom;
@@ -36,8 +41,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class AdminSupportFragment extends Fragment implements View.OnTouchListener, ChatRoomInterface {
 
@@ -102,35 +110,89 @@ public class AdminSupportFragment extends Fragment implements View.OnTouchListen
                 }
                 // Handle new chatroom added
                 ChatRoom chatRoom = dataSnapshot1.getValue(ChatRoom.class);
-                chatRoom.getId();
-                String id = chatRoomKey.replaceAll(currentId, "");
-                databaseReference.child("accounts").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        String avatar = dataSnapshot.child("avatar").getValue(String.class);
-                        String username = dataSnapshot.child("username").getValue(String.class);
-                        int role = dataSnapshot.child("role").getValue(Integer.class);
-                        chatRoom.setSenderAccount(new Account(avatar, username, role, id));
-                        chatRoom.getId();
-                        // After setting the sender account, add the chat room to the list
-                        listChatRoom.add(chatRoom);
-                        chatRoomAdapter.addData(listChatRoom);
-                        addedChatRoomKeys.add(chatRoomKey);
-                        binding.progressBar.setVisibility(View.INVISIBLE);
 
+                try {
+                    chatRoom.getId();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    String id = chatRoomKey.replaceAll(currentId, "");
+                    databaseReference.child("accounts").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            String avatar = dataSnapshot.child("avatar").getValue(String.class);
+                            String username = dataSnapshot.child("username").getValue(String.class);
+                            int role = 0;
+                            try {
+                                role = dataSnapshot.child("role").getValue(Integer.class);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                            chatRoom.setSenderAccount(new Account(avatar, username, role, id));
+                            chatRoom.getId();
+                            // After setting the sender account, add the chat room to the list
+                            listChatRoom.add(chatRoom);
+                            chatRoomAdapter.addData(listChatRoom);
+                            addedChatRoomKeys.add(chatRoomKey);
+                            binding.progressBar.setVisibility(View.INVISIBLE);
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Handle any errors that occur during the query
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                //Only bind Spinner when listChatRoom is initialized and fetched from Firebase
+                binding.spUserRole.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @SuppressLint("NotifyDataSetChanged")
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        switch(position) {
+                            case 0: {   //View All
+                                if (listChatRoom != null) {
+                                    chatRoomAdapter.setList(listChatRoom);
+                                }
+                                break;
+                            }
+                            case 1: {   //View Customer
+                                if (listChatRoom != null) {
+                                    chatRoomAdapter.setList(listChatRoom.stream()
+                                            .filter(v -> v.getSenderAccount().getRole() == 0)
+                                            .collect(Collectors.toCollection(ArrayList::new)));
+                                }
+                                break;
+                            }
+                            case 2: {   //View Vender
+                                if (listChatRoom != null) {
+                                    chatRoomAdapter.setList(listChatRoom.stream()
+                                            .filter(v -> v.getSenderAccount().getRole() == 1)
+                                            .collect(Collectors.toCollection(ArrayList::new)));
+                                }
+                                break;
+                            }
+                        }
+                        chatRoomAdapter.notifyDataSetChanged();
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        // Handle any errors that occur during the query
+                    public void onNothingSelected(AdapterView<?> parent) {
+
                     }
                 });
-
             }
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot1, String previousChildKey) {
                 String chatRoomKey = dataSnapshot1.getKey();
 
+                assert chatRoomKey != null;
                 if (!chatRoomKey.contains(currentId)) {
                     return; // Skip to the next iteration if the chat snapshot doesn't contain the current ID
                 }
@@ -154,24 +216,27 @@ public class AdminSupportFragment extends Fragment implements View.OnTouchListen
                 ChatRoom updatedChatRoom = dataSnapshot1.getValue(ChatRoom.class);
                 String id = chatRoomKey.replaceAll(currentId, "");
                 int finalChatRoomIndex = chatRoomIndex;
-                databaseReference.child("accounts").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        String avatar = dataSnapshot.child("avatar").getValue(String.class);
-                        String username = dataSnapshot.child("username").getValue(String.class);
-                        int role = dataSnapshot.child("role").getValue(Integer.class);
-                        updatedChatRoom.setSenderAccount(new Account(avatar, username, role, id));
-                        listChatRoom.set(finalChatRoomIndex, updatedChatRoom);
-                        chatRoomAdapter.addData(listChatRoom);
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        // Handle any errors that occur during the query
-                    }
-                });
+                try {
+                    databaseReference.child("accounts").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            String avatar = dataSnapshot.child("avatar").getValue(String.class);
+                            String username = dataSnapshot.child("username").getValue(String.class);
+                            int role = dataSnapshot.child("role").getValue(Integer.class);
+                            updatedChatRoom.setSenderAccount(new Account(avatar, username, role, id));
+                            listChatRoom.set(finalChatRoomIndex, updatedChatRoom);
+                            chatRoomAdapter.addData(listChatRoom);
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Handle any errors that occur during the query
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 // Update the chatroom in the list
                 // After setting the sender account, add the chat room to the list
-
             }
 
             @Override
@@ -197,6 +262,8 @@ public class AdminSupportFragment extends Fragment implements View.OnTouchListen
 
             // Other overridden methods (onChildMoved, onCancelled) can be left empty or implemented if needed
         };
+
+
 
         binding.etSenderSearch.addTextChangedListener(new TextWatcher() {
             @Override
