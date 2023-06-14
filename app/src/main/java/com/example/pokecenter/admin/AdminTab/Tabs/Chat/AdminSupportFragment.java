@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -132,13 +133,96 @@ public class AdminSupportFragment extends Fragment implements View.OnTouchListen
                             }
 
                             chatRoom.setSenderAccount(new Account(avatar, username, role, id));
-                            chatRoom.getId();
                             // After setting the sender account, add the chat room to the list
                             listChatRoom.add(chatRoom);
                             chatRoomAdapter.addData(listChatRoom);
                             addedChatRoomKeys.add(chatRoomKey);
                             binding.progressBar.setVisibility(View.INVISIBLE);
 
+                            //!!Because of asynchronous with fetching from Firebase,
+                            // Only bind Spinner when listChatRoom is initialized and fetched
+                            binding.spUserRole.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @SuppressLint("NotifyDataSetChanged")
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                    switch(position) {
+                                        case 0: {   //View All
+                                            if (listChatRoom != null) {
+                                                chatRoomAdapter.setList(listChatRoom);
+                                            }
+                                            break;
+                                        }
+                                        case 1: {   //View Customer
+                                            if (listChatRoom != null) {
+                                                chatRoomAdapter.setList(listChatRoom.stream()
+                                                        .filter(v -> v.getSenderAccount().getRole() == 0)
+                                                        .collect(Collectors.toCollection(ArrayList::new)));
+                                            }
+                                            break;
+                                        }
+                                        case 2: {   //View Vender
+                                            if (listChatRoom != null) {
+                                                chatRoomAdapter.setList(listChatRoom.stream()
+                                                        .filter(v -> v.getSenderAccount().getRole() == 1)
+                                                        .collect(Collectors.toCollection(ArrayList::new)));
+                                            }
+                                            break;
+                                        }
+                                    }
+                                    chatRoomAdapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                }
+                            });
+
+                            //!!Because of asynchronous with fetching from Firebase,
+                            //Only bind SearchText when listChatRoom is initialized and fetched from Firebase
+                            binding.etSenderSearch.addTextChangedListener(new TextWatcher() {
+                                @Override
+                                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                                    // Not used in this case
+                                }
+
+                                @Override
+                                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                    try {
+                                        String searchQuery = s.toString().toLowerCase();
+                                        //Get position of role spinner
+                                        int role = binding.spUserRole.getSelectedItemPosition();
+
+                                        ArrayList<ChatRoom> filteredList = new ArrayList<>();
+                                        for (ChatRoom chatRoom : listChatRoom) {
+                                            String userName = chatRoom.getSenderAccount().getUsername().toLowerCase();
+
+                                            //If selected role in spinner is "All"
+                                            if (role == 0) {
+                                                if (userName.contains(searchQuery)) {
+                                                    filteredList.add(chatRoom);
+                                                }
+                                            } else {    //If selected role in spinner is "Customer", "Vender" or "Admin"
+                                                if (userName.contains(searchQuery) && chatRoom.getSenderAccount().getRole() == role - 1) {
+                                                    filteredList.add(chatRoom);
+                                                }
+                                            }
+
+                                        }
+                                        chatRoomAdapter.setList(filteredList);
+                                        chatRoomAdapter.notifyDataSetChanged();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+
+                                // user types in email
+                                @Override
+                                public void afterTextChanged(Editable s) {
+
+                                }
+                            });
                         }
 
                         @Override
@@ -150,43 +234,6 @@ public class AdminSupportFragment extends Fragment implements View.OnTouchListen
                     e.printStackTrace();
                 }
 
-                //Only bind Spinner when listChatRoom is initialized and fetched from Firebase
-                binding.spUserRole.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @SuppressLint("NotifyDataSetChanged")
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        switch(position) {
-                            case 0: {   //View All
-                                if (listChatRoom != null) {
-                                    chatRoomAdapter.setList(listChatRoom);
-                                }
-                                break;
-                            }
-                            case 1: {   //View Customer
-                                if (listChatRoom != null) {
-                                    chatRoomAdapter.setList(listChatRoom.stream()
-                                            .filter(v -> v.getSenderAccount().getRole() == 0)
-                                            .collect(Collectors.toCollection(ArrayList::new)));
-                                }
-                                break;
-                            }
-                            case 2: {   //View Vender
-                                if (listChatRoom != null) {
-                                    chatRoomAdapter.setList(listChatRoom.stream()
-                                            .filter(v -> v.getSenderAccount().getRole() == 1)
-                                            .collect(Collectors.toCollection(ArrayList::new)));
-                                }
-                                break;
-                            }
-                        }
-                        chatRoomAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
             }
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot1, String previousChildKey) {
@@ -262,47 +309,6 @@ public class AdminSupportFragment extends Fragment implements View.OnTouchListen
 
             // Other overridden methods (onChildMoved, onCancelled) can be left empty or implemented if needed
         };
-
-
-
-        binding.etSenderSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Not used in this case
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String searchQuery = s.toString().toLowerCase();
-                //Get position of role spinner
-                int role = binding.spUserRole.getSelectedItemPosition();
-
-                ArrayList<ChatRoom> filteredList = new ArrayList<>();
-                for (ChatRoom chatRoom : listChatRoom) {
-                    String userName = chatRoom.getSenderAccount().getUsername().toLowerCase();
-
-                    //If selected role in spinner is "All"
-                    if (role == 0) {
-                        if (userName.contains(searchQuery)) {
-                            filteredList.add(chatRoom);
-                        }
-                    } else {    //If selected role in spinner is "Customer", "Vender" or "Admin"
-                        if (userName.contains(searchQuery) && chatRoom.getSenderAccount().getRole() == role - 1) {
-                            filteredList.add(chatRoom);
-                        }
-                    }
-
-                }
-                chatRoomAdapter.setList(filteredList);
-                chatRoomAdapter.notifyDataSetChanged();
-            }
-
-            // user types in email
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
 
         // Attach the listener to the "chats" node in the database
         databaseReference.child("chats").addChildEventListener(chatroomListener);
