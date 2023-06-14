@@ -22,8 +22,8 @@
             android:layout_margin="5dp"
             android:text="Title: "
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/quan_light_grey"
+            android:fontFamily="@font/exo_2"
+            android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,6 +34,7 @@
             android:text="__________"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:fontFamily="@font/exo_2"
             android:textColor="@color/white"
             android:layout_margin="5dp"
             android:ellipsize="end"
@@ -50,8 +51,8 @@
             android:layout_margin="5dp"
             android:text="ID: "
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/quan_light_grey"
+            android:fontFamily="@font/exo_2"
+            android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSupportTicketProblemName" />
 
@@ -62,6 +63,7 @@
             android:text="__________"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:fontFamily="@font/exo_2"
             android:textColor="@color/white"
             android:layout_margin="5dp"
             android:ellipsize="end"
@@ -76,8 +78,8 @@
             android:layout_height="wrap_content"
             android:text="Customer ID: "
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/quan_light_grey"
+            android:fontFamily="@font/exo_2"
+            android:textColor="@color/white"
             android:layout_margin="5dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSupportTicketId" />
@@ -90,6 +92,7 @@
             android:text="__________"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:fontFamily="@font/exo_2"
             android:textColor="@color/white"
             android:layout_margin="5dp"
             app:layout_constraintStart_toEndOf="@+id/tvCustomerIdLabel"
@@ -101,8 +104,8 @@
             android:layout_height="wrap_content"
             android:text="Create Date: "
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/quan_light_grey"
+            android:fontFamily="@font/exo_2"
+            android:textColor="@color/white"
             android:layout_margin="5dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvCustomerId" />
@@ -114,6 +117,7 @@
             android:text="__________"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:fontFamily="@font/exo_2"
             android:textColor="@color/white"
             android:layout_margin="5dp"
             app:layout_constraintStart_toEndOf="@+id/tvCreateDateLabel"
@@ -135,7 +139,8 @@
                 android:buttonTint="@color/white"
                 android:gravity="center_vertical"
                 android:text="Resolved"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:fontFamily="@font/exo_2"/>
 
             <RadioButton
                 android:id="@+id/rbSupportNotResolved"
@@ -146,7 +151,8 @@
                 android:buttonTint="@color/white"
                 android:gravity="center_vertical"
                 android:text="Not Resolved"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:fontFamily="@font/exo_2"/>
             <RadioButton
                 android:id="@+id/rbSupportPending"
                 android:layout_width="wrap_content"
@@ -156,7 +162,8 @@
                 android:buttonTint="@color/white"
                 android:gravity="center_vertical"
                 android:text="Pending"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:fontFamily="@font/exo_2"/>
         </RadioGroup>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

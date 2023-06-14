@@ -145,6 +145,8 @@
                 android:text="01/01/2023"
                 android:textSize="18sp"
                 android:fontFamily="@font/exo_2"
+                app:iconTint="@color/quan_light_green"
+                android:textColor="@color/quan_light_green"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvBlockVoucherStartDateLabel" />
 
@@ -182,6 +184,8 @@
                 android:text="01/01/2023"
                 android:textSize="18sp"
                 android:fontFamily="@font/exo_2"
+                app:iconTint="@color/quan_light_green"
+                android:textColor="@color/quan_light_green"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvBlockVoucherEndDateLabel" />
 
