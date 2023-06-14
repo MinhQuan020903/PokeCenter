@@ -80,46 +80,50 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         AdminProduct adminProduct = adminProductList.get(position);
         if (adminProduct != null) {
-            Picasso.get().load(adminProduct.getImages().get(0)).into(holder.ivProductImage);
-            holder.tvProductName.setText(adminProduct.getName());
-            holder.tvProductVenderId.setText(adminProduct.getVenderId());
+            try {
+                Picasso.get().load(adminProduct.getImages().get(0)).into(holder.ivProductImage);
+                holder.tvProductName.setText(adminProduct.getName());
+                holder.tvProductVenderId.setText(adminProduct.getVenderId());
 
-            //Get product price range
-            String priceRange = "___";
-            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-            if (adminProduct.getOptions().size() > 0) {
+                //Get product price range
+                String priceRange = "___";
+                NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                if (adminProduct.getOptions().size() > 0) {
 
-                if (adminProduct.getOptions().size() > 1) { //If there're many options, find max and min price
-                    long maxPrice = Long.MIN_VALUE, minPrice = Long.MAX_VALUE;
-                    for (AdminOption option : adminProduct.getOptions()) {
-                        long currentPrice = option.getPrice();
-                        if (currentPrice > maxPrice) {
-                            maxPrice = currentPrice;
+                    if (adminProduct.getOptions().size() > 1) { //If there're many options, find max and min price
+                        long maxPrice = Long.MIN_VALUE, minPrice = Long.MAX_VALUE;
+                        for (AdminOption option : adminProduct.getOptions()) {
+                            long currentPrice = option.getPrice();
+                            if (currentPrice > maxPrice) {
+                                maxPrice = currentPrice;
+                            }
+                            if (currentPrice < minPrice) {
+                                minPrice = currentPrice;
+                            }
                         }
-                        if (currentPrice < minPrice) {
-                            minPrice = currentPrice;
+                        if (minPrice < maxPrice) {
+                            String minPriceString = currencyFormat.format(minPrice);
+                            String maxPriceString = currencyFormat.format(maxPrice);
+                            priceRange = minPriceString + " ... " + maxPriceString;
                         }
-                    }
-                    if (minPrice < maxPrice) {
-                        String minPriceString = currencyFormat.format(minPrice);
-                        String maxPriceString = currencyFormat.format(maxPrice);
-                        priceRange = minPriceString + " ... " + maxPriceString;
+                        else {
+                            // Convert the long value to a currency string
+                            String currencyString = currencyFormat.format(adminProduct.getOptions().get(0).getPrice());
+                            priceRange = currencyString;
+                        }
                     }
                     else {
+
                         // Convert the long value to a currency string
                         String currencyString = currencyFormat.format(adminProduct.getOptions().get(0).getPrice());
                         priceRange = currencyString;
                     }
                 }
-                else {
 
-                    // Convert the long value to a currency string
-                    String currencyString = currencyFormat.format(adminProduct.getOptions().get(0).getPrice());
-                    priceRange = currencyString;
-                }
+                holder.tvProductPrice.setText(priceRange);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-            holder.tvProductPrice.setText(priceRange);
         }
     }
 

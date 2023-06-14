@@ -55,14 +55,21 @@ public class AdminOptionAdapter extends RecyclerView.Adapter<AdminOptionAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         AdminOption option = adminOptionList.get(position);
-        holder.tvProductOptionName.setText(option.getId());
-        holder.tvProductOptionCurrentQuantity.setText(String.valueOf(option.getCurrentQuantity()));
-        Picasso.get().load(option.getOptionImage()).into(holder.ivProductOptionImage);
+        if (option != null) {
+            try {
+                holder.tvProductOptionName.setText(option.getId());
+                holder.tvProductOptionCurrentQuantity.setText(String.valueOf(option.getCurrentQuantity()));
+                Picasso.get().load(option.getOptionImage()).into(holder.ivProductOptionImage);
 
-        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-        // Convert the long value to a currency string
-        String currencyString = currencyFormat.format(option.getPrice());
-        holder.tvProductOptionPrice.setText(currencyString);
+                NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                // Convert the long value to a currency string
+                String currencyString = currencyFormat.format(option.getPrice());
+                holder.tvProductOptionPrice.setText(currencyString);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     @Override

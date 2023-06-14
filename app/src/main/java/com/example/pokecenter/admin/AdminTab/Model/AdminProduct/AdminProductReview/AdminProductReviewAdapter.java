@@ -68,20 +68,23 @@ public class AdminProductReviewAdapter extends RecyclerView.Adapter<AdminProduct
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         AdminProductReview review = adminProductReviewList.get(position);
         if (review != null) {
-            holder.tvCustomerName.setText(review.getCustomerId().replace(",", "."));
-            holder.tvReviewSummary.setText(review.getTitle());
-            holder.tvReviewDetail.setText(review.getContent());
-            holder.tvReviewCreateDate.setText(review.getCreateDate());
+            try {
+                holder.tvCustomerName.setText(review.getCustomerId().replace(",", "."));
+                holder.tvReviewSummary.setText(review.getTitle());
+                holder.tvReviewDetail.setText(review.getContent());
+                holder.tvReviewCreateDate.setText(review.getCreateDate());
 
-            //Bind stars ImageView based on rate number
-            int rate = review.getRate();
-            String drawableRes = "ivProductReviewStar";
-            for (int i = 0; i < rate; i++) {
-                int starImageViewId = holder.itemView.getResources().getIdentifier(drawableRes + i, "id", holder.itemView.getContext().getPackageName());
-                ImageView starImageView = holder.itemView.findViewById(starImageViewId);
-                starImageView.setImageResource(R.drawable.quan_icon_filled_star);
+                //Bind stars ImageView based on rate number
+                int rate = review.getRate();
+                String drawableRes = "ivProductReviewStar";
+                for (int i = 0; i < rate; i++) {
+                    int starImageViewId = holder.itemView.getResources().getIdentifier(drawableRes + i, "id", holder.itemView.getContext().getPackageName());
+                    ImageView starImageView = holder.itemView.findViewById(starImageViewId);
+                    starImageView.setImageResource(R.drawable.quan_icon_filled_star);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
         }
     }
 

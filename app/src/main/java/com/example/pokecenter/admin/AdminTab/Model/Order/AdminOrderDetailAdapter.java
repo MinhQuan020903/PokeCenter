@@ -62,24 +62,27 @@ public class AdminOrderDetailAdapter extends  RecyclerView.Adapter<AdminOrderDet
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         OrderDetail orderDetail = orderDetailList.get(position);
         if (orderDetail != null) {
-            Picasso.get().load(orderDetail.getSelectedOptionImage()).into(holder.ivOrderDetailImage);
-            holder.tvOrderDetailName.setText(orderDetail.getProductName());
+            try {
+                Picasso.get().load(orderDetail.getSelectedOptionImage()).into(holder.ivOrderDetailImage);
+                holder.tvOrderDetailName.setText(orderDetail.getProductName());
 
-            if (orderDetail.getSelectedOptionName() == null || orderDetail.getSelectedOptionName().equals("null")) {
-                holder.tvOrderDetailOption.setText("Default");
-            } else {
-                holder.tvOrderDetailOption.setText(orderDetail.getSelectedOptionName());
+                if (orderDetail.getSelectedOptionName() == null || orderDetail.getSelectedOptionName().equals("null")) {
+                    holder.tvOrderDetailOption.setText("Default");
+                } else {
+                    holder.tvOrderDetailOption.setText(orderDetail.getSelectedOptionName());
+                }
+
+                holder.tvOrderDetailQuantityLabel.setText("Amount: ");
+                holder.tvOrderDetailQuantity.setText(String.valueOf(orderDetail.getQuantity()));
+                holder.tvOrderDetailTotalAmountLabel.setText("Total: ");
+
+                NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                // Convert the long value to a currency string
+                String currencyString = currencyFormat.format(orderDetail.getSelectedOptionPrice() * orderDetail.getQuantity());
+                holder.tvOrderDetailTotalAmount.setText(currencyString);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-            holder.tvOrderDetailQuantityLabel.setText("Amount: ");
-            holder.tvOrderDetailQuantity.setText(String.valueOf(orderDetail.getQuantity()));
-            holder.tvOrderDetailTotalAmountLabel.setText("Total: ");
-
-            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-            // Convert the long value to a currency string
-            String currencyString = currencyFormat.format(orderDetail.getSelectedOptionPrice() * orderDetail.getQuantity());
-            holder.tvOrderDetailTotalAmount.setText(currencyString);
-
         }
     }
 

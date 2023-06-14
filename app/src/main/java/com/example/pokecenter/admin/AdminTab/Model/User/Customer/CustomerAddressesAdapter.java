@@ -61,12 +61,16 @@ public class CustomerAddressesAdapter extends RecyclerView.Adapter<CustomerAddre
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Address address = addressList.get(position);
         if (address != null) {
-            holder.tvAddress2.setText(address.getAddress2());
-            holder.tvReceiverName.setText(address.getReceiverName());
-            holder.tvReceiverPhoneNumber.setText(address.getReceiverPhoneNumber());
-            holder.tvNumberStreetAddress.setText(address.getNumberStreetAddress());
-            holder.tvType.setText(address.getType());
-            holder.cbIsDeliveryAddress.setChecked(address.getDeliveryAddress());
+            try {
+                holder.tvAddress2.setText(address.getAddress2());
+                holder.tvReceiverName.setText(address.getReceiverName());
+                holder.tvReceiverPhoneNumber.setText(address.getReceiverPhoneNumber());
+                holder.tvNumberStreetAddress.setText(address.getNumberStreetAddress());
+                holder.tvType.setText(address.getType());
+                holder.cbIsDeliveryAddress.setChecked(address.getDeliveryAddress());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

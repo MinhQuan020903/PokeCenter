@@ -79,18 +79,22 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = usersList.get(position);
         if (user != null) {
-            Picasso.get().load(user.getAvatar()).into(holder.ivUserAvatar);
-            holder.tvUsername.setText(user.getUsername());
-            holder.tvUserEmail.setText(user.getEmail());
-            if (user.getPhoneNumber() == null || Objects.equals(user.getPhoneNumber(), "")) {
-                holder.tvUserPhoneNumber.setText("___");
-            }
-            else {
-                holder.tvUserPhoneNumber.setText(user.getPhoneNumber());
-            }
+            try {
+                Picasso.get().load(user.getAvatar()).into(holder.ivUserAvatar);
+                holder.tvUsername.setText(user.getUsername());
+                holder.tvUserEmail.setText(user.getEmail());
+                if (user.getPhoneNumber() == null || Objects.equals(user.getPhoneNumber(), "")) {
+                    holder.tvUserPhoneNumber.setText("___");
+                }
+                else {
+                    holder.tvUserPhoneNumber.setText(user.getPhoneNumber());
+                }
 
-            String role = (user.getRole() == 0) ? "Customer" : (user.getRole() == 1) ? "Vender" : "Admin";
-            holder.tvUserRole.setText(role);
+                String role = (user.getRole() == 0) ? "Customer" : (user.getRole() == 1) ? "Vender" : "Admin";
+                holder.tvUserRole.setText(role);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
     }

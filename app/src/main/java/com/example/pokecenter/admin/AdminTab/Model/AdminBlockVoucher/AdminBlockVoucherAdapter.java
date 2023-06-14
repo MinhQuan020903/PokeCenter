@@ -58,16 +58,20 @@ public class AdminBlockVoucherAdapter extends RecyclerView.Adapter<AdminBlockVou
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         AdminBlockVoucher blockVoucher = blockVouchers.get(position);
         if (blockVoucher != null) {
-            holder.tvBlockVoucherId.setText(blockVoucher.getId());
-            holder.tvBlockVoucherName.setText(blockVoucher.getName());
-            holder.tvBlockVoucherStartDate.setText(blockVoucher.getStartDate());
-            holder.tvBlockVoucherEndDate.setText(blockVoucher.getEndDate());
-            holder.tvBlockVoucherCurrentQuantity.setText(String.valueOf(blockVoucher.getCurrentQuantity()));
+            try {
+                holder.tvBlockVoucherId.setText(blockVoucher.getId());
+                holder.tvBlockVoucherName.setText(blockVoucher.getName());
+                holder.tvBlockVoucherStartDate.setText(blockVoucher.getStartDate());
+                holder.tvBlockVoucherEndDate.setText(blockVoucher.getEndDate());
+                holder.tvBlockVoucherCurrentQuantity.setText(String.valueOf(blockVoucher.getCurrentQuantity()));
 
-            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-            // Convert the long value to a currency string
-            String currencyString = currencyFormat.format(blockVoucher.getValue());
-            holder.tvBlockVoucherValue.setText(currencyString);
+                NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                // Convert the long value to a currency string
+                String currencyString = currencyFormat.format(blockVoucher.getValue());
+                holder.tvBlockVoucherValue.setText(currencyString);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

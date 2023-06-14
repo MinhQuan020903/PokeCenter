@@ -84,28 +84,32 @@ public class AdminSupportTicketAdapter extends RecyclerView.Adapter<AdminSupport
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         AdminSupportTicket supportTicket = supportTickets.get(position);
         if (supportTicket != null) {
-            holder.tvSupportTicketProblemName.setText(supportTicket.getProblemName());
-            holder.tvSupportTicketId.setText(supportTicket.getId());
-            if (supportTicket.getCustomerId().contains(",")) {
-                holder.tvCustomerId.setText(supportTicket.getCustomerId().replace(",", "."));
-            } else {
-                holder.tvCustomerId.setText(supportTicket.getCustomerId());
-            }
+            try {
+                holder.tvSupportTicketProblemName.setText(supportTicket.getProblemName());
+                holder.tvSupportTicketId.setText(supportTicket.getId());
+                if (supportTicket.getCustomerId().contains(",")) {
+                    holder.tvCustomerId.setText(supportTicket.getCustomerId().replace(",", "."));
+                } else {
+                    holder.tvCustomerId.setText(supportTicket.getCustomerId());
+                }
 
-            holder.tvCreateDate.setText(supportTicket.getCreateDate());
-            switch (supportTicket.getStatus()) {
-                case "Not resolved" : {
-                    holder.rbSupportNotResolved.setChecked(true);
-                    break;
+                holder.tvCreateDate.setText(supportTicket.getCreateDate());
+                switch (supportTicket.getStatus()) {
+                    case "Not resolved" : {
+                        holder.rbSupportNotResolved.setChecked(true);
+                        break;
+                    }
+                    case "Resolved" : {
+                        holder.rbSupportResolved.setChecked(true);
+                        break;
+                    }
+                    case "Pending" : {
+                        holder.rbSupportPending.setChecked(true);
+                        break;
+                    }
                 }
-                case "Resolved" : {
-                    holder.rbSupportResolved.setChecked(true);
-                    break;
-                }
-                case "Pending" : {
-                    holder.rbSupportPending.setChecked(true);
-                    break;
-                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
