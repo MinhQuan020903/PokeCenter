@@ -88,6 +88,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/quan_rounded_layout_background"
+                    android:backgroundTint="@color/quan_light_cyan"
+
                     android:padding="8dp"
                     android:fontFamily="@font/exo_2"
                     android:text="Pokemon"
@@ -128,6 +130,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/quan_rounded_layout_background"
+                    android:backgroundTint="@color/quan_light_cyan"
                     android:padding="8dp"
                     android:text="Pokemon"
                     android:fontFamily="@font/exo_2"
@@ -168,6 +171,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/quan_rounded_layout_background"
+                    android:backgroundTint="@color/quan_light_cyan"
                     android:padding="8dp"
                     android:text="user@gmail.com"
                     android:fontFamily="@font/exo_2"
@@ -208,6 +212,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/quan_rounded_layout_background"
+                    android:backgroundTint="@color/quan_light_cyan"
                     android:padding="8dp"
                     android:text="...."
                     android:fontFamily="@font/exo_2"
@@ -229,6 +234,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:background="@drawable/quan_rounded_layout_background"
+                android:backgroundTint="@color/quan_light_cyan"
+
                 app:layout_constraintTop_toBottomOf="@+id/clProductDescription"
                 app:layout_constraintBottom_toBottomOf="parent">
 
@@ -237,7 +244,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Reviews"
-                    android:textColor="@color/grey"
+                    android:textColor="@color/white"
                     android:textSize="16sp"
                     android:fontFamily="@font/exo_2"
                     android:layout_marginStart="10dp"

@@ -103,6 +103,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/quan_rounded_layout_background"
+                    android:backgroundTint="@color/quan_light_cyan"
+
                     android:padding="8dp"
                     android:text=""
                     android:fontFamily="@font/exo_2"
@@ -140,6 +142,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/quan_rounded_layout_background"
+                    android:backgroundTint="@color/quan_light_cyan"
                     android:padding="8dp"
                     android:text=""
                     android:fontFamily="@font/exo_2"
@@ -175,6 +178,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/quan_rounded_layout_background"
+                    android:backgroundTint="@color/quan_light_cyan"
                     android:padding="8dp"
                     android:text=""
                     android:fontFamily="@font/exo_2"
@@ -226,7 +230,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/quan_rounded_layout_background"
-
+                android:backgroundTint="@color/quan_light_cyan"
                 android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -264,7 +268,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/quan_rounded_layout_background"
-
+                android:backgroundTint="@color/quan_light_cyan"
                 android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -140,7 +140,7 @@ public class AdminProductsManagementActivity extends AppCompatActivity {
 
                         ArrayList<AdminProduct> filteredList = new ArrayList<>();
                         for (AdminProduct adminProduct : adminProductList) {
-                            String productName = adminProduct.getName().toLowerCase();
+                            String productName = adminProduct.getVenderId().toLowerCase();
                             if (productName.contains(searchQuery)) {
                                 filteredList.add(adminProduct);
                             }
