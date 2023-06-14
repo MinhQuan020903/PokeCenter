@@ -111,6 +111,7 @@ public class VenderChatFragment extends Fragment implements ChatRoomInterface {
         ChildEventListener chatroomListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot1, String previousChildKey) {
+                binding.progressBar.setVisibility(View.VISIBLE);
                 String chatRoomKey = dataSnapshot1.getKey();
 
                 // Step 2: Check if the chat room key is already in the set
@@ -137,6 +138,7 @@ public class VenderChatFragment extends Fragment implements ChatRoomInterface {
                         listChatRoom.add(chatRoom);
                         chatRoomAdapter.addData(listChatRoom);
                         addedChatRoomKeys.add(chatRoomKey);
+                        binding.progressBar.setVisibility(View.INVISIBLE);
                     }
 
                     @Override
