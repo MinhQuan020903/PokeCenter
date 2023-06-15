@@ -125,7 +125,7 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
         binding.rcvGridOptions.setLayoutManager(linearLayoutManager);
         binding.rcvGridOptions.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-        optionAdapter = new VenderOptionAdapter(this, myOptions, optionRecyclerViewInterface);
+        optionAdapter = new VenderOptionAdapter(this, myOptions, this);
         binding.rcvGridOptions.setAdapter(optionAdapter);
 
 
@@ -411,7 +411,7 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
         EditText optionQuantity = viewDialog.findViewById(R.id.optionQuantity);
         EditText optionPrice = viewDialog.findViewById(R.id.optionPrice);
         AutoCompleteTextView optionPokemon = viewDialog.findViewById(R.id.optionPokemon);
-        AutoCompleteTextView optionCategory = viewDialog.findViewById(R.id.option_categories);
+        AutoCompleteTextView optionCategory = viewDialog.findViewById(R.id.optionCategories);
 
         ImageButton uploadImageOption = viewDialog.findViewById(R.id.change_avatar_button);
         Button finishButton = viewDialog.findViewById(R.id.finishButton);
@@ -419,8 +419,8 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
 
         if (existingOption != null) {
             optionName.setText(existingOption.getOptionName());
-            optionQuantity.setText(existingOption.getInputQuantity());
-            optionPrice.setText(existingOption.getPrice());
+            optionQuantity.setText(String.valueOf(existingOption.getInputQuantity()));
+            optionPrice.setText(String.valueOf(existingOption.getPrice()));
             Picasso.get().load(existingOption.getOptionImage()).into(optionImage);
         }
         uploadImageOption.setOnClickListener(view -> {
@@ -442,49 +442,52 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
         adapter.add("NULL");
         adapter.add("Don'tKnow");
         optionPokemon.setAdapter(adapter);
-        optionPokemon.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+        optionPokemon.setThreshold(1);
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
+//        optionPokemon.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//            }
+//        });
         ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, optionCategories);
         optionCategory.setAdapter(categoriesAdapter);
+        optionCategory.setThreshold(1);
 
-        optionCategory.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String input = s.toString().toLowerCase();
-                List<String> suggestions = new ArrayList<>();
-
-                // Iterate through optionCategories to find matching suggestions
-                for (String category : optionCategories) {
-                    if (category.toLowerCase().startsWith(input)) {
-                        suggestions.add(category);
-                    }
-                }
-
-                // Update the adapter with the new suggestions
-                ArrayAdapter<String> updatedAdapter = new ArrayAdapter<>(AddProductActivity.this, android.R.layout.simple_spinner_item, suggestions);
-                optionCategory.setAdapter(updatedAdapter);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
+//        optionCategory.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                String input = s.toString().toLowerCase();
+//                List<String> suggestions = new ArrayList<>();
+//
+//                // Iterate through optionCategories to find matching suggestions
+//                for (String category : optionCategories) {
+//                    if (category.toLowerCase().startsWith(input)) {
+//                        suggestions.add(category);
+//                    }
+//                }
+//                // Update the adapter with the new suggestions
+//                //ArrayAdapter<String> updatedAdapter = new ArrayAdapter<>(AddProductActivity.this, android.R.layout.simple_spinner_item, suggestions);
+//                //optionCategory.setAdapter(updatedAdapter);
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//            }
+//        });
 
 
         finishButton.setOnClickListener(view -> {
