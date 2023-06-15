@@ -1,5 +1,6 @@
 package com.example.pokecenter.admin.AdminTab.Model.User;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
@@ -75,22 +77,31 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         return new ViewHolder(v);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = usersList.get(position);
         if (user != null) {
-            Picasso.get().load(user.getAvatar()).into(holder.ivUserAvatar);
-            holder.tvUsername.setText(user.getUsername());
-            holder.tvUserEmail.setText(user.getEmail());
-            if (user.getPhoneNumber() == null || Objects.equals(user.getPhoneNumber(), "")) {
-                holder.tvUserPhoneNumber.setText("___");
-            }
-            else {
-                holder.tvUserPhoneNumber.setText(user.getPhoneNumber());
-            }
+            try {
+                Picasso.get().load(user.getAvatar()).into(holder.ivUserAvatar);
+                holder.tvUsername.setText(user.getUsername());
+                holder.tvUserEmail.setText(user.getEmail());
+                if (user.getPhoneNumber() == null || Objects.equals(user.getPhoneNumber(), "")) {
+                    holder.tvUserPhoneNumber.setText("___");
+                }
+                else {
+                    holder.tvUserPhoneNumber.setText(user.getPhoneNumber());
+                }
 
-            String role = (user.getRole() == 0) ? "Customer" : (user.getRole() == 1) ? "Vender" : "Admin";
-            holder.tvUserRole.setText(role);
+                String role = (user.getRole() == 0) ? "Customer" : (user.getRole() == 1) ? "Vender" : "Admin";
+                int color = (user.getRole() == 0) ? ContextCompat.getColor(context, R.color.quan_light_yellow)
+                        : (user.getRole() == 1) ? ContextCompat.getColor(context, R.color.quan_green)
+                        : ContextCompat.getColor(context, R.color.quan_bright_red);
+                holder.tvUserRole.setText(role);
+                holder.tvUserRole.setTextColor(color);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
     }

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_secondary"
+    android:background="@color/quan_light_green"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".admin.AdminTab.Tabs.Home.UsersManagement.AdminCustomerInfoAndStatisticActivity">
 
@@ -14,7 +14,7 @@
         android:layout_margin="15dp"
         android:elevation="5dp"
         android:background="@drawable/quan_rounded_layout_background"
-        android:backgroundTint="@color/light_primary"
+        android:backgroundTint="@color/teal_200"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,6 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:padding="2dp"
-                    android:src="@drawable/lam_totoro"
                     app:shapeAppearanceOverlay="@style/circleImageView"
                     app:strokeColor="@color/quan_light_yellow"
                     android:scaleType="centerCrop"
@@ -53,7 +52,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:padding="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/clCustomerAvatar"
             app:layout_constraintTop_toTopOf="parent">
@@ -66,8 +66,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:textStyle="bold"
                 android:textSize="20sp"
+                android:fontFamily="@font/exo_2"
                 android:textColor="@color/white"
-                android:text="Do Mai Minh Quan"/>
+                android:text=""/>
 
             <TextView
                 android:id="@+id/tvCustomerEmail"
@@ -76,8 +77,11 @@
                 app:layout_constraintTop_toBottomOf="@id/tvCustomerUsername"
                 app:layout_constraintStart_toStartOf="parent"
                 android:textSize="14sp"
+                android:fontFamily="@font/exo_2"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="@color/white"
-                android:text="doquan020903@gmail.com"/>
+                android:text=""/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
@@ -99,10 +103,8 @@
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="0.8"
         android:layout_margin="15dp"
-        android:elevation="5dp"
         android:background="@drawable/quan_rounded_layout_background"
-        android:backgroundTint="@color/quan_cyan"
-        android:padding="16dp"
+        android:backgroundTint="@color/quan_light_green"
         app:layout_constraintTop_toBottomOf="@id/clCustomerProfile"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -143,6 +145,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="10sp"
                         android:text="Orders"
+                        android:fontFamily="@font/exo_2"
                         android:textColor="@color/white"
                         android:layout_gravity="center_horizontal"
                         android:textStyle="bold" />
@@ -151,9 +154,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:fontFamily="@font/exo_2"
                         android:textColor="@color/white"
                         android:textSize="15sp"
-                        android:text="5"
+                        android:text=""
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -198,6 +202,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="10sp"
                         android:text="Total Spending"
+                        android:fontFamily="@font/exo_2"
                         android:textColor="@color/white"
                         android:gravity="center"
                         android:layout_gravity="center"
@@ -209,7 +214,8 @@
                         android:layout_gravity="center_horizontal"
                         android:textColor="@color/white"
                         android:textSize="15sp"
-                        android:text="1.000.000.000đ"
+                        android:fontFamily="@font/exo_2"
+                        android:text=""
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -231,10 +237,10 @@
                 app:layout_constraintWidth_percent="0.4"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:backgroundTint="@color/quan_bright_cyan"
+                android:backgroundTint="@color/quan_light_yellow"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:background="@drawable/quan_spinner_border"
+                android:background="@drawable/quan_spinner_background"
                 android:orientation="horizontal">
 
                 <Spinner
@@ -243,7 +249,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center"
-                    android:background="@color/quan_bright_cyan"
+                    android:background="@color/quan_light_yellow"
                     android:gravity="center"
                     android:layout_marginLeft="5dp"
                     android:spinnerMode="dropdown" />

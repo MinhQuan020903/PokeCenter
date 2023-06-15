@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="5dp"
+    android:background="@drawable/quan_rounded_layout_background"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,104 +17,71 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivProductImage"
             android:layout_width="0dp"
-            app:layout_constraintWidth_percent="0.25"
+            app:layout_constraintWidth_percent="0.3"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@null"
+            android:padding="8dp"
+            android:background="@drawable/quan_rounded_layout_background"
             android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/rounded_left_corners_rectangle"
             app:strokeColor="@color/quan_light_yellow"
             app:strokeWidth="2dp"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clProductItem"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="3:1"
-            android:background="@drawable/quan_rounded_half_right_rectangle"
-            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivProductImage"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.75">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:padding="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
-                <TextView
-                    android:id="@+id/tvProductNameLabel"
-                    android:layout_width="0dp"
-                    app:layout_constraintWidth_percent="0.25"
-                    android:layout_height="wrap_content"
-                    android:text="Product: "
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/quan_light_grey"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/tvProductName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="__________"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
+                    android:layout_marginBottom="15dp"
                     android:ellipsize="end"
                     android:maxEms="13"
-                    app:layout_constraintStart_toEndOf="@id/tvProductNameLabel"
                     android:maxLines="2"
-                    app:layout_constraintTop_toTopOf="parent" />
-                <TextView
-                    android:id="@+id/tvProductVenderIdLabel"
-                    android:layout_width="0dp"
-                    app:layout_constraintWidth_percent="0.25"
-                    android:layout_height="wrap_content"
-                    android:text="Vender ID: "
-                    android:textSize="14sp"
+                    android:text="__________"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
                     android:textStyle="bold"
-                    android:textColor="@color/quan_light_grey"
+                    android:fontFamily="@font/exo_2"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvProductName" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tvProductVenderId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="__________"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
                     android:textColor="@color/white"
-                    app:layout_constraintStart_toEndOf="@+id/tvProductVenderIdLabel"
-                    app:layout_constraintTop_toBottomOf="@id/tvProductName" />
-                <TextView
-                    android:id="@+id/tvProductPriceLabel"
-                    android:layout_width="0dp"
-                    app:layout_constraintWidth_percent="0.25"
-                    android:layout_height="wrap_content"
-                    android:text="Price: "
                     android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/quan_light_grey"
+                    android:fontFamily="@font/exo_2"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvProductVenderId" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvProductName" />
 
                 <TextView
                     android:id="@+id/tvProductPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="__________"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
                     android:textColor="@color/quan_light_yellow"
-                    app:layout_constraintStart_toEndOf="@+id/tvProductPriceLabel"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/exo_2"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvProductVenderId" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 

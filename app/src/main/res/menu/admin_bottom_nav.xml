@@ -10,10 +10,6 @@
         android:title="Chat"
         android:icon="@drawable/lam_baseline_support_agent_24" />
 
-    <item android:id="@+id/adminNotificationFragment"
-        android:title="Notification"
-        android:icon="@drawable/lam_baseline_notifications_active_24" />
-
     <item android:id="@+id/adminProfileFragment"
         android:title="Profile"
         android:icon="@drawable/lam_baseline_person_24"/>

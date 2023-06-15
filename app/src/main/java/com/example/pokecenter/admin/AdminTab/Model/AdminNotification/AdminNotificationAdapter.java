@@ -54,15 +54,19 @@ public class AdminNotificationAdapter extends RecyclerView.Adapter<AdminNotifica
     public void onBindViewHolder(@NonNull AdminNotificationAdapter.ViewHolder holder, int position) {
         AdminNotification an = adminNotificationsList.get(position);
         if (an != null) {
-            holder.ivAdminNotificationImage.setImageResource((R.drawable.lam_budew));
-            holder.tvAdminNotificationTitle.setText(an.getTitle());
-            holder.tvAdminNotificationContent.setText(an.getContent());
-            holder.tvAdminSentDate.setText(an.getSentDate());
-            if (an.isRead()) {
-                holder.ivAdminNotificationRedCircle.setVisibility(View.INVISIBLE);
-            }
-            else {
-                holder.ivAdminNotificationRedCircle.setImageResource(R.drawable.lam_baseline_circle_24);
+            try {
+                holder.ivAdminNotificationImage.setImageResource((R.drawable.lam_budew));
+                holder.tvAdminNotificationTitle.setText(an.getTitle());
+                holder.tvAdminNotificationContent.setText(an.getContent());
+                holder.tvAdminSentDate.setText(an.getSentDate());
+                if (an.isRead()) {
+                    holder.ivAdminNotificationRedCircle.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    holder.ivAdminNotificationRedCircle.setImageResource(R.drawable.lam_baseline_circle_24);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

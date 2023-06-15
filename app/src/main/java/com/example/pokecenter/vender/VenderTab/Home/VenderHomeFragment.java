@@ -56,7 +56,9 @@ public class VenderHomeFragment extends Fragment {
             startActivity(intent);
         });
         binding.NotificationFunction.setOnClickListener(view -> {
-            fragmentChangeListener.onFragmentChange(new VenderNotificationsFragment());
+//            fragmentChangeListener.onFragmentChange(new VenderNotificationsFragment());
+            Intent intent = new Intent(getActivity(), VenderNotificationActivity.class);
+            startActivity(intent);
         });
         binding.chatFunction.setOnClickListener(view -> {
             fragmentChangeListener.onFragmentChange(new VenderChatFragment());
@@ -67,6 +69,9 @@ public class VenderHomeFragment extends Fragment {
         });
         binding.voucherFunction.setOnClickListener(view -> {
 
+//            fragmentChangeListener.onFragmentChange(new VenderNotificationsFragment());
+            Intent intent = new Intent(getActivity(), VenderNotificationActivity.class);
+            startActivity(intent);
         });
 
         return binding.getRoot();

@@ -1,88 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/light_secondary"
-    android:elevation="5dp"
-    tools:context=".admin.AdminTab.Tabs.Home.ProductsManagement.AdminProductsManagementActivity">
-    <ProgressBar
-        android:id="@+id/progress_bar"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true">
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="176dp"
-        android:background="@color/light_primary"
-        android:visibility="visible"/>
+        android:background="@color/quan_light_green"
+        android:elevation="5dp"
+        tools:context=".admin.AdminTab.Tabs.Home.ProductsManagement.AdminProductsManagementActivity">
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="176dp"
+            android:background="@color/quan_light_green"
+            android:visibility="visible"/>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clVoucherBlock"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
-        <LinearLayout
-            android:id="@+id/llVoucherBlockManagementSearch"
-            android:layout_width="0dp"
-            android:layout_height="62dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="10dp"
-            android:padding="5dp"
-            android:background="@drawable/quan_rounded_layout_background"
-            android:backgroundTint="#F8CA6D"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.75">
-
-            <EditText
-                android:id="@+id/etVoucherBlockManagementSearch"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clVoucherBlock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+            <LinearLayout
+                android:id="@+id/llVoucherBlockManagementSearch"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:ellipsize="end"
-                android:hint="Search in here"
-                android:imeOptions="actionSearch"
-                android:inputType="text"
-                android:maxLines="1"
-                android:padding="16dp"
-                android:singleLine="true"
-                android:textColor="@android:color/black"
-                tools:ignore="VisualLintTextFieldSize" />
-
-            <ImageButton
-                android:id="@+id/bVoucherBlockManagementSearch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_height="62dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="10dp"
+                android:padding="5dp"
+                android:background="@drawable/quan_rounded_layout_background"
                 android:backgroundTint="#F8CA6D"
-                android:contentDescription="Search Button"
-                android:padding="8dp"
-                android:src="@drawable/lam_baseline_search_32"
-                app:tint="@color/white" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.75">
 
-        </LinearLayout>
-        <ImageView
-            android:id="@+id/ivAddVoucherBlock"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintWidth_percent="0.15"
-            app:layout_constraintDimensionRatio="1:1"
-            android:layout_marginEnd="10dp"
-            android:src="@drawable/quan_icon_add"
-            app:tint="@color/quan_light_yellow"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+                <EditText
+                    android:id="@+id/etVoucherBlockManagementSearch"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:ellipsize="end"
+                    android:hint="Search in here"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:padding="16dp"
+                    android:singleLine="true"
+                    android:textColor="@android:color/black"
+                    tools:ignore="VisualLintTextFieldSize" />
+
+                <ImageButton
+                    android:id="@+id/bVoucherBlockManagementSearch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="4dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="#F8CA6D"
+                    android:contentDescription="Search Button"
+                    android:padding="8dp"
+                    android:src="@drawable/lam_baseline_search_32"
+                    app:tint="@color/white" />
+
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/ivAddVoucherBlock"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintWidth_percent="0.15"
+                app:layout_constraintDimensionRatio="1:1"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/quan_icon_add"
+                app:tint="@color/quan_light_yellow"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvVoucherBlock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            app:layout_constraintTop_toBottomOf="@id/clVoucherBlock"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvVoucherBlock"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        app:layout_constraintTop_toBottomOf="@id/clVoucherBlock"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
