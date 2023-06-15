@@ -1,5 +1,6 @@
 package com.example.pokecenter.customer.lam.CustomerTab.Chat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -9,9 +10,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.CustomerProfileFragment;
@@ -36,9 +41,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CustomerListAllBoxChatFragment extends Fragment implements ChatRoomInterface {
+public class CustomerListAllBoxChatFragment extends Fragment implements View.OnTouchListener, ChatRoomInterface {
 
     FragmentCustomerListAllBoxChatBinding binding;
+    private ArrayList<ChatRoom> listChatRoom;
     String currentId= FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", ",");
     private RecyclerView rcvChatRoom;
     private ChatRoomAdapter chatRoomAdapter;
@@ -62,7 +68,7 @@ public class CustomerListAllBoxChatFragment extends Fragment implements ChatRoom
         binding.progressBar.setVisibility(View.INVISIBLE);
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
-        ArrayList<ChatRoom> listChatRoom = new ArrayList<>();
+        listChatRoom = new ArrayList<>();
 //        databaseReference.child("chats").addListenerForSingleValueEvent(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(DataSnapshot dataSnapshot) {
@@ -220,6 +226,34 @@ public class CustomerListAllBoxChatFragment extends Fragment implements ChatRoom
 
             // Other overridden methods (onChildMoved, onCancelled) can be left empty or implemented if needed
         };
+
+        binding.searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Not used in this case
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String searchQuery = s.toString().toLowerCase();
+                //Get position of role spinner
+
+
+                ArrayList<ChatRoom> filteredList = new ArrayList<>();
+                for (ChatRoom chatRoom : listChatRoom) {
+                    String userName = chatRoom.getSenderAccount().getUsername().toLowerCase();
+                    if (userName.contains(searchQuery)) filteredList.add(chatRoom);
+                }
+                chatRoomAdapter.setList(filteredList);
+                chatRoomAdapter.notifyDataSetChanged();
+            }
+
+            // user types in email
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         // Attach the listener to the "chats" node in the database
         databaseReference.child("chats").addChildEventListener(chatroomListener);
 
@@ -233,5 +267,39 @@ public class CustomerListAllBoxChatFragment extends Fragment implements ChatRoom
             intent.putExtra("senderAccount", c.getSenderAccount());
             startActivity(intent);
         }
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+            // Get the focus of the EditText
+            binding.searchBar.requestFocus();
+
+            // Show the soft keyboard
+            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.showSoftInput(binding.searchBar, InputMethodManager.SHOW_IMPLICIT);
+        } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+            // Check if the touch event is outside the EditText
+            if (!isTouchInsideView(motionEvent, binding.searchBar)) {
+                // Hide the soft keyboard
+                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+                // Clear the focus from the EditText
+                binding.searchBar.clearFocus();
+            }
+        }
+        return false;
+    }
+
+    private boolean isTouchInsideView(MotionEvent motionEvent, View view) {
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        int viewX = location[0];
+        int viewY = location[1];
+        int touchX = (int) motionEvent.getRawX();
+        int touchY = (int) motionEvent.getRawY();
+
+        return touchX >= viewX && touchX <= (viewX + view.getWidth()) && touchY >= viewY && touchY <= (viewY + view.getHeight());
     }
 }

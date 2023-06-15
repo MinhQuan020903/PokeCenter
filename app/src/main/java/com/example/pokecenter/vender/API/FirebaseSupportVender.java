@@ -476,7 +476,6 @@ public class FirebaseSupportVender {
             Map<String, Object> fetchedVenderData = new Gson().fromJson(responseString, type);
             fetchedVender.setShopName((String) fetchedVenderData.get("shopName"));
             fetchedVender.setFollowCount(((Double) fetchedVenderData.get("followCount")).intValue());
-            fetchedVender.setRevenue(((Double) fetchedVenderData.get("revenue")).intValue());
 
         } else {
             return null;

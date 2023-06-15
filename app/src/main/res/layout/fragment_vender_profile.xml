@@ -94,7 +94,7 @@
                             android:id="@+id/followText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Người theo dõi: "
+                            android:text="Followers: "
                             android:textSize="16sp"
                             android:clickable="true"/>
 
@@ -103,24 +103,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="2"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-                        <com.google.android.material.divider.MaterialDivider
-                            android:layout_width="3dp"
-                            android:layout_height="match_parent"/>
-                        <TextView
-                            android:id="@+id/paymentText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Tài khoản: "
-                            android:textSize="16sp"
-                            android:clickable="true"/>
-
-                        <TextView
-                            android:id="@+id/money"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="1000000"
                             android:textStyle="bold"
                             android:textSize="16sp" />
 
@@ -222,29 +204,29 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/payment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="20dp"
-                android:paddingVertical="14dp"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true">
+<!--            <LinearLayout-->
+<!--                android:id="@+id/payment"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:paddingStart="20dp"-->
+<!--                android:paddingVertical="14dp"-->
+<!--                android:foreground="?android:attr/selectableItemBackground"-->
+<!--                android:clickable="true">-->
 
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/lam_baseline_payment_24"
-                    android:layout_marginEnd="16dp"/>
+<!--                <ImageView-->
+<!--                    android:layout_width="25dp"-->
+<!--                    android:layout_height="25dp"-->
+<!--                    android:src="@drawable/lam_baseline_payment_24"-->
+<!--                    android:layout_marginEnd="16dp"/>-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Payment"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"/>
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Payment"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="18sp"/>-->
 
-            </LinearLayout>
+<!--            </LinearLayout>-->
 
 
             <com.google.android.material.divider.MaterialDivider

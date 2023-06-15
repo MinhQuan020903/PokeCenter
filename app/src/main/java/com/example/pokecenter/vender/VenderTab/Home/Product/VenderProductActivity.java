@@ -107,7 +107,8 @@ public class VenderProductActivity extends AppCompatActivity implements PokemonR
             inputMethodManager.hideSoftInputFromWindow(binding.searchProductBar.getWindowToken(), 0);
 
             productAdapter.setData(venderProduct.stream().filter(product -> product.getName().toLowerCase().contains(searchText.toLowerCase())).collect(Collectors.toList()));
-            binding.totalProduct.setText(String.valueOf(venderProduct.stream().filter(product -> product.getName().toLowerCase().contains(searchText.toLowerCase())).collect(Collectors.toList()).stream().count()));
+            binding.totalProduct.setVisibility(View.GONE);
+            //binding.totalProduct.setText(String.valueOf(venderProduct.stream().filter(product -> product.getName().toLowerCase().contains(searchText.toLowerCase())).collect(Collectors.toList()).stream().count()));
         }
     }
     @Override
@@ -125,7 +126,8 @@ public class VenderProductActivity extends AppCompatActivity implements PokemonR
         venderProduct = ProductData.getListProducts().stream().filter(product -> product.getVenderId().equals(venderId)).collect(Collectors.toList());
 
         productAdapter = new ProductAdapter(this, venderProduct, this);
-        binding.totalProduct.setText(String.valueOf(productAdapter.getItemCount()));
+        binding.totalProduct.setVisibility(View.GONE);
+    //    binding.totalProduct.setText(String.valueOf(productAdapter.getItemCount()));
         rcvProduct.setAdapter(productAdapter);
     }
     public int getNavigationBarHeight() {

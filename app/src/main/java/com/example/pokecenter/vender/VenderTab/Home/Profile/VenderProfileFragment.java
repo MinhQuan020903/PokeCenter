@@ -101,10 +101,10 @@ public class VenderProfileFragment extends Fragment {
             popUpDialogToChangePassword();
         });
 
-        binding.payment.setOnClickListener(view -> {
-
-
-        });
+//        binding.payment.setOnClickListener(view -> {
+//
+//
+//        });
 
         binding.followText.setOnClickListener(view -> {
             startActivity(new Intent(getActivity(), VenderFollowersActivity.class));
@@ -272,8 +272,6 @@ public class VenderProfileFragment extends Fragment {
                 if (finalIsSuccessful) {
                     binding.username.setText(finalVender.getShopName());
                     binding.followers.setText(String.valueOf(finalVender.getFollowCount()));
-                    String currencyString = currencyFormat.format(finalVender.getRevenue());
-                    binding.money.setText(currencyString);
                 }
                 binding.progressBar.setVisibility(View.INVISIBLE);
 
