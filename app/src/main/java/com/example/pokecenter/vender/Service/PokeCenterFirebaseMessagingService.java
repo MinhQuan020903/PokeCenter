@@ -1,5 +1,6 @@
 package com.example.pokecenter.vender.Service;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -46,10 +47,10 @@ public class PokeCenterFirebaseMessagingService extends FirebaseMessagingService
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+        @SuppressLint("ResourceAsColor") NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle(strTitle)
                 .setContentText(strContent)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.tin_pokeball_small_icon)
                 .setContentIntent(pendingIntent);
 
         Notification notification = notificationBuilder.build();
