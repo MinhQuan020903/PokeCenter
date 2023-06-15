@@ -30,6 +30,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -465,13 +466,14 @@ public class FirebaseSupportVender {
         Response response1 = client.newCall(request1).execute();
 
         if (response1.isSuccessful()) {
+            assert response1.body() != null;
             String responseString = response1.body().string();
 
             Type type = new TypeToken<Map<String, Object>>(){}.getType();
             Map<String, Object> fetchedVenderData = new Gson().fromJson(responseString, type);
             fetchedVender.setShopName((String) fetchedVenderData.get("shopName"));
-            fetchedVender.setFollowCount(((Double) fetchedVenderData.get("followCount")).intValue());
-            fetchedVender.setRevenue(((Double) fetchedVenderData.get("revenue")).intValue());
+            fetchedVender.setFollowCount(((Double) Objects.requireNonNull(fetchedVenderData.get("followCount"))).intValue());
+//            fetchedVender.setRevenue(((Double) Objects.requireNonNull(fetchedVenderData.get("revenue"))).intValue());
 
         } else {
             return null;
@@ -614,4 +616,6 @@ public class FirebaseSupportVender {
 //            token = response.body().string();
 //        }
     }
+
+//    public void updateCustomerNotification()
 }
