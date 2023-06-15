@@ -36,9 +36,9 @@ public class VenderActivity extends AppCompatActivity implements VenderHomeFragm
 
         venderBottomNavigationView = binding.bottomNavView;
 
-        BadgeDrawable badgeDrawable = venderBottomNavigationView.getOrCreateBadge(R.id.venderNotificationNav);
-        badgeDrawable.setVisible(true);
-        badgeDrawable.setNumber(4);
+//        BadgeDrawable badgeDrawable = venderBottomNavigationView.getOrCreateBadge(R.id.venderNotificationNav);
+//        badgeDrawable.setVisible(true);
+//        badgeDrawable.setNumber(4);
 
         //Create channel notification
         createChannelNotification();
