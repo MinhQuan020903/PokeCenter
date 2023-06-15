@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_secondary"
+    android:background="@color/quan_light_green"
     android:elevation="5dp"
-    tools:context=".admin.Quan.AdminTab.Tabs.Home.Supports.AdminSupportProductRequestActivity">
+    tools:context=".admin.AdminTab.Tabs.Home.Supports.ProductRequest.AdminSupportProductRequestActivity">
     <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="176dp"
-        android:background="@color/light_primary"
+        android:background="@color/quan_light_green"
         android:visibility="visible"/>
     <LinearLayout
         android:id="@+id/llRequestSearch"
@@ -43,6 +43,7 @@
             android:maxLines="1"
             android:padding="16dp"
             android:singleLine="true"
+            android:fontFamily="@font/exo_2"
             android:textColor="@android:color/black"
             tools:ignore="VisualLintTextFieldSize" />
 

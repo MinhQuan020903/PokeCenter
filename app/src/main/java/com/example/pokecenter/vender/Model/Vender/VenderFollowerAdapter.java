@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokecenter.R;
-import com.example.pokecenter.admin.Quan.AdminTab.Model.User.User;
+import com.example.pokecenter.admin.AdminTab.Model.User.User;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

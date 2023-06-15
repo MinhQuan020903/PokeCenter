@@ -1,10 +1,8 @@
 package com.example.pokecenter.vender.API;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.example.pokecenter.customer.lam.Model.account.Account;
-import com.example.pokecenter.customer.lam.Model.notification.Notification;
 import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.order.DetailOrder;
 import com.example.pokecenter.customer.lam.Model.order.Order;
@@ -13,8 +11,6 @@ import com.example.pokecenter.vender.Model.Vender.Vender;
 import com.example.pokecenter.vender.Model.VenderOrder.VenderDetailOrder;
 import com.example.pokecenter.vender.Model.VenderOrder.VenderOrder;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -27,7 +23,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -542,8 +537,9 @@ public class FirebaseSupportVender {
                             details,
                             (String) value.get("status")
                     );
-                } catch (ParseException e) {
 
+                } catch (java.text.ParseException e) {
+                    throw new RuntimeException(e);
                 }
 
 
@@ -556,8 +552,8 @@ public class FirebaseSupportVender {
 
                     try {
                         order.setDeliveryDate(dateFormat.parse(stringDeliveryDate));
-                    } catch (ParseException e) {
-
+                    } catch (java.text.ParseException e) {
+                        throw new RuntimeException(e);
                     }
 
                 }
@@ -591,4 +587,30 @@ public class FirebaseSupportVender {
         Response response = client.newCall(request).execute();
     }
 
+
+    public void updateRegistrationToken(@NonNull String email, String token) throws IOException {
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference usersRef = database.getReference("vendors/" + email.replace(".", ","));
+
+        Map<String, Object> user = new HashMap<>();
+        user.put("token", token);
+
+//        usersRef.child(email.replace(".", ",")).setValue(user);
+
+        usersRef.updateChildren(user);
+
+//        String token = "";
+//
+//        OkHttpClient client = new OkHttpClient();
+//
+//        Request request = new Request.Builder()
+//                .url(urlDb + "accounts/" + email.replace(".", ",") + "/.json")
+//                .build();
+//        Response response = client.newCall(request).execute();
+//
+//        if (response.isSuccessful()) {
+//            token = response.body().string();
+//        }
+    }
 }

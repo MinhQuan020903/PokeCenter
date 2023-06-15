@@ -20,6 +20,8 @@
     <color name="transparent">#00000000</color>
     <color name="light_border_shape">#E6E6E6</color>
     <color name="grey">#D3D1D1</color>
+
+    <!--Quan-->
     <color name="quan_light_yellow">#F8CA6D</color>
     <color name="quan_purple">#695FD9</color>
     <color name="quan_cyan">#46C5E1</color>
@@ -29,5 +31,9 @@
     <color name="quan_bright_red">#DD2727</color>
     <color name="quan_very_light_blue">#E1EFF3</color>
     <color name="quan_light_green">#86DCD3</color>
+    <color name="quan_dim_blue">#13A5C6</color>
+    <color name="quan_green">#13FD2B</color>
+    <color name="quan_light_cyan">#78CCE4</color>
+    <color name="quan_dim_green">#65C1AE</color>
 
 </resources>

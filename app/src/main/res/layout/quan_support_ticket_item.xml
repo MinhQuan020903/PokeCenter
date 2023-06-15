@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="5dp"
+    android:background="@drawable/quan_rounded_layout_background"
+    android:padding="15dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/tvSupportTicketProblemNameLabel"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.3"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Title: "
+            android:textSize="16sp"
+            android:fontFamily="@font/exo_2"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSupportTicketProblemName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="__________"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/exo_2"
+            android:textColor="@color/white"
+            android:layout_margin="5dp"
+            android:ellipsize="end"
+            app:layout_constraintStart_toEndOf="@id/tvSupportTicketProblemNameLabel"
+            android:maxEms="15"
+            android:maxLines="3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSupportTicketIdLabel"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.3"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="ID: "
+            android:textSize="16sp"
+            android:fontFamily="@font/exo_2"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSupportTicketProblemName" />
+
+        <TextView
+            android:id="@+id/tvSupportTicketId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="__________"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/exo_2"
+            android:textColor="@color/white"
+            android:layout_margin="5dp"
+            android:ellipsize="end"
+            app:layout_constraintStart_toEndOf="@id/tvSupportTicketIdLabel"
+            android:maxEms="15"
+            android:maxLines="3"
+            app:layout_constraintTop_toBottomOf="@id/tvSupportTicketProblemName" />
+        <TextView
+            android:id="@+id/tvCustomerIdLabel"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.3"
+            android:layout_height="wrap_content"
+            android:text="Customer ID: "
+            android:textSize="16sp"
+            android:fontFamily="@font/exo_2"
+            android:textColor="@color/white"
+            android:layout_margin="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSupportTicketId" />
+
+        <TextView
+            android:id="@+id/tvCustomerId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:text="__________"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/exo_2"
+            android:textColor="@color/white"
+            android:layout_margin="5dp"
+            app:layout_constraintStart_toEndOf="@+id/tvCustomerIdLabel"
+            app:layout_constraintTop_toBottomOf="@id/tvSupportTicketId" />
+        <TextView
+            android:id="@+id/tvCreateDateLabel"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.3"
+            android:layout_height="wrap_content"
+            android:text="Create Date: "
+            android:textSize="16sp"
+            android:fontFamily="@font/exo_2"
+            android:textColor="@color/white"
+            android:layout_margin="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvCustomerId" />
+
+        <TextView
+            android:id="@+id/tvCreateDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="__________"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/exo_2"
+            android:textColor="@color/white"
+            android:layout_margin="5dp"
+            app:layout_constraintStart_toEndOf="@+id/tvCreateDateLabel"
+            app:layout_constraintTop_toBottomOf="@id/tvCustomerId" />
+        <RadioGroup
+            android:id="@+id/rgResolveStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvCreateDate">
+
+            <RadioButton
+                android:id="@+id/rbSupportResolved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:enabled="false"
+                android:buttonTint="@color/white"
+                android:gravity="center_vertical"
+                android:text="Resolved"
+                android:textColor="@color/white"
+                android:fontFamily="@font/exo_2"/>
+
+            <RadioButton
+                android:id="@+id/rbSupportNotResolved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:enabled="false"
+                android:buttonTint="@color/white"
+                android:gravity="center_vertical"
+                android:text="Not Resolved"
+                android:textColor="@color/white"
+                android:fontFamily="@font/exo_2"/>
+            <RadioButton
+                android:id="@+id/rbSupportPending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:enabled="false"
+                android:buttonTint="@color/white"
+                android:gravity="center_vertical"
+                android:text="Pending"
+                android:textColor="@color/white"
+                android:fontFamily="@font/exo_2"/>
+        </RadioGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

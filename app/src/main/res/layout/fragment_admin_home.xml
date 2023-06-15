@@ -6,7 +6,7 @@
     android:background="@color/quan_light_green"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/adminHomeFragment"
-    tools:context=".admin.Quan.AdminTab.Tabs.Home.AdminHomeFragment">
+    tools:context=".admin.AdminTab.Tabs.Home.AdminHomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clAdminTitle"
@@ -17,20 +17,23 @@
         app:layout_constraintStart_toStartOf="parent"
         android:background="#DA3131"
         app:layout_constraintEnd_toEndOf="parent">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PokeCenter"
+            android:backgroundTint="@color/dark_primary"
+            android:fontFamily="@font/exo_2"
             android:padding="10dp"
+            android:text="POKÉCENTER"
+            android:textColor="@color/dark_primary"
             android:textSize="36sp"
             android:textStyle="bold"
-            android:fontFamily="@font/pokemon_hollow"
-            android:textColor="@color/dark_primary"
-            android:backgroundTint="@color/dark_primary"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.imageview.ShapeableImageView

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_secondary"
-    tools:context=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoAddressesActivity">
+    android:background="@color/quan_light_green"
+    tools:context=".admin.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoAddressesActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCustomerFollowers"
@@ -22,14 +22,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/quan_icon_person"
-            app:tint="@color/grey" />
+            app:tint="@color/white" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:fontFamily="@font/exo_2"
             android:layout_marginTop="30dp"
-            android:text="Customer doesn't have any followers!"/>
+            android:text="Customer doesn't follow any store!"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,17 +26,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pokecenter.R;
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminVenderInfoAndStatisticActivity;
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderFollowerListActivity;
-import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
-import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
+import com.example.pokecenter.admin.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderFollowerListActivity;
 import com.example.pokecenter.customer.lam.Authentication.SignInActivity;
 import com.example.pokecenter.customer.lam.Authentication.SplashActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.CustomerAccountInfoActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.CustomerOrdersActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyAddressesActivity;
-import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.MyProductReviewsActivity;
-import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.StartSellingActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.Suport.CustomerSupportActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.WishListActivity;
 import com.example.pokecenter.customer.lam.Model.account.Account;

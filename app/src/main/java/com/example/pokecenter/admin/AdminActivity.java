@@ -5,10 +5,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Home.AdminHomeFragment;
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Notification.AdminNotificationFragment;
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Profile.AdminProfileFragment;
-import com.example.pokecenter.admin.Quan.AdminTab.Tabs.Chat.AdminSupportFragment;
+import com.example.pokecenter.admin.AdminTab.Tabs.Home.AdminHomeFragment;
+import com.example.pokecenter.admin.AdminTab.Tabs.Notification.AdminNotificationFragment;
+import com.example.pokecenter.admin.AdminTab.Tabs.Profile.AdminProfileFragment;
+import com.example.pokecenter.admin.AdminTab.Tabs.Chat.AdminSupportFragment;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
 import com.example.pokecenter.customer.lam.Model.account.Account;
 
@@ -62,7 +62,6 @@ public class AdminActivity extends AppCompatActivity {
 
         Fragment home = new AdminHomeFragment(currentAccount);
         Fragment support = new AdminSupportFragment();
-        Fragment notification = new AdminNotificationFragment();
         Fragment profile = new AdminProfileFragment(currentAccount);
 
         // Move between fragments
@@ -73,9 +72,6 @@ public class AdminActivity extends AppCompatActivity {
                     break;
                 case R.id.adminSupportFragment:
                     replaceFragment(support);
-                    break;
-                case R.id.adminNotificationFragment:
-                    replaceFragment(notification);
                     break;
                 case R.id.adminProfileFragment:
                     replaceFragment(profile);

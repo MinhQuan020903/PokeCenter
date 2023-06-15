@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Ninh Test -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- Tin test -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -16,38 +22,42 @@
         android:roundIcon="@mipmap/main_logo_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PokeCenter"
+        tools:targetApi="31" >
+        <activity
+            android:name=".admin.AdminTab.Tabs.Home.Supports.SupportTicket.AdminResponseToSupportTicketActivity"
+            android:exported="false" />
         tools:targetApi="31">
-        <service
-            android:name=".admin.Quan.AdminTab.Service.AdminNotificationService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-            <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
-             See README(https://goo.gl/l4GJaQ) for more. -->
-            <meta-data
-                android:name="com.google.firebase.messaging.default_notification_icon"
-                android:resource="@mipmap/main_logo_round" />
-            <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-                 notification message. See README(https://goo.gl/6BKBk7) for more. -->
-            <meta-data
-                android:name="com.google.firebase.messaging.default_notification_color"
-                android:resource="@color/quan_light_green" />
-            <meta-data
-                android:name="com.google.firebase.messaging.default_notification_channel_id"
-                android:value="@string/customer_product_request_response_channel_id" />
-        </service>
+<!--        <service-->
+<!--            android:name=".admin.AdminTab.Service.AdminNotificationService"-->
+<!--            android:exported="false">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
+<!--            </intent-filter>-->
+<!--            &lt;!&ndash; Set custom default icon. This is used when no icon is set for incoming notification messages.-->
+<!--             See README(https://goo.gl/l4GJaQ) for more. &ndash;&gt;-->
+<!--            <meta-data-->
+<!--                android:name="com.google.firebase.messaging.default_notification_icon"-->
+<!--                android:resource="@mipmap/main_logo_round" />-->
+<!--            &lt;!&ndash; Set color used with incoming notification messages. This is used when no color is set for the incoming-->
+<!--                 notification message. See README(https://goo.gl/6BKBk7) for more. &ndash;&gt;-->
+<!--            <meta-data-->
+<!--                android:name="com.google.firebase.messaging.default_notification_color"-->
+<!--                android:resource="@color/quan_light_green" />-->
+<!--            <meta-data-->
+<!--                android:name="com.google.firebase.messaging.default_notification_channel_id"-->
+<!--                android:value="@string/customer_product_request_response_channel_id" />-->
+<!--        </service>-->
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.Supports.AdminResponseToRequestActivity"
+            android:name=".admin.AdminTab.Tabs.Home.Supports.ProductRequest.AdminResponseToRequestActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.Supports.AdminSupportProductRequestActivity"
+            android:name=".admin.AdminTab.Tabs.Home.Supports.ProductRequest.AdminSupportProductRequestActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.Supports.AdminSupportCustomerActivity"
+            android:name=".admin.AdminTab.Tabs.Home.Supports.SupportTicket.AdminSupportCustomerActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.Supports.AdminSupportSelectionActivity"
+            android:name=".admin.AdminTab.Tabs.Home.Supports.AdminSupportSelectionActivity"/>
             android:exported="false" />
         <activity
             android:name=".vender.VenderTab.Home.Profile.VenderFollowersActivity"
@@ -70,73 +80,73 @@
         <!-- android:name=".AdminAddProductToTrendingActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.VoucherManagement.AdminVoucherManagementActivity"
+            android:name=".admin.AdminTab.Tabs.Home.VoucherManagement.AdminVoucherManagementActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.VoucherManagement.AddBlockVoucherActivity"
+            android:name=".admin.AdminTab.Tabs.Home.VoucherManagement.AddBlockVoucherActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.OrdersManagement.AdminOrderDetailActivity"
+            android:name=".admin.AdminTab.Tabs.Home.OrdersManagement.AdminOrderDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Chat.AdminChatActivity"
+            android:name=".admin.AdminTab.Tabs.Chat.AdminChatActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductOptionActivity"
+            android:name=".admin.AdminTab.Tabs.Home.ProductsManagement.AdminProductOptionActivity"
             android:exported="false" />
         <activity
             android:name=".vender.VenderTab.Home.VenderNotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductDetailReviewsActivity"
+            android:name=".admin.AdminTab.Tabs.Home.ProductsManagement.AdminProductDetailReviewsActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.ProductStatisticActivity"
+            android:name=".admin.AdminTab.Tabs.Home.ProductsManagement.ProductStatisticActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductDetailActivity"
+            android:name=".admin.AdminTab.Tabs.Home.ProductsManagement.AdminProductDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderProfileInfoActivity"
+            android:name=".admin.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderProfileInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderFollowerListActivity"
+            android:name=".admin.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderFollowerListActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderProductListActivity"
+            android:name=".admin.AdminTab.Tabs.Home.UsersManagement.VenderProfileInfo.AdminVenderProductListActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoFollowersActivity"
+            android:name=".admin.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoFollowersActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoAddressesActivity"
+            android:name=".admin.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoAddressesActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoActivity"
+            android:name=".admin.AdminTab.Tabs.Home.UsersManagement.CustomerProfileInfo.AdminCustomerProfileInfoActivity"
             android:exported="false" />
         <activity
             android:name=".vender.VenderTab.Home.Product.VenderProductDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminVenderInfoAndStatisticActivity"
+            android:name=".admin.AdminTab.Tabs.Home.UsersManagement.AdminVenderInfoAndStatisticActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminCustomerInfoAndStatisticActivity"
+            android:name=".admin.AdminTab.Tabs.Home.UsersManagement.AdminCustomerInfoAndStatisticActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.UsersManagement.AdminUsersManagementActivity"
+            android:name=".admin.AdminTab.Tabs.Home.UsersManagement.AdminUsersManagementActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductsManagementActivity"
+            android:name=".admin.AdminTab.Tabs.Home.ProductsManagement.AdminProductsManagementActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.OrdersManagement.AdminOrdersManagementActivity"
+            android:name=".admin.AdminTab.Tabs.Home.OrdersManagement.AdminOrdersManagementActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Home.StoreStatistic.AdminStoreStatisticActivity"
+            android:name=".admin.AdminTab.Tabs.Home.StoreStatistic.AdminStoreStatisticActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.Quan.AdminTab.Tabs.Profile.AdminAccountInfoActivity"
+            android:name=".admin.AdminTab.Tabs.Profile.AdminAccountInfoActivity"
             android:exported="false" />
         <activity
             android:name=".vender.VenderTab.Home.Product.AddProductActivity"
@@ -167,7 +177,7 @@
         <activity
             android:name=".customer.lam.Authentication.SplashActivity"
             android:exported="true"
-            android:theme="@style/Theme.PokeCenter.NoActionBar">
+            android:theme="@style/Theme.PokeCenter.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -258,6 +268,16 @@
         <activity
             android:name=".customer.lam.CustomerTab.Notification.OrdersProgressNotificationsActivity"
             android:exported="false" />
+        <service
+            android:name=".vender.Service.PokeCenterFirebaseMessagingService"
+            android:exported="false"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

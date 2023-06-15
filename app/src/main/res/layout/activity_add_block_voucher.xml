@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_primary"
+    android:background="@color/quan_light_green"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".admin.Quan.AdminTab.Tabs.Home.VoucherManagement.AddBlockVoucherActivity">
+    tools:context=".admin.AdminTab.Tabs.Home.VoucherManagement.AddBlockVoucherActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clAdminProfileInformation"
@@ -66,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/quan_rounded_layout_background"
+                android:backgroundTint="@color/quan_dim_green"
                 android:padding="8dp"
                 android:fontFamily="@font/exo_2"
                 android:textColor="@color/white"
@@ -102,6 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/quan_rounded_layout_background"
+                android:backgroundTint="@color/quan_dim_green"
                 android:padding="8dp"
                 android:fontFamily="@font/exo_2"
                 android:textColor="@color/white"
@@ -143,6 +145,8 @@
                 android:text="01/01/2023"
                 android:textSize="18sp"
                 android:fontFamily="@font/exo_2"
+                app:iconTint="@color/quan_light_green"
+                android:textColor="@color/quan_light_green"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvBlockVoucherStartDateLabel" />
 
@@ -180,6 +184,8 @@
                 android:text="01/01/2023"
                 android:textSize="18sp"
                 android:fontFamily="@font/exo_2"
+                app:iconTint="@color/quan_light_green"
+                android:textColor="@color/quan_light_green"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvBlockVoucherEndDateLabel" />
 
@@ -212,6 +218,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/quan_rounded_layout_background"
+                android:backgroundTint="@color/quan_dim_green"
                 android:padding="8dp"
                 android:fontFamily="@font/exo_2"
                 android:textColor="@color/white"
@@ -236,6 +243,7 @@
             android:layout_marginStart="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:fontFamily="@font/exo_2"
             android:textSize="24sp"
             android:backgroundTint="@color/purple_500"
             android:text="Save"/>
@@ -247,6 +255,7 @@
             android:backgroundTint="@color/quan_bright_red"
             android:text="Cancel"
             android:textSize="24sp"
+            android:fontFamily="@font/exo_2"
             android:layout_marginEnd="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

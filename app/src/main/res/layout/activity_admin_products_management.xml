@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_secondary"
+    android:background="@color/quan_light_green"
     android:elevation="5dp"
-    tools:context=".admin.Quan.AdminTab.Tabs.Home.ProductsManagement.AdminProductsManagementActivity">
+    tools:context=".admin.AdminTab.Tabs.Home.ProductsManagement.AdminProductsManagementActivity">
     <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="176dp"
-        android:background="@color/light_primary"
+        android:background="@color/quan_light_green"
         android:visibility="visible"/>
     <LinearLayout
         android:id="@+id/llProductsManagementSearch"
@@ -38,6 +38,7 @@
             android:background="@color/white"
             android:ellipsize="end"
             android:hint="Search in here"
+            android:fontFamily="@font/exo_2"
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:maxLines="1"
