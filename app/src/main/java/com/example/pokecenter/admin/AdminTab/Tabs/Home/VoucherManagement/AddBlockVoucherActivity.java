@@ -201,8 +201,12 @@ public class AddBlockVoucherActivity extends AppCompatActivity {
                                         firebaseSupportVoucher.addNewBlockVoucher(blockVoucher, new FirebaseCallback<Boolean>() {
                                             @Override
                                             public void onCallback(Boolean done) {
-                                                Toast.makeText(AddBlockVoucherActivity.this, "Add new block voucher successfully.", Toast.LENGTH_SHORT).show();
-
+                                                if (done) {
+                                                    Toast.makeText(AddBlockVoucherActivity.this, "Add new block voucher successfully.", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Toast.makeText(AddBlockVoucherActivity.this, "Add new block voucher failed.", Toast.LENGTH_SHORT).show();
+                                                }
+                                                finish();
                                             }
                                         });
                                         adminAuthDialog.dismiss();

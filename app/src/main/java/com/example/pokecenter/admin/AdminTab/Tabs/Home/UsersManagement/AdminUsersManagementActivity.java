@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseCallback;
 import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseSupportUser;
+import com.example.pokecenter.admin.AdminTab.Model.AdminProduct.AdminProduct;
 import com.example.pokecenter.admin.AdminTab.Model.User.Customer.Customer;
 import com.example.pokecenter.admin.AdminTab.Model.User.User;
 import com.example.pokecenter.admin.AdminTab.Model.User.UserAdapter;
@@ -40,6 +41,7 @@ import java.util.stream.Collectors;
 public class AdminUsersManagementActivity extends AppCompatActivity {
 
     private ArrayList<User> usersList;
+    private ArrayList<User> filteredList;
     private ArrayList<String> userRoles;
     private ArrayList<String> userSorts;
     private InputMethodManager inputMethodManager;
@@ -130,17 +132,32 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
                 binding.spUserSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        binding.getRoot().clearFocus();
+                        binding.spUserRole.clearFocus();
+
+                        ArrayList<User> sortedList;
+                        //If user has search in EditText at least 1 time,
+                        //Use the filteredList for spinner
+                        //Since the original List was modified
+                        if (filteredList != null) {
+                            sortedList = new ArrayList<>(filteredList);
+                        } else {
+                            sortedList = new ArrayList<>(usersList);
+                        }
+
                         switch(position) {
                             case 0: {   //Ascending
-                                Collections.sort(usersList, Comparator.comparing(User::getUsername, collator));
+                                Collections.sort(sortedList, Comparator.comparing(User::getUsername, collator));
                                 break;
                             }
                             case 1: {   //Descending
-                                Collections.sort(usersList, Comparator.comparing(User::getUsername, collator).reversed());
+                                Collections.sort(sortedList, Comparator.comparing(User::getUsername, collator).reversed());
 
                                 break;
                             }
                         }
+
+                        userAdapter.setUsersList(sortedList);
                         userAdapter.notifyDataSetChanged();
                     }
 
@@ -159,10 +176,13 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         String searchQuery = s.toString().toLowerCase();
+
+                        // Initialize filteredList
+                        filteredList = new ArrayList<>();
+
                         //Get position of role spinner
                         int role = binding.spUserRole.getSelectedItemPosition();
 
-                        ArrayList<User> filteredList = new ArrayList<>();
                         for (User user : usersList) {
                             String userName = user.getUsername().toLowerCase();
 
@@ -234,6 +254,15 @@ public class AdminUsersManagementActivity extends AppCompatActivity {
                     }
                 });
 
+                binding.getRoot().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                        binding.etUsersManagementSearch.clearFocus();
+                        binding.spUserRole.clearFocus();
+                        binding.spUserSort.clearFocus();
+                    }
+                });
 
                 binding.progressBar.setVisibility(View.INVISIBLE);
             }

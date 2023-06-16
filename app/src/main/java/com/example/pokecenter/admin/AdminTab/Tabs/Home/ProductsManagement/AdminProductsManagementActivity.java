@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -36,6 +37,7 @@ import java.util.Locale;
 public class AdminProductsManagementActivity extends AppCompatActivity {
 
     private ArrayList<AdminProduct> adminProductList;
+    private ArrayList<AdminProduct> filteredList;
     private ArrayList<String> productSortByAlphabet;
     private ArrayList<String> productSortByPrice;
     private InputMethodManager inputMethodManager;
@@ -86,16 +88,30 @@ public class AdminProductsManagementActivity extends AppCompatActivity {
                 binding.spProductSortByAlphabet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        switch(position) {
-                            case 0: {   //A-Z
-                                Collections.sort(adminProductList, Comparator.comparing(AdminProduct::getName, collator));
+                        binding.getRoot().clearFocus();
+
+                        ArrayList<AdminProduct> sortedList;
+                        //If user has search in EditText at least 1 time,
+                        //Use the filteredList for spinner
+                        //Since the original List was modified
+                        if (filteredList != null) {
+                            sortedList = new ArrayList<>(filteredList);
+                        } else {
+                            sortedList = new ArrayList<>(adminProductList);
+                        }
+
+                        switch (position) {
+                            case 0: { // A-Z
+                                Collections.sort(sortedList, Comparator.comparing(AdminProduct::getName, collator));
                                 break;
                             }
-                            case 1: {   //Z-A
-                                Collections.sort(adminProductList, Comparator.comparing(AdminProduct::getName, collator).reversed());
+                            case 1: { // Z-A
+                                Collections.sort(sortedList, Comparator.comparing(AdminProduct::getName, collator).reversed());
                                 break;
                             }
                         }
+
+                        adminProductAdapter.setProductList(sortedList);
                         adminProductAdapter.notifyDataSetChanged();
                     }
 
@@ -108,16 +124,32 @@ public class AdminProductsManagementActivity extends AppCompatActivity {
                 binding.spProductSortByPrice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        switch(position) {
-                            case 0: {   //Ascending by price
-                                adminProductList.sort(Comparator.comparing(AdminProduct::getLowestPriceFromOptions));
+                        binding.getRoot().clearFocus();
+
+                        ArrayList<AdminProduct> sortedList;
+                        //If user has search in EditText at least 1 time,
+                        //Use the filteredList for spinner
+                        //Since the original List was modified
+                        if (binding.etProductsManagementSearch.getText().toString().isEmpty()) {
+                            // No search query, sort the original adminProductList
+                            sortedList = new ArrayList<>(adminProductList);
+                        } else {
+                            // Use the filtered list for sorting
+                            sortedList = new ArrayList<>(filteredList);
+                        }
+
+                        switch (position) {
+                            case 0: { // Ascending by price
+                                sortedList.sort(Comparator.comparing(AdminProduct::getLowestPriceFromOptions));
                                 break;
                             }
-                            case 1: {   //Descending by price
-                                adminProductList.sort(Comparator.comparing(AdminProduct::getLowestPriceFromOptions).reversed());
+                            case 1: { // Descending by price
+                                sortedList.sort(Comparator.comparing(AdminProduct::getLowestPriceFromOptions).reversed());
                                 break;
                             }
                         }
+
+                        adminProductAdapter.setProductList(sortedList);
                         adminProductAdapter.notifyDataSetChanged();
                     }
 
@@ -127,18 +159,22 @@ public class AdminProductsManagementActivity extends AppCompatActivity {
                     }
                 });
 
+
                 binding.etProductsManagementSearch.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                         // Not used in this case
                     }
 
+                    @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         String searchQuery = s.toString().toLowerCase();
-                        //Get position of role spinner
 
-                        ArrayList<AdminProduct> filteredList = new ArrayList<>();
+                         // Initialize filteredList
+                        filteredList = new ArrayList<>();
+
+                        //Get position of role spinner
                         for (AdminProduct adminProduct : adminProductList) {
                             String productName = adminProduct.getVenderId().toLowerCase();
                             if (productName.contains(searchQuery)) {
@@ -152,8 +188,19 @@ public class AdminProductsManagementActivity extends AppCompatActivity {
 
                     @Override
                     public void afterTextChanged(Editable s) {
+
                     }
 
+                });
+
+                binding.getRoot().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                        binding.etProductsManagementSearch.clearFocus();
+                        binding.spProductSortByPrice.clearFocus();
+                        binding.spProductSortByAlphabet.clearFocus();
+                    }
                 });
 
                 adminProductAdapter.setOnItemClickListener(new OnItemClickListener<AdminProduct>() {

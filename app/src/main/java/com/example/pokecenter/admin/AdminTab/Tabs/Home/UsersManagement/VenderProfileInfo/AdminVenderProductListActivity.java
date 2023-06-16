@@ -67,7 +67,7 @@ public class AdminVenderProductListActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdminProduct object, int position) {
                         Intent intent = new Intent(AdminVenderProductListActivity.this, ProductStatisticActivity.class);
-                        intent.putExtra("Product", object);
+                        intent.putExtra("AdminProduct", object);
                         startActivity(intent);
                     }
                 });
