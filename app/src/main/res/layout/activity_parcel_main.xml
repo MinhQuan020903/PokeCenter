@@ -132,6 +132,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:visibility="gone"
             android:id="@+id/Return"
             android:layout_width="0dp"
             android:layout_height="0dp"

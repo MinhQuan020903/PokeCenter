@@ -40,6 +40,32 @@
                 android:textSize="16sp"
                 android:layout_marginBottom="4dp"
                 android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Ninh Customer"
+                android:textSize="16sp"
+                android:layout_marginBottom="4dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/phoneNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="02312312"
+                android:textSize="16sp"
+                android:layout_marginBottom="4dp"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Le Hong Phong B"
+                android:textSize="16sp"
+                android:layout_marginBottom="4dp"
+                android:textColor="@color/black"/>
+
 
         </LinearLayout>
 
