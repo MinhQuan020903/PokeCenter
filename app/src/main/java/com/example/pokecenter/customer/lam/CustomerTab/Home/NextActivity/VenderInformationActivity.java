@@ -213,8 +213,9 @@ public class VenderInformationActivity extends AppCompatActivity implements Poke
     }
 
     private void setUpdataVenderInfo() {
-
-        Picasso.get().load(receiveVender.getBackground()).into(binding.backgroundImage);
+        if(receiveVender.getBackground()!=null) {
+            Picasso.get().load(receiveVender.getBackground()).into(binding.backgroundImage);
+        }
         Picasso.get().load(receiveVender.getAvatar()).into(binding.venderAvatar);
         binding.shopName.setText(receiveVender.getShopName());
         binding.registrationDate.setText("Registration: " + receiveVender.getRegistrationDate());

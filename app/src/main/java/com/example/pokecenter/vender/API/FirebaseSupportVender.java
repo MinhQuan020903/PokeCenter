@@ -999,4 +999,66 @@ public List<Order> fetchingOrdersWithStatus(String status) throws IOException {
             }
         });
     }
+
+    public com.example.pokecenter.customer.lam.Model.vender.Vender fetchingCurrentAccount() throws IOException {
+
+        com.example.pokecenter.customer.lam.Model.vender.Vender fetchedAccount = new com.example.pokecenter.customer.lam.Model.vender.Vender();
+
+        OkHttpClient client = new OkHttpClient();
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Request request = new Request.Builder()
+                .url(urlDb + "accounts/" + emailWithCurrentUser.replace(".", ",") + ".json")
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+
+            String responseBody = response.body().string();
+
+            Type type = new TypeToken<Map<String, Object>>(){}.getType();
+            Map<String, Object> fetchedData = new Gson().fromJson(responseBody, type);
+
+            fetchedAccount.setAvatar((String) fetchedData.get("avatar"));
+            fetchedAccount.setUsername((String) fetchedData.get("username"));
+            fetchedAccount.setGender((String) fetchedData.get("gender"));
+            fetchedAccount.setPhoneNumber((String) fetchedData.get("phoneNumber"));
+            fetchedAccount.setRegistrationDate((String) fetchedData.get("registrationDate"));
+            if(fetchedData.get("background")!=null && !fetchedData.get("background").equals(""))
+            {
+                fetchedAccount.setBackground((String) fetchedData.get("background"));
+            }
+
+        }
+
+        return fetchedAccount;
+    }
+    public void updateVenderInfo(com.example.pokecenter.customer.lam.Model.vender.Vender account) throws IOException {
+
+        OkHttpClient client = new OkHttpClient();
+
+        Map<String, Object> updateData = new HashMap<>();
+        updateData.put("avatar", account.getAvatar());
+        updateData.put("username", account.getUsername());
+        updateData.put("gender", account.getGender());
+        updateData.put("phoneNumber", account.getPhoneNumber());
+        if(account.getBackground()!=null && !account.getBackground().equals(""))
+        {
+            updateData.put("background", account.getBackground());
+        }
+
+        String jsonData = new Gson().toJson(updateData);
+
+        RequestBody body = RequestBody.create(jsonData, JSON);
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Request request = new Request.Builder()
+                .url(urlDb + "accounts/" + emailWithCurrentUser.replace(".", ",") + ".json")
+                .patch(body)
+                .build();
+
+        client.newCall(request).execute();
+
+    }
 }
