@@ -300,6 +300,52 @@ public class FirebaseSupportVender {
 // Attach the listener to the products reference
         productsRef.addListenerForSingleValueEvent(productListener);
     }
+    public void updateProduct(Product updatedProduct) throws IOException {
+
+        // create OkHttpClient instance
+        OkHttpClient client = new OkHttpClient();
+        String venderId = FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", ",");
+
+        /* create pushData */
+        Map<String, Object> pushData = new HashMap<>();
+        pushData.put("name", updatedProduct.getName());
+        pushData.put("desc", updatedProduct.getDesc());
+        pushData.put("venderId", venderId);
+        pushData.put("images", updatedProduct.getImages());
+        /* convert pushData to Json string */
+        String productJsonData = new Gson().toJson(pushData);
+
+        // create request body
+        RequestBody body = RequestBody.create(productJsonData, JSON);
+
+        // create PUT request
+        String url = urlDb + "/products/" + updatedProduct.getId() + ".json";
+        Request request = new Request.Builder()
+                .url(url)
+                .put(body)
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+            // Update successful
+        } else {
+            // Update failed
+        }
+
+        // Update options
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference optionsRef = database.getReference("products/" + updatedProduct.getId() + "/options/");
+        for (int i = 0; i < updatedProduct.getOptions().size(); i++) {
+            Option option = updatedProduct.getOptions().get(i);
+            pushData = new HashMap<>();
+            pushData.put("currentQuantity", option.getCurrentQuantity());
+            pushData.put("inputQuantity", option.getInputQuantity());
+            pushData.put("optionImage", option.getOptionImage());
+            pushData.put("price", option.getPrice());
+            optionsRef.child(option.getOptionName()).setValue(pushData);
+        }
+    }
     public List<String> fetchingAllCategoryTag() throws IOException {
         List<String> fetchedCategoryTag = new ArrayList<>();
         OkHttpClient client = new OkHttpClient();
