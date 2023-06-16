@@ -468,6 +468,7 @@ public class FirebaseSupportVender {
         Response response1 = client.newCall(request1).execute();
 
         if (response1.isSuccessful()) {
+            assert response1.body() != null;
             String responseString = response1.body().string();
 
             Type type = new TypeToken<Map<String, Object>>(){}.getType();
@@ -598,6 +599,8 @@ public class FirebaseSupportVender {
 
         Map<String, Object> user = new HashMap<>();
         user.put("token", token);
+
+//        usersRef.child(email.replace(".", ",")).setValue(user);
 
         usersRef.updateChildren(user);
 
