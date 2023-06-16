@@ -24,6 +24,7 @@ import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.CustomerProfileFragment;
 import com.example.pokecenter.customer.lam.Model.account.Account;
+import com.example.pokecenter.customer.lam.Provider.ProductData;
 import com.example.pokecenter.customer.lam.Provider.WishListData;
 import com.example.pokecenter.databinding.ActivitySignInBinding;
 import com.example.pokecenter.vender.VenderActivity;
@@ -51,7 +52,7 @@ public class SignInActivity extends AppCompatActivity {
             // change color of icons in status bar
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
-
+        ProductData.fetchDataFromSever();
         /* SigUp Button */
         binding.signUpTextView.setOnClickListener(view -> {
             startActivity(new Intent(this, SignUpActivity.class));
