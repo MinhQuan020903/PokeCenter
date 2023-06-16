@@ -7,6 +7,7 @@ import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.order.DetailOrder;
 import com.example.pokecenter.customer.lam.Model.order.Order;
 import com.example.pokecenter.customer.lam.Model.product.Product;
+import com.example.pokecenter.vender.Model.Notification.NotificationData;
 import com.example.pokecenter.vender.Model.Vender.Vender;
 import com.example.pokecenter.vender.Model.VenderOrder.VenderDetailOrder;
 import com.example.pokecenter.vender.Model.VenderOrder.VenderOrder;
@@ -23,6 +24,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,6 +32,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -676,8 +679,6 @@ public class FirebaseSupportVender {
         Map<String, Object> user = new HashMap<>();
         user.put("token", token);
 
-//        usersRef.child(email.replace(".", ",")).setValue(user);
-
         usersRef.updateChildren(user);
 
 //        String token = "";
@@ -695,4 +696,59 @@ public class FirebaseSupportVender {
     }
 
 //    public void updateCustomerNotification()
+    public CompletableFuture<ArrayList<NotificationData>> fetchingAllNotifications() {
+        CompletableFuture<ArrayList<NotificationData>> future = new CompletableFuture<>();
+
+        DatabaseReference notificationsRef = FirebaseDatabase.getInstance().getReference("venders");
+
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        String notificationsPath = emailWithCurrentUser.replace(".", ",") + "/notifications";
+
+        notificationsRef.child(notificationsPath).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DataSnapshot dataSnapshot = task.getResult();
+
+                ArrayList<NotificationData> fetchedNotifications = new ArrayList<>();
+
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    String notificationId = childSnapshot.getKey();
+                    Map<String, Object> value = (Map<String, Object>) childSnapshot.getValue();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+                    try {
+                        fetchedNotifications.add(new NotificationData(
+                                notificationId,
+                                (String) value.get("title"),
+                                (String) value.get("content"),
+                                (String) value.get("type"),
+                                (Boolean) value.get("read"),
+                                dateFormat.parse((String) value.get("sentDate"))
+                        ));
+                    } catch (ParseException e) {
+                        future.completeExceptionally(new IOException(e.getMessage()));
+                        return;
+                    }
+                }
+
+                Collections.reverse(fetchedNotifications);
+
+                future.complete(fetchedNotifications);
+            } else {
+                future.completeExceptionally(new IOException("Failed to fetch notifications: " + task.getException().getMessage()));
+            }
+        });
+
+        return future;
+    }
+
+    public Task<Void> changeStatusNotification(String notificationId) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        DatabaseReference notificationRef = database.getReference("venders/" + emailWithCurrentUser.replace(".", ",") + "/notifications/" + notificationId);
+
+        Map<String, Object> updateData = new HashMap<>();
+        updateData.put("read", true);
+
+        return notificationRef.updateChildren(updateData);
+    }
 }

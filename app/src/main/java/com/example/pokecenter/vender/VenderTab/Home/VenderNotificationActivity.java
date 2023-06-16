@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.IOException;
+import java.sql.Date;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -78,7 +79,7 @@ public class VenderNotificationActivity extends AppCompatActivity {
         binding.btnNotifyInLockscreen.setOnClickListener(view -> {
             if (!token.isEmpty()) {
                 PushNotification notification = new PushNotification(
-                        new NotificationData("Tín đẹp trai", "Tín đẹp trai đã gởi thông báo cho bạn", "orders", false, "12-06-2022"),
+                        new NotificationData("001","Tín đẹp trai", "Tín đẹp trai đã gởi thông báo cho bạn", "orders", false, Date.valueOf("08/09/2023")),
                         token );
 
                 sendNotification(notification);
@@ -99,7 +100,7 @@ public class VenderNotificationActivity extends AppCompatActivity {
         binding.btnNotifyInLockscreen.setOnClickListener(view -> {
             if (!token.isEmpty()) {
                 PushNotification notification = new PushNotification(
-                        new NotificationData("Tín đẹp trai", "Tín đẹp trai đã gởi thông báo cho bạn", "orders", false, "12-06-2022"),
+                        new NotificationData("001","Tín đẹp trai", "Tín đẹp trai đã gởi thông báo cho bạn", "orders", false, Date.valueOf("12-06-2022")),
                         token );
 
                 sendNotification(notification);
@@ -137,7 +138,8 @@ public class VenderNotificationActivity extends AppCompatActivity {
         binding.btnNotifyInLockscreen.setOnClickListener(view -> {
             if (!token.isEmpty()) {
                 PushNotification notification = new PushNotification(
-                        new NotificationData("Tín đẹp trai", "Tín đẹp trai đã gởi thông báo cho bạn", "orders", false, "12-06-2022"),
+                        new NotificationData("001", "Tín đẹp trai", "Tín đẹp trai đã gởi thông báo cho bạn",
+                                "orders", false, Date.valueOf("09/09/2023")),
                         token );
 
                 sendNotification(notification);
