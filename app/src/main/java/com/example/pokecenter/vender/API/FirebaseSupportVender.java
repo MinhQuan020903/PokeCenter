@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.Objects;
 
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -548,6 +549,7 @@ public class FirebaseSupportVender {
         Response response1 = client.newCall(request1).execute();
 
         if (response1.isSuccessful()) {
+            assert response1.body() != null;
             String responseString = response1.body().string();
 
             Type type = new TypeToken<Map<String, Object>>(){}.getType();
@@ -678,6 +680,8 @@ public class FirebaseSupportVender {
 
         Map<String, Object> user = new HashMap<>();
         user.put("token", token);
+
+//        usersRef.child(email.replace(".", ",")).setValue(user);
 
         usersRef.updateChildren(user);
 
