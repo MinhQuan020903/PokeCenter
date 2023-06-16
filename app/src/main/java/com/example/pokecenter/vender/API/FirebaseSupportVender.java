@@ -38,7 +38,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.Objects;
 
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -105,53 +104,6 @@ public class FirebaseSupportVender {
             usersRef.child(newProduct.getOptions().get(i).getOptionName()).setValue(pushData);
         }
     }
-    public void updateProduct(Product updatedProduct) throws IOException {
-
-        // create OkHttpClient instance
-        OkHttpClient client = new OkHttpClient();
-        String venderId = FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", ",");
-
-        /* create pushData */
-        Map<String, Object> pushData = new HashMap<>();
-        pushData.put("name", updatedProduct.getName());
-        pushData.put("desc", updatedProduct.getDesc());
-        pushData.put("venderId", venderId);
-        pushData.put("images", updatedProduct.getImages());
-        /* convert pushData to Json string */
-        String productJsonData = new Gson().toJson(pushData);
-
-        // create request body
-        RequestBody body = RequestBody.create(productJsonData, JSON);
-
-        // create PUT request
-        String url = urlDb + "/products/" + updatedProduct.getId() + ".json";
-        Request request = new Request.Builder()
-                .url(url)
-                .put(body)
-                .build();
-
-        Response response = client.newCall(request).execute();
-
-        if (response.isSuccessful()) {
-            // Update successful
-        } else {
-            // Update failed
-        }
-
-        // Update options
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference optionsRef = database.getReference("products/" + updatedProduct.getId() + "/options/");
-        for (int i = 0; i < updatedProduct.getOptions().size(); i++) {
-            Option option = updatedProduct.getOptions().get(i);
-            pushData = new HashMap<>();
-            pushData.put("currentQuantity", option.getCurrentQuantity());
-            pushData.put("inputQuantity", option.getInputQuantity());
-            pushData.put("optionImage", option.getOptionImage());
-            pushData.put("price", option.getPrice());
-            optionsRef.child(option.getOptionName()).setValue(pushData);
-        }
-    }
-
 
     public List<VenderOrder> fetchingVenderOrdersData() throws IOException {
         List<VenderOrder> fetchedVenderOrders = new ArrayList<>();
@@ -716,25 +668,9 @@ public class FirebaseSupportVender {
         Map<String, Object> user = new HashMap<>();
         user.put("token", token);
 
-//        usersRef.child(email.replace(".", ",")).setValue(user);
-
         usersRef.updateChildren(user);
-
-//        String token = "";
-//
-//        OkHttpClient client = new OkHttpClient();
-//
-//        Request request = new Request.Builder()
-//                .url(urlDb + "accounts/" + email.replace(".", ",") + "/.json")
-//                .build();
-//        Response response = client.newCall(request).execute();
-//
-//        if (response.isSuccessful()) {
-//            token = response.body().string();
-//        }
     }
 
-    //    public void updateCustomerNotification()
     public CompletableFuture<ArrayList<NotificationData>> fetchingAllNotifications() {
         CompletableFuture<ArrayList<NotificationData>> future = new CompletableFuture<>();
 
@@ -790,107 +726,6 @@ public class FirebaseSupportVender {
 
         return notificationRef.updateChildren(updateData);
     }
-
-//    public void pushNotificationForPackaged(String orderId) {
-//        FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference reference = database.getReference("orders");
-//        final String[] customerId = new String[1];
-//        final String[] token = new String[1];
-//        final String[] notificationId = new String[1];
-//        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                    if (orderId.equals(snapshot.getKey())) {
-//                        customerId[0] = snapshot.child("customerId").getValue(String.class);
-//                        Log.e("TAG", "Receiver id " + customerId[0]);
-//                        break;
-//                    }
-//                }
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                Log.e("TAG", databaseError.getMessage());
-//            }
-//        });
-//
-//        Log.e("TAG", "Customer id: " + customerId[0]);
-//
-////        Write on Firebase
-//        DatabaseReference reference1 = database.getReference("orders").child(customerId[0]);
-//        reference1.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.exists()) {
-//                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                        token[0] = snapshot.child("token").getValue(String.class);
-//                        Log.e("TAG", "Token: " + token[0]);
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.e("TAG", error.getMessage());
-//            }
-//        });
-//
-//        Log.e("TAG", "Token: " + token[0]);
-//
-//        DatabaseReference reference2 = reference1.child("notifications").push();
-//
-//        String title = "Order Packaged";
-//        String content = "Your order with tracking number " +
-//                orderId +
-//                " has been packaged and is ready for delivery." +
-//                " We will notify you once it's out for delivery";
-//
-//        HashMap<String, Object> notificationNode = new HashMap<>();
-//        notificationNode.put("content", content);
-//        notificationNode.put("read", false);
-//        notificationNode.put("sentDate", DateUtils.getCurrentDateString());
-//        notificationNode.put("title", title);
-//        notificationNode.put("type", "orders");
-//
-//        reference2.updateChildren(notificationNode);
-//
-//        //Push notification to receiver device
-//        reference2.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.exists()) {
-//                    notificationId[0] = dataSnapshot.getKey();
-//                    Log.e("TAG", "Notification id: " + notificationId[0]);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.e("TAG", error.getMessage());
-//            }
-//        });
-//
-//        Log.e("TAG", notificationId[0]);
-//
-//        PushNotification notification = new PushNotification(
-//                new NotificationData(notificationId[0], title, content, "orders",
-//                        false, DateUtils.getCurrentDate()), token[0]);
-//
-//        RetrofitInstance.getApi().postNotification(notification).enqueue(new Callback<ResponseBody>() {
-//            @Override
-//            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull retrofit2.Response<ResponseBody> response) {
-//                if (response.isSuccessful()) {
-//                    Log.e("TAG", "Post success");
-//                } else {
-//                    Log.e("TAG", "Post failed");
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                Log.e("TAG", t.toString());
-//            }
-//        });
-//    }
 
     public void pushNotificationForPackaged(String orderId) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
