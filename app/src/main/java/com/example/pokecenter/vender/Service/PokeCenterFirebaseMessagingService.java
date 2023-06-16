@@ -7,6 +7,10 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -47,11 +51,24 @@ public class PokeCenterFirebaseMessagingService extends FirebaseMessagingService
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        SpannableString spannableTitle = new SpannableString(strTitle);
+        spannableTitle.setSpan(new StyleSpan(Typeface.BOLD), 0, spannableTitle.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+//        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.custom_notification_layout);
+//        remoteViews.setTextViewText(R.id.notification_title, spannableTitle);
+//        remoteViews.setTextViewText(R.id.notification_content, strContent);
+//        remoteViews.setImageViewResource(R.id.notification_image, R.drawable.lam_spheal);
+//        remoteViews.setViewVisibility(R.id.notification_image, View.VISIBLE);
+
         @SuppressLint("ResourceAsColor") NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle(strTitle)
+                .setContentTitle(spannableTitle)
                 .setContentText(strContent)
                 .setSmallIcon(R.drawable.tin_pokeball_small_icon)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(strContent))
                 .setContentIntent(pendingIntent);
+
 
         Notification notification = notificationBuilder.build();
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

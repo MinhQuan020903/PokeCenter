@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.admin.AdminTab.Utils.DateUtils;
 import com.example.pokecenter.databinding.ActivityVenderNotificationBinding;
 import com.example.pokecenter.vender.Model.Notification.NotificationData;
 import com.example.pokecenter.vender.Model.Notification.PushNotification;
@@ -117,8 +118,8 @@ public class VenderNotificationActivity extends AppCompatActivity {
         binding.btnNotifyInLockscreen.setOnClickListener(view -> {
             if (!token.isEmpty()) {
                 PushNotification notification = new PushNotification(
-                        new NotificationData("001", "Tín đẹp trai", "Tín đẹp trai đã gởi thông báo cho bạn",
-                                "orders", false, Date.valueOf("09/09/2023")),
+                        new NotificationData("001", "Tín đẹp trai", "Tín đẹp trai đang vẫy tay với bạn, hãy vẫy tay lại",
+                                "orders", false, DateUtils.getCurrentDate()),
                         token );
 
                 sendNotification(notification);
