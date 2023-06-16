@@ -104,7 +104,6 @@ public class VenderProductActivity extends AppCompatActivity implements PokemonR
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         rcvProduct.setLayoutManager(gridLayoutManager);
-
         venderProduct = ProductData.getListProducts().stream().filter(product -> product.getVenderId().equals(venderId)).collect(Collectors.toList());
         venderProduct.removeIf(product -> product.getOptions().stream()
                 .allMatch(option -> option.getCurrentQuantity() == -1));

@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -91,6 +92,12 @@ public class EditProductActivity extends AppCompatActivity implements OptionRecy
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityEditProductBinding.inflate(getLayoutInflater());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().setStatusBarColor(getColor(R.color.light_primary));
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+        getSupportActionBar().setTitle("Edit Product");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         receiveProduct = (Product) getIntent().getSerializableExtra("product");
         setContentView(binding.getRoot());
 
@@ -170,9 +177,11 @@ public class EditProductActivity extends AppCompatActivity implements OptionRecy
                         }
                     }
                     productAdapter.notifyDataSetChanged();
+                    Intent intent = new Intent(this, VenderProductDetailActivity.class);
+                    intent.putExtra("product object", updatedProduct);
+                    startActivity(intent);
+                    finish();
                     Toast.makeText(this, "Update Product Success", Toast.LENGTH_SHORT).show();
-                    setResult(RESULT_OK);
-                    startActivity(new Intent(this, VenderProductActivity.class));
                 } else {
                     Toast.makeText(this, "Something wrong because connection error", Toast.LENGTH_SHORT).show();
                 }
@@ -516,5 +525,10 @@ public class EditProductActivity extends AppCompatActivity implements OptionRecy
             });
         });
 
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

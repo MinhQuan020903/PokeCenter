@@ -175,49 +175,10 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
         adapter.add("NULL");
         adapter.add("Don'tKnow");
         binding.optionPokemon.setAdapter(adapter);
-        binding.optionPokemon.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
+        binding.optionPokemon.setThreshold(1);
         ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, optionCategories);
         binding.optionCategories.setAdapter(categoriesAdapter);
-
-        binding.optionCategories.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String input = s.toString().toLowerCase();
-                List<String> suggestions = new ArrayList<>();
-
-                // Iterate through optionCategories to find matching suggestions
-                for (String category : optionCategories) {
-                    if (category.toLowerCase().startsWith(input)) {
-                        suggestions.add(category);
-                    }
-                }
-
-                // Update the adapter with the new suggestions
-                ArrayAdapter<String> updatedAdapter = new ArrayAdapter<>(AddProductActivity.this, android.R.layout.simple_spinner_item, suggestions);
-                binding.optionCategories.setAdapter(updatedAdapter);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
+        binding.optionCategories.setThreshold(1);
         setContentView(binding.getRoot());
 
     }
@@ -444,52 +405,9 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
         optionPokemon.setAdapter(adapter);
         optionPokemon.setThreshold(1);
 
-//        optionPokemon.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//            }
-//        });
         ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, optionCategories);
         optionCategory.setAdapter(categoriesAdapter);
         optionCategory.setThreshold(1);
-
-//        optionCategory.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                String input = s.toString().toLowerCase();
-//                List<String> suggestions = new ArrayList<>();
-//
-//                // Iterate through optionCategories to find matching suggestions
-//                for (String category : optionCategories) {
-//                    if (category.toLowerCase().startsWith(input)) {
-//                        suggestions.add(category);
-//                    }
-//                }
-//                // Update the adapter with the new suggestions
-//                //ArrayAdapter<String> updatedAdapter = new ArrayAdapter<>(AddProductActivity.this, android.R.layout.simple_spinner_item, suggestions);
-//                //optionCategory.setAdapter(updatedAdapter);
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//            }
-//        });
-
-
         finishButton.setOnClickListener(view -> {
             finishButton.setVisibility(View.INVISIBLE);
 
