@@ -93,6 +93,53 @@ public class FirebaseSupportVender {
             usersRef.child(newProduct.getOptions().get(i).getOptionName()).setValue(pushData);
         }
     }
+    public void updateProduct(Product updatedProduct) throws IOException {
+
+        // create OkHttpClient instance
+        OkHttpClient client = new OkHttpClient();
+        String venderId = FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", ",");
+
+        /* create pushData */
+        Map<String, Object> pushData = new HashMap<>();
+        pushData.put("name", updatedProduct.getName());
+        pushData.put("desc", updatedProduct.getDesc());
+        pushData.put("venderId", venderId);
+        pushData.put("images", updatedProduct.getImages());
+        /* convert pushData to Json string */
+        String productJsonData = new Gson().toJson(pushData);
+
+        // create request body
+        RequestBody body = RequestBody.create(productJsonData, JSON);
+
+        // create PUT request
+        String url = urlDb + "/products/" + updatedProduct.getId() + ".json";
+        Request request = new Request.Builder()
+                .url(url)
+                .put(body)
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        if (response.isSuccessful()) {
+            // Update successful
+        } else {
+            // Update failed
+        }
+
+        // Update options
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference optionsRef = database.getReference("products/" + updatedProduct.getId() + "/options/");
+        for (int i = 0; i < updatedProduct.getOptions().size(); i++) {
+            Option option = updatedProduct.getOptions().get(i);
+            pushData = new HashMap<>();
+            pushData.put("currentQuantity", option.getCurrentQuantity());
+            pushData.put("inputQuantity", option.getInputQuantity());
+            pushData.put("optionImage", option.getOptionImage());
+            pushData.put("price", option.getPrice());
+            optionsRef.child(option.getOptionName()).setValue(pushData);
+        }
+    }
+
 
     public List<VenderOrder> fetchingVenderOrdersData() throws IOException {
         List<VenderOrder> fetchedVenderOrders = new ArrayList<>();
@@ -249,7 +296,40 @@ public class FirebaseSupportVender {
 
         client.newCall(request).execute();
     }
+    public void DeleteProduct(String productId) throws IOException {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference productsRef = database.getReference("products");
 
+// Listen for changes to the specified product
+        ValueEventListener productListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // Get the product snapshot
+                    DataSnapshot productSnapshot = dataSnapshot.child(productId);
+
+                    // Check if the product exists
+                    if (productSnapshot.exists()) {
+                        // Get the options snapshot
+                        DataSnapshot optionsSnapshot = productSnapshot.child("options");
+
+                        // Iterate over all options and update currentQuantity to -1
+                        for (DataSnapshot optionSnapshot : optionsSnapshot.getChildren()) {
+                            optionSnapshot.getRef().child("currentQuantity").setValue(-1);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle database error
+            }
+        };
+
+// Attach the listener to the products reference
+        productsRef.addListenerForSingleValueEvent(productListener);
+    }
     public List<String> fetchingAllCategoryTag() throws IOException {
         List<String> fetchedCategoryTag = new ArrayList<>();
         OkHttpClient client = new OkHttpClient();

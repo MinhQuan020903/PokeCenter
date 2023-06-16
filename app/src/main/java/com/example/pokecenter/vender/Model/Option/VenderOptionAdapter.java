@@ -58,6 +58,7 @@ public class VenderOptionAdapter extends RecyclerView.Adapter<VenderOptionAdapte
         holder.optionName.setText(option.getOptionName());
         holder.optionQuantity.setText(Integer.toString(option.getCurrentQuantity()));
         holder.optionPrice.setText(Integer.toString(option.getPrice()));
+        if(!option.getOptionName().equals("null"))
         Picasso.get().load(option.getOptionImage()).into(holder.optionImage);
     }
 
