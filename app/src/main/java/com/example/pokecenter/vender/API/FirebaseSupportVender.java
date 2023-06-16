@@ -17,6 +17,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -27,9 +28,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -560,95 +564,238 @@ public class FirebaseSupportVender {
     }
 
     SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm");
-    public List<Order> fetchingOrdersWithStatus(String status) throws IOException {
+//    public List<Order> fetchingOrdersWithStatus(String status) throws IOException {
+//
+//        List<Order> fetchedOrders = new ArrayList<>();
+//
+//        OkHttpClient client = new OkHttpClient();
+//
+//        // Construct the URL for the Firebase Realtime Database endpoint
+//        HttpUrl.Builder urlBuilder = HttpUrl.parse("https://pokecenter-ae954-default-rtdb.firebaseio.com/orders.json").newBuilder();
+//
+//        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+//        urlBuilder.addQueryParameter("orderBy", "\"venderId\"")
+//                .addQueryParameter("equalTo", "\"" + emailWithCurrentUser.replace(".", ",") + "\"");
+//
+////        urlBuilder.addQueryParameter("orderBy", "\"status\"")
+////                .addQueryParameter("equalTo", "\"" + status + "\"");
+//
+//        String url = urlBuilder.build().toString();
+//
+//        // Create an HTTP GET request
+//        Request request = new Request.Builder()
+//                .url(url)
+//                .build();
+//
+//        Response response = client.newCall(request).execute();
+//
+//        if (response.isSuccessful()) {
+//            String responseString = response.body().string();
+//
+//            if (responseString.equals("null")) {
+//                return new ArrayList<>();
+//            }
+//
+//            Type type = new TypeToken<Map<String, Map<String, Object>>>(){}.getType();
+//            Map<String, Map<String, Object>> fetchedData = new Gson().fromJson(responseString, type);
+//
+//            fetchedData.forEach((key, value) -> {
+//
+//                List<Map<String, Object>> detailOrderData = (List<Map<String, Object>>) value.get("details");
+//
+//                List<DetailOrder> details = new ArrayList<>();
+//                detailOrderData.forEach(detailOrder -> {
+//                    details.add(new DetailOrder(
+//                            (String) detailOrder.get("productId"),
+//                            ((Double) detailOrder.get("selectedOption")).intValue(),
+//                            ((Double) detailOrder.get("quantity")).intValue()
+//                    ));
+//                });
+//
+//                Order order = null;
+//                try {
+//                    order = new Order(
+//                            key,
+//                            ((Double) value.get("totalAmount")).intValue(),
+//                            outputFormat.parse((String) value.get("createDate")),
+//                            details,
+//                            (String) value.get("status")
+//                    );
+//
+//                } catch (java.text.ParseException e) {
+//                    throw new RuntimeException(e);
+//                }
+//
+//
+//                String stringDeliveryDate = (String) value.get("deliveryDate");
+//
+//                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//                if (stringDeliveryDate.isEmpty()) {
+//
+//                } else {
+//
+//                    try {
+//                        order.setDeliveryDate(dateFormat.parse(stringDeliveryDate));
+//                    } catch (java.text.ParseException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//
+//                }
+//
+//                order.setExpand(true);
+//                fetchedOrders.add(order);
+//
+//            });
+//        }
+//
+//        fetchedOrders.removeIf(order -> !order.getStatus().contains(status));
+//        fetchedOrders.sort(Comparator.comparing(Order::getCreateDateTime));
+//        return fetchedOrders;
+//
+//    }
+public List<Order> fetchingOrdersWithStatus(String status) throws IOException {
+    List<Order> fetchedOrders = new ArrayList<>();
 
-        List<Order> fetchedOrders = new ArrayList<>();
+    OkHttpClient client = new OkHttpClient();
 
-        OkHttpClient client = new OkHttpClient();
+    // Construct the URL for the Firebase Realtime Database endpoint
+    HttpUrl.Builder urlBuilder = HttpUrl.parse("https://pokecenter-ae954-default-rtdb.firebaseio.com/orders.json").newBuilder();
 
-        // Construct the URL for the Firebase Realtime Database endpoint
-        HttpUrl.Builder urlBuilder = HttpUrl.parse("https://pokecenter-ae954-default-rtdb.firebaseio.com/orders.json").newBuilder();
+    String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+    urlBuilder.addQueryParameter("orderBy", "\"venderId\"")
+            .addQueryParameter("equalTo", "\"" + emailWithCurrentUser.replace(".", ",") + "\"");
 
-        String emailWithCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        urlBuilder.addQueryParameter("orderBy", "\"venderId\"")
-                .addQueryParameter("equalTo", "\"" + emailWithCurrentUser.replace(".", ",") + "\"");
+    String url = urlBuilder.build().toString();
 
-//        urlBuilder.addQueryParameter("orderBy", "\"status\"")
-//                .addQueryParameter("equalTo", "\"" + status + "\"");
+    // Create an HTTP GET request
+    Request request = new Request.Builder()
+            .url(url)
+            .build();
 
-        String url = urlBuilder.build().toString();
+    Response response = client.newCall(request).execute();
 
-        // Create an HTTP GET request
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
+    if (response.isSuccessful()) {
+        String responseString = response.body().string();
 
-        Response response = client.newCall(request).execute();
-
-        if (response.isSuccessful()) {
-            String responseString = response.body().string();
-
-            if (responseString.equals("null")) {
-                return new ArrayList<>();
-            }
-
-            Type type = new TypeToken<Map<String, Map<String, Object>>>(){}.getType();
-            Map<String, Map<String, Object>> fetchedData = new Gson().fromJson(responseString, type);
-
-            fetchedData.forEach((key, value) -> {
-
-                List<Map<String, Object>> detailOrderData = (List<Map<String, Object>>) value.get("details");
-
-                List<DetailOrder> details = new ArrayList<>();
-                detailOrderData.forEach(detailOrder -> {
-                    details.add(new DetailOrder(
-                            (String) detailOrder.get("productId"),
-                            ((Double) detailOrder.get("selectedOption")).intValue(),
-                            ((Double) detailOrder.get("quantity")).intValue()
-                    ));
-                });
-
-                Order order = null;
-                try {
-                    order = new Order(
-                            key,
-                            ((Double) value.get("totalAmount")).intValue(),
-                            outputFormat.parse((String) value.get("createDate")),
-                            details,
-                            (String) value.get("status")
-                    );
-
-                } catch (java.text.ParseException e) {
-                    throw new RuntimeException(e);
-                }
-
-
-                String stringDeliveryDate = (String) value.get("deliveryDate");
-
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                if (stringDeliveryDate.isEmpty()) {
-
-                } else {
-
-                    try {
-                        order.setDeliveryDate(dateFormat.parse(stringDeliveryDate));
-                    } catch (java.text.ParseException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                }
-
-                order.setExpand(true);
-                fetchedOrders.add(order);
-
-            });
+        if (responseString.equals("null")) {
+            return new ArrayList<>();
         }
 
-        fetchedOrders.removeIf(order -> !order.getStatus().contains(status));
-        fetchedOrders.sort(Comparator.comparing(Order::getCreateDateTime));
-        return fetchedOrders;
+        Type type = new TypeToken<Map<String, Map<String, Object>>>() {}.getType();
+        Map<String, Map<String, Object>> fetchedData = new Gson().fromJson(responseString, type);
 
+        AtomicInteger counter = new AtomicInteger(fetchedData.size());
+
+        CompletableFuture<Void> fetchOrdersFuture = new CompletableFuture<>();
+
+        fetchedData.forEach((key, value) -> {
+            String customerId = (String) value.get("customerId");
+
+            // Retrieve the customer details
+            DatabaseReference accountsRef = FirebaseDatabase.getInstance().getReference("accounts");
+            Query customerQuery = accountsRef.orderByKey().equalTo(customerId);
+            customerQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot accountSnapshot : dataSnapshot.getChildren()) {
+                        // Fetch and process the order details
+                        String customerName = accountSnapshot.child("username").getValue(String.class);
+                        String customerPhoneNumber = accountSnapshot.child("phoneNumber").getValue(String.class);
+
+                        // Retrieve the delivery address with isDeliveryAddress=true
+                        DataSnapshot addressesSnapshot = accountSnapshot.child("addresses");
+                        String deliveryAddress = "";
+                        boolean foundDeliveryAddress = false;
+                        for (DataSnapshot addressSnapshot : addressesSnapshot.getChildren()) {
+                            boolean isDeliveryAddress = addressSnapshot.child("isDeliveryAddress").getValue(Boolean.class);
+                            if (isDeliveryAddress) {
+                                String numberStreetAddress = addressSnapshot.child("numberStreetAddress").getValue(String.class);
+                                String address2 = addressSnapshot.child("address2").getValue(String.class);
+                                // Combine the address components
+                                deliveryAddress = numberStreetAddress + ", " + address2;
+                                foundDeliveryAddress = true;
+                                break; // Assuming there's only one delivery address
+                            }
+                        }
+
+                        // If no delivery address found, use the address field
+                        if (!foundDeliveryAddress) {
+                            String address = accountSnapshot.child("address").getValue(String.class);
+                            deliveryAddress = address;
+                        }
+
+                        List<Map<String, Object>> detailOrderData = (List<Map<String, Object>>) value.get("details");
+
+                        List<DetailOrder> details = new ArrayList<>();
+                        detailOrderData.forEach(detailOrder -> {
+                            details.add(new DetailOrder(
+                                    (String) detailOrder.get("productId"),
+                                    ((Double) detailOrder.get("selectedOption")).intValue(),
+                                    ((Double) detailOrder.get("quantity")).intValue()
+                            ));
+                        });
+
+                        Order order = null;
+                        try {
+                            order = new Order(
+                                    key,
+                                    ((Double) value.get("totalAmount")).intValue(),
+                                    outputFormat.parse((String) value.get("createDate")),
+                                    details,
+                                    (String) value.get("status")
+                            );
+                        } catch (java.text.ParseException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                        String stringDeliveryDate = (String) value.get("deliveryDate");
+
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        if (stringDeliveryDate.isEmpty()) {
+                            // Set default delivery date if not provided
+                            order.setDeliveryDate(new Date());
+                        } else {
+                            try {
+                                order.setDeliveryDate(dateFormat.parse(stringDeliveryDate));
+                            } catch (java.text.ParseException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+
+                        order.setExpand(true);
+                        order.setCustomerName(customerName);
+                        order.setCustomerPhoneNumber(customerPhoneNumber);
+                        order.setDeliveryAddress(deliveryAddress);
+                        // ...
+
+                        fetchedOrders.add(order);
+
+                        if (counter.decrementAndGet() == 0) {
+                            fetchedOrders.removeIf(o -> !o.getStatus().contains(status));
+                            fetchedOrders.sort(Comparator.comparing(Order::getCreateDateTime));
+                            fetchOrdersFuture.complete(null); // Notify the future that orders are fetched
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Handle the error
+                    fetchOrdersFuture.completeExceptionally(databaseError.toException());
+                }
+            });
+        });
+
+        try {
+            fetchOrdersFuture.get(); // Wait for the orders to be fetched
+        } catch (Exception e) {
+            throw new IOException("Failed to fetch orders", e);
+        }
     }
+
+    return fetchedOrders;
+}
+
 
     public void ChangeOrderStatus(String orderId, String status) throws IOException {
         OkHttpClient client = new OkHttpClient();

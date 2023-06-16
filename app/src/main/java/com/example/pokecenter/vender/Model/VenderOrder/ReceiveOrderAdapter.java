@@ -62,6 +62,9 @@ public class ReceiveOrderAdapter extends RecyclerView.Adapter<ReceiveOrderAdapte
         holder.totalAmount.setText(currencyFormatter.format(order.getTotalAmount()));
 
         holder.createDateTime.setText("Created: " + order.getCreateDateTimeString());
+        holder.name.setText("Customer Name: " + order.getCustomerName());
+        holder.phoneNumber.setText("Phone Number: " + order.getCustomerPhoneNumber());
+        holder.address.setText("Address: " + order.getDeliveryAddress());
 
         holder.listOrders.removeAllViews();
         order.getOrdersDetail().forEach(detailOrder -> {
@@ -114,6 +117,10 @@ public class ReceiveOrderAdapter extends RecyclerView.Adapter<ReceiveOrderAdapte
 
         private TextView totalAmount;
         private TextView createDateTime;
+        private TextView name;
+        private TextView phoneNumber;
+        private TextView address;
+
 
         private LinearLayout expandableLayout;
         private LinearLayout listOrders;
@@ -128,6 +135,9 @@ public class ReceiveOrderAdapter extends RecyclerView.Adapter<ReceiveOrderAdapte
 
             totalAmount = itemView.findViewById(R.id.total_amount);
             createDateTime = itemView.findViewById(R.id.createDateTime);
+            name = itemView.findViewById(R.id.name);
+            phoneNumber = itemView.findViewById(R.id.phoneNumber);
+            address = itemView.findViewById(R.id.address);
 
             expandableLayout = itemView.findViewById(R.id.expandable_part);
             listOrders = itemView.findViewById(R.id.list_orders);
