@@ -1,13 +1,18 @@
 package com.example.pokecenter.vender.API;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
+import com.example.pokecenter.admin.AdminTab.Utils.DateUtils;
 import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.order.DetailOrder;
 import com.example.pokecenter.customer.lam.Model.order.Order;
 import com.example.pokecenter.customer.lam.Model.product.Product;
 import com.example.pokecenter.vender.Model.Notification.NotificationData;
+import com.example.pokecenter.vender.Model.Notification.PushNotification;
+import com.example.pokecenter.vender.Model.Notification.RetrofitInstance;
 import com.example.pokecenter.vender.Model.Vender.Vender;
 import com.example.pokecenter.vender.Model.VenderOrder.VenderDetailOrder;
 import com.example.pokecenter.vender.Model.VenderOrder.VenderOrder;
@@ -41,6 +46,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 
 public class FirebaseSupportVender {
@@ -218,7 +226,8 @@ public class FirebaseSupportVender {
                 return new ArrayList<>();
             }
 
-            Type ordersType = new TypeToken<Map<String, Map<String, Object>>>(){}.getType();
+            Type ordersType = new TypeToken<Map<String, Map<String, Object>>>() {
+            }.getType();
             Map<String, Map<String, Object>> fetchedOrdersData = new Gson().fromJson(ordersResponseString, ordersType);
 
             // Fetching product data separately
@@ -235,7 +244,8 @@ public class FirebaseSupportVender {
                 String productsResponseString = productsResponse.body().string();
 
                 if (!productsResponseString.equals("null")) {
-                    Type productsType = new TypeToken<Map<String, Map<String, Object>>>(){}.getType();
+                    Type productsType = new TypeToken<Map<String, Map<String, Object>>>() {
+                    }.getType();
                     Map<String, Map<String, Object>> fetchedProductsData = new Gson().fromJson(productsResponseString, productsType);
 
                     fetchedOrdersData.forEach((key, value) -> {
@@ -262,7 +272,7 @@ public class FirebaseSupportVender {
                                         Map<String, Object> optionData = entry.getValue();
                                         int price = ((Double) optionData.get("price")).intValue();
 
-                                        Option option = new Option( price);
+                                        Option option = new Option(price);
                                         options.add(option);
                                     }
                                 }
@@ -283,6 +293,7 @@ public class FirebaseSupportVender {
 
         return fetchedOrders;
     }
+
     public void updateTotalProduct(int totalProduct) throws IOException {
         OkHttpClient client = new OkHttpClient();
 
@@ -351,7 +362,8 @@ public class FirebaseSupportVender {
                 return new ArrayList<>();
             }
 
-            Type type = new TypeToken<Map<String, Object>>(){}.getType();
+            Type type = new TypeToken<Map<String, Object>>() {
+            }.getType();
             Map<String, Object> fetchedData = new Gson().fromJson(responseString, type);
 
             fetchedCategoryTag.addAll(fetchedData.keySet());
@@ -361,11 +373,12 @@ public class FirebaseSupportVender {
 
         return fetchedCategoryTag;
     }
+
     public void updatePokemonAfterAddProduct(String productId, List<String> myPokemon) throws IOException {
         DatabaseReference Ref = FirebaseDatabase.getInstance().getReference("pokemons");
 
 // Push the productId and Pokemon list to the "pokemons" structure in Firebase
-        for ( String s: myPokemon) {
+        for (String s : myPokemon) {
             Ref.child(s).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -434,11 +447,12 @@ public class FirebaseSupportVender {
         }
 
     }
+
     public void updateCategoryAfterAddProduct(String productId, List<String> myCategory) throws IOException {
         DatabaseReference Ref = FirebaseDatabase.getInstance().getReference("category");
 
 // Push the productId and Pokemon list to the "pokemons" structure in Firebase
-        for ( String s: myCategory) {
+        for (String s : myCategory) {
             Ref.child(s).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -507,7 +521,8 @@ public class FirebaseSupportVender {
         }
 
     }
-    public Account fetchingCurrentAccount( String id) throws IOException {
+
+    public Account fetchingCurrentAccount(String id) throws IOException {
 
         Account fetchedAccount = new Account();
 
@@ -522,7 +537,8 @@ public class FirebaseSupportVender {
 
             String responseBody = response.body().string();
 
-            Type type = new TypeToken<Map<String, Object>>(){}.getType();
+            Type type = new TypeToken<Map<String, Object>>() {
+            }.getType();
             Map<String, Object> fetchedData = new Gson().fromJson(responseBody, type);
 
             fetchedAccount.setAvatar((String) fetchedData.get("avatar"));
@@ -536,6 +552,7 @@ public class FirebaseSupportVender {
 
         return fetchedAccount;
     }
+
     public Vender fetchingVenderById(String venderId) throws IOException {
         Vender fetchedVender = new Vender();
 
@@ -552,7 +569,8 @@ public class FirebaseSupportVender {
             assert response1.body() != null;
             String responseString = response1.body().string();
 
-            Type type = new TypeToken<Map<String, Object>>(){}.getType();
+            Type type = new TypeToken<Map<String, Object>>() {
+            }.getType();
             Map<String, Object> fetchedVenderData = new Gson().fromJson(responseString, type);
             fetchedVender.setShopName((String) fetchedVenderData.get("shopName"));
             fetchedVender.setFollowCount(((Double) fetchedVenderData.get("followCount")).intValue());
@@ -565,6 +583,7 @@ public class FirebaseSupportVender {
     }
 
     SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm");
+
     public List<Order> fetchingOrdersWithStatus(String status) throws IOException {
 
         List<Order> fetchedOrders = new ArrayList<>();
@@ -597,7 +616,8 @@ public class FirebaseSupportVender {
                 return new ArrayList<>();
             }
 
-            Type type = new TypeToken<Map<String, Map<String, Object>>>(){}.getType();
+            Type type = new TypeToken<Map<String, Map<String, Object>>>() {
+            }.getType();
             Map<String, Map<String, Object>> fetchedData = new Gson().fromJson(responseString, type);
 
             fetchedData.forEach((key, value) -> {
@@ -681,7 +701,7 @@ public class FirebaseSupportVender {
 
         switch (role) {
             case 0:
-                usersRef = database.getReference("customer/" + email.replace(".", ","));
+                usersRef = database.getReference("customers/" + email.replace(".", ","));
                 break;
             case 1:
                 usersRef = database.getReference("venders/" + email.replace(".", ","));
@@ -714,7 +734,7 @@ public class FirebaseSupportVender {
 //        }
     }
 
-//    public void updateCustomerNotification()
+    //    public void updateCustomerNotification()
     public CompletableFuture<ArrayList<NotificationData>> fetchingAllNotifications() {
         CompletableFuture<ArrayList<NotificationData>> future = new CompletableFuture<>();
 
@@ -769,5 +789,190 @@ public class FirebaseSupportVender {
         updateData.put("read", true);
 
         return notificationRef.updateChildren(updateData);
+    }
+
+//    public void pushNotificationForPackaged(String orderId) {
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference reference = database.getReference("orders");
+//        final String[] customerId = new String[1];
+//        final String[] token = new String[1];
+//        final String[] notificationId = new String[1];
+//        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    if (orderId.equals(snapshot.getKey())) {
+//                        customerId[0] = snapshot.child("customerId").getValue(String.class);
+//                        Log.e("TAG", "Receiver id " + customerId[0]);
+//                        break;
+//                    }
+//                }
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                Log.e("TAG", databaseError.getMessage());
+//            }
+//        });
+//
+//        Log.e("TAG", "Customer id: " + customerId[0]);
+//
+////        Write on Firebase
+//        DatabaseReference reference1 = database.getReference("orders").child(customerId[0]);
+//        reference1.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.exists()) {
+//                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                        token[0] = snapshot.child("token").getValue(String.class);
+//                        Log.e("TAG", "Token: " + token[0]);
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Log.e("TAG", error.getMessage());
+//            }
+//        });
+//
+//        Log.e("TAG", "Token: " + token[0]);
+//
+//        DatabaseReference reference2 = reference1.child("notifications").push();
+//
+//        String title = "Order Packaged";
+//        String content = "Your order with tracking number " +
+//                orderId +
+//                " has been packaged and is ready for delivery." +
+//                " We will notify you once it's out for delivery";
+//
+//        HashMap<String, Object> notificationNode = new HashMap<>();
+//        notificationNode.put("content", content);
+//        notificationNode.put("read", false);
+//        notificationNode.put("sentDate", DateUtils.getCurrentDateString());
+//        notificationNode.put("title", title);
+//        notificationNode.put("type", "orders");
+//
+//        reference2.updateChildren(notificationNode);
+//
+//        //Push notification to receiver device
+//        reference2.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.exists()) {
+//                    notificationId[0] = dataSnapshot.getKey();
+//                    Log.e("TAG", "Notification id: " + notificationId[0]);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Log.e("TAG", error.getMessage());
+//            }
+//        });
+//
+//        Log.e("TAG", notificationId[0]);
+//
+//        PushNotification notification = new PushNotification(
+//                new NotificationData(notificationId[0], title, content, "orders",
+//                        false, DateUtils.getCurrentDate()), token[0]);
+//
+//        RetrofitInstance.getApi().postNotification(notification).enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull retrofit2.Response<ResponseBody> response) {
+//                if (response.isSuccessful()) {
+//                    Log.e("TAG", "Post success");
+//                } else {
+//                    Log.e("TAG", "Post failed");
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                Log.e("TAG", t.toString());
+//            }
+//        });
+//    }
+
+    public void pushNotificationForPackaged(String orderId) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("orders");
+        final String[] customerId = new String[1];
+        final String[] token = new String[1];
+        final String[] notificationId = new String[1];
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (orderId.equals(snapshot.getKey())) {
+                        customerId[0] = snapshot.child("customerId").getValue(String.class);
+                        Log.e("TAG", "Receiver id: " + customerId[0]);
+                        break;
+                    }
+                }
+
+                DatabaseReference reference1 = database.getReference("customers");
+                reference1.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                            if (snapshot.getKey().equals(customerId[0])) {
+                                token[0] = snapshot.child("token").getValue(String.class);
+                                Log.e("TAG", "Token: " + token[0]);
+
+                                DatabaseReference reference2 = reference1.child(customerId[0]).child("notifications").push();
+                                notificationId[0] = reference2.getKey();
+                                Log.e("TAG", "Notification id: " + notificationId[0]);
+
+                                String title = "Order Packaged";
+                                String content = "Your order with tracking number " +
+                                        orderId +
+                                        " has been packaged and is ready for delivery." +
+                                        " We will notify you once it's out for delivery";
+
+                                HashMap<String, Object> notificationNode = new HashMap<>();
+                                notificationNode.put("content", content);
+                                notificationNode.put("read", false);
+                                notificationNode.put("sentDate", DateUtils.getCurrentDateString());
+                                notificationNode.put("title", title);
+                                notificationNode.put("type", "orders");
+
+                                reference2.updateChildren(notificationNode);
+
+                                PushNotification notification = new PushNotification(
+                                        new NotificationData(notificationId[0], title, content, "orders",
+                                                false, DateUtils.getCurrentDate()), token[0]);
+
+                                RetrofitInstance.getApi().postNotification(notification).enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(@NonNull Call<ResponseBody> call, @NonNull retrofit2.Response<ResponseBody> response) {
+                                        if (response.isSuccessful()) {
+                                            Log.e("TAG", "Post success");
+                                        } else {
+                                            Log.e("TAG", "Post failed");
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                        Log.e("TAG", t.toString());
+                                    }
+                                });
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e("TAG", error.getMessage());
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("TAG", databaseError.getMessage());
+            }
+        });
     }
 }

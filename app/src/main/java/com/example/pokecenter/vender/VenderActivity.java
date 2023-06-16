@@ -1,10 +1,5 @@
 package com.example.pokecenter.vender;
 
-import static com.example.pokecenter.vender.Service.PokeCenterFirebaseMessagingService.CHANNEL_ID;
-
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -86,15 +81,5 @@ public class VenderActivity extends AppCompatActivity implements VenderHomeFragm
                 .beginTransaction()
                 .replace(R.id.fragmentVender, fragment)
                 .commit();
-    }
-
-    private void createChannelNotification() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Push Notification",
-                    NotificationManager.IMPORTANCE_DEFAULT);
-
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
     }
 }
