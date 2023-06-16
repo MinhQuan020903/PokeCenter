@@ -27,6 +27,11 @@ public class AdminBlockVoucherAdapter extends RecyclerView.Adapter<AdminBlockVou
         this.context = context;
     }
 
+    public void setBlockVouchers(ArrayList<AdminBlockVoucher> blockVouchers) {
+        this.blockVouchers = blockVouchers;
+    }
+
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvBlockVoucherId;
