@@ -11,13 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.databinding.ActivityVenderNotificationBinding;
-import com.example.pokecenter.vender.API.FirebaseSupportVender;
 import com.example.pokecenter.vender.Model.Notification.NotificationData;
 import com.example.pokecenter.vender.Model.Notification.PushNotification;
 import com.example.pokecenter.vender.Model.Notification.RetrofitInstance;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.IOException;
@@ -67,13 +65,7 @@ public class VenderNotificationActivity extends AppCompatActivity {
 
         // Notify in app
         binding.btnNotifyInApp.setOnClickListener(view -> {
-            try {
-                 new FirebaseSupportVender()
-                         .updateRegistrationToken(FirebaseAuth.getInstance().getCurrentUser().getEmail(),
-                                token);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+
         });
 
         binding.btnNotifyInLockscreen.setOnClickListener(view -> {
@@ -88,13 +80,7 @@ public class VenderNotificationActivity extends AppCompatActivity {
 
         // Notify in app
         binding.btnNotifyInApp.setOnClickListener(view -> {
-            try {
-                 new FirebaseSupportVender()
-                         .updateRegistrationToken(FirebaseAuth.getInstance().getCurrentUser().getEmail(),
-                                token);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+
         });
 
         binding.btnNotifyInLockscreen.setOnClickListener(view -> {
@@ -126,13 +112,6 @@ public class VenderNotificationActivity extends AppCompatActivity {
 
         // Notify in app
         binding.btnNotifyInApp.setOnClickListener(view -> {
-            try {
-                 new FirebaseSupportVender()
-                         .updateRegistrationToken(FirebaseAuth.getInstance().getCurrentUser().getEmail(),
-                                token);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
         });
 
         binding.btnNotifyInLockscreen.setOnClickListener(view -> {

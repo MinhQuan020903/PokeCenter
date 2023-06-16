@@ -19,7 +19,6 @@ import com.example.pokecenter.vender.VenderTab.Home.Profile.VenderProfileFragmen
 import com.example.pokecenter.vender.VenderTab.Home.VenderHomeFragment;
 import com.example.pokecenter.vender.VenderTab.VenderNotificationsFragment;
 import com.example.pokecenter.vender.VenderTab.VenderOrderFragment;
-import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class VenderActivity extends AppCompatActivity implements VenderHomeFragment.OnFragmentChangeListener{
@@ -41,7 +40,7 @@ public class VenderActivity extends AppCompatActivity implements VenderHomeFragm
 //        badgeDrawable.setNumber(4);
 
         //Create channel notification
-        createChannelNotification();
+//        createChannelNotification();
 
         // Move between fragments
         venderBottomNavigationView.setOnItemSelectedListener(item -> {
