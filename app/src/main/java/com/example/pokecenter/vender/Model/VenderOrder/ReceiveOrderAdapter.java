@@ -167,6 +167,8 @@ public class ReceiveOrderAdapter extends RecyclerView.Adapter<ReceiveOrderAdapte
 
                     try {
                         new FirebaseSupportVender().ChangeOrderStatus(order.getId(), newStatus);
+                        new FirebaseSupportVender().pushNotificationForPackaged(order.getId());
+
                     } catch (IOException e) {
                         isSuccess = false;
                     }

@@ -1,26 +1,32 @@
 package com.example.pokecenter.customer.lam.Authentication;
 
 
-import androidx.appcompat.app.AppCompatActivity;
+import static com.example.pokecenter.vender.Service.PokeCenterFirebaseMessagingService.CHANNEL_ID;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.pokecenter.R;
 import com.example.pokecenter.admin.AdminActivity;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
 import com.example.pokecenter.customer.lam.CustomerActivity;
-import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.CustomerProfileFragment;
 import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.customer.lam.Provider.ProductData;
 import com.example.pokecenter.customer.lam.Provider.WishListData;
 import com.example.pokecenter.databinding.ActivitySplashScreenBinding;
-import com.example.pokecenter.vender.VenderTab.Home.Profile.VenderProfileFragment;
 import com.example.pokecenter.vender.VenderActivity;
+import com.example.pokecenter.vender.VenderTab.Home.Profile.VenderProfileFragment;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.FoldingCube;
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,6 +52,9 @@ public class SplashActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("myPref", MODE_PRIVATE);
         int role = sharedPreferences.getInt("role", -1);
+
+        /* Create push notification channel for all users */
+        createChannelNotification();
 
         /* Fetch Products Data */
         ProductData.fetchDataFromSever();
@@ -142,5 +151,15 @@ public class SplashActivity extends AppCompatActivity {
                 break;
         }
         finishAffinity();
+    }
+    private void createChannelNotification() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Push Notification",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+            Log.e("TAG", "Create push notification channel success");
+        }
     }
 }

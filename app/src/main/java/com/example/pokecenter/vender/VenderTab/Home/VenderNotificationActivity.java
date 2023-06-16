@@ -10,17 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pokecenter.R;
+import com.example.pokecenter.admin.AdminTab.Utils.DateUtils;
 import com.example.pokecenter.databinding.ActivityVenderNotificationBinding;
-import com.example.pokecenter.vender.API.FirebaseSupportVender;
 import com.example.pokecenter.vender.Model.Notification.NotificationData;
 import com.example.pokecenter.vender.Model.Notification.PushNotification;
 import com.example.pokecenter.vender.Model.Notification.RetrofitInstance;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.IOException;
+import java.sql.Date;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -66,19 +66,13 @@ public class VenderNotificationActivity extends AppCompatActivity {
 
         // Notify in app
         binding.btnNotifyInApp.setOnClickListener(view -> {
-            try {
-                 new FirebaseSupportVender()
-                         .updateRegistrationToken(FirebaseAuth.getInstance().getCurrentUser().getEmail(),
-                                token);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+
         });
 
         binding.btnNotifyInLockscreen.setOnClickListener(view -> {
             if (!token.isEmpty()) {
                 PushNotification notification = new PushNotification(
-                        new NotificationData("Tín đẹp trai", "Tín đẹp trai đã gởi thông báo cho bạn", "orders", false, "12-06-2022"),
+                        new NotificationData("001","Tín đẹp trai", "Tín đẹp trai đã gởi thông báo cho bạn", "orders", false, Date.valueOf("08/09/2023")),
                         token );
 
                 sendNotification(notification);
@@ -87,19 +81,13 @@ public class VenderNotificationActivity extends AppCompatActivity {
 
         // Notify in app
         binding.btnNotifyInApp.setOnClickListener(view -> {
-            try {
-                 new FirebaseSupportVender()
-                         .updateRegistrationToken(FirebaseAuth.getInstance().getCurrentUser().getEmail(),
-                                token);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+
         });
 
         binding.btnNotifyInLockscreen.setOnClickListener(view -> {
             if (!token.isEmpty()) {
                 PushNotification notification = new PushNotification(
-                        new NotificationData("Tín đẹp trai", "Tín đẹp trai đã gởi thông báo cho bạn", "orders", false, "12-06-2022"),
+                        new NotificationData("001","Tín đẹp trai", "Tín đẹp trai đã gởi thông báo cho bạn", "orders", false, Date.valueOf("12-06-2022")),
                         token );
 
                 sendNotification(notification);
@@ -125,19 +113,13 @@ public class VenderNotificationActivity extends AppCompatActivity {
 
         // Notify in app
         binding.btnNotifyInApp.setOnClickListener(view -> {
-            try {
-                 new FirebaseSupportVender()
-                         .updateRegistrationToken(FirebaseAuth.getInstance().getCurrentUser().getEmail(),
-                                token);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
         });
 
         binding.btnNotifyInLockscreen.setOnClickListener(view -> {
             if (!token.isEmpty()) {
                 PushNotification notification = new PushNotification(
-                        new NotificationData("Tín đẹp trai", "Tín đẹp trai đã gởi thông báo cho bạn", "orders", false, "12-06-2022"),
+                        new NotificationData("001", "Tín đẹp trai", "Tín đẹp trai đang vẫy tay với bạn, hãy vẫy tay lại",
+                                "orders", false, DateUtils.getCurrentDate()),
                         token );
 
                 sendNotification(notification);
