@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -12,12 +13,14 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseCallback;
 import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseSupportOrder;
+import com.example.pokecenter.admin.AdminTab.Model.AdminProduct.AdminProduct;
 import com.example.pokecenter.admin.AdminTab.Model.Order.AdminOrderAdapter;
 import com.example.pokecenter.admin.AdminTab.Model.Order.Order;
 import com.example.pokecenter.admin.AdminTab.Utils.ItemSpacingDecoration;
@@ -37,10 +40,13 @@ public class AdminOrdersManagementActivity extends AppCompatActivity {
 
     private ActivityAdminOrdersManagementBinding binding;
     private ArrayList<Order> orderList;
+    private ArrayList<Order> filteredList;
     private ArrayList<String> orderSortByAlphabet;
     private ArrayList<String> orderSortByPrice;
     private AdminOrderAdapter adminOrderAdapter;
     private Collator collator;
+    private InputMethodManager inputMethodManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +64,8 @@ public class AdminOrdersManagementActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         binding = ActivityAdminOrdersManagementBinding.inflate(getLayoutInflater());
+        inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
         setContentView(binding.getRoot());
 
         //Create a comparator for Vietnamese
@@ -83,9 +91,20 @@ public class AdminOrdersManagementActivity extends AppCompatActivity {
                 binding.spOrderSortByAlphabet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        binding.getRoot().clearFocus();
+
+                        ArrayList<Order> sortedList;
+                        //If user has search in EditText at least 1 time,
+                        //Use the filteredList for spinner
+                        //Since the original List was modified
+                        if (filteredList != null) {
+                            sortedList = new ArrayList<>(filteredList);
+                        } else {
+                            sortedList = new ArrayList<>(orderList);
+                        }
                         switch(position) {
                             case 0: {   //Oldest -> Newest
-                                Collections.sort(orderList, new Comparator<Order>() {
+                                Collections.sort(sortedList, new Comparator<Order>() {
                                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm");
 
                                     @Override
@@ -104,7 +123,7 @@ public class AdminOrdersManagementActivity extends AppCompatActivity {
                                 break;
                             }
                             case 1: {   //Z-A
-                                Collections.sort(orderList, new Comparator<Order>() {
+                                Collections.sort(sortedList, new Comparator<Order>() {
                                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm");
 
                                     @Override
@@ -123,6 +142,7 @@ public class AdminOrdersManagementActivity extends AppCompatActivity {
                                 break;
                             }
                         }
+                        adminOrderAdapter.setOrderList(sortedList);
                         adminOrderAdapter.notifyDataSetChanged();
                     }
 
@@ -135,9 +155,20 @@ public class AdminOrdersManagementActivity extends AppCompatActivity {
                 binding.spOrderSortByPrice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        binding.getRoot().clearFocus();
+
+                        ArrayList<Order> sortedList;
+                        //If user has search in EditText at least 1 time,
+                        //Use the filteredList for spinner
+                        //Since the original List was modified
+                        if (filteredList != null) {
+                            sortedList = new ArrayList<>(filteredList);
+                        } else {
+                            sortedList = new ArrayList<>(orderList);
+                        }
                         switch(position) {
                             case 0: {   //Ascending by price
-                                Collections.sort(orderList, new Comparator<Order>() {
+                                Collections.sort(sortedList, new Comparator<Order>() {
                                     @Override
                                     public int compare(Order o1, Order o2) {
                                         Long totalAmount1 = o1.getTotalAmount();
@@ -148,7 +179,7 @@ public class AdminOrdersManagementActivity extends AppCompatActivity {
                                 break;
                             }
                             case 1: {   //Descending by price
-                                Collections.sort(orderList, new Comparator<Order>() {
+                                Collections.sort(sortedList, new Comparator<Order>() {
                                     @Override
                                     public int compare(Order o1, Order o2) {
                                         Long totalAmount1 = o1.getTotalAmount();
@@ -159,6 +190,8 @@ public class AdminOrdersManagementActivity extends AppCompatActivity {
                                 break;
                             }
                         }
+
+                        adminOrderAdapter.setOrderList(sortedList);
                         adminOrderAdapter.notifyDataSetChanged();
                     }
 
@@ -179,7 +212,8 @@ public class AdminOrdersManagementActivity extends AppCompatActivity {
                         String searchQuery = s.toString().toLowerCase();
                         //Get position of role spinner
 
-                        ArrayList<Order> filteredList = new ArrayList<>();
+                        filteredList = new ArrayList<>();
+
                         for (Order order : orderList) {
                             String customerId = order.getCustomerId().toLowerCase();
                             String venderId = order.getVenderId().toLowerCase();
@@ -195,6 +229,16 @@ public class AdminOrdersManagementActivity extends AppCompatActivity {
                     public void afterTextChanged(Editable s) {
                     }
 
+                });
+
+                binding.getRoot().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                        binding.etOrdersManagementSearch.clearFocus();
+                        binding.spOrderSortByPrice.clearFocus();
+                        binding.spOrderSortByAlphabet.clearFocus();
+                    }
                 });
 
                 adminOrderAdapter.setOnItemClickListener(new OnItemClickListener<Order>() {

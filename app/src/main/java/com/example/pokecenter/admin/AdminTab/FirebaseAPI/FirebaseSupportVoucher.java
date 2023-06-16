@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.example.pokecenter.admin.AdminTab.Model.AdminBlockVoucher.AdminBlockVoucher;
 import com.example.pokecenter.admin.AdminTab.Model.AdminBlockVoucher.AdminVoucher;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,7 +18,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
@@ -61,7 +64,6 @@ public class FirebaseSupportVoucher {
     }
 
     public void addNewVoucherFromBlock(AdminBlockVoucher blockVoucher, FirebaseCallback<Boolean> firebaseCallback) {
-
         Random random = new Random();
 
         ArrayList<AdminVoucher> voucherList = new ArrayList<>(blockVoucher.getCurrentQuantity());
@@ -79,31 +81,30 @@ public class FirebaseSupportVoucher {
             voucherList.add(voucher);
         }
 
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference voucherRef = database.getReference("vouchers");
 
-        try {
-            DatabaseReference voucherRef = database.getReference("vouchers");
+        Map<String, Object> updates = new HashMap<>();
 
-            CompletableFuture<Void> pushVouchersFuture = new CompletableFuture<>();
-
-            for (AdminVoucher voucher : voucherList) {
-                DatabaseReference ref = voucherRef.push();
-                ref.setValue(voucher)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                  @Override
-                                                  public void onSuccess(Void unused) {
-
-                                                  }
-                                              }
-                        );
-            }
-
-            pushVouchersFuture.join();
-            firebaseCallback.onCallback(true);
-        } catch (Exception e) {
-            e.printStackTrace();
+        for (AdminVoucher voucher : voucherList) {
+            DatabaseReference ref = voucherRef.push();
+            updates.put(ref.getKey(), voucher);
         }
+
+        voucherRef.updateChildren(updates)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        firebaseCallback.onCallback(true);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        firebaseCallback.onCallback(false);
+                        e.printStackTrace();
+                    }
+                });
     }
 
     public void getBlockVoucherList(FirebaseCallback<ArrayList<AdminBlockVoucher>> firebaseCallback) {

@@ -22,6 +22,7 @@ import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseCallback;
 import com.example.pokecenter.admin.AdminTab.FirebaseAPI.FirebaseSupportRequest;
 import com.example.pokecenter.admin.AdminTab.Model.AdminRequest.AdminRequest;
 import com.example.pokecenter.admin.AdminTab.Model.AdminRequest.AdminRequestAdapter;
+import com.example.pokecenter.admin.AdminTab.Model.Order.Order;
 import com.example.pokecenter.admin.AdminTab.Utils.ItemSpacingDecoration;
 import com.example.pokecenter.admin.AdminTab.Utils.OnItemClickListener;
 import com.example.pokecenter.databinding.ActivityAdminSupportProductRequestBinding;
@@ -37,6 +38,7 @@ public class AdminSupportProductRequestActivity extends AppCompatActivity {
 
     private ActivityAdminSupportProductRequestBinding binding;
     private ArrayList<AdminRequest> requestList;
+    private ArrayList<AdminRequest> filteredList;
     private ArrayList<String> orderSortByDate;
     private AdminRequestAdapter requestAdapter;
     private InputMethodManager inputMethodManager;
@@ -82,9 +84,20 @@ public class AdminSupportProductRequestActivity extends AppCompatActivity {
                 binding.spRequestSortByDate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        binding.getRoot().clearFocus();
+
+                        ArrayList<AdminRequest> sortedList;
+                        //If user has search in EditText at least 1 time,
+                        //Use the filteredList for spinner
+                        //Since the original List was modified
+                        if (filteredList != null) {
+                            sortedList = new ArrayList<>(filteredList);
+                        } else {
+                            sortedList = new ArrayList<>(requestList);
+                        }
                         switch(position) {
                             case 0: {   //Oldest -> Newest
-                                Collections.sort(requestList, new Comparator<AdminRequest>() {
+                                Collections.sort(sortedList, new Comparator<AdminRequest>() {
                                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm");
 
                                     @Override
@@ -103,7 +116,7 @@ public class AdminSupportProductRequestActivity extends AppCompatActivity {
                                 break;
                             }
                             case 1: {   //Z-A
-                                Collections.sort(requestList, new Comparator<AdminRequest>() {
+                                Collections.sort(sortedList, new Comparator<AdminRequest>() {
                                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm");
 
                                     @Override
@@ -122,6 +135,7 @@ public class AdminSupportProductRequestActivity extends AppCompatActivity {
                                 break;
                             }
                         }
+                        requestAdapter.setRequestList(sortedList);
                         requestAdapter.notifyDataSetChanged();
                     }
 
@@ -142,7 +156,7 @@ public class AdminSupportProductRequestActivity extends AppCompatActivity {
                         String searchQuery = s.toString().toLowerCase();
                         //Get position of role spinner
 
-                        ArrayList<AdminRequest> filteredList = new ArrayList<>();
+                        filteredList = new ArrayList<>();
                         for (AdminRequest request : requestList) {
                             String customerId = request.getCustomerId().toLowerCase();
                             if (customerId.contains(searchQuery)) {
@@ -157,6 +171,15 @@ public class AdminSupportProductRequestActivity extends AppCompatActivity {
                     public void afterTextChanged(Editable s) {
                     }
 
+                });
+
+                binding.getRoot().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                        binding.etRequestSearch.clearFocus();
+                        binding.spRequestSortByDate.clearFocus();
+                    }
                 });
             }
         });
