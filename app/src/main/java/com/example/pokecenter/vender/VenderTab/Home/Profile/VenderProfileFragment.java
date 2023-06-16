@@ -85,7 +85,7 @@ public class VenderProfileFragment extends Fragment {
 
 
         binding.accountInformationItem.setOnClickListener(view -> {
-            startActivity(new Intent(getActivity(), CustomerAccountInfoActivity.class));
+            startActivity(new Intent(getActivity(), VenderAccountInfoActivity.class));
         });
 
         binding.myAddressesItem.setOnClickListener(view -> {
