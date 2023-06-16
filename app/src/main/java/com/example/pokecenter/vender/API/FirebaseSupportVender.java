@@ -592,10 +592,25 @@ public class FirebaseSupportVender {
     }
 
 
-    public void updateRegistrationToken(@NonNull String email, String token) throws IOException {
+    public void updateRegistrationToken(@NonNull String email, String token, int role) throws IOException {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference usersRef = database.getReference("vendors/" + email.replace(".", ","));
+
+        DatabaseReference usersRef;
+
+        switch (role) {
+            case 0:
+                usersRef = database.getReference("customer/" + email.replace(".", ","));
+                break;
+            case 1:
+                usersRef = database.getReference("venders/" + email.replace(".", ","));
+                break;
+            case 2:
+                usersRef = database.getReference("admins/" + email.replace(".", ","));
+                break;
+            default:
+                return;
+        }
 
         Map<String, Object> user = new HashMap<>();
         user.put("token", token);

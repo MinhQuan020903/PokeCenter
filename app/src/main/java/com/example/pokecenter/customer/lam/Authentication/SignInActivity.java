@@ -10,6 +10,7 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
@@ -18,17 +19,19 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.pokecenter.admin.AdminActivity;
-import com.example.pokecenter.customer.lam.CustomerActivity;
 import com.example.pokecenter.R;
+import com.example.pokecenter.admin.AdminActivity;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
+import com.example.pokecenter.customer.lam.CustomerActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.CustomerProfileFragment;
 import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.customer.lam.Provider.WishListData;
 import com.example.pokecenter.databinding.ActivitySignInBinding;
+import com.example.pokecenter.vender.API.FirebaseSupportVender;
 import com.example.pokecenter.vender.VenderActivity;
 import com.example.pokecenter.vender.VenderTab.Home.Profile.VenderProfileFragment;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -37,6 +40,7 @@ import java.util.concurrent.Executors;
 public class SignInActivity extends AppCompatActivity {
 
     private ActivitySignInBinding binding;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,6 +206,27 @@ public class SignInActivity extends AppCompatActivity {
                     gotToNextActivityWith(finalFetchedRole);
                     Toast.makeText(this, "Successful Login.", Toast.LENGTH_SHORT)
                             .show();
+
+                    //Update registration token with final fetched role
+                    FirebaseMessaging.getInstance().getToken()
+                            .addOnCompleteListener(task -> {
+                                if (!task.isSuccessful()) {
+                                    Log.w("TAG", "Fetching FCM registration token failed", task.getException());
+                                    return;
+                                }
+
+                                //Get new FCM registration token
+                                String token = task.getResult();
+
+                                try {
+                                    new FirebaseSupportVender().updateRegistrationToken(email, token, finalFetchedRole);
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+
+                                //Log and toast
+                                Log.e("TAG", token);
+                            });
 
                     SharedPreferences sharedPreferences = getSharedPreferences("myPref", MODE_PRIVATE);
                     sharedPreferences.edit().putInt("role", finalFetchedRole).apply();
