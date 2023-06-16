@@ -155,12 +155,17 @@
                 android:layout_weight="1"/>
 
             <ImageButton
-                android:id="@+id/favoriteButton"
+                android:id="@+id/editButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/lam_baseline_favorite_border_28"
+                android:src="@drawable/lam_round_edit_24"
                 android:backgroundTint="@color/light_canvas"/>
-
+            <ImageButton
+                android:id="@+id/deleteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/lam_delete"
+                android:backgroundTint="@color/light_canvas"/>
         </LinearLayout>
 
         <ProgressBar

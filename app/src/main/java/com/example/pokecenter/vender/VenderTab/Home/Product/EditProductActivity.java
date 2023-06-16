@@ -1,5 +1,4 @@
 package com.example.pokecenter.vender.VenderTab.Home.Product;
-
 import static com.example.pokecenter.customer.lam.API.PokeApiFetcher.allPokeName;
 import static com.example.pokecenter.vender.VenderTab.Home.Product.VenderProductActivity.productAdapter;
 import static com.example.pokecenter.vender.VenderTab.Home.Product.VenderProductActivity.venderProduct;
@@ -9,44 +8,39 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.Model.option.Option;
 import com.example.pokecenter.customer.lam.Model.product.Product;
-import com.example.pokecenter.databinding.ActivityAddProductBinding;
+import com.example.pokecenter.customer.lam.Provider.ProductData;
+import com.example.pokecenter.databinding.ActivityEditProductBinding;
 import com.example.pokecenter.vender.API.FirebaseSupportVender;
 import com.example.pokecenter.vender.Interface.OptionRecyclerViewInterface;
 import com.example.pokecenter.vender.Model.Option.VenderOptionAdapter;
@@ -57,63 +51,66 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.IOException;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import kotlin.Unit;
 
-public class AddProductActivity extends AppCompatActivity implements OptionRecyclerViewInterface {
-    ActivityAddProductBinding binding;
+public class EditProductActivity extends AppCompatActivity implements OptionRecyclerViewInterface {
+    private static final int IMAGE_PICKER_REQUEST = 1;
+    ActivityEditProductBinding binding;
+    Product receiveProduct;
+    private List<String> additionalImagesUrls = new ArrayList<>();
+    private ImageViewAdapter imageViewAdapter;
+    private RecyclerView recyclerView;
+
     private List<Option> myOptions = new ArrayList<>();
     private VenderOptionAdapter optionAdapter;
-    OptionRecyclerViewInterface optionRecyclerViewInterface;
-    Uri ImageUri;
     private ShapeableImageView optionImage;
-    ArrayList<Uri> ChooseImageList;
-    ArrayList<String> UrlsList;
-    FirebaseFirestore firestore;
-    StorageReference storagereference;
-    FirebaseStorage mStorage;
-    private Uri mImageUri;
 
-    private StorageReference mStorageRef;
-    ProgressDialog progressDialog;
-    
     List<String > myCategories = new ArrayList<>();
     List<String > optionCategories = new ArrayList<>();
-    String optionCategory;
     List<String > myPokemon = new ArrayList<>();
+    private Uri mImageUri;
+
+    private StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("option");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityAddProductBinding.inflate(getLayoutInflater());
+        binding = ActivityEditProductBinding.inflate(getLayoutInflater());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().setStatusBarColor(getColor(R.color.light_primary));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
-        getSupportActionBar().setTitle("Add new Items");
+        getSupportActionBar().setTitle("Edit Product");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mStorageRef = FirebaseStorage.getInstance().getReference("option");
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Uploading Data");
-        progressDialog.setMessage("Please Wait While Uploading Your data...");
+        receiveProduct = (Product) getIntent().getSerializableExtra("product");
+        setContentView(binding.getRoot());
+
+        // Get the list of image URLs from your data source
+        additionalImagesUrls = receiveProduct.copyListImage();
+
+        // Set up the RecyclerView and adapter
+        recyclerView = binding.rcvAdditionalImage;
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        imageViewAdapter = new ImageViewAdapter();
+        recyclerView.setAdapter(imageViewAdapter);
+        SetUpData();
         fetchingAndSetupCategories();
         binding.optionAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,83 +124,35 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
 
         optionAdapter = new VenderOptionAdapter(this, myOptions, this);
         binding.rcvGridOptions.setAdapter(optionAdapter);
+        // Load and display the images using Picasso
+        for (String imageUrl : additionalImagesUrls) {
+            Picasso.get().load(imageUrl).into(imageViewAdapter);
+        }
 
-
-
-        // firebase Instance
-        firestore = FirebaseFirestore.getInstance();
-        mStorage = FirebaseStorage.getInstance();
-        storagereference = mStorage.getReference();
-
-        ChooseImageList = new ArrayList<>();
-        UrlsList = new ArrayList<>();
-        binding.ChooseImage.setOnClickListener(new View.OnClickListener() {
+        // Set up the button click listener to add new images
+        binding.addImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CheckPermission();
+                // Launch the image picker
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(intent, IMAGE_PICKER_REQUEST);
             }
         });
+
         binding.UploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UploadIMages();
+                Update();
             }
         });
-        binding.radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.radioButton1:
-                        binding.svNoOption.setVisibility(View.INVISIBLE);
-                        binding.svListOptions.setVisibility(View.VISIBLE);
-                        binding.llOptions.setVisibility(View.VISIBLE);
-                        break;
-                    case R.id.radioButton2:
-                        binding.svNoOption.setVisibility(View.VISIBLE);
-                        binding.svListOptions.setVisibility(View.INVISIBLE);
-                        binding.llOptions.setVisibility(View.INVISIBLE);
-                        break;
-                }
-            }
-        });
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
-        for (String poke : allPokeName) {
-            adapter.add(poke);
-        }
-        adapter.add("No");
-        adapter.add("Many");
-        adapter.add("NULL");
-        adapter.add("Don'tKnow");
-        binding.optionPokemon.setAdapter(adapter);
-        binding.optionPokemon.setThreshold(1);
-        ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, optionCategories);
-        binding.optionCategories.setAdapter(categoriesAdapter);
-        binding.optionCategories.setThreshold(1);
-        setContentView(binding.getRoot());
-
     }
-
-    public void AddProduct() {
-        if(binding.radioGroup.getCheckedRadioButtonId()==-1)
-        {
-            Toast.makeText(this, "Please choose your options", Toast.LENGTH_SHORT).show();
-            progressDialog.dismiss();
-            return;
-        }
-        else if(binding.radioGroup.getCheckedRadioButtonId()==R.id.radioButton2) {
-            myOptions.clear();
-            Option o = new Option("null", "", Integer.parseInt(binding.ItemQuantity.getText().toString()), Integer.parseInt(binding.ItemQuantity.getText().toString()), Integer.parseInt(binding.ItemPrice.getText().toString()));
-            myOptions.add(o);
-            if (!myCategories.contains(binding.optionCategories.getText().toString())) {
-                myCategories.add(binding.optionCategories.getText().toString());
-            }
-            if (!myPokemon.contains(binding.optionPokemon.getText().toString())) {
-                myPokemon.add(binding.optionPokemon.getText().toString());
-            }
-        }
-        Product newProduct = new Product(null, binding.ItemName.getText().toString(),
+    private void Update(){
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.progressText.setVisibility(View.VISIBLE);
+        Product updatedProduct = new Product(receiveProduct.getId(), binding.ItemName.getText().toString(),
                 binding.ItemDesc.getText().toString(),
-                UrlsList, myOptions,
+                additionalImagesUrls, myOptions,
                 FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", ","));
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -213,11 +162,7 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
             boolean isSuccessful = true;
 
             try {
-                new FirebaseSupportVender().addNewProduct(newProduct);
-                new FirebaseSupportVender().updateTotalProduct(venderProduct.size()+1);
-                new FirebaseSupportVender().updatePokemonAfterAddProduct(newProduct.getId(),myPokemon);
-                new FirebaseSupportVender().updateCategoryAfterAddProduct(newProduct.getId(),myCategories);
-
+                new FirebaseSupportVender().updateProduct(updatedProduct);
             } catch (IOException e) {
                 isSuccessful = false;
             }
@@ -225,138 +170,173 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
             boolean finalIsSuccessful = isSuccessful;
             handler.post(() -> {
                 if (finalIsSuccessful) {
-                    venderProduct.add(newProduct);
+                    for (int i = 0; i < venderProduct.size(); i++) {
+                        if (venderProduct.get(i).getId().equals(updatedProduct.getId())) {
+                            venderProduct.set(i, updatedProduct);
+                            break;
+                        }
+                    }
                     productAdapter.notifyDataSetChanged();
-                    Toast.makeText(this, "Added new Product", Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
-                    setResult(RESULT_OK);
+                    Intent intent = new Intent(this, VenderProductDetailActivity.class);
+                    intent.putExtra("product object", updatedProduct);
+                    startActivity(intent);
                     finish();
+                    Toast.makeText(this, "Update Product Success", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, "Something wrong because connection error", Toast.LENGTH_SHORT).show();
                 }
             });
         });
-        progressDialog.dismiss();
-        finish();
+        binding.progressBar.setVisibility(View.GONE);
+        binding.progressText.setVisibility(View.GONE);
     }
-    private void UploadIMages() {
+    private void SetUpData() {
+        binding.ItemName.setText(receiveProduct.getName());
+        binding.ItemDesc.setText(receiveProduct.getDesc());
+        myOptions.addAll(receiveProduct.getOptions());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        binding.rcvGridOptions.setLayoutManager(linearLayoutManager);
+        binding.rcvGridOptions.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-        // we need list that images urls
-        for (int i = 0; i < ChooseImageList.size(); i++) {
-            Uri IndividualImage = ChooseImageList.get(i);
-            if (IndividualImage != null) {
-                progressDialog.show();
-                StorageReference ImageFolder = FirebaseStorage.getInstance().getReference().child("ImageProducts");
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String dateString = dateFormat.format(Calendar.getInstance().getTime());
-                final StorageReference ImageName = ImageFolder.child("Image" + i + ": " + IndividualImage.getLastPathSegment() + dateString);
-                ImageName.putFile(IndividualImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        optionAdapter = new VenderOptionAdapter(this, myOptions, this);
+        binding.rcvGridOptions.setAdapter(optionAdapter);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IMAGE_PICKER_REQUEST && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                // Get the selected image URI
+                Uri imageUri = data.getData();
+
+                // Upload the image to Firebase Storage
+                uploadImageToFirebaseStorage(imageUri);
+            }
+        }
+    }
+    private void uploadImageToFirebaseStorage(Uri imageUri) {
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+        StorageReference imageRef = storageRef.child("images/" + UUID.randomUUID().toString());
+
+        UploadTask uploadTask = imageRef.putFile(imageUri);
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // Image upload successful
+                // Get the download URL of the uploaded image
+                imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        ImageName.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                UrlsList.add(String.valueOf(uri));
-                                if (UrlsList.size() == ChooseImageList.size()) {
-                                    AddProduct();
-                                }
-                            }
-                        });
+                    public void onSuccess(Uri downloadUri) {
+                        // Convert the URI to a string
+                        String imageUrl = downloadUri.toString();
+
+                        // Add the image URL to the list
+                        additionalImagesUrls.add(imageUrl);
+
+                        // Update the RecyclerView with the new image
+                        imageViewAdapter.notifyItemInserted(additionalImagesUrls.size() - 1);
+                        updateHeightRecyclerView();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Error getting the download URL
+                        // Handle the failure
                     }
                 });
-            } else {
-                Toast.makeText(this, "Please fill All Field", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Error uploading the image
+                // Handle the failure
+            }
+        });
+    }
+
+
+    private void updateHeightRecyclerView() {
+        int itemsPerRow = 3;
+        int itemHeight = 250; // Set the item height in pixels
+        int marginBetweenItems = 16; // Set the margin between items in pixels
+        int recyclerViewHeight = ((additionalImagesUrls.size() - 1) / itemsPerRow + 1) * (itemHeight + marginBetweenItems);
+
+        RecyclerView rcvAdditionalImage = binding.rcvAdditionalImage;
+        ViewGroup.LayoutParams layoutParams = rcvAdditionalImage.getLayoutParams();
+        layoutParams.height = recyclerViewHeight;
+        rcvAdditionalImage.setLayoutParams(layoutParams);
+    }
+
+    public class ImageViewAdapter extends RecyclerView.Adapter<ImageViewAdapter.ImageViewHolder>
+            implements Target {
+        @NonNull
+        @Override
+        public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.lam_additional_image, parent, false);
+            return new ImageViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
+            String imageUrl = additionalImagesUrls.get(position);
+            Picasso.get().load(imageUrl).into(holder.productImage);
+        }
+
+        @Override
+        public int getItemCount() {
+            return additionalImagesUrls.size();
+        }
+
+        public class ImageViewHolder extends RecyclerView.ViewHolder {
+            private ImageView productImage;
+            private ImageButton removeButton;
+
+            public ImageViewHolder(@NonNull View itemView) {
+                super(itemView);
+
+                productImage = itemView.findViewById(R.id.product_image);
+                removeButton = itemView.findViewById(R.id.remove_button);
+
+                removeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int position = getAdapterPosition();
+                        additionalImagesUrls.remove(position);
+                        notifyItemRemoved(position);
+                        updateHeightRecyclerView();
+                    }
+                });
             }
         }
 
-    }
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            // This method is called when the bitmap is successfully loaded
+            // You can perform any additional operations on the loaded bitmap if needed
 
-    private void StoreLinks(ArrayList<String> urlsList) {
-        // now we need get text from EditText
-        String Name = binding.ItemName.getText().toString();
-        String Description = binding.ItemDesc.getText().toString();
-        if (!TextUtils.isEmpty(Name) && !TextUtils.isEmpty(Description) && ImageUri != null) {
-            // now we need a model class
-            ItemModel model = new ItemModel(Name, Description, "", UrlsList);
-            firestore.collection("Items").add(model).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                @Override
-                public void onSuccess(DocumentReference documentReference) {
-                    // now here we need Item id and set into model
-                    model.setItemId(documentReference.getId());
-                    firestore.collection("Items").document(model.getItemId())
-                            .set(model, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    progressDialog.dismiss();
-                                    // if data uploaded successfully then show ntoast
-                                    Toast.makeText(AddProductActivity.this, "Your data Uploaded Successfully", Toast.LENGTH_SHORT).show();
-
-                                }
-                            });
-                }
-            });
-
-        } else {
-            progressDialog.dismiss();
-            Toast.makeText(this, "Please Fill All field", Toast.LENGTH_SHORT).show();
-        }
-        // if you want to clear viewpager after uploading Images
-        ChooseImageList.clear();
-
-
-    }
-
-    private void CheckPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(AddProductActivity.this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(AddProductActivity.this, new
-                        String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 2);
-            } else {
-                PickImageFromgallry();
+            // Set the loaded bitmap to the ImageView
+            ImageView imageView = recyclerView.findViewWithTag(this);
+            if (imageView != null) {
+                imageView.setImageBitmap(bitmap);
             }
-
-        } else {
-            PickImageFromgallry();
         }
-    }
 
-    private void PickImageFromgallry() {
-        // here we go to gallery and select Image
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, 1);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getClipData() != null) {
-            int count = data.getClipData().getItemCount();
-            for (int i = 0; i < count; i++) {
-                ImageUri = data.getClipData().getItemAt(i).getUri();
-                ChooseImageList.add(ImageUri);
-// now we need Adapter to show Images in viewpager
-
-            }
-            setAdapter();
-
+        @Override
+        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+            // This method is called if the bitmap loading fails
+            // You can handle the failure or fallback to a placeholder image
         }
-    }
 
-    private void setAdapter() {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(this, ChooseImageList);
-        binding.viewPager.setAdapter(adapter);
-    }
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+            // This method is called when the image loading starts
+            // You can set a placeholder image if needed
+        }
     }
     private void openBottomSheetDialog(Option existingOption, int countOption) {
-
+        optionCategories.size();
         View viewDialog = getLayoutInflater().inflate(R.layout.ninh_bottom_sheet_add_option, null);
 
         BottomSheetDialog dialog = new BottomSheetDialog(this);
@@ -382,10 +362,11 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
             optionName.setText(existingOption.getOptionName());
             optionQuantity.setText(String.valueOf(existingOption.getInputQuantity()));
             optionPrice.setText(String.valueOf(existingOption.getPrice()));
+            if(!existingOption.getOptionName().equals("null"))
             Picasso.get().load(existingOption.getOptionImage()).into(optionImage);
         }
         uploadImageOption.setOnClickListener(view -> {
-            ImagePicker.with(AddProductActivity.this)
+            ImagePicker.with(EditProductActivity.this)
                     .crop()	    			//Crop image(Optional), Check Customization for more option
                     .galleryOnly()
                     .createIntent(intent -> {
@@ -405,9 +386,15 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
         optionPokemon.setAdapter(adapter);
         optionPokemon.setThreshold(1);
 
-        ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, optionCategories);
+        ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        for (String poke : optionCategories) {
+            categoriesAdapter.add(poke);
+        }
         optionCategory.setAdapter(categoriesAdapter);
         optionCategory.setThreshold(1);
+
+
+
         finishButton.setOnClickListener(view -> {
             finishButton.setVisibility(View.INVISIBLE);
 
@@ -471,7 +458,7 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
                             downloadUrlTask.addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    Toast.makeText(AddProductActivity.this, "Update Option Image Successful", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(EditProductActivity.this, "Update Option Image Successful", Toast.LENGTH_SHORT).show();
                                     mImageUri = uri;
                                     //currentAccount.setAvatar(String.valueOf(uri));
                                 }
@@ -481,7 +468,7 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(AddProductActivity.this, "Update Option Image Failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditProductActivity.this, "Update Option Image Failed", Toast.LENGTH_SHORT).show();
 
                         }
                     });
@@ -539,5 +526,9 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
         });
 
     }
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
 }

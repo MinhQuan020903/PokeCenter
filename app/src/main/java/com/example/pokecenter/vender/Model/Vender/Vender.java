@@ -9,15 +9,6 @@ public class Vender implements Serializable {
 
     private int followCount;
 
-    private float revenue;
-
-    public float getRevenue() {
-        return revenue;
-    }
-
-    public void setRevenue(float revenue) {
-        this.revenue = revenue;
-    }
 
     public Vender(){}
     public Vender(String venderId, String shopName, int followCount) {

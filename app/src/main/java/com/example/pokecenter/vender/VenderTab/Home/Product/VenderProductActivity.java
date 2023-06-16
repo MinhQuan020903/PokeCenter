@@ -79,24 +79,6 @@ public class VenderProductActivity extends AppCompatActivity implements PokemonR
             searchProduct(searchText);
         });
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ADD_PRODUCT_REQUEST_CODE && resultCode == RESULT_OK) {
-            // AddProductActivity has finished successfully
-            // Refresh the product list
-            refreshProductList();
-        }
-    }
-    private void refreshProductList() {
-        // Update the product list
-        venderProduct.clear();
-        venderProduct.addAll(ProductData.getListProducts().stream().filter(product -> product.getVenderId().equals(venderId)).collect(Collectors.toList()));
-
-        // Update the adapter
-        productAdapter.notifyDataSetChanged();
-
-    }
 
 
     private void searchProduct(String searchText) {
@@ -107,7 +89,8 @@ public class VenderProductActivity extends AppCompatActivity implements PokemonR
             inputMethodManager.hideSoftInputFromWindow(binding.searchProductBar.getWindowToken(), 0);
 
             productAdapter.setData(venderProduct.stream().filter(product -> product.getName().toLowerCase().contains(searchText.toLowerCase())).collect(Collectors.toList()));
-            binding.totalProduct.setText(String.valueOf(venderProduct.stream().filter(product -> product.getName().toLowerCase().contains(searchText.toLowerCase())).collect(Collectors.toList()).stream().count()));
+            binding.totalProduct.setVisibility(View.GONE);
+            //binding.totalProduct.setText(String.valueOf(venderProduct.stream().filter(product -> product.getName().toLowerCase().contains(searchText.toLowerCase())).collect(Collectors.toList()).stream().count()));
         }
     }
     @Override
@@ -121,11 +104,12 @@ public class VenderProductActivity extends AppCompatActivity implements PokemonR
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         rcvProduct.setLayoutManager(gridLayoutManager);
-
         venderProduct = ProductData.getListProducts().stream().filter(product -> product.getVenderId().equals(venderId)).collect(Collectors.toList());
-
+        venderProduct.removeIf(product -> product.getOptions().stream()
+                .allMatch(option -> option.getCurrentQuantity() == -1));
         productAdapter = new ProductAdapter(this, venderProduct, this);
-        binding.totalProduct.setText(String.valueOf(productAdapter.getItemCount()));
+        binding.totalProduct.setVisibility(View.GONE);
+    //    binding.totalProduct.setText(String.valueOf(productAdapter.getItemCount()));
         rcvProduct.setAdapter(productAdapter);
     }
     public int getNavigationBarHeight() {

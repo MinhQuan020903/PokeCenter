@@ -30,7 +30,10 @@ public class VenderOptionAdapter extends RecyclerView.Adapter<VenderOptionAdapte
     private List<Option> mOptions;
 
     private final OptionRecyclerViewInterface optionRecyclerViewInterface;
-
+    public VenderOptionAdapter(Context context, OptionRecyclerViewInterface optionRecyclerViewInterface) {
+        mContext = context;
+        this.optionRecyclerViewInterface = optionRecyclerViewInterface;
+    }
     public VenderOptionAdapter(Context context, List<Option> Options, OptionRecyclerViewInterface optionRecyclerViewInterface) {
         mContext = context;
         mOptions = Options;
@@ -55,6 +58,7 @@ public class VenderOptionAdapter extends RecyclerView.Adapter<VenderOptionAdapte
         holder.optionName.setText(option.getOptionName());
         holder.optionQuantity.setText(Integer.toString(option.getCurrentQuantity()));
         holder.optionPrice.setText(Integer.toString(option.getPrice()));
+        if(!option.getOptionName().equals("null"))
         Picasso.get().load(option.getOptionImage()).into(holder.optionImage);
     }
 
@@ -85,7 +89,6 @@ public class VenderOptionAdapter extends RecyclerView.Adapter<VenderOptionAdapte
             itemView.setOnClickListener(view -> {
                 if (optionRecyclerViewInterface != null) {
                     int pos = getAbsoluteAdapterPosition();
-
                     if (pos != RecyclerView.NO_POSITION) {
                         optionRecyclerViewInterface.onOptionItemClick(pos);
                     }

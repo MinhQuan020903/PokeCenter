@@ -14,6 +14,11 @@ public class Order {
     private Date deliveryDate;
     private boolean isExpand;
 
+    private String customerName;
+    private String customerPhoneNumber;
+    private String deliveryAddress;
+
+
     public Order(String id, int totalAmount, Date createDateTime, List<DetailOrder> ordersDetail, String status) {
         this.id = id;
         this.totalAmount = totalAmount;
@@ -87,5 +92,29 @@ public class Order {
 
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getCustomerPhoneNumber() {
+        return customerPhoneNumber;
+    }
+
+    public void setCustomerPhoneNumber(String customerPhoneNumber) {
+        this.customerPhoneNumber = customerPhoneNumber;
+    }
+
+    public String getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
     }
 }

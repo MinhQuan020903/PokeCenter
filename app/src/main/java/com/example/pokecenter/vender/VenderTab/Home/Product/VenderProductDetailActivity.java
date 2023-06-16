@@ -1,5 +1,8 @@
 package com.example.pokecenter.vender.VenderTab.Home.Product;
 
+import static com.example.pokecenter.vender.VenderTab.Home.Product.VenderProductActivity.productAdapter;
+import static com.example.pokecenter.vender.VenderTab.Home.Product.VenderProductActivity.venderProduct;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -42,6 +45,7 @@ import com.example.pokecenter.customer.lam.Provider.WishListData;
 import com.example.pokecenter.customer.lam.SliderAdapter;
 import com.example.pokecenter.databinding.ActivityProductDetailBinding;
 import com.example.pokecenter.databinding.ActivityVenderProductDetailBinding;
+import com.example.pokecenter.vender.API.FirebaseSupportVender;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
@@ -159,83 +163,46 @@ public class VenderProductDetailActivity extends AppCompatActivity {
 
         binding.productSold.setText("Sold " + receiveProduct.getProductSold());
 
-        /* Logic favoriteButton & wishList */
-        if (WishListData.fetchedWishList.containsKey(receiveProduct.getId())) {
 
-            isFavourite = true;
-
-            ColorFilter colorFilter = new PorterDuffColorFilter(getColor(R.color.dark_secondary), PorterDuff.Mode.SRC_IN);
-            Drawable drawable = ContextCompat.getDrawable(this, R.drawable.lam_baseline_favorite_28);
-            drawable.setColorFilter(colorFilter);
-            binding.favoriteButton.setImageDrawable(drawable);
-        }
-        binding.favoriteButton.setOnClickListener(view -> {
-
-            isFavourite = !isFavourite;
-            ExecutorService executor = Executors.newSingleThreadExecutor();
-            Handler handler = new Handler(Looper.getMainLooper());
-
-            if (isFavourite) {
-                // Create a color filter with the desired tint color
-                ColorFilter colorFilter = new PorterDuffColorFilter(getColor(R.color.dark_secondary), PorterDuff.Mode.SRC_IN);
-                Drawable drawable = ContextCompat.getDrawable(this, R.drawable.lam_baseline_favorite_28);
-                drawable.setColorFilter(colorFilter);
-                binding.favoriteButton.setImageDrawable(drawable);
-
-
-
-                executor.execute(() -> {
-
-                    WishListData.fetchedWishList.put(receiveProduct.getId(), true);
-
-                    boolean isSuccessful = true;
-                    try {
-                        new FirebaseSupportCustomer().addWishListItem(receiveProduct.getId());
-                    } catch (IOException e) {
-                        isSuccessful = false;
-                    }
-
-                    boolean finalIsSuccessful = isSuccessful;
-                    handler.post(() -> {
-
-                        if (finalIsSuccessful) {
-                            showSnackBar("Added product to the wish list", true);
-                        } else {
-                            showSnackBar("Failed to connect server", false);
-                        }
-
-                    });
-                });
-
-            } else {
-                binding.favoriteButton.setImageDrawable(getDrawable(R.drawable.lam_baseline_favorite_border_28));
-                executor.execute(() -> {
-
-                    WishListData.fetchedWishList.remove(receiveProduct.getId());
-
-                    boolean isSuccessful = true;
-                    try {
-                        new FirebaseSupportCustomer().removeWishListItem(receiveProduct.getId());
-                    } catch (IOException e) {
-                        isSuccessful = false;
-                    }
-
-                    boolean finalIsSuccessful = isSuccessful;
-                    handler.post(() -> {
-
-                        if (finalIsSuccessful) {
-                            showSnackBar("Deleted product from the wish list", true);
-                        } else {
-                            showSnackBar("Failed to connect server", false);
-                        }
-
-                    });
-                });
-            }
+        binding.deleteButton.setOnClickListener(view -> {
+            DeleteProduct();
+        });
+        binding.editButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, EditProductActivity.class);
+            intent.putExtra("product", receiveProduct);
+            startActivity(intent);
         });
         setUpSnackbar();
     }
 
+    void DeleteProduct(){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+
+            boolean isSuccessful = true;
+
+            try {
+                new FirebaseSupportVender().DeleteProduct(receiveProduct.getId());
+            } catch (IOException e) {
+                isSuccessful = false;
+            }
+
+            boolean finalIsSuccessful = isSuccessful;
+            handler.post(() -> {
+                if (finalIsSuccessful) {
+                    venderProduct.removeIf(product -> product.getId().equals(receiveProduct.getId()));
+                    productAdapter.notifyDataSetChanged();
+                    venderProduct.size();
+                    Toast.makeText(this, "Delete Product Success", Toast.LENGTH_SHORT).show();
+                    setResult(RESULT_OK);
+                    finish();
+                } else {
+                    Toast.makeText(this, "Delete Product Fail", Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
+    }
     private void fetchingAndSetUpReviewProduct() {
 
         ListView lvReviews = binding.lvReviewProduct;
