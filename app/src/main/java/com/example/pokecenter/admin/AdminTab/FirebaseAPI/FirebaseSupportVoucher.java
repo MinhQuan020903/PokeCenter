@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.example.pokecenter.admin.AdminTab.Model.AdminBlockVoucher.AdminBlockVoucher;
 import com.example.pokecenter.admin.AdminTab.Model.AdminBlockVoucher.AdminVoucher;
+import com.example.pokecenter.admin.AdminTab.Utils.DateUtils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -72,7 +73,7 @@ public class FirebaseSupportVoucher {
         for (int i = 0; i < blockVoucher.getCurrentQuantity(); i++) {
             String code;
             do {
-                code = blockVoucher.getName() + random.nextInt(100000000);
+                code = blockVoucher.getName() + random.nextInt(1000000);
             } while (generatedCodes.contains(code)); // Generate a new code if it already exists
 
             generatedCodes.add(code); // Add the generated code to the set of generated codes
@@ -148,6 +149,78 @@ public class FirebaseSupportVoucher {
                 }
             });
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendVoucherForAllCustomer(String blockVoucherName, FirebaseCallback<Boolean> firebaseCallback) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        Random random = new Random();
+        HashSet<String> generatedCodes = new HashSet<>(); // Keep track of generated codes
+
+        try {
+            DatabaseReference ref = database.getReference("customers");
+
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String code = "";
+                    for (DataSnapshot customerSnapshot : snapshot.getChildren()) {
+
+                        //Create notication node if there isn't exist one
+                        if (!customerSnapshot.hasChild("notifications")) {
+                            DatabaseReference newNotificationRef = ref.child(customerSnapshot.getKey()).child("notifications");
+                            newNotificationRef.setValue("notifications");
+                        }
+
+                        //Check if voucher code is duplicated
+                        do {
+                            code = blockVoucherName + random.nextInt(1000000);
+                        } while (generatedCodes.contains(code));
+
+                        generatedCodes.add(code);
+
+                        //Create a notification for publish voucher to customer
+                        String title = "You've just got a new voucher!";
+                        String content = "";
+                        content = "Dear " + customerSnapshot.getKey().replace(",", ".") + ",\n"
+                                + "You've just received a new discount code! \n"
+                                + "Discount code is " + code + ". \n"
+                                + "We hope you have an enjoyable shopping experience.\n"
+                                + "PokéCenter.";
+
+                        HashMap<String, Object> notificationNode = new HashMap<>();
+                        notificationNode.put("content", content);
+                        notificationNode.put("read", false);
+                        notificationNode.put("sentDate", DateUtils.getCurrentDateString());
+                        notificationNode.put("title", title);
+                        notificationNode.put("type", "fromPokeCenter");
+
+                        DatabaseReference notificationRef = ref.child(customerSnapshot.getKey()).child("notifications").push();
+
+                        notificationRef.setValue(notificationNode)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        firebaseCallback.onCallback(true);
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        firebaseCallback.onCallback(false);
+                                    }
+                                });
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }catch (Exception e) {
             e.printStackTrace();
         }
     }

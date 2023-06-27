@@ -168,6 +168,20 @@
                 android:fontFamily="@font/exo_2"
                 app:layout_constraintStart_toEndOf="@+id/tvOrderTotalAmountLabel"
                 app:layout_constraintTop_toBottomOf="@id/tvBlockVoucherCurrentQuantity" />
+
+            <Button
+                style="@style/Widget.Material3.Button.ElevatedButton"
+                android:id="@+id/bBlockVoucherPublish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Publish"
+                android:textSize="16sp"
+                app:shapeAppearance="@style/corner8ImageView"
+                android:fontFamily="@font/exo_2"
+                app:icon="@drawable/quan_icon_publish"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
