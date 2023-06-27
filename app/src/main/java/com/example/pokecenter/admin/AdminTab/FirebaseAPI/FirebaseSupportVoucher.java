@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.example.pokecenter.admin.AdminTab.Model.AdminBlockVoucher.AdminBlockVoucher;
 import com.example.pokecenter.admin.AdminTab.Model.AdminBlockVoucher.AdminVoucher;
+import com.example.pokecenter.admin.AdminTab.Model.User.Admin.Admin;
 import com.example.pokecenter.admin.AdminTab.Utils.DateUtils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -83,29 +84,34 @@ public class FirebaseSupportVoucher {
         }
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference voucherRef = database.getReference("vouchers");
+        try {
+            DatabaseReference voucherRef = database.getReference("vouchers");
 
-        Map<String, Object> updates = new HashMap<>();
+            Map<String, Object> updates = new HashMap<>();
 
-        for (AdminVoucher voucher : voucherList) {
-            DatabaseReference ref = voucherRef.push();
-            updates.put(ref.getKey(), voucher);
+            for (AdminVoucher voucher : voucherList) {
+                DatabaseReference ref = voucherRef.push();
+                updates.put(ref.getKey(), voucher);
+            }
+
+            voucherRef.updateChildren(updates)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            firebaseCallback.onCallback(true);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            firebaseCallback.onCallback(false);
+                            e.printStackTrace();
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        voucherRef.updateChildren(updates)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        firebaseCallback.onCallback(true);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        firebaseCallback.onCallback(false);
-                        e.printStackTrace();
-                    }
-                });
     }
 
     public void getBlockVoucherList(FirebaseCallback<ArrayList<AdminBlockVoucher>> firebaseCallback) {
@@ -153,7 +159,7 @@ public class FirebaseSupportVoucher {
         }
     }
 
-    public void sendVoucherForAllCustomer(String blockVoucherName, FirebaseCallback<Boolean> firebaseCallback) {
+    public void sendVoucherForAllCustomer(AdminBlockVoucher blockVoucher, FirebaseCallback<Boolean> firebaseCallback) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         Random random = new Random();
@@ -176,7 +182,7 @@ public class FirebaseSupportVoucher {
 
                         //Check if voucher code is duplicated
                         do {
-                            code = blockVoucherName + random.nextInt(1000000);
+                            code = blockVoucher.getName() + random.nextInt(1000000);
                         } while (generatedCodes.contains(code));
 
                         generatedCodes.add(code);
@@ -203,7 +209,6 @@ public class FirebaseSupportVoucher {
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
-                                        firebaseCallback.onCallback(true);
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -212,7 +217,11 @@ public class FirebaseSupportVoucher {
                                         firebaseCallback.onCallback(false);
                                     }
                                 });
+
                     }
+
+                    //Update block voucher quantity
+                    updateBlockVoucherQuantity(blockVoucher, generatedCodes, firebaseCallback);
                 }
 
                 @Override
@@ -221,6 +230,96 @@ public class FirebaseSupportVoucher {
                 }
             });
         }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateBlockVoucherQuantity(AdminBlockVoucher blockVoucher, HashSet<String> generatedCodes, FirebaseCallback<Boolean> firebaseCallback) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        try {
+            DatabaseReference ref = database.getReference("blockVoucher");
+            Query query = ref.orderByKey().equalTo(blockVoucher.getId());
+            DatabaseReference blockVoucherRef = query.getRef().child(blockVoucher.getId());
+            blockVoucherRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    HashMap<String, Object> updates = new HashMap<>();
+                    int prevQuantity = 0;
+                    try {
+                        prevQuantity = snapshot.child("currentQuantity").getValue(int.class);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
+                    try {
+                        updates.put("currentQuantity", prevQuantity + generatedCodes.size());
+                        blockVoucher.setCurrentQuantity(prevQuantity + generatedCodes.size());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    blockVoucherRef.updateChildren(updates)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            addNewVoucherFromBlockPublish(blockVoucher, generatedCodes, firebaseCallback);
+                        }
+                    })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                firebaseCallback.onCallback(false);
+                            }
+                        });
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    firebaseCallback.onCallback(false);
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addNewVoucherFromBlockPublish(AdminBlockVoucher blockVoucher, HashSet<String> generatedCodes, FirebaseCallback<Boolean> firebaseCallback) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        try {
+            DatabaseReference voucherRef = database.getReference("vouchers");
+
+            ArrayList<AdminVoucher> voucherList = new ArrayList<>();
+            for (String code : generatedCodes) {
+                AdminVoucher voucher = new AdminVoucher(blockVoucher.getId(), code, true);
+                voucherList.add(voucher);
+            }
+
+            Map<String, Object> updates = new HashMap<>();
+
+            for (AdminVoucher voucher : voucherList) {
+                DatabaseReference ref = voucherRef.push();
+                updates.put(ref.getKey(), voucher);
+            }
+
+            voucherRef.updateChildren(updates)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            firebaseCallback.onCallback(true);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            firebaseCallback.onCallback(false);
+                            e.printStackTrace();
+                        }
+                    });
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

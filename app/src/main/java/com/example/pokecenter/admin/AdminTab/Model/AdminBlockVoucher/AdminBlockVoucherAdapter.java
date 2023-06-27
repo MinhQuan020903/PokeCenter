@@ -157,7 +157,7 @@ public class AdminBlockVoucherAdapter extends RecyclerView.Adapter<AdminBlockVou
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 FirebaseSupportVoucher firebaseSupportVoucher = new FirebaseSupportVoucher(context);
-                                firebaseSupportVoucher.sendVoucherForAllCustomer(blockVoucher.getName(), new FirebaseCallback<Boolean>() {
+                                firebaseSupportVoucher.sendVoucherForAllCustomer(blockVoucher, new FirebaseCallback<Boolean>() {
                                     @Override
                                     public void onCallback(Boolean done) {
                                         if (done) {
