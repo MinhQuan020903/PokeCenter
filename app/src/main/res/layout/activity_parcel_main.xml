@@ -38,8 +38,8 @@
 
                 <ImageView
                     android:id="@+id/ivAdminStatistic"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ninh_icon_receive_order"
                     />
@@ -78,8 +78,8 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ninh_icon_pack_order" />
 
@@ -116,8 +116,8 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ninh_icon_complete_order" />
 
@@ -155,8 +155,8 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ninh_icon_return_order" />
 
