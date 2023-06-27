@@ -211,8 +211,9 @@ public class VenderStatisticsActivity extends AppCompatActivity {
         PieData pieData = new PieData(pieDataSetOrder);
 
         if(pieData.getEntryCount()<1) {
-            binding.pieChart.setVisibility(View.GONE);
+            binding.pieChart.setVisibility(View.INVISIBLE);
         }else{
+            binding.pieChart.setVisibility(View.VISIBLE);
             binding.pieChart.setData(pieData);
             binding.pieChart.invalidate();
         }
@@ -234,8 +235,9 @@ public class VenderStatisticsActivity extends AppCompatActivity {
         PieData pieData = new PieData(pieDataSetSpending);
 
         if(pieData.getEntryCount()<1) {
-            binding.pieChart.setVisibility(View.GONE);
+            binding.pieChart.setVisibility(View.INVISIBLE);
         }else{
+            binding.pieChart.setVisibility(View.VISIBLE);
             binding.pieChart.setData(pieData);
             binding.pieChart.invalidate();
         }

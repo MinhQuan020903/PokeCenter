@@ -11,7 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.pokecenter.R;
+import com.example.pokecenter.customer.lam.CustomerActivity;
 import com.example.pokecenter.databinding.FragmentVenderHomeBinding;
+import com.example.pokecenter.vender.VenderActivity;
 import com.example.pokecenter.vender.VenderTab.Chat.VenderChatFragment;
 import com.example.pokecenter.vender.VenderTab.Home.Parcel.ParcelMainActivity;
 import com.example.pokecenter.vender.VenderTab.VenderNotificationsFragment;
@@ -47,6 +50,10 @@ public class VenderHomeFragment extends Fragment {
             Picasso.get().load(VenderProfileFragment.currentVender.getAvatar()).into(binding.VenderProfileImage);
         else
             Picasso.get().load("https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png").into(binding.VenderProfileImage);
+        binding.VenderProfileImage.setOnClickListener(view -> {
+            // Set selectedItem in Bottom Nav Bar
+            VenderActivity.venderBottomNavigationView.setSelectedItemId(R.id.venderProfileNav);
+        });
         binding.StatisticsFunction.setOnClickListener(view -> {
             Intent intent = new Intent(getActivity(), VenderStatisticsActivity.class);
             startActivity(intent);
@@ -61,11 +68,10 @@ public class VenderHomeFragment extends Fragment {
             startActivity(intent);
         });
         binding.chatFunction.setOnClickListener(view -> {
-            fragmentChangeListener.onFragmentChange(new VenderChatFragment());
+            VenderActivity.venderBottomNavigationView.setSelectedItemId(R.id.venderChatNav);
         });
         binding.parcelFunction.setOnClickListener(view -> {
-            Intent intent = new Intent(getActivity(), ParcelMainActivity.class);
-            startActivity(intent);
+            VenderActivity.venderBottomNavigationView.setSelectedItemId(R.id.venderOrderNav);
         });
         binding.voucherFunction.setOnClickListener(view -> {
 
