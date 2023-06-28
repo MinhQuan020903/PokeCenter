@@ -8,7 +8,10 @@
     <img src="./PokemonImage/PokeCenterText.png" />
     <img src="./PokemonImage/pokeball.png" width = 4.5% vspace=10 />
 </p>
-## Link tải ứng dụng: [PokeCenter.apk]([https://github.com](https://drive.google.com/file/d/1kgJKIHrgFdysJVZufD0DHuPoa6QOdrTb/view?usp=sharing))
+
+## Link tải ứng dụng: [PokeCenter.apk](https://drive.google.com/file/d/1kgJKIHrgFdysJVZufD0DHuPoa6QOdrTb/view?usp=sharing)
+
+
 ## Người đóng góp ✨
 
 Cảm ơn những người tuyệt vời này ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
