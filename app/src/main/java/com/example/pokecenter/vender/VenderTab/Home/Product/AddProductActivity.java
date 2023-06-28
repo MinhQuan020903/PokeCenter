@@ -192,13 +192,19 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
         }
         else if(binding.radioGroup.getCheckedRadioButtonId()==R.id.radioButton2) {
             myOptions.clear();
-            Option o = new Option("null", "", Integer.parseInt(binding.ItemQuantity.getText().toString()), Integer.parseInt(binding.ItemQuantity.getText().toString()), Integer.parseInt(binding.ItemPrice.getText().toString()));
-            myOptions.add(o);
-            if (!myCategories.contains(binding.optionCategories.getText().toString())) {
-                myCategories.add(binding.optionCategories.getText().toString());
+            if(validateDataInput(binding.ItemName, binding.ItemQuantity,binding.ItemPrice)) {
+                Option o = new Option("null", "", Integer.parseInt(binding.ItemQuantity.getText().toString()), Integer.parseInt(binding.ItemQuantity.getText().toString()), Integer.parseInt(binding.ItemPrice.getText().toString()));
+                myOptions.add(o);
+                if (!myCategories.contains(binding.optionCategories.getText().toString())) {
+                    myCategories.add(binding.optionCategories.getText().toString());
+                }
+                if (!myPokemon.contains(binding.optionPokemon.getText().toString())) {
+                    myPokemon.add(binding.optionPokemon.getText().toString());
+                }
             }
-            if (!myPokemon.contains(binding.optionPokemon.getText().toString())) {
-                myPokemon.add(binding.optionPokemon.getText().toString());
+            else {
+                progressDialog.dismiss();
+                return;
             }
         }
         Product newProduct = new Product(null, binding.ItemName.getText().toString(),
@@ -240,7 +246,11 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
         finish();
     }
     private void UploadIMages() {
-
+        if(ChooseImageList.isEmpty()) {
+            Toast.makeText(this, "Please upload Images", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        UrlsList.clear();
         // we need list that images urls
         for (int i = 0; i < ChooseImageList.size(); i++) {
             Uri IndividualImage = ChooseImageList.get(i);
@@ -490,23 +500,33 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
 
     private boolean validateDataInput(EditText name, EditText quantity, EditText price) {
         if (name.getText().toString().isEmpty()) {
-            name.setError("You have not entered Full Name");
+            name.setError("You have not entered Name");
             return false;
         }
-
-        if (quantity.getText().toString().isEmpty()) {
-            quantity.setError("You have not entered Phone Number");
-            return false;
-        }
-
         if (price.getText().toString().isEmpty()) {
-            price.setError("You have not entered Option 1");
+            price.setError("You have not entered price");
+            return false;
+        }
+        try {
+            int a = Integer.parseInt(price.getText().toString());
+        } catch (NumberFormatException e) {
+            price.setError("You have not entered a number");
+            return false;
+        }
+        if (quantity.getText().toString().isEmpty()) {
+            quantity.setError("You have not entered quantity");
+            return false;
+        }
+
+        try {
+            int a = Integer.parseInt(quantity.getText().toString());
+        } catch (NumberFormatException e) {
+            quantity.setError("You have not entered a number");
             return false;
         }
 
         return true;
     }
-
     @Override
     public void onOptionItemClick(int position) {
         openBottomSheetDialog(myOptions.get(position), myOptions.size());

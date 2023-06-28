@@ -477,17 +477,28 @@ public class EditProductActivity extends AppCompatActivity implements OptionRecy
 
     private boolean validateDataInput(EditText name, EditText quantity, EditText price) {
         if (name.getText().toString().isEmpty()) {
-            name.setError("You have not entered Full Name");
+            name.setError("You have not entered Name");
             return false;
         }
-
-        if (quantity.getText().toString().isEmpty()) {
-            quantity.setError("You have not entered Phone Number");
-            return false;
-        }
-
         if (price.getText().toString().isEmpty()) {
-            price.setError("You have not entered Option 1");
+            price.setError("You have not entered price");
+            return false;
+        }
+        try {
+            int a = Integer.parseInt(price.getText().toString());
+        } catch (NumberFormatException e) {
+            price.setError("You have not entered a number");
+            return false;
+        }
+        if (quantity.getText().toString().isEmpty()) {
+            quantity.setError("You have not entered quantity");
+            return false;
+        }
+
+        try {
+            int a = Integer.parseInt(quantity.getText().toString());
+        } catch (NumberFormatException e) {
+            quantity.setError("You have not entered a number");
             return false;
         }
 
