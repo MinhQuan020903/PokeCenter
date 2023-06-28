@@ -9,8 +9,6 @@
     <img src="./PokemonImage/pokeball.png" width = 4.5% vspace=10 />
 </p>
 
-## Nổi bật 🐳
-
 ## Người đóng góp ✨
 
 Cảm ơn những người tuyệt vời này ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
