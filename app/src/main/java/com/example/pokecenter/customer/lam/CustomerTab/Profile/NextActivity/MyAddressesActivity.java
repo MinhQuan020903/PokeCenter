@@ -45,6 +45,7 @@ public class MyAddressesActivity extends AppCompatActivity implements AddressRec
     private AddressAdapter addressAdapter;
 
     boolean addDeliveryAddressFromCheckout;
+    boolean addNewAddressFromCheckout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +72,13 @@ public class MyAddressesActivity extends AppCompatActivity implements AddressRec
             openBottomSheetDialog(null, myAddresses.size());
         }
 
+        addNewAddressFromCheckout = getIntent().getBooleanExtra("add new address", false);
+        if (addNewAddressFromCheckout) {
+            openBottomSheetDialog(null, myAddresses.size());
+        }
+
         binding = ActivityMyAddressesBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         /* Set up Address RecyclerView */
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
@@ -114,7 +121,7 @@ public class MyAddressesActivity extends AppCompatActivity implements AddressRec
             });
         });
 
-        setContentView(binding.getRoot());
+
     }
 
     private void openBottomSheetDialog(Address existingAddress, int countAddress) {
@@ -244,7 +251,7 @@ public class MyAddressesActivity extends AppCompatActivity implements AddressRec
                                 Toast.makeText(this, "Added new address", Toast.LENGTH_SHORT).show();
                                 binding.informText.setVisibility(View.INVISIBLE);
 
-                                if (addDeliveryAddressFromCheckout) {
+                                if (addDeliveryAddressFromCheckout || addNewAddressFromCheckout) {
                                     finish();
                                 }
 
@@ -260,6 +267,7 @@ public class MyAddressesActivity extends AppCompatActivity implements AddressRec
 
             }
             finishButton.setVisibility(View.VISIBLE);
+
         });
 
     }
