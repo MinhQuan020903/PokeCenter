@@ -20,6 +20,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -318,6 +319,7 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
 
     }
 
+    private Dialog changeAddressDialog;
     private void deliveryAddressLogic() {
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -367,10 +369,10 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
         });
 
         binding.changeDeliveryAddress.setOnClickListener(v -> {
-            Dialog dialog = new Dialog(this);
-            dialog.setContentView(R.layout.lam_dialog_change_option_of_cart);
+            changeAddressDialog = new Dialog(this);
+            changeAddressDialog.setContentView(R.layout.lam_dialog_change_address);
 
-            Window window = dialog.getWindow();
+            Window window = changeAddressDialog.getWindow();
 
             if (window == null) {
                 return;
@@ -384,7 +386,7 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
          */
             window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-            ListView lvAddress = dialog.findViewById(R.id.lv_options);
+            ListView lvAddress = changeAddressDialog.findViewById(R.id.lv_options);
             AddressArrayAdapter addressArrayAdapter = new AddressArrayAdapter(this, MyAddressesActivity.myAddresses);
 
             if(addressArrayAdapter.getCount() > 2){
@@ -394,7 +396,7 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
             }
             lvAddress.setAdapter(addressArrayAdapter);
 
-            Button okButton = dialog.findViewById(R.id.okButton);
+            Button okButton = changeAddressDialog.findViewById(R.id.okButton);
             okButton.setEnabled(false);
 
             AtomicInteger selectedAddressPosition = new AtomicInteger();
@@ -421,10 +423,19 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
                 binding.numberStreetAddress.setText(selectedAddress.getNumberStreetAddress());
                 binding.address2.setText(selectedAddress.getAddress2());
 
-                dialog.dismiss();
+                changeAddressDialog.dismiss();
             });
 
-            dialog.show();
+            ImageButton addNewAddress = changeAddressDialog.findViewById(R.id.addNewAddress);
+            addNewAddress.setOnClickListener(view -> {
+
+                Intent intent = new Intent(this, MyAddressesActivity.class);
+                intent.putExtra("add new address", true);
+                startActivity(intent);
+
+            });
+
+            changeAddressDialog.show();
         });
 
     }
@@ -474,12 +485,16 @@ public class CheckoutActivity extends AppCompatActivity implements AddressRecycl
     protected void onRestart() {
         super.onRestart();
 
-        /* Recreate this Activity when backbutton on MyAddressesActivity */
+        if (changeAddressDialog != null) {
+            changeAddressDialog.dismiss();
+        }
 
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(getIntent());
-        overridePendingTransition(0, 0);
+        Address deliveryAddress = MyAddressesActivity.myAddresses.get(MyAddressesActivity.myAddresses.size() - 1);
+
+        binding.receiverName.setText(deliveryAddress.getReceiverName());
+        binding.numberStreetAddress.setText(deliveryAddress.getNumberStreetAddress());
+        binding.address2.setText(deliveryAddress.getAddress2());
+
     }
 
     @Override
