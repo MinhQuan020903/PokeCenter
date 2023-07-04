@@ -1,5 +1,7 @@
 package com.example.pokecenter.vender.VenderTab.Home.Product;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -128,9 +130,15 @@ public class VenderProductActivity extends AppCompatActivity implements PokemonR
 
     @Override
     public void onProductCardClick(Product product) {
+        try{
+            //Try to do something on here
         Intent intent = new Intent(this, VenderProductDetailActivity.class);
         intent.putExtra("product object", product);
         startActivity(intent);
+        }catch(Exception error1) {
+            Log.e(TAG, "The exception caught while executing the process. (error1)");
+            error1.printStackTrace();
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
