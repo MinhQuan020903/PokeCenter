@@ -9,7 +9,8 @@
     <img src="./PokemonImage/pokeball.png" width = 4.5% vspace=10 />
 </p>
 
-## Nổi bật 🐳
+## Link tải ứng dụng: [PokeCenter.apk](https://drive.google.com/file/d/1kgJKIHrgFdysJVZufD0DHuPoa6QOdrTb/view?usp=sharing)
+
 
 ## Người đóng góp ✨
 
