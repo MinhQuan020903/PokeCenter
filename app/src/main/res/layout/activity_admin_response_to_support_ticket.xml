@@ -33,7 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Resolve Support"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:fontFamily="@font/exo_2"
@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:text="Problem Name"
                     android:fontFamily="@font/exo_2"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:text="Customer"
                     android:fontFamily="@font/exo_2"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -131,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:text="Create Date"
                     android:fontFamily="@font/exo_2"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -204,7 +204,7 @@
                     android:layout_height="wrap_content"
                     android:text="Description"
                     android:fontFamily="@font/exo_2"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -244,7 +244,7 @@
                     android:layout_height="wrap_content"
                     android:text="Response"
                     android:fontFamily="@font/exo_2"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -284,7 +284,7 @@
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:backgroundTint="@color/purple_500"
+                android:backgroundTint="@color/light_primary"
                 android:text="Resolve"
                 android:textSize="16sp"
                 android:fontFamily="@font/exo_2"
