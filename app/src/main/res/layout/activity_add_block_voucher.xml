@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Block Voucher"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:fontFamily="@font/exo_2"
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:text="Block name"
                 android:fontFamily="@font/exo_2"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:text="Voucher quantity"
                 android:fontFamily="@font/exo_2"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -127,7 +127,7 @@
                 android:layout_height="wrap_content"
                 android:text="Start Date"
                 android:fontFamily="@font/exo_2"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -138,15 +138,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:background="@drawable/quan_rounded_layout_background"
-                android:backgroundTint="@color/quan_light_yellow"
+                android:background="@color/light_primary"
                 android:padding="8dp"
                 app:icon="@drawable/ninh_calendar_icon"
                 android:text="01/01/2023"
                 android:textSize="18sp"
                 android:fontFamily="@font/exo_2"
-                app:iconTint="@color/quan_light_green"
-                android:textColor="@color/quan_light_green"
+                app:iconTint="@color/black"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvBlockVoucherStartDateLabel" />
 
@@ -167,7 +166,7 @@
                 android:layout_height="wrap_content"
                 android:text="End Date"
                 android:fontFamily="@font/exo_2"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -184,8 +183,8 @@
                 android:text="01/01/2023"
                 android:textSize="18sp"
                 android:fontFamily="@font/exo_2"
-                app:iconTint="@color/quan_light_green"
-                android:textColor="@color/quan_light_green"
+                app:iconTint="@color/black"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvBlockVoucherEndDateLabel" />
 
@@ -207,7 +206,7 @@
                 android:layout_height="wrap_content"
                 android:text="Voucher value"
                 android:fontFamily="@font/exo_2"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
