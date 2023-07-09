@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#05F2F2"
+    android:background="#FBF9F9"
     tools:context=".customer.lam.Authentication.SplashActivity">
 
 
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/pokemon_solid"
         android:text="PokéCenter"
-        android:textColor="#F8DC4B"
+        android:textColor="@color/light_secondary"
         android:textSize="54sp"
         android:textStyle="bold"
         android:layout_marginBottom="50dp"
@@ -48,7 +48,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/materialTextView"
-        app:SpinKit_Color="#6CDDCD" />
+        app:SpinKit_Color="#D8D8D8" />
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
@@ -58,5 +59,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="35dp"/>
+        android:layout_marginBottom="50dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

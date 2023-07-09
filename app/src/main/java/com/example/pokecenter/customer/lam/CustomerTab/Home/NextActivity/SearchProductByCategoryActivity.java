@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
+import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.Suport.CustomerSupportInFindingProductActivity;
 import com.example.pokecenter.customer.lam.Interface.PokemonRecyclerViewInterface;
 import com.example.pokecenter.customer.lam.Model.pokemon.Pokemon;
 import com.example.pokecenter.customer.lam.Model.product.Product;
@@ -161,7 +162,7 @@ public class SearchProductByCategoryActivity extends AppCompatActivity implement
         });
 
         binding.submitARequest.setOnClickListener(view -> {
-            startActivity(new Intent(this, ActivityCustomerSupportInFindingProductBinding.class));
+            startActivity(new Intent(this, CustomerSupportInFindingProductActivity.class));
         });
 
     }
