@@ -245,7 +245,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:fontFamily="@font/exo_2"
             android:textSize="24sp"
-            android:backgroundTint="@color/purple_500"
+            android:backgroundTint="@color/light_primary"
             android:text="Save"/>
 
         <Button
