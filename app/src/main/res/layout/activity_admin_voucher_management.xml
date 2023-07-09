@@ -80,7 +80,7 @@
                 app:layout_constraintDimensionRatio="1:1"
                 android:layout_marginEnd="10dp"
                 android:src="@drawable/quan_icon_add"
-                app:tint="@color/quan_light_yellow"
+                app:tint="#F8CA6D"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -201,7 +201,7 @@ public class FirebaseSupportVoucher {
                         notificationNode.put("read", false);
                         notificationNode.put("sentDate", DateUtils.getCurrentDateString());
                         notificationNode.put("title", title);
-                        notificationNode.put("type", "fromPokeCenter");
+                        notificationNode.put("type", "promotion");
 
                         DatabaseReference notificationRef = ref.child(customerSnapshot.getKey()).child("notifications").push();
 

@@ -9,9 +9,9 @@
     <color name="white">#FFFFFFFF</color>
     <!---Quan & Lam -->
     <color name="light_canvas">#FFFBF9F9</color>
-    <!--<color name="light_canvas">#FFD4EDFA</color>-->
+<!--    <color name="light_canvas">#FFD4EDFA</color>-->
     <color name="light_primary">#FF00B9EF</color>
-    <color name="light_secondary">#13A5C6</color>
+    <color name="light_secondary">#78C1F3</color>
 <!--    <color name="light_secondary">#FF027B96</color>-->
     <color name="dark_canvas">#FF475056</color>
     <color name="dark_primary">#FFFFE200</color>
@@ -23,7 +23,8 @@
     <color name="grey">#D3D1D1</color>
 
     <!--Quan-->
-    <color name="quan_light_yellow">#F8CA6D</color>
+    <color name="quan_light_yellow">#F8FDCF</color>
+<!--    <color name="quan_light_yellow">#F8CA6D</color>-->
     <color name="quan_purple">#695FD9</color>
     <color name="quan_cyan">#46C5E1</color>
     <color name="quan_bright_cyan">#1CD5FF</color>
@@ -31,7 +32,8 @@
     <color name="quan_dark_cyan">#3997AC</color>
     <color name="quan_bright_red">#DD2727</color>
     <color name="quan_very_light_blue">#E1EFF3</color>
-    <color name="quan_light_green">#86DCD3</color>
+    <color name="quan_light_green">#FFFBF9F9</color>
+<!--    <color name="quan_light_green">#86DCD3</color>-->
     <color name="quan_dim_blue">#13A5C6</color>
     <color name="quan_green">#13FD2B</color>
     <color name="quan_light_cyan">#78CCE4</color>

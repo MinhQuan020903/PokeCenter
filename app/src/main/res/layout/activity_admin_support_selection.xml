@@ -14,7 +14,7 @@
         app:layout_constraintHeight_percent="0.1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="#DA3131"
+        android:background="@color/light_canvas"
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
@@ -38,7 +38,7 @@
             android:textSize="24sp"
             android:textStyle="bold"
             android:fontFamily="@font/exo_2"
-            android:textColor="@color/dark_primary"
+            android:textColor="@color/black"
             android:backgroundTint="@color/dark_primary"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
