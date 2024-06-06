@@ -659,15 +659,22 @@ public class FirebaseSupportCustomer {
 
             fetchedData.forEach((key, value) -> {
 
-                ReviewProduct review = new ReviewProduct(
-                        key,
-                        (String) value.get("title"),
-                        (String) value.get("content"),
-                        ((Double) value.get("rate")).intValue(),
-                        "customer",
-                        "https://static.wikia.nocookie.net/pokemon-fano/images/6/6f/Poke_Ball.png/revision/latest?cb=20140520015336",
-                        (String) value.get("createDate")
-                );
+                // ReviewProduct review = new ReviewProduct(
+                //         key,
+                //         (String) value.get("title"),
+                //         (String) value.get("content"),
+                //         ((Double) value.get("rate")).intValue(),
+                //         "customer",
+                //         "https://static.wikia.nocookie.net/pokemon-fano/images/6/6f/Poke_Ball.png/revision/latest?cb=20140520015336",
+                //         (String) value.get("createDate")
+                // );
+                ReviewProduct review = new ReviewProduct.Builder()
+                        .withReviewId(key)
+                        .withTitle((String) value.get("title"))
+                        .withContent((String) value.get("content"))
+                        .withRate(((Double) value.get("rate")).intValue())
+                        .withCreateDate((String) value.get("createDate"))
+                        .build();
 
                 String customerId = (String) value.get("customerId");
 
