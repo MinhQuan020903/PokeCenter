@@ -94,7 +94,14 @@ public class AdminChatActivity extends AppCompatActivity implements ChatRoomInte
                             String avatar = dataSnapshot.child("avatar").getValue(String.class);
                             String username = dataSnapshot.child("username").getValue(String.class);
                             int role = dataSnapshot.child("role").getValue(Integer.class);
-                            chatRoom.setSenderAccount(new Account(avatar, username, role, id));
+                            // chatRoom.setSenderAccount(new Account(avatar, username, role, id));
+                            chatRoom.setSenderAccount(new Account.Builder()
+                                    .withAvatar(avatar)
+                                    .withUsername(username)
+                                    .withRole(role)
+                                    .withId(id)
+                                    .build()
+                            );
 
                             // After setting the sender account, add the chat room to the list
                             listChatRoom.add(chatRoom);
@@ -140,7 +147,14 @@ public class AdminChatActivity extends AppCompatActivity implements ChatRoomInte
                         String avatar = dataSnapshot.child("avatar").getValue(String.class);
                         String username = dataSnapshot.child("username").getValue(String.class);
                         int role = dataSnapshot.child("role").getValue(Integer.class);
-                        chatRoom.setSenderAccount(new Account(avatar, username, role, id));
+                        // chatRoom.setSenderAccount(new Account(avatar, username, role, id));
+                        chatRoom.setSenderAccount(new Account.Builder()
+                                .withAvatar(avatar)
+                                .withUsername(username)
+                                .withRole(role)
+                                .withId(id)
+                                .build()
+                        );
 
                         // After setting the sender account, add the chat room to the list
                         listChatRoom.add(chatRoom);
@@ -187,7 +201,14 @@ public class AdminChatActivity extends AppCompatActivity implements ChatRoomInte
                         String avatar = dataSnapshot.child("avatar").getValue(String.class);
                         String username = dataSnapshot.child("username").getValue(String.class);
                         int role = dataSnapshot.child("role").getValue(Integer.class);
-                        updatedChatRoom.setSenderAccount(new Account(avatar, username, role, id));
+                        // updatedChatRoom.setSenderAccount(new Account(avatar, username, role, id));
+                        updatedChatRoom.setSenderAccount(new Account.Builder()
+                                .withAvatar(avatar)
+                                .withUsername(username)
+                                .withRole(role)
+                                .withId(id)
+                                .build()
+                        );
                         listChatRoom.set(finalChatRoomIndex, updatedChatRoom);
                         chatRoomAdapter.addData(listChatRoom);
                     }
