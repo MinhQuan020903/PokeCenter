@@ -256,14 +256,25 @@ public class FirebaseSupportCustomer {
 
                 // List<Option> sortedOptions = options.stream().sorted(Comparator.comparing(Option::getPrice)).collect(Collectors.toList());
 
-                ProductData.fetchedProducts.put(key, new Product(
-                        key,
-                        (String) value.get("name"),
-                        (String) value.get("desc"),
-                        (List<String>) value.get("images"),
-                        options,
-                        (String) value.get("venderId")
-                ));
+                /* ProductData.fetchedProducts.put(key, new Product(
+                 *         key,
+                 *         (String) value.get("name"),
+                 *         (String) value.get("desc"),
+                 *         (List<String>) value.get("images"),
+                 *         options,
+                 *         (String) value.get("venderId")
+                 * ));
+                 */
+
+                ProductData.fetchedProducts.put(key, new Product.Builder()
+                        .withId(key)
+                        .withName((String) value.get("name"))
+                        .withDesc((String) value.get("desc"))
+                        .withImages((List<String>) value.get("images"))
+                        .withOptions(options)
+                        .withVenderId((String) value.get("venderId"))
+                        .build()
+                );
             });
 
         } else {
