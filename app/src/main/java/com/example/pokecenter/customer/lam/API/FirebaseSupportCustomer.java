@@ -256,14 +256,25 @@ public class FirebaseSupportCustomer {
 
                 // List<Option> sortedOptions = options.stream().sorted(Comparator.comparing(Option::getPrice)).collect(Collectors.toList());
 
-                ProductData.fetchedProducts.put(key, new Product(
-                        key,
-                        (String) value.get("name"),
-                        (String) value.get("desc"),
-                        (List<String>) value.get("images"),
-                        options,
-                        (String) value.get("venderId")
-                ));
+                /* ProductData.fetchedProducts.put(key, new Product(
+                 *         key,
+                 *         (String) value.get("name"),
+                 *         (String) value.get("desc"),
+                 *         (List<String>) value.get("images"),
+                 *         options,
+                 *         (String) value.get("venderId")
+                 * ));
+                 */
+
+                ProductData.fetchedProducts.put(key, new Product.Builder()
+                        .withId(key)
+                        .withName((String) value.get("name"))
+                        .withDesc((String) value.get("desc"))
+                        .withImages((List<String>) value.get("images"))
+                        .withOptions(options)
+                        .withVenderId((String) value.get("venderId"))
+                        .build()
+                );
             });
 
         } else {
@@ -648,15 +659,22 @@ public class FirebaseSupportCustomer {
 
             fetchedData.forEach((key, value) -> {
 
-                ReviewProduct review = new ReviewProduct(
-                        key,
-                        (String) value.get("title"),
-                        (String) value.get("content"),
-                        ((Double) value.get("rate")).intValue(),
-                        "customer",
-                        "https://static.wikia.nocookie.net/pokemon-fano/images/6/6f/Poke_Ball.png/revision/latest?cb=20140520015336",
-                        (String) value.get("createDate")
-                );
+                // ReviewProduct review = new ReviewProduct(
+                //         key,
+                //         (String) value.get("title"),
+                //         (String) value.get("content"),
+                //         ((Double) value.get("rate")).intValue(),
+                //         "customer",
+                //         "https://static.wikia.nocookie.net/pokemon-fano/images/6/6f/Poke_Ball.png/revision/latest?cb=20140520015336",
+                //         (String) value.get("createDate")
+                // );
+                ReviewProduct review = new ReviewProduct.Builder()
+                        .withReviewId(key)
+                        .withTitle((String) value.get("title"))
+                        .withContent((String) value.get("content"))
+                        .withRate(((Double) value.get("rate")).intValue())
+                        .withCreateDate((String) value.get("createDate"))
+                        .build();
 
                 String customerId = (String) value.get("customerId");
 

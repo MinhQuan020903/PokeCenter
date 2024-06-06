@@ -207,10 +207,23 @@ public class AddProductActivity extends AppCompatActivity implements OptionRecyc
                 return;
             }
         }
-        Product newProduct = new Product(null, binding.ItemName.getText().toString(),
-                binding.ItemDesc.getText().toString(),
-                UrlsList, myOptions,
-                FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", ","));
+//        Product newProduct = new Product(
+//                null,
+//                binding.ItemName.getText().toString(),
+//                binding.ItemDesc.getText().toString(),
+//                UrlsList,
+//                myOptions,
+//                FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", ",")
+//        );
+
+        Product newProduct = new Product.Builder()
+                .withName(binding.ItemName.getText().toString())
+                .withDesc(binding.ItemDesc.getText().toString())
+                .withImages(UrlsList)
+                .withOptions(myOptions)
+                .withVenderId(FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", ","))
+                .build();
+
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());

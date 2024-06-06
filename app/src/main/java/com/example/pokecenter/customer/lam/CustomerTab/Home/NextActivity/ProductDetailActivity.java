@@ -299,7 +299,14 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         binding.productDesc.setText(receiveProduct.getDesc().replace("\\n", System.getProperty("line.separator")));
         binding.chatNow.setOnClickListener(view -> {
-            Account senderAccount = new Account(fetchedVender.getAvatar(),fetchedVender.getShopName(),1,fetchedVender.getVenderId());
+            // Account senderAccount = new Account(fetchedVender.getAvatar(),fetchedVender.getShopName(),1,fetchedVender.getVenderId());
+            Account senderAccount = new Account.Builder()
+                    .withAvatar(fetchedVender.getAvatar())
+                    .withUsername(fetchedVender.getShopName())
+                    .withRole(1)
+                    .withId(fetchedVender.getVenderId())
+                    .build();
+
             Intent intent = new Intent(this, ChatRoomActivity.class);
             intent.putExtra("senderAccount", senderAccount);
             startActivity(intent);

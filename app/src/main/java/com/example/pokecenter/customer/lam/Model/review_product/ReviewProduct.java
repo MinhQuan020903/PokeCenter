@@ -10,18 +10,79 @@ public class ReviewProduct {
     private String customerImage;
     private String createDate;
 
-    public ReviewProduct() {
+//    public ReviewProduct() {
+//
+//    }
+//
+//    public ReviewProduct(String reviewId, String title, String content, int rate, String customerName, String customerImage, String createDate) {
+//        this.reviewId = reviewId;
+//        this.title = title;
+//        this.content = content;
+//        this.rate = rate;
+//        this.customerName = customerName;
+//        this.customerImage = customerImage;
+//        this.createDate = createDate;
+//    }
 
+    private ReviewProduct(Builder builder) {
+        this.reviewId = builder.reviewId;
+        this.title = builder.title;
+        this.content = builder.content;
+        this.rate = builder.rate;
+        this.customerName = builder.customerName;
+        this.customerImage = builder.customerImage;
+        this.createDate = builder.createDate;
     }
 
-    public ReviewProduct(String reviewId, String title, String content, int rate, String customerName, String customerImage, String createDate) {
-        this.reviewId = reviewId;
-        this.title = title;
-        this.content = content;
-        this.rate = rate;
-        this.customerName = customerName;
-        this.customerImage = customerImage;
-        this.createDate = createDate;
+    public static class Builder {
+        private String reviewId;
+        private String title;
+        private String content;
+        private int rate;
+        private String customerName;
+        private String customerImage;
+        private String createDate;
+
+        public Builder() {}
+
+        public Builder withReviewId(String reviewId) {
+            this.reviewId = reviewId;
+            return this;
+        }
+
+        public Builder withTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder withContent(String content) {
+            this.content = content;
+            return this;
+        }
+
+        public Builder withRate(int rate) {
+            this.rate = rate;
+            return this;
+        }
+
+        public Builder withCustomerName(String customerName) {
+            this.customerName = customerName;
+            return this;
+        }
+
+        public Builder withCustomerImage(String customerImage) {
+            this.customerImage = customerImage;
+            return this;
+        }
+
+        public Builder withCreateDate(String createDate) {
+            this.createDate = createDate;
+            return this;
+        }
+
+        public ReviewProduct build() {
+            return new ReviewProduct(this);
+        }
     }
 
     public String getReviewId() {

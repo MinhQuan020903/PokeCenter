@@ -150,10 +150,24 @@ public class EditProductActivity extends AppCompatActivity implements OptionRecy
     private void Update(){
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.progressText.setVisibility(View.VISIBLE);
-        Product updatedProduct = new Product(receiveProduct.getId(), binding.ItemName.getText().toString(),
-                binding.ItemDesc.getText().toString(),
-                additionalImagesUrls, myOptions,
-                FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", ","));
+        // Product updatedProduct = new Product(
+        //         receiveProduct.getId(),
+        //         binding.ItemName.getText().toString(),
+        //         binding.ItemDesc.getText().toString(),
+        //         additionalImagesUrls,
+        //         myOptions,
+        //         FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", ",")
+        // );
+        Product updatedProduct = new Product.Builder()
+                .withId(receiveProduct.getId())
+                .withName(binding.ItemName.getText().toString())
+                .withDesc(binding.ItemDesc.getText().toString())
+                .withImages(additionalImagesUrls)
+                .withOptions(myOptions)
+                .withVenderId(FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", ","))
+                .build();
+
+
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
