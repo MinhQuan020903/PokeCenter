@@ -23,6 +23,8 @@ import android.widget.Toast;
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportCustomer;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.CustomerProfileFragment;
+import com.example.pokecenter.customer.lam.Model.account.Account;
+import com.example.pokecenter.customer.lam.Singleton.UserInfo;
 import com.example.pokecenter.databinding.ActivityCustomerGetSupportBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -74,8 +76,8 @@ public class CustomerGetSupportActivity extends AppCompatActivity {
 
                 } else {
                     // Phone selected;
-
-                    binding.phoneContactTextView.setText(CustomerProfileFragment.currentAccount.getPhoneNumber());
+                    Account currentAccount = UserInfo.getInstance().getAccount();
+                    binding.phoneContactTextView.setText(currentAccount.getPhoneNumber());
 
                     binding.emailMethodPart.setVisibility(View.GONE);
                     binding.phoneMethodPart.setVisibility(View.VISIBLE);
