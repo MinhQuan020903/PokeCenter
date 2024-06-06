@@ -26,6 +26,7 @@ import com.example.pokecenter.customer.lam.CustomerTab.Profile.CustomerProfileFr
 import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.customer.lam.Provider.ProductData;
 import com.example.pokecenter.customer.lam.Provider.WishListData;
+import com.example.pokecenter.customer.lam.Singleton.UserInfo;
 import com.example.pokecenter.databinding.ActivitySplashScreenBinding;
 import com.example.pokecenter.vender.VenderActivity;
 import com.example.pokecenter.vender.VenderTab.Home.Profile.VenderProfileFragment;
@@ -125,7 +126,7 @@ public class SplashActivity extends AppCompatActivity {
 
                                         switch (role) {
                                             case 0:
-                                                CustomerProfileFragment.currentAccount = finalFetchedAccountInfo;
+                                                UserInfo.getInstance().setAccount(finalFetchedAccountInfo);
                                                 break;
                                             case 1:
                                                 VenderProfileFragment.currentVender = finalFetchedAccountInfo;

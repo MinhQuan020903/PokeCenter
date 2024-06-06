@@ -27,6 +27,7 @@ import com.example.pokecenter.customer.lam.CustomerTab.Profile.CustomerProfileFr
 import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.customer.lam.Provider.ProductData;
 import com.example.pokecenter.customer.lam.Provider.WishListData;
+import com.example.pokecenter.customer.lam.Singleton.UserInfo;
 import com.example.pokecenter.databinding.ActivitySignInBinding;
 import com.example.pokecenter.vender.API.FirebaseSupportVender;
 import com.example.pokecenter.vender.VenderActivity;
@@ -154,7 +155,8 @@ public class SignInActivity extends AppCompatActivity {
                                 Account finalFetchedAccountInfo = fetchedAccountInfo;
                                 handler.post(() -> {
                                     if (finalIsSuccessful) {
-                                        CustomerProfileFragment.currentAccount = finalFetchedAccountInfo;
+                                        Account currentAccount = UserInfo.getInstance().getAccount();
+                                        currentAccount = finalFetchedAccountInfo;
                                         VenderProfileFragment.currentVender = finalFetchedAccountInfo;
                                         new Handler().postDelayed(() -> {
                                             determineActivityToNavigateBasedOnRole(email);

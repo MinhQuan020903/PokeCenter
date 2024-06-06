@@ -19,6 +19,8 @@ import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.API.FirebaseSupportAccount;
 import com.example.pokecenter.customer.lam.Authentication.SplashActivity;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.CustomerProfileFragment;
+import com.example.pokecenter.customer.lam.Model.account.Account;
+import com.example.pokecenter.customer.lam.Singleton.UserInfo;
 import com.example.pokecenter.databinding.ActivityStartSellingBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -50,7 +52,8 @@ public class StartSellingActivity extends AppCompatActivity {
             inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         });
 
-        binding.shopPhone.setText(CustomerProfileFragment.currentAccount.getPhoneNumber());
+        Account currentAccount = UserInfo.getInstance().getAccount();
+        binding.shopPhone.setText(currentAccount.getPhoneNumber());
 
         binding.saveButton.setOnClickListener(view -> {
 

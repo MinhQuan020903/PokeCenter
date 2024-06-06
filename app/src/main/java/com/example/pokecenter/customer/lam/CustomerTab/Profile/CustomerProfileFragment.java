@@ -40,6 +40,7 @@ import com.example.pokecenter.customer.lam.CustomerTab.Profile.NextActivity.Wish
 import com.example.pokecenter.customer.lam.Model.account.Account;
 import com.example.pokecenter.customer.lam.Provider.FollowData;
 import com.example.pokecenter.customer.lam.Provider.WishListData;
+import com.example.pokecenter.customer.lam.Singleton.UserInfo;
 import com.example.pokecenter.databinding.FragmentCustomerProfileBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -59,7 +60,7 @@ public class CustomerProfileFragment extends Fragment {
 
     private FragmentCustomerProfileBinding binding;
 
-    public static Account currentAccount;
+    // public static Account currentAccount;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,6 +68,8 @@ public class CustomerProfileFragment extends Fragment {
 
         // Inflate the layout for this fragment
         binding = FragmentCustomerProfileBinding.inflate(inflater, container, false);
+
+        Account currentAccount = UserInfo.getInstance().getAccount();
 
         binding.username.setText(currentAccount.getUsername());
         Picasso.get().load(currentAccount.getAvatar()).into(binding.customerAvatar);

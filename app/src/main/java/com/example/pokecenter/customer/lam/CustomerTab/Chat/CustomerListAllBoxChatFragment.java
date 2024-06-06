@@ -21,6 +21,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.example.pokecenter.R;
 import com.example.pokecenter.customer.lam.CustomerTab.Profile.CustomerProfileFragment;
 import com.example.pokecenter.customer.lam.Model.account.Account;
+import com.example.pokecenter.customer.lam.Singleton.UserInfo;
 import com.example.pokecenter.databinding.FragmentCustomerListAllBoxChatBinding;
 import com.example.pokecenter.databinding.FragmentVenderChatBinding;
 import com.example.pokecenter.vender.Model.ChatRoom.ChatRoom;
@@ -56,7 +57,8 @@ public class CustomerListAllBoxChatFragment extends Fragment implements View.OnT
         // Inflate the layout for this fragment
         binding = FragmentCustomerListAllBoxChatBinding.inflate(inflater, container, false);
 
-        Picasso.get().load(CustomerProfileFragment.currentAccount.getAvatar()).into(binding.avatarImage);
+        Account currentAccount = UserInfo.getInstance().getAccount();
+        Picasso.get().load(currentAccount.getAvatar()).into(binding.avatarImage);
 
         rcvChatRoom = binding.rcvInboxList;
         chatRoomAdapter = new ChatRoomAdapter(getContext(), this);
